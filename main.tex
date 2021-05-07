@@ -1,0 +1,197 @@
+%
+% File acl2019.tex
+%
+%% Based on the style files for ACL 2018, NAACL 2018/19, which were
+%% Based on the style files for ACL-2015, with some improvements
+%%  taken from the NAACL-2016 style
+%% Based on the style files for ACL-2014, which were, in turn,
+%% based on ACL-2013, ACL-2012, ACL-2011, ACL-2010, ACL-IJCNLP-2009,
+%% EACL-2009, IJCNLP-2008...
+%% Based on the style files for EACL 2006 by 
+%%e.agirre@ehu.es or Sergi.Balari@uab.es
+%% and that of ACL 08 by Joakim Nivre and Noah Smith
+
+\documentclass[11pt]{article}
+%%\usepackage[hyperref]{acl2019}
+\usepackage{times}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{lingstyle}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{bussproofs}
+\usepackage[margin=0.5in]{geometry}
+\usetikzlibrary{arrows,positioning,shapes} 
+\tikzset{
+    %Define standard arrow tip
+    >=stealth',
+    %Define style for boxes
+    amrnode/.style={
+             ellipse,
+             draw=black, very thick,
+             font=\small},
+    scopenode/.style={
+             ellipse,
+             draw=red, very thick, dashed,
+             text=red,
+             font=\small},
+    % Define arrow style
+    amrarrow/.style={
+            ->,
+            thick,
+            font=\small},
+    scopearrow/.style={
+              ->,
+              red,
+              thick,
+              dashed,
+              font=\small}
+}
+
+
+
+ \def\drs#1#2{\begin{tabular}{|l|}\hline #1 \\ \hline \\
+                [-8pt] #2\\[-8pt] \\ \hline \end{tabular} }
+
+ \def\ddrs#1{\begin{tabular}{||c||}\hline \\
+                [-8pt] #1\\[-8pt] \\ \hline \end{tabular} }
+
+ \def\topdrs#1#2{\begin{tabular}{|l|}\hline #1 \\ \hline \\
+                [-8pt] #2 \\[-8pt] \\ \hline \end{tabular} }
+
+ \def\proof#1#2#3#4{\drs{#1}{#2} \ $\vdash$ \ \drs{#3}{#4}}
+ \def\modimp#1#2#3#4{\mbox{\drs{#1}{#2} \ $\Box$ \ \drs{#3}{#4}}}
+ \def\imp#1#2#3#4{\drs{#1}{#2} \ $\Rightarrow$ \ \drs{#3}{#4}}
+ \def\dis#1#2#3#4{\mbox{\drs{#1}{#2} \ $\vee$ \ \drs{#3}{#4}}}
+ \def\int#1#2{\mbox{$^{\wedge}$ \ \drs{#1}{#2}}}
+ \def\pos#1#2{\mbox{$\Diamond$ \ \drs{#1}{#2}}}
+ \def\nec#1#2{\mbox{$\Box$ \ \drs{#1}{#2}}}
+ \def\nega#1#2{\mbox{$\neg$ \ \drs{#1}{#2}}}
+ \def\pred#1#2#3{\mbox{#1\ :\drs{#2}{#3}}}
+
+
+\usepackage{url} 
+
+\usepackage[acronym]{glossaries} % 'nomain' to disable automatic generation of "glossary" section 
+\glsdisablehyper % disable hyperlink to non-existing glossary section 
+%\aclfinalcopy % Uncomment this line for the final submission
+%\def\aclpaperid{***} %  Enter the acl Paper ID here
+
+%\setlength\titlebox{5cm}
+% You can expand the titlebox if you need extra space
+% to show all the authors. Please do not make the titlebox
+% smaller than 5cm (the original size); we will check this
+% in the camera-ready version and ask you to change it back.
+
+\newcommand\BibTeX{B\textsc{ib}\TeX}
+
+\title{Formalization of AMR Inference via Hybrid Logic Tableaux}
+ 
+
+ 
+\author{
+  Eli Goldner
+}
+\begin{document}
+\maketitle
+\begin{abstract}
+
+  AMR and its extensions have become popular in semantic representation due
+  to their ease of annotation by non-experts and
+  attention to the predicative core of sentences, abstracting away from syntactic differences.
+  An area where AMR and its extensions warrant improvement is formalization
+  and suitability for inference, where it is lacking compared to
+  other semantic/knowledge representations such as
+  description logics, episodic logic, and discourse representation theory.
+  This thesis presents a formalization of inference over AMR variants annotated for tense and aspect
+  along with quantification and scope, via Blackburn and Marx's tableaux method for quantified hybrid
+  logic, and Blackburn and Jørgensen's tableux method for indexical hybrid tense logic.
+  Hybrid logic's nominals are used to handle tense (and non-habitual aspect) in AMR via Blackburn's
+  treatment of Reichenbach tenses for hybrid logic. Quantification, negation, and modality are
+  handled natively in quantified hybrid logic.  We motivate the merging of these AMR variants,
+  present their interpretation and inference in the combined quantified hybrid logic
+  and indexical hybrid tense logic, and demonstrate the soundess, completeness,
+  and decidability of the combined logics. 
+
+  
+\end{abstract}
+
+
+\section{Introduction}
+
+\section{Related Work}
+
+\section{Merging AMR Annotations}
+
+\section{Merging Quantified Hybrid Logic and Indexical Hybrid Tense Logic}
+
+\subsection{Soundness and Completeness}
+(Sketch)
+
+\subsection{Decidability}
+(Sketch)
+
+\section{AMR Interpretation in Hybrid Logic}
+
+\subsection{Examples}
+
+\enumsentence{
+  a. Carl submitted the forms and everyone will sign up again tomorrow.
+  \\
+  b.
+  \\
+  \scriptsize\texttt{(a / and\\
+    \hspace*{0.5cm}:op1 (s / scope\\
+    \hspace*{1.0cm}:pred (f / fill-out-03 :ongoing - :complete + :time (b / before :op1 (n / now))\\
+    \hspace*{1.5cm}:ARG0 (p / person\\
+    \hspace*{2.0cm}:name (n2 / name\\
+    \hspace*{2.5cm}:op "Carl"))\\
+    \hspace*{1.5cm}:ARG1 (f2 / form))\\
+    \hspace*{1.0cm}:ARG0 p\\
+    \hspace*{1.0cm}:ARG1 f2)\\
+    \hspace*{0.5cm}:op2 (s2 / scope\\
+    \hspace*{1.0cm}:pred (m / submit-01  :ongoing - :complete + :time (a2 / after :op1 n)\\
+    \hspace*{1.5cm}:ARG0 (p2 / person\\
+    \hspace*{2.0cm}:mod (a3 / all))\\
+    \hspace*{1.5cm}:ARG1 f2)\\
+    \hspace*{1.0cm}:ARG0 p2\\
+    \hspace*{1.0cm}:ARG1 f2))}
+  \\
+c. It was impossible not to notice the license plate.
+\\
+d.
+\\
+\small\texttt{(s / scope\\
+  \hspace*{1.0cm}:pred (p / possible-01\\
+  \hspace*{1.5cm}:ARG0 (n / notice-01  :ongoing - :complete + :time (b / before :op1 (n2 / now))\\
+  \hspace*{2.0cm}:polarity (n3 / not)\\
+  \hspace*{2.0cm}:ARG1 (c /car)\\
+  \hspace*{1.5cm}:polarity (n4 / not))\\
+  \hspace*{1.0cm}:ARG0 n4\\
+  \hspace*{1.0cm}:ARG1 p))}
+}
+\section{AMR with Scope, Tense and Aspect, to Hybrid Logic}
+\subsection{Design Decisions}
+
+Since to my knowledge there's no precedent in either of the adopted AMR
+annotations, UMR, or in the hybrid logic literature
+for the ways quantification optimally interacts with time,
+one option is to take quantification to be eternalist, i.e.
+all quantification will be over entities in the entire domain of discourse
+as opposed to different entities which exist at particular times throughout the discourse.
+The other option is to use presentist quanitification, which indexes the domain of discourse
+over times/nominals, so quanitification is done over entities which exist at that time.  
+One motivator to use eternalist quanitification is that given the root node will either be \verb|scope| or a logical connective,
+there is no way within the combination of AMR annotations (or UMR) to ensure the  
+
+\subsection{Extraction Steps}
+With the chosen annotation the root node
+can consist of either a logical connective
+(\verb|and|, \verb|or|, or \verb|cond|) linking two
+AMR graphs, or a \verb|scope| node with its following
+predicate and arguments.      
+
+ 
+  
+\end{document}

@@ -26,6 +26,7 @@
 \usepackage{bussproofs}
 \usepackage{natbib}
 \usepackage{cite}
+\usepackage{hyperref}
 \usepackage[margin=0.5in]{geometry}
 \usetikzlibrary{arrows,positioning,shapes} 
 \tikzset{
@@ -163,36 +164,160 @@ and potentially the discourse levels of language in a formally specifiable way.
 
 \subsubsection{Quantified Hybrid Logic}
 
-\subsubsection{Indexical Hybrid Tense Logic}
+\subsubsection{Basic Hybrid Tense Logic}
 
 \subsection{Quantified Hybrid Tense Logic}
+\smallskip
+The syntax of $QHTL$ is identical to $QHL$ except
+uses of $\downarrow$ as in $\downarrow w . \phi$ are omitted along
+with $\Box$ and $\Diamond$ as in $\Box \phi$ and $\Diamond \phi$.
+$\Box$ and $\Diamond$ are replaced by their semantic equivalents
+$F$ and $G$ and their temporal duals $P$ and $H$ are added.
 
+\smallskip
+
+
+Atomic formulae are the same as in $QHL$, symbols in \textsf{NOM}
+and \textsf{SVAR} together with first-order atomic formulae
+generated from the predicate symbols and equality over the terms. 
+Thus complex formulae are generated from the atomic formulae according to the
+following rules:
+$$\neg \phi | \phi \land \psi | \phi \lor \psi | \phi \to \psi | \exists x \phi | \forall x \phi | F \phi | G \phi | P \phi | H \phi | @_n \phi $$
+
+
+
+Since we want the domain of quantification to be indexed
+over the collection of nominals/times, we alter the $QHL$ model definition
+to a structure:
+$$(T, R, D_w, I_{nom}, I_w)_{w \in W}$$
+Identical to the definition for a $QHL$ model in that:
+\begin{itemize}
+  \item
+    $(T,R)$ is a modal frame.
+  \item
+    $I_{nom}$ is a function assigning members of $T$ to nominals.
+\end{itemize}
+
+The differences manifest on the level of the model and
+interpretation.  That is, for every $t \in T$,
+$(D_t, I_t)$ is a first-order model where:
+\begin{itemize}
+\item
+  $I_t (q) \in D_t$ where $q$ is a unary function symbol.
+\item
+  $I_t (P) \subseteq^k D_t$ where $P$ is a $k$-ary predicate symbol.
+
+
+  Notice we've relaxed the requirement that $I_t (c) = I_t' (c)$ for
+  $c$ a constant and $t,t' \in T$, since the interpretation of the
+  constant need not exist at both times.
+
+  \smallskip
+
+  Free variables are handled similarly as in $QHL$.
+  A $QHTL$ assignment is a function:
+  $$g : \textsf{SVAR} \cup \textsf{FVAR} \to T \cup D $$
+  Where state variables are sent to times/worlds and
+  first-order variables are sent to $D_t$ where
+  $t$ is the time assigned to the state variable by $g$.
+  Thus given a model and an assignment $g$,
+  the interpretation of terms $t$ denoted by $\overline{t}$
+  is defined as:
+  \begin{itemize}
+  \item
+    $\overline{x} = g_t(x)$ for $x$ a variable and the relevant $t \in T$.
+  \item
+    $\overline{c} = I_t (c)$ for $c$ a constant and some $t \in T$.
+  \item
+    \begin{itemize} For $q$ a unary function symbol:
+
+      
+    \item For $n$ a nominal:
+
+
+      $$\overline{@_n q} = I_{I_{nom}} (n)$$
+    \item For $n$ a state variable:
+
+      
+      $$\overline{@_n q} = I_{g(n)} (q)$$
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+With the final adjustment of having $g_{d,s}^x$ denoting
+the assignment which is just like $g_s$ except $g_s (x) = d$
+for $d \in g(s)$, we can proceed with the inductive definition
+for satisfaction of a formula give a model $\mathfrak{m}$,
+a variable assignment $g$, and a state $s$.  (Will give this in full soon)  
 \subsection{The Tableaux Calculus}
+
+
+(Sketch)
+
+The main issue with the tableaux of the merged logics is
+treatment of the quantification rules,
+for the existential rule, the quantifer is removed
+and a parameter new on the branch is substituted for the
+formerly bound variable, and in the universal case,
+the bound variable in the formula is substituted for a term
+already grounded on the branch (a first-order consant, parameter,
+or grounded definite description).  What is now at issue is unlike
+$QHL$ we are not using a fixed domain semantics, thus we must find a
+way to integrate the constraint that for universal quantification,
+the grounded term needs to have a known interpretation at the current
+world/state/time.
+\smallskip
+NB: Other than the issue of encoding this constraint I see no reason
+why the same approach of merging would not work here as well.
+
+
+
 
 \subsection{Soundness and Completeness}
 (Sketch)
 
+In either of the cases mentioned below,
+the proof of soundess would likely proceed
+by checking satisfaction in a way \citet*{blackburn2012indexical}
+ refers to being demonstrated in \citet*{internalizing} 
+For integrating basic hybrid tense logic
+rather than indexical hybrid logic, the completeness proof
+seems merely to be an issue of integrating $AT_x$ 
+translations $F \phi$, $P\phi$ and $AT_x^-$ translations
+of their images under $AT_x$ into the completeness proof of $QHL$
+in \citet*{quantified}.
+\smallskip
+NB: To my current understanding it's less clear how to give a completeness
+proof for $QHL$ with full indexical hybrid tense logic, although since the
+proof does not seem to make much use of the structure of formulae outside
+of tense, it's also not clear to me that adding quantification
+would cause many/any issues, and if so the completeness proof would
+be adapted mostly from \citet*{blackburn2012indexical}
+rather than \citet*{quantified}.    
+
 \subsection{Decidability}
 \subsubsection{Decidabililty of the Merged Logic}
-\\
+
+
 (Proof Sketch)
-\\
+
+
 While $\mathcal{H}(\downarrow @)$ is not decidable, $\mathcal{H}(@)$ is
 \citep{Areces99hybridlogics}.  Quantified hybrid logic makes use of
 $\downarrow$ \citep{quantified}, but modulo $\downarrow$ and quantification over
-first order variables does not
+first-order variables does not
 differ from $\mathcal{H}(@)$.
 Indexical hybrid tense logic does not make use of $\downarrow$
 \citep{blackburn2012indexical}, and differs only from
 $\mathcal{H}(@)$ in replacing the $\Box$ and $\Diamond$
 with $F$ and $P$, which respectively have the same sematics
 and similar semantics (the direction of the accesibility relation is changed)
-to $\Diamond$.  Thus given the absence of $\downarrow$ in the merged logic,
-permitting simultaneous standard use of $\Box$, $\Diamond$, $F$ and $P$,
+to $\Diamond$.  Similarly for $G$ and $H$ respectively in relation to $\Box$.  Thus given the absence of $\downarrow$ in the merged logic,
+replacing $\Box$ and $\Diamond$ with $F$ and $P$ (and by extension $G$ and $H$)
 will not have negatively affect the decidability given the analogous
-complexity of $F$ and $P$ to $\Diamond$
-(or equivalent complexity depending on how the inverse of accessibility relation between worlds is represented),
-especially because for us nominals are document creation times,
+complexity of $F$ and $P$ to $\Diamond$.
+\smallskip
+This is especially the case for us because nominals are document creation times,
 of which there will necessarily be a finite number, all totally ordered,
 which in turn will make checking accessibility more efficient.
 Keeping quantification over first-order variables will not affect
@@ -201,7 +326,12 @@ objects that exist at a particular world,
 that is at the time indicated by the nominal which picks out that world.
 That is we use presentist quantification as opposed to eternalist quantification. 
 
-\subsubsection{Decidability of the Tableaux/Decision Procedure}
+\subsubsection{Termination of the Tableaux/Decision Procedure}
+
+\citet*{bolander} seems like the clearest place to start from for termination
+of the tableaux.  \citet*{norgela2007some} and \citet*{norgela2012decidability}
+seem potentially useful but they discuss things in terms of sequents rather than tableaux.
+
 
 \section{AMR Interpretation in Hybrid Logic}
 
@@ -242,26 +372,45 @@ d.
   \hspace*{1.0cm}:ARG0 n4\\
   \hspace*{1.0cm}:ARG1 p))}
 }
-
+\smallskip
+NB: Will complete these translations in full.
 \subsection{Extraction Steps}
-With the chosen annotation the root node
+With the chosen annotation, the root node
 can consist of either a logical connective
 (\verb|and|, \verb|or|, or \verb|cond|) linking two
 AMR graphs, or a \verb|scope| node with its following
 predicate and arguments.      
 
-\subsection{}
+\subsection{General Extraction Algorithm}
 
 \section{Future Work}
 
 \subsection{$\downarrow$ and Quantification over Nominals}
+Main points, at the cost of undecidability with adding $\downarrow$
+some additional things can be done,
+and at the cost of the integration of generalized quantifiers you can
+ostensibly handle even things like habitual aspect.
 
 \subsection{AMR Reentrancy and Non-Temoral Nominals}
 
+
+There are some difficulties with maintaining the usual notion of possible
+worlds being maximal with this idea, but there seems to be a direct sympathy between
+the predicative core of an AMR sentence and in general reentrancy of the nodes with the
+idea of a nominal as a ``point of view'' rather than the ``name'' of a world.
+Maybe things like epistemic logic could be helpful here.
 \subsection{Automated Inference and HTab}
 
+HTab \citep{htab} provides an implementation of $\mathcal{H}(@, \textsf{A})$,
+which does not natively provide a way to reason with $P$, $H$,
+or first-order quantification.  The effort required in making the needed
+changes to handle these remains to be determined.
 \subsection{The Future of AMR and Parsing for Semantic Features}
 
+To what extent can current AMR parsers extract the needed semantic features
+to make full use of automated inference?  Of UMR, Dialogue-AMR,
+and the AMR annotation variants we've used,
+which logistically has the best outlook?
 \section{Conclusion}
 
 

@@ -1,4 +1,30 @@
 @COMMENT{proofs -- Hybrid Logic}
+@article{bolander,
+    author = {Bolander, Thomas and Braüner, Torben},
+    title = "{Tableau-based Decision Procedures for Hybrid Logic}",
+    journal = {Journal of Logic and Computation},
+    volume = {16},
+    number = {6},
+    pages = {737-763},
+    year = {2006},
+    month = {08},
+    abstract = "{Hybrid logics are a principled generalization of both modal logics and description logics. It is well known that various hybrid logics without binders are decidable, but decision procedures are usually not based on tableau systems, a kind of formal proof procedure that lends itself to computer implementation. In this article, we give four different tableau-based decision procedures for a very expressive hybrid logic including the universal modality; three of the procedures are based on different tableau systems, and one procedure is based on a Gentzen system. The decision procedures make use of so-called loop-checks, which is a standard technique used in connection with tableau systems for other logics, namely, prefixed tableau systems for transitive modal logics as well as for certain description logics. The loop-checks used in our four decision procedures are similar, but the four proof systems on which the procedures are based constitute a spectrum of different systems: prefixed and internalized systems, tableau and Gentzen systems.}",
+    issn = {0955-792X},
+    eprint = {https://academic.oup.com/logcom/article-pdf/16/6/737/2750635/exl008.pdf}
+}
+
+@article{htab,
+title = {HTab: a Terminating Tableaux System for Hybrid Logic},
+journal = {Electronic Notes in Theoretical Computer Science},
+volume = {231},
+pages = {3-19},
+year = {2009},
+note = {Proceedings of the 5th Workshop on Methods for Modalities (M4M5 2007)},
+issn = {1571-0661},
+author = {Guillaume Hoffmann and Carlos Areces},
+keywords = {hybrid logic, tableaux method, theorem proving},
+abstract = {Hybrid logic is a formalism that is closely related to both modal logic and description logic. A variety of proof mechanisms for hybrid logic exist, but the only widely available implemented proof system, HyLoRes, is based on the resolution method. An alternative to resolution is the tableaux method, already widely used for both modal and description logics. Tableaux algorithms have also been developed for a number of hybrid logics, and the goal of the present work is to implement one of them. In this article we present the implementation of a terminating tableaux algorithm for the hybrid logic H(@,A). The performance of the tableaux algorithm is compared with the performances of HyLoRes, HyLoTab (a system based on a different tableaux algorithm) and RacerPro. HTab is written in the functional language Haskell, using the Glasgow Haskell Compiler (GHC). The code is released under the GNU GPL and can be downloaded from http://hylo.loria.fr/intohylo/htab.php.}
+}
 
 @ARTICLE{internalizing,
   author={Blackburn, P},
@@ -7,8 +33,7 @@
   year={2000},
   volume={10},
   number={1},
-  pages={137-168},
-  doi={10.1093/logcom/10.1.137}}i
+  pages={137-168}}}
 
 
 @COMMENT{Decidability -- Hybrid Logic}

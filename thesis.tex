@@ -102,23 +102,24 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-
   AMR and its extensions have become popular in semantic representation due
-  to their ease of annotation by non-experts and
-  attention to the predicative core of sentences, abstracting away from syntactic differences.
+  to their ease of annotation by non-experts, attention to the predicative core of sentences,
+  and abstraction away from various syntactic matter.
   An area where AMR and its extensions warrant improvement is formalization
   and suitability for inference, where it is lacking compared to
-  other semantic/knowledge representations such as
+  other semantic representations, such as
   description logics, episodic logic, and discourse representation theory.
-  This thesis presents a formalization of inference over AMR variants annotated for tense and aspect
-  along with quantification and scope, via Blackburn and Marx's tableaux method for quantified hybrid
-  logic, and Blackburn and Jørgensen's tableux method for basic hybrid tense logic.
-  Hybrid logic's nominals are used to handle tense (and non-habitual aspect) in AMR via Blackburn's
-  treatment of Reichenbach tenses for hybrid logic. Quantification, negation, and modality are
-  handled natively in quantified hybrid logic.  We motivate the merging of these AMR variants,
-  present their interpretation and inference in the combined quantified hybrid logic
-  and basic hybrid tense logic, and demonstrate the soundess, completeness,
-  and decidability of the combined logics. 
+  This thesis presents a formalization of inference over a merging of
+  \citeauthor{donatelli-etal-2018-annotation}'s \citeyearpar{donatelli-etal-2018-annotation} AMR extension for tense and aspect
+  and with \citeauthor{pustejovsky-etal-2019-modeling}'s \citeyearpar{pustejovsky-etal-2019-modeling} AMR extension for quantification and scope.
+  Inference is modeled with a merging of Blackburn and Marx's tableaux method for quantified hybrid logic
+  ({\it QHL}) and Blackburn and J{\o}rgensen's tableux method for basic hybrid tense logic ({\it BHTL}).
+  We motivate the merging of these AMR variants,
+  present their interpretation and inference in the combination of {\it QHL}
+  and {\it BHTL}, which we will call {\it QHTL} (quantified hybrid tense logic),
+  and demonstrate {\it QHTL}'s the soundess, completeness,
+  and decidability. 
+
 
   
 \end{abstract}
@@ -307,7 +308,7 @@ While $\mathcal{H}(\downarrow @)$ is not decidable, $\mathcal{H}(@)$ is
 $\downarrow$ \citep{quantified}, but modulo $\downarrow$ and quantification over
 first-order variables does not
 differ from $\mathcal{H}(@)$.
-Indexical hybrid tense logic does not make use of $\downarrow$
+Basic hybrid tense logic does not make use of $\downarrow$
 \citep{blackburn2012indexical}, and differs only from
 $\mathcal{H}(@)$ in replacing the $\Box$ and $\Diamond$
 with $F$ and $P$, which respectively have the same sematics

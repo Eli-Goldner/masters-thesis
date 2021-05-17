@@ -1,6 +1,3 @@
-
-
-
 % 
 % File acl2019.tex
 %
@@ -144,7 +141,7 @@ and potentially the discourse levels of language in a formally specifiable way.
 \subsection{Description Logics}
 
 More expressive than propositional logic, less expressive than
-first-order logic.  
+first-order logic, examples OWL-DL \cite{Pellet} \cite{OWL}.  
 
 A DL models {\it concepts}, {\it roles}, and {\it individuals},
 and relationships among them .
@@ -161,6 +158,12 @@ Introduction of tableaux based algorithms in 90s allowed greater efficiency on
 problems in more expressive DL.
 
 Modern DL \cite{Pellet} \cite{FaCT++} and RacerPro \cite{HHMW12} (from Racer \cite{HaMo01a})
+
+Advantages:  Comparatively expressive but still decidable, good for domain specific knowledge.
+
+Disadvantages:  Not expressive enough for semantic representation of language, designed to be
+a knowledge representation \cite{schubert2015}.  
+
 \subsection{Situation Semantics and Related}
 
 \subsubsection{Situation Semantics}
@@ -192,6 +195,19 @@ and making certain judgements about whether a generalized factoid
 is redudant or inconsistent with anything established in the knowledge base.
 
 \subsection{Semantic Features in AMR and Possbility of Inference}
+
+%% Reference UMR?
+
+Separating argument structure in AMR from logical structure, enables
+translation from AMR to DRT \cite{bos-2020-separating}
+
+AMR expressivity without recurrent variables
+(and with no more than one universal quantifier per sentence)
+are in the decidable two-variable fragment of first-order logic \cite{bos-2016-squib}
+
+Extension of sentential AMR to incorporate a coarse grained
+treatment of tense and aspect \cite{donatelli-etal-2018-annotation}
+
 
 \subsection{Hybrid Logic and Our Chosen Semantic Features}
 

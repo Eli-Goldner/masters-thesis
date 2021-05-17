@@ -139,15 +139,30 @@ and hybrid logic with its variants and their accompanying tableaux methods for p
 Semantic representation is the task of representing meaning at the sentential
 and potentially the discourse levels of language in a formally specifiable way.
 
-\subsubsection{Discourse Representation Theory}
+\subsection{Discourse Representation Theory}
 
-\subsubsection{Description Logics}
+\subsection{Description Logics}
 
-\subsubsection{Situation Semantics Influenced -- TTR -- Robin Cooper / Jonathan Ginzburg / Massimio Poesio}
+\subsection{Situation Semantics Influenced -- TTR -- Robin Cooper / Jonathan Ginzburg / Massimio Poesio}
 
 
-\subsubsection{Episodic Logic}
+\subsection{Episodic Logic}
 
+Episodic Logic is a Montague-style logical form based SR/KR
+with relative strength in semantic expressivity and inferetiability
+in comparison to other SR/KRs, making it better comparatively better suited
+for deep NLU \cite{schubert2015}.  Episodic Logic allows for generalized quantifiers, lambda abstraction,
+reification and modification of sentences and predicates, intensional predicates,
+unreliable generalizations, and explicit situational variables \cite{schubert-00}.
+Episodic Logic with its inference engine {\sc Epilog} provide a way to capture
+a relatively comprehensive range of semantic phenomena compared
+to other SR/KRs, in a way which affords inference about semantic data
+at a comparable efficiency with automated
+inference engines for first order logic \cite{schubert2015}.  It also has an associated knowledge base
+{\sc Knext} which is capable of parsing sentences into factoids,
+generalizing them (through a process called quantificational sharpening),
+and making certain judgements about whether a generalized factoid
+is redudant or inconsistent with anything established in the knowledge base.
 
 \subsection{Semantic Features in AMR and Possbility of Inference}
 

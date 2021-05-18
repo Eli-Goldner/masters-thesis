@@ -23,6 +23,7 @@
 \usepackage{bussproofs}
 \usepackage{natbib}
 \usepackage{cite}
+\usepackage{float}
 \usepackage{hyperref}
 \usepackage[margin=0.5in]{geometry}
 \usetikzlibrary{arrows,positioning,shapes} 
@@ -138,6 +139,43 @@ and potentially the discourse levels of language in a formally specifiable way.
 
 \subsection{Discourse Representation Theory}
 
+Discourse representation theory was developed in 1981 by Hans Kamp \citep{kampdiscourse}
+and a simlar theory independently
+in 1982 by Irene Heim under the name of {\it File Change Semantics} (FCS)
+\citep{Heim1982-HEITSO-4}. 
+
+
+Discourse representation theory (DRT) uses discourse representation structures (DRS)
+to represent a listeners understanding of the discourse content as it develops over time.
+
+A DRS has two main components:
+\begin{itemize}
+\item
+  A set of {\it referents}, representing entities which are in the discourse. 
+\item
+  A set of {\it conditions}, representing information about the discourse referents.
+\end{itemize}
+
+For instance, the single sentence {\it The farmer saw the rancher.} admits the DRS:
+\begin{figure}[H]
+  {[ $x$, $y$ : farmer($x$), rancher($y$), saw($x$,$y$)]}
+  \label{DRS1}
+\end{figure}
+
+The conditions in \ref{DRS1} are {\it simple},
+that is they do not take the form of DRSs or constructions of DRSs,
+an example of a DRS with complex conditionals, would be for the
+sentence {\it If a farmer owns a dog, they feed it.}
+%%\begin{figure}[H]
+%%  $\[_{1}  x$ : farmer($x$),
+
+%%  $\[_{2} $ $y$ : dog($y$), owns($x$, $y$) $\to$ $\[_{3} $ $v$, $w$: feeds($v$, $w$)$\] \] \]$ 
+%%  \label{DRS2}
+%%\end{figure}
+
+
+\subsubsection{Segmented Discourse Representation Theory}
+
 \subsection{Description Logics}
 
 More expressive than propositional logic, less expressive than first-order logic.
@@ -162,7 +200,7 @@ Modern DL \citep{Pellet} \citep{FaCT++} and RacerPro \citep{HHMW12} (from Racer 
 Advantages:  Comparatively expressive but still decidable, good for domain specific knowledge.
 
 Disadvantages:  Not expressive enough for semantic representation of language, designed to be
-a knowledge representation \citep{schubert2015}.  
+a knowledge representation \citep{SR_Schubert2015}.  
 
 \subsection{Situation Semantics and Related}
 
@@ -180,7 +218,7 @@ Episodic Logic is a Montague-style logical form based semantic representation
 and knowledge representation, 
 with relative strength in semantic expressivity and inferetiability
 in comparison to other semantic representation, making it better comparatively better suited
-for deep NLU \citep{schubert2015}.  Episodic Logic allows for generalized quantifiers,
+for deep NLU \citep{KK_Schubert2015}.  Episodic Logic allows for generalized quantifiers,
 lambda abstraction,
 reification and modification of sentences and predicates, intensional predicates,
 unreliable generalizations, and explicit situational variables \citep{schubert-00}.
@@ -188,7 +226,7 @@ Episodic Logic with its inference engine {\sc Epilog} provide a way to capture
 a relatively comprehensive range of semantic phenomena compared
 to other SR/KRs, in a way which affords inference about semantic data
 at a comparable efficiency with automated
-inference engines for first order logic \citep{schubert2015}.  It also has an associated knowledge base
+inference engines for first order logic \citep{KK_Schubert2015}.  It also has an associated knowledge base
 {\sc Knext} which is capable of parsing sentences into factoids,
 generalizing them (through a process called quantificational sharpening),
 and making certain judgements about whether a generalized factoid

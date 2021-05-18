@@ -12,7 +12,7 @@
 %% and that of ACL 08 by Joakim Nivre and Noah Smith
 
 \documentclass[11pt]{article}
-%%\usepackage[hyperref]{acl2019}
+%%\usepackage[hyperref]{acl2021}
 \usepackage{times}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -20,11 +20,11 @@
 \usepackage{lingstyle}
 \usepackage{graphicx}
 \usepackage{tikz}
+\usepackage{hyperref}
 \usepackage{bussproofs}
 \usepackage{natbib}
 \usepackage{cite}
 \usepackage{float}
-\usepackage{hyperref}
 \usepackage[margin=0.5in]{geometry}
 \usetikzlibrary{arrows,positioning,shapes} 
 \tikzset{
@@ -157,22 +157,20 @@ A DRS has two main components:
 \end{itemize}
 
 For instance, the single sentence {\it The farmer saw the rancher.} admits the DRS:
-\begin{figure}[H]
+\enumsentence{
   {[ $x$, $y$ : farmer($x$), rancher($y$), saw($x$,$y$)]}
-  \label{DRS1}
-\end{figure}
+  \label{DRS1}}
 
 The conditions in \ref{DRS1} are {\it simple},
 that is they do not take the form of DRSs or constructions of DRSs,
 an example of a DRS with complex conditionals, would be for the
 sentence {\it If a farmer owns a dog, they feed it.}
-%%\begin{figure}[H]
-%%  $\[_{1}  x$ : farmer($x$),
 
-%%  $\[_{2} $ $y$ : dog($y$), owns($x$, $y$) $\to$ $\[_{3} $ $v$, $w$: feeds($v$, $w$)$\] \] \]$ 
-%%  \label{DRS2}
-%%\end{figure}
-
+\enumsentence{
+  $[_{1}  x$ : farmer($x$),
+  
+  $[_{2} y$ : dog($y$), owns($x$, $y$) $\to$ $[_{3}  v, w $ : feeds($v$, $w$) $]]]$  
+\label{DRS2}}
 
 \subsubsection{Segmented Discourse Representation Theory}
 
@@ -309,41 +307,40 @@ $(D_t, I_t)$ is a first-order model where:
   $I_t (q) \in D_t$ where $q$ is a unary function symbol.
 \item
   $I_t (P) \subseteq^k D_t$ where $P$ is a $k$-ary predicate symbol.
+\end{itemize}
 
+Notice we've relaxed the requirement that $I_t (c) = I_{t'} (c)$ for
+$c$ a constant and $t,t' \in T$, since the interpretation of the
+constant need not exist at both times.
 
-  Notice we've relaxed the requirement that $I_t (c) = I_{t'} (c)$ for
-  $c$ a constant and $t,t' \in T$, since the interpretation of the
-  constant need not exist at both times.
+\smallskip
 
-  \smallskip
-
-  Free variables are handled similarly as in $QHL$.
-  A $QHTL$ assignment is a function:
-  $$g : \textsf{SVAR} \cup \textsf{FVAR} \to T \cup D $$
-  Where state variables are sent to times/worlds and
-  first-order variables are sent to $D_t$ where
-  $t$ is the time assigned to the state variable by $g$.
-  Thus given a model and an assignment $g$,
-  the interpretation of terms $t$ denoted by $\overline{t}$
-  is defined as:
-  \begin{itemize}
-  \item
-    $\overline{x} = g_t(x)$ for $x$ a variable and the relevant $t \in T$.
-  \item
-    $\overline{c} = I_t (c)$ for $c$ a constant and some $t \in T$.
-  \item
-    \begin{itemize} For $q$ a unary function symbol:
-
-      
-    \item For $n$ a nominal:
-
-
-      $$\overline{@_n q} = I_{I_{nom}} (n)$$
-    \item For $n$ a state variable:
-
-      
-      $$\overline{@_n q} = I_{g(n)} (q)$$
-    \end{itemize}
+Free variables are handled similarly as in $QHL$.
+A $QHTL$ assignment is a function:
+$$g : \textsf{SVAR} \cup \textsf{FVAR} \to T \cup D $$
+Where state variables are sent to times/worlds and
+first-order variables are sent to $D_t$ where
+$t$ is the time assigned to the state variable by $g$.
+Thus given a model and an assignment $g$,
+the interpretation of terms $t$ denoted by $\overline{t}$
+is defined as:
+\begin{itemize}
+\item
+  $\overline{x} = g_t(x)$ for $x$ a variable and the relevant $t \in T$.
+\item
+  $\overline{c} = I_t (c)$ for $c$ a constant and some $t \in T$.
+\item
+  \begin{itemize} For $q$ a unary function symbol:
+    
+    
+  \item For $n$ a nominal:
+    
+    
+    $$\overline{@_n q} = I_{I_{nom}} (n)$$
+  \item For $n$ a state variable:
+    
+    
+    $$\overline{@_n q} = I_{g(n)} (q)$$
   \end{itemize}
 \end{itemize}
 

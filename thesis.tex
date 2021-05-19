@@ -22,9 +22,11 @@
 \usepackage{tikz}
 \usepackage{hyperref}
 \usepackage{bussproofs}
+%%\usepackage{prftree.sty} 
 \usepackage{natbib}
 \usepackage{cite}
 \usepackage{float}
+\usepackage{turnstile}
 \usepackage[margin=0.5in]{geometry}
 \usetikzlibrary{arrows,positioning,shapes} 
 \tikzset{
@@ -347,11 +349,38 @@ is defined as:
 With the final adjustment of having $g_{d,s}^x$ denoting
 the assignment which is just like $g_s$ except $g_s (x) = d$
 for $d \in g(s)$, we can proceed with the inductive definition
-for satisfaction of a formula give a model $\mathfrak{m}$,
-a variable assignment $g$, and a state $s$.  (Will give this in full soon)  
+for satisfaction of a formula give a model $\mathfrak{M}$,
+a variable assignment $g$, and a state $s$.
+The inductive definition is:
+
+\begin{alignat*}{2}
+  &\mathfrak{M}, g, s \dststile{}{} P(t_1, \dotsc , t_n )  && \Longleftrightarrow \langle \overline{t_1}, \dotsc , \overline{t_n} \rangle \in I_s (P)  \\
+  &\mathfrak{M}, g, s \dststile{}{} t_i = t_j  && \Longleftrightarrow \overline{t_i} = \overline{t_j}  \\
+  &\mathfrak{M}, g, s \dststile{}{} n && \Longleftrightarrow I_{nom} (n) = s, \text{for }n\text{ a nominal}  \\
+  & \mathfrak{M}, g, s \dststile{}{} w && \Longleftrightarrow g(w) = s, \text{for }s\text{ a state variable}  \\
+  & \mathfrak{M}, g, s \dststile{}{} \neg \phi && \Longleftrightarrow  \mathfrak{M}, g, s \not\dststile{}{} \phi \\
+  & \mathfrak{M}, g, s \dststile{}{} \phi \land \psi && \Longleftrightarrow  \mathfrak{M}, g, s \dststile{}{} \phi \text{ and } \mathfrak{M}, g, s \dststile{}{} \psi \\
+  & \mathfrak{M}, g, s \dststile{}{} \phi \lor \psi && \Longleftrightarrow  \mathfrak{M}, g, s \dststile{}{} \phi \text{ or } \mathfrak{M}, g, s \dststile{}{} \psi \\
+  & \mathfrak{M}, g, s \dststile{}{} \phi \to \psi && \Longleftrightarrow  \mathfrak{M}, g, s \dststile{}{} \phi \text{ implies } \mathfrak{M}, g, s \dststile{}{} \psi \\
+  & \mathfrak{M}, g, s \dststile{}{} \exists x \phi && \Longleftrightarrow \mathfrak{M}, g_{d,s}^x, s \dststile{}{} \phi \text{ for some } d \in D_s \\
+  & \mathfrak{M}, g, s \dststile{}{} \forall x \phi && \Longleftrightarrow \mathfrak{M}, g_{d,s}^x, s \dststile{}{} \phi \text{ for all } d \in D_s \\
+  & \mathfrak{M}, g, s \dststile{}{} F \phi && \Longleftrightarrow \mathfrak{M}, g, t \dststile{}{} \phi \text{ for some } t \in T \text{ such that } Rst \\
+  & \mathfrak{M}, g, s \dststile{}{} G \phi && \Longleftrightarrow \mathfrak{M}, g, t \dststile{}{} \phi \text{ for all } t \in T \text{ such that } Rst \\
+  & \mathfrak{M}, g, s \dststile{}{} P \phi && \Longleftrightarrow \mathfrak{M}, g, t \dststile{}{} \phi \text{ for some } t \in T \text{ such that } Rts \\
+  & \mathfrak{M}, g, s \dststile{}{} H \phi && \Longleftrightarrow \mathfrak{M}, g, t \dststile{}{} \phi \text{ for all } t \in T \text{ such that } Rts \\
+  & \mathfrak{M}, g, s \dststile{}{} @_n \phi && \Longleftrightarrow \mathfrak{M}, g, I_{nom}(n) \dststile{}{} \phi \text{ for } n \text{ a nominal } \\
+  & \mathfrak{M}, g, s \dststile{}{} @_w \phi && \Longleftrightarrow \mathfrak{M}, g, g(w) \dststile{}{} \phi \text{ for } w \text{ a state variable }
+\end{alignat*}
+
 \subsection{The Tableaux Calculus}
 
-
+\begin{prooftree}
+  \AxiomC{$@_s F \phi$}
+  \RightLabel{$[F]$}
+  \UnaryInfC{$@_s F a$}
+  \noLine
+  \UnaryInfC{$@_a \phi$}
+\end{prooftree}
 (Sketch)
 
 The main issue with the tableaux of the merged logics is

@@ -22,6 +22,7 @@
 \usepackage{tikz}
 \usepackage{hyperref}
 \usepackage{bussproofs}
+\usepackage{multicol}
 %%\usepackage{prftree.sty} 
 \usepackage{natbib}
 \usepackage{cite}
@@ -373,19 +374,22 @@ The inductive definition is:
 \end{alignat*}
 
 
-\begin{alignat*}
+\begin{alignat*}{2}
   & AT_x (p) && := Px \\
   & AT_x (n) && := x = n \\
   & AT_x (\neg \phi) && := \langle \lambda x . \neg AT_x (\phi) \rangle (x) \\
   & AT_x (\phi \land \psi) && := \langle \lambda x . AT_x (\phi) \land AT_x (\psi) \rangle (x) \\
   & AT_x(G \phi) && := \langle \lambda x . \forall y (Rxy \to AT_y (\phi)) \rangle (x) \\  
   & AT_x(H \phi) && := \langle \lambda x . \forall y (Ryx \to AT_y (\phi)) \rangle (x) \\
-  & AT_x(@_n \phi) && := \langle \lambda x . \forall x (x = n \to AT_x (\phi)) \rangle (x) \\  
- 
-
+  & AT_x(@_n \phi) && := \langle \lambda x . \forall x (x = n \to AT_x (\phi)) \rangle (x)
 \end{alignat*}
 \subsection{The Tableaux Calculus}
 
+
+$P$ and $F$
+
+\setlength{\columnsep}{1cm}
+\begin{multicols}{2}
 \begin{prooftree}
   \AxiomC{$@_s F \phi$}
   \RightLabel{$[F]$}
@@ -393,6 +397,18 @@ The inductive definition is:
   \noLine
   \UnaryInfC{$@_a \phi$}
 \end{prooftree}
+
+\begin{prooftree}
+  \AxiomC{$@_s P \phi$}
+  \RightLabel{$[P]$}
+  \UnaryInfC{$@_s P a$}
+  \noLine
+  \UnaryInfC{$@_a \phi$}
+\end{prooftree}
+\end{multicols}
+
+
+
 (Sketch)
 
 The main issue with the tableaux of the merged logics is

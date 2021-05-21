@@ -1,0 +1,633 @@
+% 
+% File acl2019.tex
+%
+%% Based on the style files for ACL 2018, NAACL 2018/19, which were
+%% Based on the style files for ACL-2015, with some improvements
+%%  taken from the NAACL-2016 style
+%% Based on the style files for ACL-2014, which were, in turn,
+%% based on ACL-2013, ACL-2012, ACL-2011, ACL-2010, ACL-IJCNLP-2009,
+%% EACL-2009, IJCNLP-2008...
+%% Based on the style files for EACL 2006 by 
+%%e.agirre@ehu.es or Sergi.Balari@uab.es
+%% and that of ACL 08 by Joakim Nivre and Noah Smith
+
+\documentclass[11pt]{article}
+%%\usepackage[hyperref]{acl2021}
+\usepackage{times}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{lingstyle}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usepackage{bussproofs}
+\usepackage{multicol}
+%%\usepackage{prftree.sty} 
+\usepackage{natbib}
+\usepackage{cite}
+\usepackage{float}
+\usepackage{turnstile}
+\usepackage{rotating}
+\usepackage[margin=0.5in]{geometry}
+\usetikzlibrary{arrows,positioning,shapes} 
+\tikzset{
+    %Define standard arrow tip
+    >=stealth',
+    %Define style for boxes
+    amrnode/.style={
+             ellipse,
+             draw=black, very thick,
+             font=\small},
+    scopenode/.style={
+             ellipse,
+             draw=red, very thick, dashed,
+             text=red,
+             font=\small},
+    % Define arrow style
+    amrarrow/.style={
+            ->,
+            thick,
+            font=\small},
+    scopearrow/.style={
+              ->,
+              red,
+              thick,
+              dashed,
+              font=\small}
+}
+
+
+
+ \def\drs#1#2{\begin{tabular}{|l|}\hline #1 \\ \hline \\
+                [-8pt] #2\\[-8pt] \\ \hline \end{tabular} }
+
+ \def\ddrs#1{\begin{tabular}{||c||}\hline \\
+                [-8pt] #1\\[-8pt] \\ \hline \end{tabular} }
+
+ \def\topdrs#1#2{\begin{tabular}{|l|}\hline #1 \\ \hline \\
+                [-8pt] #2 \\[-8pt] \\ \hline \end{tabular} }
+
+ \def\proof#1#2#3#4{\drs{#1}{#2} \ $\vdash$ \ \drs{#3}{#4}}
+ \def\modimp#1#2#3#4{\mbox{\drs{#1}{#2} \ $\Box$ \ \drs{#3}{#4}}}
+ \def\imp#1#2#3#4{\drs{#1}{#2} \ $\Rightarrow$ \ \drs{#3}{#4}}
+ \def\dis#1#2#3#4{\mbox{\drs{#1}{#2} \ $\vee$ \ \drs{#3}{#4}}}
+ \def\int#1#2{\mbox{$^{\wedge}$ \ \drs{#1}{#2}}}
+ \def\pos#1#2{\mbox{$\Diamond$ \ \drs{#1}{#2}}}
+ \def\nec#1#2{\mbox{$\Box$ \ \drs{#1}{#2}}}
+ \def\nega#1#2{\mbox{$\neg$ \ \drs{#1}{#2}}}
+ \def\pred#1#2#3{\mbox{#1\ :\drs{#2}{#3}}}
+
+
+\usepackage{url} 
+
+\usepackage[acronym]{glossaries} % 'nomain' to disable automatic generation of "glossary" section 
+\glsdisablehyper % disable hyperlink to non-existing glossary section 
+%\aclfinalcopy % Uncomment this line for the final submission
+%\def\aclpaperid{***} %  Enter the acl Paper ID here
+
+%\setlength\titlebox{5cm}
+% You can expand the titlebox if you need extra space
+% to show all the authors. Please do not make the titlebox
+% smaller than 5cm (the original size); we will check this
+% in the camera-ready version and ask you to change it back.
+
+\newcommand\BibTeX{B\textsc{ib}\TeX}
+
+\title{Formalization of AMR Inference via Hybrid Logic Tableaux}
+ 
+
+ 
+\author{
+  Eli Goldner
+}
+\begin{document}
+\maketitle
+\begin{abstract}
+  AMR and its extensions have become popular in semantic representation due
+  to their ease of annotation by non-experts, attention to the predicative core of sentences,
+  and abstraction away from various syntactic matter.
+  An area where AMR and its extensions warrant improvement is formalization
+  and suitability for inference, where it is lacking compared to
+  other semantic representations, such as
+  description logics, episodic logic, and discourse representation theory.
+  This thesis presents a formalization of inference over a merging of
+  \citeauthor{donatelli-etal-2018-annotation}'s \citeyearpar{donatelli-etal-2018-annotation} AMR extension for tense and aspect
+  and with \citeauthor{pustejovsky-etal-2019-modeling}'s \citeyearpar{pustejovsky-etal-2019-modeling} AMR extension for quantification and scope.
+  Inference is modeled with a merging of Blackburn and Marx's tableaux method for quantified hybrid logic
+  ({\it QHL}) and Blackburn and J{\o}rgensen's tableux method for basic hybrid tense logic ({\it BHTL}).
+  We motivate the merging of these AMR variants,
+  present their interpretation and inference in the combination of {\it QHL}
+  and {\it BHTL}, which we will call {\it QHTL} (quantified hybrid tense logic),
+  and demonstrate {\it QHTL}'s the soundess, completeness,
+  and decidability. 
+
+
+  
+\end{abstract}
+
+
+\section{Merging Quantified Hybrid Logic and Indexical Hybrid Tense Logic}
+
+\subsection{Background}
+
+\subsubsection{Quantified Hybrid Logic}
+
+\subsubsection{Basic Hybrid Tense Logic}
+
+\subsection{Quantified Hybrid Tense Logic}
+\smallskip
+The syntax of $QHTL$ is identical to $QHL$ except
+uses of $\downarrow$ as in $\downarrow w . \phi$ are omitted along
+with $\Box$ and $\Diamond$ as in $\Box \phi$ and $\Diamond \phi$.
+$\Box$ and $\Diamond$ are replaced by their semantic equivalents
+$F$ and $G$ and their temporal duals $P$ and $H$ are added.
+
+\smallskip
+
+
+Atomic formulae are the same as in $QHL$, symbols in \textsf{NOM}
+and \textsf{SVAR} together with first-order atomic formulae
+generated from the predicate symbols and equality over the terms. 
+Thus complex formulae are generated from the atomic formulae according to the
+following rules:
+$$\neg \phi | \phi \land \psi | \phi \lor \psi | \phi \to \psi | \exists x \phi | \forall x \phi | F \phi | G \phi | P \phi | H \phi | @_n \phi $$
+
+
+
+Since we want the domain of quantification to be indexed
+over the collection of nominals/times, we alter the $QHL$ model definition
+to a structure:
+$$(T, R, D_w, I_{nom}, I_w)_{w \in W}$$
+Identical to the definition for a $QHL$ model in that:
+\begin{itemize}
+  \item
+    $(T,R)$ is a modal frame.
+  \item
+    $I_{nom}$ is a function assigning members of $T$ to nominals.
+\end{itemize}
+
+The differences manifest on the level of the model and
+interpretation.  That is, for every $t \in T$,
+$(D_t, I_t)$ is a first-order model where:
+\begin{itemize}
+\item
+  $I_t (q) \in D_t$ where $q$ is a unary function symbol.
+\item
+  $I_t (P) \subseteq^k D_t$ where $P$ is a $k$-ary predicate symbol.
+\end{itemize}
+
+Notice we've relaxed the requirement that $I_t (c) = I_{t'} (c)$ for
+$c$ a constant and $t,t' \in T$, since the interpretation of the
+constant need not exist at both times.
+
+\smallskip
+
+Free variables are handled similarly as in $QHL$.
+A $QHTL$ assignment is a function:
+$$g : \textsf{SVAR} \cup \textsf{FVAR} \to T \cup D $$
+Where state variables are sent to times/worlds and
+first-order variables are sent to $D_t$ where
+$t$ is the time assigned to the state variable by $g$.
+Thus given a model and an assignment $g$,
+the interpretation of terms $t$ denoted by $\overline{t}$
+is defined as:
+\begin{itemize}
+\item
+  $\overline{x} = g_t(x)$ for $x$ a variable and the relevant $t \in T$.
+\item
+  $\overline{c} = I_t (c)$ for $c$ a constant and some $t \in T$.
+\item
+  \begin{itemize} For $q$ a unary function symbol:
+    
+    
+  \item For $n$ a nominal:
+    
+    
+    $$\overline{@_n q} = I_{I_{nom}} (n)$$
+  \item For $n$ a state variable:
+    
+    
+    $$\overline{@_n q} = I_{g(n)} (q)$$
+  \end{itemize}
+\end{itemize}
+
+With the final adjustment of having $g_{d,s}^x$ denoting
+the assignment which is just like $g_s$ except $g_s (x) = d$
+for $d \in g(s)$, we can proceed with the inductive definition
+for satisfaction of a formula give a model $\mathfrak{M}$,
+a variable assignment $g$, and a state $s$.
+The inductive definition is:
+
+\begin{alignat*}{2}
+  &\mathfrak{M}, g, s \dststile{}{} P(t_1, \dotsc , t_n )  && \Longleftrightarrow \langle \overline{t_1}, \dotsc , \overline{t_n} \rangle \in I_s (P)  \\
+  &\mathfrak{M}, g, s \dststile{}{} t_i = t_j  && \Longleftrightarrow \overline{t_i} = \overline{t_j}  \\
+  &\mathfrak{M}, g, s \dststile{}{} n && \Longleftrightarrow I_{nom} (n) = s, \text{for }n\text{ a nominal}  \\
+  & \mathfrak{M}, g, s \dststile{}{} w && \Longleftrightarrow g(w) = s, \text{for }s\text{ a state variable}  \\
+  & \mathfrak{M}, g, s \dststile{}{} \neg \phi && \Longleftrightarrow  \mathfrak{M}, g, s \not\dststile{}{} \phi \\
+  & \mathfrak{M}, g, s \dststile{}{} \phi \land \psi && \Longleftrightarrow  \mathfrak{M}, g, s \dststile{}{} \phi \text{ and } \mathfrak{M}, g, s \dststile{}{} \psi \\
+  & \mathfrak{M}, g, s \dststile{}{} \phi \lor \psi && \Longleftrightarrow  \mathfrak{M}, g, s \dststile{}{} \phi \text{ or } \mathfrak{M}, g, s \dststile{}{} \psi \\
+  & \mathfrak{M}, g, s \dststile{}{} \phi \to \psi && \Longleftrightarrow  \mathfrak{M}, g, s \dststile{}{} \phi \text{ implies } \mathfrak{M}, g, s \dststile{}{} \psi \\
+  & \mathfrak{M}, g, s \dststile{}{} \exists x \phi && \Longleftrightarrow \mathfrak{M}, g_{d,s}^x, s \dststile{}{} \phi \text{ for some } d \in D_s \\
+  & \mathfrak{M}, g, s \dststile{}{} \forall x \phi && \Longleftrightarrow \mathfrak{M}, g_{d,s}^x, s \dststile{}{} \phi \text{ for all } d \in D_s \\
+  & \mathfrak{M}, g, s \dststile{}{} F \phi && \Longleftrightarrow \mathfrak{M}, g, t \dststile{}{} \phi \text{ for some } t \in T \text{ such that } Rst \\
+  & \mathfrak{M}, g, s \dststile{}{} G \phi && \Longleftrightarrow \mathfrak{M}, g, t \dststile{}{} \phi \text{ for all } t \in T \text{ such that } Rst \\
+  & \mathfrak{M}, g, s \dststile{}{} P \phi && \Longleftrightarrow \mathfrak{M}, g, t \dststile{}{} \phi \text{ for some } t \in T \text{ such that } Rts \\
+  & \mathfrak{M}, g, s \dststile{}{} H \phi && \Longleftrightarrow \mathfrak{M}, g, t \dststile{}{} \phi \text{ for all } t \in T \text{ such that } Rts \\
+  & \mathfrak{M}, g, s \dststile{}{} @_n \phi && \Longleftrightarrow \mathfrak{M}, g, I_{nom}(n) \dststile{}{} \phi \text{ for } n \text{ a nominal } \\
+  & \mathfrak{M}, g, s \dststile{}{} @_w \phi && \Longleftrightarrow \mathfrak{M}, g, g(w) \dststile{}{} \phi \text{ for } w \text{ a state variable }
+  %%\caption{$AT_x$}
+\end{alignat*}
+
+
+\begin{figure*}
+  \begin{alignat*}{2}
+    & AT_x (p) && := Px \\
+    & AT_x (n) && := x = n \\
+    & AT_x (\neg \phi) && := \langle \lambda x . \neg AT_x (\phi) \rangle (x) \\
+    & AT_x (\phi \land \psi) && := \langle \lambda x . AT_x (\phi) \land AT_x (\psi) \rangle (x) \\
+    & AT_x(G \phi) && := \langle \lambda x . \forall y (Rxy \to AT_y (\phi)) \rangle (x) \\  
+    & AT_x(H \phi) && := \langle \lambda x . \forall y (Ryx \to AT_y (\phi)) \rangle (x) \\
+    & AT_x(@_n \phi) && := \langle \lambda x . \forall x (x = n \to AT_x (\phi)) \rangle (x) \\
+    & AT_x(P(t_1, \dotsc, t_k)) && := P'(x, t_1, \dotsc, t_k) \\
+    & AT_x(t_i = t_j) && := \langle \lambda x . t_i = t_j \rangle(x) \\
+    & AT_x (\forall v \phi) && := \langle \lambda x . \forall v AT_x(\phi) \rangle (x)  
+    %%\caption{$AT_x^-$}
+  \end{alignat*}
+  \label{atm}
+  \caption{TEST}
+\end{figure*}
+\subsection{The Tableaux Calculus}
+
+Non-branching rules:
+
+\begin{figure*}
+  \begin{multicols}{2}
+    \begin{prooftree}
+      \AxiomC{$@_s \neg \phi$}
+      \RightLabel{$[\neg]$}
+      \UnaryInfC{$\neg @_s \phi$}
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$\neg @_s \neg \phi$}
+      \RightLabel{$[\neg \neg]$}
+      \UnaryInfC{$@_s \phi$}
+    \end{prooftree}
+  \end{multicols}
+
+  \begin{multicols}{2}
+    \begin{prooftree}
+      \AxiomC{$@_s @_t \phi$}
+      \RightLabel{$[@]$}
+      \UnaryInfC{$@_t \phi$} 
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$\neg @_s @_t \phi$}
+      \RightLabel{$[\neg @]$}
+      \UnaryInfC{$\neg @_t \phi$} 
+    \end{prooftree}
+  \end{multicols}
+
+  \begin{multicols}{2}
+    \begin{prooftree}
+      \AxiomC{$@_s F \phi$}
+      \RightLabel{$[F]$}
+      \UnaryInfC{$@_s F a$}
+      \noLine
+      \UnaryInfC{$@_a \phi$}
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$@_s P \phi$}
+      \RightLabel{$[P]$}
+      \UnaryInfC{$@_s P a$}
+      \noLine
+      \UnaryInfC{$@_a \phi$}
+    \end{prooftree}
+  \end{multicols}
+
+  \begin{multicols}{2}
+    \begin{prooftree}
+      \AxiomC{$\neg @_s G \phi$}
+      \RightLabel{$[\neg G]$}
+      \UnaryInfC{$@_s F a$}
+      \noLine
+      \UnaryInfC{$\neg @_a \phi$} 
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$@_s H \phi$}
+      \RightLabel{$[\neg H]$}
+      \UnaryInfC{$@_s P a$}
+      \noLine
+      \UnaryInfC{$\neg @_a \phi$} 
+    \end{prooftree}
+  \end{multicols}
+
+  \begin{multicols}{2}
+    \begin{prooftree}
+      \AxiomC{$@_s P t$}
+      \RightLabel{$P$-trans}
+      \UnaryInfC{$@_t F s$} 
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$@_s F t$}
+      \RightLabel{$F$-trans}
+      \UnaryInfC{$@_t P s$}  
+    \end{prooftree}
+  \end{multicols}
+  
+  \begin{multicols}{2}
+    \begin{prooftree}
+      \AxiomC{$@_s \exists x \phi(x)$}
+      \RightLabel{$[\exists]$}
+      \UnaryInfC{$@_c \phi(c)$} 
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$@_s \neg \forall x \phi(x)$}
+      \RightLabel{$[\neg \forall]$}
+      \UnaryInfC{$\neg @_c \phi(c)$}
+    \end{prooftree}
+  \end{multicols}
+
+  \begin{multicols}{2}
+    \begin{prooftree}
+      \AxiomC{$@_s \forall x \phi(x)$}
+      \RightLabel{$[\forall]$}
+      \UnaryInfC{$ @_c \phi(c)$}
+    \end{prooftree}
+
+    \begin{prooftree}
+      \AxiomC{$\neg @_s \exists x \phi(x)$}
+      \RightLabel{$[\neg \exists]$}
+      \UnaryInfC{$\neg @_c \phi(c)$} 
+    \end{prooftree}
+  \end{multicols}
+
+
+  \begin{multicols}{2}
+    \begin{prooftree}
+      \AxiomC{[$s$ on the branch]}
+      \RightLabel{{[ Ref ]}}
+      \UnaryInfC{$@_s s$} 
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$@_t s$}
+      \RightLabel{{[ Sym ]}}
+      \UnaryInfC{$@_s t$}
+    \end{prooftree}
+  \end{multicols}
+
+  \begin{multicols}{2}
+    \begin{prooftree}
+      \AxiomC{}
+      \RightLabel{{[ Ref ]}}
+      \UnaryInfC{$t = t$} 
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$@_n m$}
+      \RightLabel{{[ DD ]}}
+      \UnaryInfC{$@_n q = @_m q$}
+    \end{prooftree}
+  \end{multicols}
+
+  \begin{multicols}{2}
+    \begin{prooftree}
+      \AxiomC{$@_n (t_i = t_j)$}
+      \RightLabel{$@=$}
+      \UnaryInfC{$t_i = t_j$} 
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$\neg @_n (t_i = t_j)$}
+      \RightLabel{$\neg @=$}
+      \UnaryInfC{$\neg (t_i = t_j)$} 
+    \end{prooftree}
+  \end{multicols}
+  
+  \caption{Non-Branching Rules.}
+  \label{nonbranch}
+\end{figure*}
+
+Branching rules:
+
+\begin{figure*}
+  \begin{multicols}{2}
+    \begin{prooftree}
+      \AxiomC{$@_s (\phi \lor \psi)$}
+      \RightLabel{$\lor$}
+      \UnaryInfC{$@_s \phi \mid @_s \psi$} 
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$\neg @_s (\phi \land \psi)$}
+      \RightLabel{$\neg \land$}
+      \UnaryInfC{$\neg @_s \phi \mid \neg @_s \psi$}
+    \end{prooftree}
+  \end{multicols}
+
+  \begin{prooftree}
+    \AxiomC{$@_s (\phi \to \psi)$}
+    \RightLabel{$\to$}
+    \UnaryInfC{$\neg @_s \phi \mid @_s \psi$}
+  \end{prooftree}
+\end{figure*}
+
+
+Binary rules:
+
+\begin{figure*}
+  \begin{multicols}{2}
+    \begin{prooftree}
+      \AxiomC{$@_s H \phi$}
+      \AxiomC{$@_s P t$}
+      \RightLabel{$H$}
+      \BinaryInfC{$@_t \phi$} 
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$@_s G \phi$}
+      \AxiomC{$@_s F t$}
+      \RightLabel{$G$}
+      \BinaryInfC{$@_t \phi$}
+    \end{prooftree}
+  \end{multicols}
+
+  \begin{multicols}{2}
+    \begin{prooftree}
+      \AxiomC{$@_s P t$}
+      \AxiomC{$@_t u$}
+      \RightLabel{$P$-bridge}
+      \BinaryInfC{$@_t P u$} 
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$@_s F t$}
+      \AxiomC{$@_t u$}
+      \RightLabel{$F$-bridge}
+      \BinaryInfC{$@_t F u$}  
+    \end{prooftree}
+  \end{multicols}
+
+  \begin{multicols}{2}
+    \begin{prooftree}
+      \AxiomC{$@_s t$}
+      \AxiomC{$@_s \phi$}
+      \RightLabel{Nom}
+      \BinaryInfC{$@_t \phi$} 
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$@_s t$}
+      \AxiomC{$@_t \phi$}
+      \RightLabel{$\text{Nom}^{-1}$}
+      \BinaryInfC{$@_s \phi$} 
+    \end{prooftree}
+  \end{multicols}
+
+  \begin{prooftree}
+      \AxiomC{$@_s t$}
+      \AxiomC{$@_t r$}
+      \RightLabel{Trans}
+      \BinaryInfC{$@_s r$} 
+    \end{prooftree}
+\end{figure*}
+
+
+
+(Sketch)
+
+The main issue with the tableaux of the merged logics is
+treatment of the quantification rules,
+for the existential rule, the quantifer is removed
+and a parameter new on the branch is substituted for the
+formerly bound variable, and in the universal case,
+the bound variable in the formula is substituted for a term
+already grounded on the branch (a first-order consant, parameter,
+or grounded definite description).  What is now at issue is unlike
+$QHL$ we are not using a fixed domain semantics, thus we must find a
+way to integrate the constraint that for universal quantification,
+the grounded term needs to have a known interpretation at the current
+world/state/time.
+\smallskip
+NB: Other than the issue of encoding this constraint I see no reason
+why the same approach of merging would not work here as well.
+
+
+
+
+\subsection{Soundness and Completeness}
+
+
+The proof of the soundness of the tableaux method
+for QHTL is adapted from the proof of
+soundness of the tableaux method for
+$\mathcal{H}(@)$ given in \citet*{internalizing}.
+
+\bigskip
+
+We can observe from the tableaux rules that
+every formula in a tableaux is of the
+form  $@_s \phi$ or $\neg @_s \phi$.
+We call formulae of these forms
+{\it satisfaction statements}.
+Give a set of satisfaction statements $\Sigma$
+and a tableaux rule $R$ we develop the
+notion of $\Sigma^+$ as an expansion of $\Sigma$
+by $R$ as follows based on the different cases for $R$:
+\begin{enumerate}
+\item
+
+  If $R$ is {\it not} a branching rule, and $R$ takes
+  a single formula as input, and $\Sigma^+$ is the set
+  obtained by adding to $\Sigma$ the formulae yielded
+  by applying $R$ to $\sigma \in \Sigma$,
+  then we say $\Sigma^+$ is the result of expaning
+  $\Sigma$ by $R$.  
+\item
+
+  If $R$ is a binary rule, and $\Sigma^+$ is the set
+  obtained by adding to $\Sigma$ the formulae yielded
+  by applying $R$ to $\sigma_1 , \sigma_2  , \sigma_2 \in \Sigma$,
+  then we say $\Sigma^+$ is the result of expaning
+  $\Sigma$ by $R$.
+\item
+
+  If $R$ is a branching rule, and $\Sigma^+$ is the set
+  obtained by adding to $\Sigma$ the formulae yielded
+  by one of the possible outcomes of applying $R$ to $\sigma_1  \in \Sigma$,
+  then we say $\Sigma^+$ is the result of expaning
+  $\Sigma$ by $R$.
+\item
+
+  If a nominal $s$ belongs to some formula
+\end{enumerate}
+
+\iffalse
+In either of the cases mentioned below,
+the proof of soundess would likely proceed
+by checking satisfaction in a way \citet*{blackburn2012indexical}
+ refers to being demonstrated in \citet*{internalizing} 
+For integrating basic hybrid tense logic
+rather than indexical hybrid logic, the completeness proof
+seems merely to be an issue of integrating $AT_x$ 
+translations $F \phi$, $P\phi$ and $AT_x^-$ translations
+of their images under $AT_x$ into the completeness proof of $QHL$
+in \citet*{quantified}.
+\smallskip
+NB: To my current understanding it's less clear how to give a completeness
+proof for $QHL$ with full indexical hybrid tense logic, although since the
+proof does not seem to make much use of the structure of formulae outside
+of tense, it's also not clear to me that adding quantification
+would cause many/any issues, and if so the completeness proof would
+be adapted mostly from \citet*{blackburn2012indexical}
+rather than \citet*{quantified}.    
+\fi
+
+\subsection{Decidability}
+\subsubsection{Decidabililty of the Merged Logic}
+
+
+(Proof Sketch)
+
+
+While $\mathcal{H}(\downarrow @)$ is not decidable, $\mathcal{H}(@)$ is
+\citep{Areces99hybridlogics}.  Quantified hybrid logic makes use of
+$\downarrow$ \citep{quantified}, but modulo $\downarrow$ and quantification over
+first-order variables does not
+differ from $\mathcal{H}(@)$.
+Basic hybrid tense logic does not make use of $\downarrow$
+\citep{blackburn2012indexical}, and differs only from
+$\mathcal{H}(@)$ in replacing the $\Box$ and $\Diamond$
+with $F$ and $P$, which respectively have the same sematics
+and similar semantics (the direction of the accesibility relation is changed)
+to $\Diamond$.  Similarly for $G$ and $H$ respectively in relation to $\Box$.  Thus given the absence of $\downarrow$ in the merged logic,
+replacing $\Box$ and $\Diamond$ with $F$ and $P$ (and by extension $G$ and $H$)
+will not have negatively affect the decidability given the analogous
+complexity of $F$ and $P$ to $\Diamond$.
+\smallskip
+This is especially the case for us because nominals are document creation times,
+of which there will necessarily be a finite number, all totally ordered,
+which in turn will make checking accessibility more efficient.
+Keeping quantification over first-order variables will not affect
+decidability since we take the domain of quantification to be
+objects that exist at a particular world,
+that is at the time indicated by the nominal which picks out that world.
+That is we use presentist quantification as opposed to eternalist quantification. 
+
+\subsubsection{Termination of the Tableaux/Decision Procedure}
+
+\citet*{bolander} seems like the clearest place to start from for termination
+of the tableaux.  \citet*{norgela2007some} and \citet*{norgela2012decidability}
+seem potentially useful but they discuss things in terms of sequents rather than tableaux.
+
+
+\bibliographystyle{acl_natbib}
+\bibliography{references}
+\end{document}

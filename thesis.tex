@@ -635,6 +635,8 @@ Binary rules:
     \end{prooftree}
 \end{figure*}
 
+
+
 (Sketch)
 
 The main issue with the tableaux of the merged logics is
@@ -657,8 +659,53 @@ why the same approach of merging would not work here as well.
 
 
 \subsection{Soundness and Completeness}
-(Sketch)
 
+
+The proof of the soundness of the tableaux method
+for QHTL is adapted from the proof of
+soundness of the tableaux method for
+$\mathcal{H}(@)$ given in \citet*{internalizing}.
+
+\bigskip
+
+We can observe from the tableaux rules that
+every formula in a tableaux is of the
+form  $@_s \phi$ or $\neg @_s \phi$.
+We call formulae of these forms
+{\it satisfaction statements}.
+Give a set of satisfaction statements $\Sigma$
+and a tableaux rule $R$ we develop the
+notion of $\Sigma^+$ as an expansion of $\Sigma$
+by $R$ as follows based on the different cases for $R$:
+\begin{enumerate}
+\item
+
+  If $R$ is {\it not} a branching rule, and $R$ takes
+  a single formula as input, and $\Sigma^+$ is the set
+  obtained by adding to $\Sigma$ the formulae yielded
+  by applying $R$ to $\sigma \in \Sigma$,
+  then we say $\Sigma^+$ is the result of expaning
+  $\Sigma$ by $R$.  
+\item
+
+  If $R$ is a binary rule, and $\Sigma^+$ is the set
+  obtained by adding to $\Sigma$ the formulae yielded
+  by applying $R$ to $\sigma_1 , \sigma_2  , \sigma_2 \in \Sigma$,
+  then we say $\Sigma^+$ is the result of expaning
+  $\Sigma$ by $R$.
+\item
+
+  If $R$ is a branching rule, and $\Sigma^+$ is the set
+  obtained by adding to $\Sigma$ the formulae yielded
+  by one of the possible outcomes of applying $R$ to $\sigma_1  \in \Sigma$,
+  then we say $\Sigma^+$ is the result of expaning
+  $\Sigma$ by $R$.
+\item
+
+  If a nominal $s$ belongs to some formula
+\end{enumerate}
+
+\iffalse
 In either of the cases mentioned below,
 the proof of soundess would likely proceed
 by checking satisfaction in a way \citet*{blackburn2012indexical}
@@ -677,6 +724,7 @@ of tense, it's also not clear to me that adding quantification
 would cause many/any issues, and if so the completeness proof would
 be adapted mostly from \citet*{blackburn2012indexical}
 rather than \citet*{quantified}.    
+\fi
 
 \subsection{Decidability}
 \subsubsection{Decidabililty of the Merged Logic}

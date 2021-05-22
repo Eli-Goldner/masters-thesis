@@ -254,24 +254,6 @@ The inductive definition is:
   %%\caption{$AT_x$}
 \end{alignat*}
 
-
-\begin{figure*}
-  \begin{alignat*}{2}
-    & AT_x (p) && := Px \\
-    & AT_x (n) && := x = n \\
-    & AT_x (\neg \phi) && := \langle \lambda x . \neg AT_x (\phi) \rangle (x) \\
-    & AT_x (\phi \land \psi) && := \langle \lambda x . AT_x (\phi) \land AT_x (\psi) \rangle (x) \\
-    & AT_x(G \phi) && := \langle \lambda x . \forall y (Rxy \to AT_y (\phi)) \rangle (x) \\  
-    & AT_x(H \phi) && := \langle \lambda x . \forall y (Ryx \to AT_y (\phi)) \rangle (x) \\
-    & AT_x(@_n \phi) && := \langle \lambda x . \forall x (x = n \to AT_x (\phi)) \rangle (x) \\
-    & AT_x(P(t_1, \dotsc, t_k)) && := P'(x, t_1, \dotsc, t_k) \\
-    & AT_x(t_i = t_j) && := \langle \lambda x . t_i = t_j \rangle(x) \\
-    & AT_x (\forall v \phi) && := \langle \lambda x . \forall v AT_x(\phi) \rangle (x)  
-    %%\caption{$AT_x^-$}
-  \end{alignat*}
-  \label{atm}
-  \caption{TEST}
-\end{figure*}
 \subsection{The Tableau Calculus}
 
 Non-branching rules:
@@ -615,11 +597,50 @@ be adapted mostly from \citet*{blackburn2012indexical}
 rather than \citet*{quantified}.    
 
 
+\begin{figure*}
+  \begin{alignat*}{2}
+    & AT_x (p) && := Px \\
+    & AT_x (n) && := x = n \\
+    & AT_x (\neg \phi) && := \langle \lambda x . \neg AT_x (\phi) \rangle (x) \\
+    & AT_x (\phi \land \psi) && := \langle \lambda x . AT_x (\phi) \land AT_x (\psi) \rangle (x) \\
+    & AT_x(G \phi) && := \langle \lambda x . \forall y (Rxy \to AT_y (\phi)) \rangle (x) \\  
+    & AT_x(H \phi) && := \langle \lambda x . \forall y (Ryx \to AT_y (\phi)) \rangle (x) \\
+    & AT_x(@_n \phi) && := \langle \lambda x . \forall x (x = n \to AT_x (\phi)) \rangle (x) \\
+    & AT_x(P(t_1, \dotsc, t_k)) && := P'(x, t_1, \dotsc, t_k) \\
+    & AT_x(t_i = t_j) && := \langle \lambda x . t_i = t_j \rangle(x) \\
+    & AT_x (\forall v \phi) && := \langle \lambda x . \forall v AT_x(\phi) \rangle (x)  
+    %%\caption{$AT_x^-$}
+  \end{alignat*}
+  \label{atm}
+  \caption{TEST}
+\end{figure*}
+
+
+\begin{figure*}
+  \begin{alignat*}{2}
+    & AT_x^- (Px) && := p \\
+    & AT_x^- (x = n) && := n \\
+    & AT_x^- (\langle \lambda x . \neg \phi \rangle (x)) && := \neg AT_x^- (\phi) \\
+    & AT_x^- (\langle \lambda x . \neg \phi \land \psi \rangle (x)) && := AT_x^- (\phi) \land AT_x^- (\psi) \\
+    & AT_x^-(\langle \lambda x . \forall y (Rxy \to \phi) \rangle (x)) && := G AT_y^- (\phi) \\  
+    & AT_x^-(\langle \lambda x . \forall y (Ryx \to \phi) \rangle (x)) && := H AT_y^- (\phi) \\
+    & AT_x^-(\langle \lambda x . \forall x (x = n \to \phi) \rangle (x)) && := @_n AT_x^- (\phi) \\
+    & AT_x^-(P'(x, t_1, \dotsc, t_k)) && := P(t_1, \dotsc, t_k) \\
+    & AT_x^-(\langle \lambda x . t_i = t_j \rangle(x)) && := t_i = t_j \\
+    & AT_x^- (\langle \lambda x . \forall v  \phi \rangle (x)) && := \forall v AT_x^- (\phi)   
+    %%\caption{$AT_x^-^-$}
+  \end{alignat*}
+  \label{atm}
+  \caption{TEST}
+\end{figure*}
+
+
 \subsection{Decidability}
 
 The proof of the tableau construction algorithm's termination is adapted from
 the proof given in \citet*{bolander} for the termination of the
-tableau construction algorithm for $\mathcal{H}(@)$ as described in \citet*{internalizing} except extended with the universal modality.
+tableau construction algorithm for $\mathcal{H}(@)$
+as described in \citet*{internalizing} except extended with the universal modality.
 
 \begin{lemma}[Quasi-subformula property]
 \end{lemma}

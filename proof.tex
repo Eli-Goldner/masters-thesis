@@ -16,6 +16,7 @@
 \usepackage{times}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{amsthm}
 \usepackage{latexsym}
 \usepackage{lingstyle}
 \usepackage{graphicx}
@@ -29,7 +30,21 @@
 \usepackage{float}
 \usepackage{turnstile}
 \usepackage{rotating}
+
 \usepackage[margin=0.5in]{geometry}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{prop}{Proposition}
+\newtheorem{corollary}{Corollary}
+
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
 \usetikzlibrary{arrows,positioning,shapes} 
 \tikzset{
     %Define standard arrow tip
@@ -114,8 +129,8 @@
   This thesis presents a formalization of inference over a merging of
   \citeauthor{donatelli-etal-2018-annotation}'s \citeyearpar{donatelli-etal-2018-annotation} AMR extension for tense and aspect
   and with \citeauthor{pustejovsky-etal-2019-modeling}'s \citeyearpar{pustejovsky-etal-2019-modeling} AMR extension for quantification and scope.
-  Inference is modeled with a merging of Blackburn and Marx's tableaux method for quantified hybrid logic
-  ({\it QHL}) and Blackburn and J{\o}rgensen's tableux method for basic hybrid tense logic ({\it BHTL}).
+  Inference is modeled with a merging of Blackburn and Marx's tableau method for quantified hybrid logic
+  ({\it QHL}) and Blackburn and J{\o}rgensen's tableu method for basic hybrid tense logic ({\it BHTL}).
   We motivate the merging of these AMR variants,
   present their interpretation and inference in the combination of {\it QHL}
   and {\it BHTL}, which we will call {\it QHTL} (quantified hybrid tense logic),
@@ -257,7 +272,7 @@ The inductive definition is:
   \label{atm}
   \caption{TEST}
 \end{figure*}
-\subsection{The Tableaux Calculus}
+\subsection{The Tableau Calculus}
 
 Non-branching rules:
 
@@ -503,7 +518,7 @@ Binary rules:
 
 (Sketch)
 
-The main issue with the tableaux of the merged logics is
+The main issue with the tableau rules for the merged logics is
 treatment of the quantification rules,
 for the existential rule, the quantifer is removed
 and a parameter new on the branch is substituted for the
@@ -525,20 +540,21 @@ why the same approach of merging would not work here as well.
 \subsection{Soundness and Completeness}
 
 
-The proof of the soundness of the tableaux method
+\subsubsection{Soundness}
+The proof of the soundness of the tableau method
 for QHTL is adapted from the proof of
-soundness of the tableaux method for
+soundness of the tableau method for
 $\mathcal{H}(@)$ given in \citet*{internalizing}.
 
 \bigskip
 
-We can observe from the tableaux rules that
-every formula in a tableaux is of the
+We can observe from the tableau rules that
+every formula in a tableau is of the
 form  $@_s \phi$ or $\neg @_s \phi$.
 We call formulae of these forms
 {\it satisfaction statements}.
 Give a set of satisfaction statements $\Sigma$
-and a tableaux rule $R$ we develop the
+and a tableau rule $R$ we develop the
 notion of $\Sigma^+$ as an expansion of $\Sigma$
 by $R$ as follows based on the different cases for $R$:
 \begin{enumerate}
@@ -569,7 +585,16 @@ by $R$ as follows based on the different cases for $R$:
   If a nominal $s$ belongs to some formula
 \end{enumerate}
 
-\iffalse
+
+\begin{definition}[Satisfiable by label]
+ 
+\end{definition}
+
+\begin{theorem}[Soundess]
+  \label{sound}
+\end{theorem}
+
+\subsubsection{Completeness}
 In either of the cases mentioned below,
 the proof of soundess would likely proceed
 by checking satisfaction in a way \citet*{blackburn2012indexical}
@@ -588,46 +613,48 @@ of tense, it's also not clear to me that adding quantification
 would cause many/any issues, and if so the completeness proof would
 be adapted mostly from \citet*{blackburn2012indexical}
 rather than \citet*{quantified}.    
-\fi
+
 
 \subsection{Decidability}
-\subsubsection{Decidabililty of the Merged Logic}
 
+The proof of the tableau construction algorithm's termination is adapted from
+the proof given in \citet*{bolander} for the termination of the
+tableau construction algorithm for $\mathcal{H}(@)$ as described in \citet*{internalizing} except extended with the universal modality.
 
-(Proof Sketch)
+\begin{lemma}[Quasi-subformula property]
+\end{lemma}
 
+\begin{definition}
+\end{definition}
 
-While $\mathcal{H}(\downarrow @)$ is not decidable, $\mathcal{H}(@)$ is
-\citep{Areces99hybridlogics}.  Quantified hybrid logic makes use of
-$\downarrow$ \citep{quantified}, but modulo $\downarrow$ and quantification over
-first-order variables does not
-differ from $\mathcal{H}(@)$.
-Basic hybrid tense logic does not make use of $\downarrow$
-\citep{blackburn2012indexical}, and differs only from
-$\mathcal{H}(@)$ in replacing the $\Box$ and $\Diamond$
-with $F$ and $P$, which respectively have the same sematics
-and similar semantics (the direction of the accesibility relation is changed)
-to $\Diamond$.  Similarly for $G$ and $H$ respectively in relation to $\Box$.  Thus given the absence of $\downarrow$ in the merged logic,
-replacing $\Box$ and $\Diamond$ with $F$ and $P$ (and by extension $G$ and $H$)
-will not have negatively affect the decidability given the analogous
-complexity of $F$ and $P$ to $\Diamond$.
-\smallskip
-This is especially the case for us because nominals are document creation times,
-of which there will necessarily be a finite number, all totally ordered,
-which in turn will make checking accessibility more efficient.
-Keeping quantification over first-order variables will not affect
-decidability since we take the domain of quantification to be
-objects that exist at a particular world,
-that is at the time indicated by the nominal which picks out that world.
-That is we use presentist quantification as opposed to eternalist quantification. 
+\begin{theorem}
+\end{theorem}
 
-\subsubsection{Termination of the Tableaux/Decision Procedure}
+\begin{corollary}
+\end{corollary}
 
-\citet*{bolander} seems like the clearest place to start from for termination
-of the tableaux.  \citet*{norgela2007some} and \citet*{norgela2012decidability}
-seem potentially useful but they discuss things in terms of sequents rather than tableaux.
+\begin{definition}
+\end{definition}
 
+\begin{theorem}
+\end{theorem}
 
+\begin{definition}
+\end{definition}
+
+\begin{prop}
+\end{prop}
+
+\begin{definition}
+\end{definition}
+
+\begin{definition}
+\end{definition}
+
+\begin{theorem}
+\end{theorem}
+
+ 
 \bibliographystyle{acl_natbib}
 \bibliography{references}
 \end{document}

@@ -516,9 +516,6 @@ world/state/time.
 NB: Other than the issue of encoding this constraint I see no reason
 why the same approach of merging would not work here as well.
 
-
-
-
 \subsection{Soundness and Completeness}
 
 
@@ -569,13 +566,32 @@ by $R$ as follows based on the different cases for $R$:
 
 
 \begin{definition}[Satisfiable by label]
- 
+  Testing testing
 \end{definition}
 
 \begin{theorem}[Soundess]
   \label{sound}
+  The tableau method for QHTL is sound.
 \end{theorem}
 
+
+%%\begin{proof}
+({\it Proof}).  We prove soundness by induction on the
+tableau rules, with particular
+attention to ``existential'' rules
+as they are called in \citet*{internalizing}
+which introduce a new parameter on the branch.
+
+\begin{itemize}
+\item {\it Non-branching Rules}
+\item {\it Binary Rules}
+\item {\it Branching Rules}
+\item {\it ``Existential'' Rules}
+\item {\it Ref}
+\end{itemize}
+\qed
+
+  
 \subsubsection{Completeness}
 In either of the cases mentioned below,
 the proof of soundess would likely proceed
@@ -601,6 +617,7 @@ rather than \citet*{quantified}.
   \begin{alignat*}{2}
     & AT_x (p) && := Px \\
     & AT_x (n) && := x = n \\
+    & AT_x (w) && := x = w \\
     & AT_x (\neg \phi) && := \langle \lambda x . \neg AT_x (\phi) \rangle (x) \\
     & AT_x (\phi \land \psi) && := \langle \lambda x . AT_x (\phi) \land AT_x (\psi) \rangle (x) \\
     & AT_x(G \phi) && := \langle \lambda x . \forall y (Rxy \to AT_y (\phi)) \rangle (x) \\  
@@ -620,6 +637,7 @@ rather than \citet*{quantified}.
   \begin{alignat*}{2}
     & AT_x^- (Px) && := p \\
     & AT_x^- (x = n) && := n \\
+    & AT_x^- (x = w) && := w \\
     & AT_x^- (\langle \lambda x . \neg \phi \rangle (x)) && := \neg AT_x^- (\phi) \\
     & AT_x^- (\langle \lambda x . \neg \phi \land \psi \rangle (x)) && := AT_x^- (\phi) \land AT_x^- (\psi) \\
     & AT_x^-(\langle \lambda x . \forall y (Rxy \to \phi) \rangle (x)) && := G AT_y^- (\phi) \\  
@@ -634,12 +652,29 @@ rather than \citet*{quantified}.
   \caption{TEST}
 \end{figure*}
 
+\begin{figure*}
+  \begin{alignat*}{2}
+    & P(t)^* && := @_t p \\
+    & (t = u)^* && := @_t u \\
+    & (Rst)^* && := @_s F t \\
+    & (\langle \lambda x.\phi \rangle (t))^* && := @_t AT_x^- (\langle \lambda x . \phi \rangle (x))\\  
+    & (\langle \lambda y.\phi \rangle (t))^* && := @_t AT_y^- (\langle \lambda y . \phi \rangle (y))\\
+    & (AT_x(\phi)[t / x])^* && := @_t \phi \\
+    & (\neg AT_x(\phi)[t / x])^* && := \neg @_t \phi \\
+    & P'(s, t_1, \dotsc, t_k)^* && := @_s P(t_1, \dotsc, t_k) \\
+    & (t_i = t_j)^* && := t_i  t_j 
+    %% \caption{$AT_x^-^-$}
+  \end{alignat*}
+  \label{atm}
+  \caption{TEST}
+\end{figure*}
+
 
 \subsection{Decidability}
 
-The proof of the tableau construction algorithm's termination is adapted from
+The proof of the tableau construction algoritheorem's termination is adapted from
 the proof given in \citet*{bolander} for the termination of the
-tableau construction algorithm for $\mathcal{H}(@)$
+tableau construction algoritheorem for $\mathcal{H}(@)$
 as described in \citet*{internalizing} except extended with the universal modality.
 
 \begin{lemma}[Quasi-subformula property]

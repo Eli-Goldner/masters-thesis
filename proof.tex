@@ -146,11 +146,11 @@
 
 \subsection{Background}
 
-\subsubsection{Quantified Hybrid Logic}
+\subsection{Quantified Hybrid Logic}
 
-\subsubsection{Basic Hybrid Tense Logic}
+\subsection{Basic Hybrid Tense Logic}
 
-\subsection{Quantified Hybrid Tense Logic}
+\section{Quantified Hybrid Tense Logic - Syntax and Semantics}
 \smallskip
 The syntax of $QHTL$ is identical to $QHL$ except
 uses of $\downarrow$ as in $\downarrow w . \phi$ are omitted along
@@ -383,7 +383,7 @@ Non-branching rules:
   \begin{multicols}{2}
     \begin{prooftree}
       \AxiomC{}
-      \RightLabel{{[ Ref ]}}
+      \RightLabel{{[ $=$-Ref ]}}
       \UnaryInfC{$t = t$} 
     \end{prooftree}
     
@@ -496,30 +496,7 @@ Binary rules:
     \end{prooftree}
 \end{figure*}
 
-
-
-(Sketch)
-
-The main issue with the tableau rules for the merged logics is
-treatment of the quantification rules,
-for the existential rule, the quantifer is removed
-and a parameter new on the branch is substituted for the
-formerly bound variable, and in the universal case,
-the bound variable in the formula is substituted for a term
-already grounded on the branch (a first-order consant, parameter,
-or grounded definite description).  What is now at issue is unlike
-$QHL$ we are not using a fixed domain semantics, thus we must find a
-way to integrate the constraint that for universal quantification,
-the grounded term needs to have a known interpretation at the current
-world/state/time.
-\smallskip
-NB: Other than the issue of encoding this constraint I see no reason
-why the same approach of merging would not work here as well.
-
-\subsection{Soundness and Completeness}
-
-
-\subsubsection{Soundness}
+\subsection{Soundness}
 The proof of the soundness of the tableau method
 for QHTL is adapted from the proof of
 soundness of the tableau method for
@@ -564,6 +541,12 @@ by $R$ as follows based on the different cases for $R$:
   If a nominal $s$ belongs to some formula in $\Sigma$,
   then $\Sigma^+ = \Sigma \cup { @a_s s }$ is
   the result of expanding $\Sigma$ by \textsf{Ref}.
+\item
+  
+  If a nominal $s$ belongs to some formula in $\Sigma$,
+  then $\Sigma^+ = \Sigma \cup { t = t }$ is
+  the result of expanding $\Sigma$ by $=$-\textsf{Ref}.
+
 \end{enumerate}
 
 
@@ -622,35 +605,75 @@ in which $\Sigma$ is satisfiable by label.
   from $@_s \phi \land \psi$ we have:
   $$\mathfrak{M}, g, I_{nom}(s) \dststile{}{} \phi \land \psi$$
   and consequentially 
-  $$\mathfrak{M}, g, I_{nom}(s) \dststile{}{} \phi \leftrightarrow @_s \phi$$
-  $$\mathfrak{M}, g, I_{nom}(s) \dststile{}{} \psi \leftrightarrow @_s \psi$$
+  $$\mathfrak{M}, g, I_{nom}(s) \dststile{}{} \phi \iff @_s \phi$$
+  $$\mathfrak{M}, g, I_{nom}(s) \dststile{}{} \psi \iff @_s \psi$$
+  Similarly for their negations if at least one of $@_s \phi \land \psi$
+  are not satisfied in $\mathfrak{M}$ under $g$.  
+  Thus the results of the application of the $\land$ rule, $@_s \phi$ and $@_s \psi$
+  are satisfiable in $\mathfrak{M}$ under $g$ and the expansion of $\Sigma$
+  by $\land$ is satisfiable by label.
+  \bigskip
+  The proof for other non-branching rules are analogous.
 \item {\it Binary Rules}
+  We will take the $H$ rule
+  as an example.  Beginning
+  with $@_s H \phi$ and $@_s P t$ we have from the former:
+  $$\mathfrak{M}, g, t \dststile{}{} \phi \text{ for all } t \in T \text{ such that } R t I_{nom}(s)$$
+  and from the latter:
+  $$\mathfrak{M}, g, t' \dststile{}{} t \text{ for some } t' \in T \text{ such that } R t I_{nom}(s)$$
+ 
+  and consequentially since $Rts$ 
+  $$\mathfrak{M}, g, I_{nom}(t) \dststile{}{} \phi \iff @_t \phi$$
+  Similarly for their negations if at least one of $@_s H \phi$ and $@_s P t$
+  are not satisfied in $\mathfrak{M}$ under $g$.
+  Thus the result of application of the $H$ rule, $@_t \phi$ is
+  satisfiable in $\mathfrak{M}$ under $g$ and the expansion of $\Sigma$
+  by $H$ is satisfiable by label.
+  \bigskip
+  The proof for other binary rules is analogous.
 \item {\it Branching Rules}
+  We will take the $\lor$ rule
+  as an example.  Beginning
+  from $@_s \phi \lor \psi$ if it's satisfied we have:
+  $$\mathfrak{M}, g, I_{nom}(s) \dststile{}{} \phi \lor \psi$$
+  and consequentially at least one of 
+  $$\mathfrak{M}, g, I_{nom}(s) \dststile{}{} \phi \iff @_s \phi$$
+  or 
+  $$\mathfrak{M}, g, I_{nom}(s) \dststile{}{} \psi \iff @_s \psi$$
+  Similarly for their negations if $@_s \phi \lor \psi$ is not satisfied
+  in $\mathfrak{M}$ under $g$.
+  Thus at least one of the results of the application of the $\lor$ rule,
+  $@_s \phi$ or $@_s \psi$ or their negations
+  are satisfiable in $\mathfrak{M}$ under $g$ and the expansion of $\Sigma$
+  by $\lor$ is satisfiable by label.
+  \bigskip
+  The proof for other branching rules are analogous.
 \item {\it ``Existential'' Rules}
-\item {\it Ref}
+  We will take the $\forall$ rule
+  as an example.  Beginning
+  from $@_s \forall x \phi (x)$ if it's satisfied we have
+  (where $s' = I_{nom}(s)$):
+  $$\mathfrak{M}, g_{d, s'}^x, s' \dststile{}{} \phi \text{ for all } d \in D_{s'} \iff @_s \phi(t')$$
+  Similarly for its negation if $@_s \forall x \phi (x)$ is not satisfied
+  in $\mathfrak{M}$ under $g$.  
+  In accordance with the constraints for the rule we can select $t'$ to be any
+  grounded term on the branch which is also a member of $D_{I_{nom}(s)}$
+  Thus the result of the application of the $\forall$ rule,
+  or its negations
+  are satisfiable in $\mathfrak{M}$ under $g$ and the expansion of $\Sigma$
+  by $\forall$ is satisfiable by label.
+  \bigskip
+  The proof for $\neg \exists$ is analogous.
+  
+\item {\it Ref rules}
+  $t = t$ is a tautology, invariant of model or assignment.
+  For $@_s s$, we begin with having $s$ is the branch,
+  as result we certainly have
+  $$\mathfrak{M}, g, I_{nom}(s) \dststile{}{} I_{nom}(s) \iff @_s s$$
+  Thus the expansion of $\Sigma$ by $=-$\textsf{Ref} or \textsf{Ref}
+  is satisfiable by label.
 \end{itemize}
 \qed
-
-  
-\subsubsection{Completeness}
-In either of the cases mentioned below,
-the proof of soundess would likely proceed
-by checking satisfaction in a way \citet*{blackburn2012indexical}
- refers to being demonstrated in \citet*{internalizing} 
-For integrating basic hybrid tense logic
-rather than indexical hybrid logic, the completeness proof
-seems merely to be an issue of integrating $AT_x$ 
-translations $F \phi$, $P\phi$ and $AT_x^-$ translations
-of their images under $AT_x$ into the completeness proof of $QHL$
-in \citet*{quantified}.
-\smallskip
-NB: To my current understanding it's less clear how to give a completeness
-proof for $QHL$ with full indexical hybrid tense logic, although since the
-proof does not seem to make much use of the structure of formulae outside
-of tense, it's also not clear to me that adding quantification
-would cause many/any issues, and if so the completeness proof would
-be adapted mostly from \citet*{blackburn2012indexical}
-rather than \citet*{quantified}.    
 
 
 \begin{figure*}

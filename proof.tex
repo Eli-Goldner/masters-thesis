@@ -173,7 +173,7 @@ $$\neg \phi | \phi \land \psi | \phi \lor \psi | \phi \to \psi | \exists x \phi 
 Since we want the domain of quantification to be indexed
 over the collection of nominals/times, we alter the $QHL$ model definition
 to a structure:
-$$(T, R, D_w, I_{nom}, I_w)_{w \in W}$$
+$$(T, R, D_t, I_{nom}, I_t)_{t \in T}$$
 Identical to the definition for a $QHL$ model in that:
 \begin{itemize}
   \item
@@ -543,35 +543,63 @@ by $R$ as follows based on the different cases for $R$:
   a single formula as input, and $\Sigma^+$ is the set
   obtained by adding to $\Sigma$ the formulae yielded
   by applying $R$ to $\sigma \in \Sigma$,
-  then we say $\Sigma^+$ is the result of expaning
+  then we say $\Sigma^+$ is the result of expanding
   $\Sigma$ by $R$.  
 \item
 
   If $R$ is a binary rule, and $\Sigma^+$ is the set
   obtained by adding to $\Sigma$ the formulae yielded
   by applying $R$ to $\sigma_1 , \sigma_2  , \sigma_2 \in \Sigma$,
-  then we say $\Sigma^+$ is the result of expaning
+  then we say $\Sigma^+$ is the result of expanding
   $\Sigma$ by $R$.
 \item
 
   If $R$ is a branching rule, and $\Sigma^+$ is the set
   obtained by adding to $\Sigma$ the formulae yielded
   by one of the possible outcomes of applying $R$ to $\sigma_1  \in \Sigma$,
-  then we say $\Sigma^+$ is the result of expaning
+  then we say $\Sigma^+$ is the result of expanding
   $\Sigma$ by $R$.
 \item
 
-  If a nominal $s$ belongs to some formula
+  If a nominal $s$ belongs to some formula in $\Sigma$,
+  then $\Sigma^+ = \Sigma \cup { @a_s s }$ is
+  the result of expanding $\Sigma$ by \textsf{Ref}.
 \end{enumerate}
 
 
 \begin{definition}[Satisfiable by label]
-  Testing testing
+
+  Suppose $\Sigma$ is a set of satisfaction statements and
+  $\mathfrak{M} = (T, R, D_t, I_{nom}, I_t)_{t \in T}$
+  is a standard {\it QHTL} model.
+  We say $\Sigma$ is
+  {\it satisfied by label} in $\mathfrak{M}$
+  under a {\it QHTL} assignment $g$
+  if and and only if for all formulae in $\Sigma$:
+  \begin{enumerate}
+  \item
+    If $@_s \phi \in \Sigma$ then
+    $\mathfrak{M}, g, I_{nom}(s) \dststile{}{} \phi$
+  \item
+    If $\neg @_s \phi \in \Sigma$ then
+    $\mathfrak{M}, g, I_{nom}(s) \not \dststile{}{} \phi$
+    
+  \end{enumerate}
+
+  We say $\Sigma$ is {\it satisfiable by label}
+  if and only if there is a standard {\it QHTL} model
+  and assignment in which it is satisfied by label.
+
+  
 \end{definition}
 
 \begin{theorem}[Soundess]
   \label{sound}
-  The tableau method for QHTL is sound.
+  If $\Sigma$ is a set of satisfaction
+  statements which is satisfiable by label,
+  then for any tableau rule $R$, at least one of the
+  sets obtainable by expanding $\Sigma$ by $R$
+  is satisfiable by label.  
 \end{theorem}
 
 
@@ -581,9 +609,21 @@ tableau rules, with particular
 attention to ``existential'' rules
 as they are called in \citet*{internalizing}
 which introduce a new parameter on the branch.
+In all cases discussed below let 
+$\mathfrak{M} = (T, R, D_t, I_{nom}, I_t)_{t \in T}$
+and $g$ be the {\it QHTL} model and assignment
+in which $\Sigma$ is satisfiable by label.
 
 \begin{itemize}
 \item {\it Non-branching Rules}
+
+  We will take the $\land$ rule
+  as an example.  Beginning
+  from $@_s \phi \land \psi$ we have:
+  $$\mathfrak{M}, g, I_{nom}(s) \dststile{}{} \phi \land \psi$$
+  and consequentially 
+  $$\mathfrak{M}, g, I_{nom}(s) \dststile{}{} \phi \leftrightarrow @_s \phi$$
+  $$\mathfrak{M}, g, I_{nom}(s) \dststile{}{} \psi \leftrightarrow @_s \psi$$
 \item {\it Binary Rules}
 \item {\it Branching Rules}
 \item {\it ``Existential'' Rules}

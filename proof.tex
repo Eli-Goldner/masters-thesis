@@ -30,6 +30,8 @@
 \usepackage{float}
 \usepackage{turnstile}
 \usepackage{rotating}
+\usepackage{subcaption}
+
 
 \usepackage[margin=0.5in]{geometry}
 
@@ -272,7 +274,11 @@ Non-branching rules:
       \UnaryInfC{$@_s \phi$}
     \end{prooftree}
   \end{multicols}
+  \caption{Negation rules}
+\end{figure*}
 
+
+\begin{figure*}
   \begin{multicols}{2}
     \begin{prooftree}
       \AxiomC{$@_s @_t \phi$}
@@ -286,7 +292,67 @@ Non-branching rules:
       \UnaryInfC{$\neg @_t \phi$} 
     \end{prooftree}
   \end{multicols}
+  
+  
+  \begin{multicols}{2}
+    \begin{prooftree}
+      \AxiomC{[$s$ on the branch]}
+      \RightLabel{{[ Ref ]}}
+      \UnaryInfC{$@_s s$} 
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$@_t s$}
+      \RightLabel{{[ Sym ]}}
+      \UnaryInfC{$@_s t$}
+    \end{prooftree}
+  \end{multicols}
+  
+  
+  \begin{multicols}{2}
+    \begin{prooftree}
+      \AxiomC{$@_s P t$}
+      \AxiomC{$@_t u$}
+      \RightLabel{$P$-bridge}
+      \BinaryInfC{$@_t P u$} 
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$@_s F t$}
+      \AxiomC{$@_t u$}
+      \RightLabel{$F$-bridge}
+      \BinaryInfC{$@_t F u$}  
+      \end{prooftree}
+  \end{multicols}
+  
+  \begin{multicols}{2}
+    \begin{prooftree}
+      \AxiomC{$@_s t$}
+      \AxiomC{$@_s \phi$}
+      \RightLabel{Nom}
+      \BinaryInfC{$@_t \phi$} 
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$@_s t$}
+      \AxiomC{$@_t \phi$}
+      \RightLabel{$\text{Nom}^{-1}$}
+      \BinaryInfC{$@_s \phi$} 
+    \end{prooftree}
+  \end{multicols}
+  
+  \begin{prooftree}
+    \AxiomC{$@_s t$}
+    \AxiomC{$@_t r$}
+    \RightLabel{Trans}
+    \BinaryInfC{$@_s r$} 
+  \end{prooftree}
+  
+  \caption{@ rules}
+\end{figure*}
 
+ 
+\begin{figure*}
   \begin{multicols}{2}
     \begin{prooftree}
       \AxiomC{$@_s F \phi$}
@@ -304,7 +370,7 @@ Non-branching rules:
       \UnaryInfC{$@_a \phi$}
     \end{prooftree}
   \end{multicols}
-
+  
   \begin{multicols}{2}
     \begin{prooftree}
       \AxiomC{$\neg @_s G \phi$}
@@ -322,99 +388,100 @@ Non-branching rules:
       \UnaryInfC{$\neg @_a \phi$} 
     \end{prooftree}
   \end{multicols}
+  \caption{Diamond rules}
+\end{figure*}
 
-  \begin{multicols}{2}
-    \begin{prooftree}
-      \AxiomC{$@_s P t$}
-      \RightLabel{$P$-trans}
-      \UnaryInfC{$@_t F s$} 
-    \end{prooftree}
-    
-    \begin{prooftree}
-      \AxiomC{$@_s F t$}
-      \RightLabel{$F$-trans}
-      \UnaryInfC{$@_t P s$}  
-    \end{prooftree}
-  \end{multicols}
   
-  \begin{multicols}{2}
-    \begin{prooftree}
-      \AxiomC{$@_s \exists x \phi(x)$}
-      \RightLabel{$[\exists]$}
-      \UnaryInfC{$@_c \phi(c)$} 
-    \end{prooftree}
-    
-    \begin{prooftree}
-      \AxiomC{$@_s \neg \forall x \phi(x)$}
-      \RightLabel{$[\neg \forall]$}
-      \UnaryInfC{$\neg @_c \phi(c)$}
-    \end{prooftree}
-  \end{multicols}
+\begin{multicols}{2}
+  \begin{prooftree}
+    \AxiomC{$@_s P t$}
+    \RightLabel{$P$-trans}
+    \UnaryInfC{$@_t F s$} 
+  \end{prooftree}
+  
+  \begin{prooftree}
+    \AxiomC{$@_s F t$}
+    \RightLabel{$F$-trans}
+    \UnaryInfC{$@_t P s$}  
+  \end{prooftree}
+\end{multicols}
 
-  \begin{multicols}{2}
-    \begin{prooftree}
-      \AxiomC{$@_s \forall x \phi(x)$}
-      \RightLabel{$[\forall]$}
-      \UnaryInfC{$ @_c \phi(c)$}
-    \end{prooftree}
+  \begin{figure*}
+    \begin{multicols}{2}
+      \begin{prooftree}
+        \AxiomC{$@_s \exists x \phi(x)$}
+        \RightLabel{$[\exists]$}
+        \UnaryInfC{$@_c \phi(c)$} 
+      \end{prooftree}
+      
+      \begin{prooftree}
+        \AxiomC{$@_s \neg \forall x \phi(x)$}
+        \RightLabel{$[\neg \forall]$}
+        \UnaryInfC{$\neg @_c \phi(c)$}
+      \end{prooftree}
+    \end{multicols}
+    \caption{Existential rules}
+  \end{figure*}
 
-    \begin{prooftree}
+  \begin{figure*}
+    \begin{multicols}{2}
+      \begin{prooftree}
+        \AxiomC{$@_s \forall x \phi(x)$}
+        \RightLabel{$[\forall]$}
+        \UnaryInfC{$ @_c \phi(c)$}
+      \end{prooftree}
+      
+      \begin{prooftree}
       \AxiomC{$\neg @_s \exists x \phi(x)$}
       \RightLabel{$[\neg \exists]$}
       \UnaryInfC{$\neg @_c \phi(c)$} 
-    \end{prooftree}
-  \end{multicols}
+      \end{prooftree}
+    \end{multicols}
+    \caption{Universal rules}
+  \end{figure*}
 
-
-  \begin{multicols}{2}
-    \begin{prooftree}
-      \AxiomC{[$s$ on the branch]}
-      \RightLabel{{[ Ref ]}}
-      \UnaryInfC{$@_s s$} 
-    \end{prooftree}
+  \begin{figure*}
+    \begin{multicols}{2}
+      \begin{prooftree}
+        \AxiomC{}
+        \RightLabel{{[ $=$-Ref ]}}
+        \UnaryInfC{$t = t$} 
+      \end{prooftree}
+      
+      \begin{prooftree}
+        \AxiomC{$@_n m$}
+        \RightLabel{{[ DD ]}}
+        \UnaryInfC{$@_n q = @_m q$}
+      \end{prooftree}
+    \end{multicols}
     
-    \begin{prooftree}
-      \AxiomC{$@_t s$}
-      \RightLabel{{[ Sym ]}}
-      \UnaryInfC{$@_s t$}
-    \end{prooftree}
-  \end{multicols}
-
-  \begin{multicols}{2}
-    \begin{prooftree}
-      \AxiomC{}
-      \RightLabel{{[ $=$-Ref ]}}
-      \UnaryInfC{$t = t$} 
-    \end{prooftree}
-    
-    \begin{prooftree}
-      \AxiomC{$@_n m$}
-      \RightLabel{{[ DD ]}}
-      \UnaryInfC{$@_n q = @_m q$}
-    \end{prooftree}
-  \end{multicols}
-
-  \begin{multicols}{2}
-    \begin{prooftree}
-      \AxiomC{$@_n (t_i = t_j)$}
-      \RightLabel{$@=$}
-      \UnaryInfC{$t_i = t_j$} 
-    \end{prooftree}
-    
+    \begin{multicols}{2}
+      \begin{prooftree}
+        \AxiomC{$@_n (t_i = t_j)$}
+        \RightLabel{$@=$}
+        \UnaryInfC{$t_i = t_j$} 
+      \end{prooftree}
+      
     \begin{prooftree}
       \AxiomC{$\neg @_n (t_i = t_j)$}
       \RightLabel{$\neg @=$}
       \UnaryInfC{$\neg (t_i = t_j)$} 
     \end{prooftree}
-  \end{multicols}
-  
-  \caption{Non-Branching Rules.}
-  \label{nonbranch}
-\end{figure*}
+    \end{multicols}
+    
+    \begin{prooftree}
+      \AxiomC{$t = u$}
+      \AxiomC{$\phi(t)$}
+      \RightLabel{ RR }
+      \BinaryInfC{$ \phi[u]$} 
+    \end{prooftree}
 
-Branching rules:
+    \caption{{\it QHTL} Equality rules}
+  \end{figure*}
 
-\begin{figure*}
+
+\begin{figure*}[hbt!]
+  \centering
   \begin{multicols}{2}
     \begin{prooftree}
       \AxiomC{$@_s (\phi \lor \psi)$}
@@ -434,12 +501,14 @@ Branching rules:
     \RightLabel{$\to$}
     \UnaryInfC{$\neg @_s \phi \mid @_s \psi$}
   \end{prooftree}
+  \caption{Disjunctive rules.}
 \end{figure*}
 
 
 Binary rules:
 
-\begin{figure*}
+\begin{figure*}[hbt!]
+  \centering
   \begin{multicols}{2}
     \begin{prooftree}
       \AxiomC{$@_s H \phi$}
@@ -455,45 +524,6 @@ Binary rules:
       \BinaryInfC{$@_t \phi$}
     \end{prooftree}
   \end{multicols}
-
-  \begin{multicols}{2}
-    \begin{prooftree}
-      \AxiomC{$@_s P t$}
-      \AxiomC{$@_t u$}
-      \RightLabel{$P$-bridge}
-      \BinaryInfC{$@_t P u$} 
-    \end{prooftree}
-    
-    \begin{prooftree}
-      \AxiomC{$@_s F t$}
-      \AxiomC{$@_t u$}
-      \RightLabel{$F$-bridge}
-      \BinaryInfC{$@_t F u$}  
-    \end{prooftree}
-  \end{multicols}
-
-  \begin{multicols}{2}
-    \begin{prooftree}
-      \AxiomC{$@_s t$}
-      \AxiomC{$@_s \phi$}
-      \RightLabel{Nom}
-      \BinaryInfC{$@_t \phi$} 
-    \end{prooftree}
-    
-    \begin{prooftree}
-      \AxiomC{$@_s t$}
-      \AxiomC{$@_t \phi$}
-      \RightLabel{$\text{Nom}^{-1}$}
-      \BinaryInfC{$@_s \phi$} 
-    \end{prooftree}
-  \end{multicols}
-
-  \begin{prooftree}
-      \AxiomC{$@_s t$}
-      \AxiomC{$@_t r$}
-      \RightLabel{Trans}
-      \BinaryInfC{$@_s r$} 
-    \end{prooftree}
 \end{figure*}
 
 \subsection{Soundness}
@@ -676,7 +706,8 @@ in which $\Sigma$ is satisfiable by label.
 \qed
 
 
-\begin{figure*}
+\begin{figure*}[hbt!]
+  \centering
   \begin{alignat*}{2}
     & AT_x (p) && := Px \\
     & AT_x (n) && := x = n \\
@@ -696,7 +727,8 @@ in which $\Sigma$ is satisfiable by label.
 \end{figure*}
 
 
-\begin{figure*}
+\begin{figure*}[hbt!]
+  \centering
   \begin{alignat*}{2}
     & AT_x^- (Px) && := p \\
     & AT_x^- (x = n) && := n \\
@@ -715,7 +747,8 @@ in which $\Sigma$ is satisfiable by label.
   \caption{TEST}
 \end{figure*}
 
-\begin{figure*}
+\begin{figure*}[hbt!]
+  \centering
   \begin{alignat*}{2}
     & P(t)^* && := @_t p \\
     & (t = u)^* && := @_t u \\

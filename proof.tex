@@ -27,7 +27,8 @@
 %%\usepackage{prftree.sty} 
 \usepackage{natbib}
 \usepackage{cite}
-\usepackage{float}
+%\usepackage{float}
+\usepackage{stfloats}
 \usepackage{turnstile}
 \usepackage{rotating}
 \usepackage{subcaption}
@@ -154,7 +155,7 @@
 
 \section{Quantified Hybrid Tense Logic - Syntax and Semantics}
 \smallskip
-The syntax of $QHTL$ is identical to $QHL$ except
+The syntax of {\it QHTL} is identical to {\it QHL} except
 uses of $\downarrow$ as in $\downarrow w . \phi$ are omitted along
 with $\Box$ and $\Diamond$ as in $\Box \phi$ and $\Diamond \phi$.
 $\Box$ and $\Diamond$ are replaced by their semantic equivalents
@@ -163,7 +164,7 @@ $F$ and $G$ and their temporal duals $P$ and $H$ are added.
 \smallskip
 
 
-Atomic formulae are the same as in $QHL$, symbols in \textsf{NOM}
+Atomic formulae are the same as in {\it QHL}, symbols in \textsf{NOM}
 and \textsf{SVAR} together with first-order atomic formulae
 generated from the predicate symbols and equality over the terms. 
 Thus complex formulae are generated from the atomic formulae according to the
@@ -173,10 +174,10 @@ $$\neg \phi | \phi \land \psi | \phi \lor \psi | \phi \to \psi | \exists x \phi 
 
 
 Since we want the domain of quantification to be indexed
-over the collection of nominals/times, we alter the $QHL$ model definition
+over the collection of nominals/times, we alter the {\it QHL} model definition
 to a structure:
 $$(T, R, D_t, I_{nom}, I_t)_{t \in T}$$
-Identical to the definition for a $QHL$ model in that:
+Identical to the definition for a {\it QHL} model in that:
 \begin{itemize}
   \item
     $(T,R)$ is a modal frame.
@@ -191,7 +192,7 @@ $(D_t, I_t)$ is a first-order model where:
 \item
   $I_t (q) \in D_t$ where $q$ is a unary function symbol.
 \item
-  $I_t (P) \subseteq^k D_t$ where $P$ is a $k$-ary predicate symbol.
+  $I_t (P) \in D_t^k$ where $P$ is a $k$-ary predicate symbol.
 \end{itemize}
 
 Notice we've relaxed the requirement that $I_t (c) = I_{t'} (c)$ for
@@ -200,9 +201,9 @@ constant need not exist at both times.
 
 \smallskip
 
-Free variables are handled similarly as in $QHL$.
-A $QHTL$ assignment is a function:
-$$g : \textsf{SVAR} \cup \textsf{FVAR} \to T \cup D $$
+Free variables are handled similarly as in {\it QHL}.
+Where $D = \cup_{t \in T} D_t $, a {\it QHTL} assignment is a function:
+$$g : \textsf{SVAR} \cup (\textsf{FVAR} \times T) \to T \cup D $$
 Where state variables are sent to times/worlds and
 first-order variables are sent to $D_t$ where
 $t$ is the time assigned to the state variable by $g$.
@@ -211,7 +212,7 @@ the interpretation of terms $t$ denoted by $\overline{t}$
 is defined as:
 \begin{itemize}
 \item
-  $\overline{x} = g_t(x)$ for $x$ a variable and the relevant $t \in T$.
+  $\overline{x} = g_t(x)$ for $x$ a variable and $t \in T$ a time/world.
 \item
   $\overline{c} = I_t (c)$ for $c$ a constant and some $t \in T$.
 \item
@@ -221,7 +222,7 @@ is defined as:
   \item For $n$ a nominal:
     
     
-    $$\overline{@_n q} = I_{I_{nom}} (n)$$
+    $$\overline{@_n q} = I_{I_{nom}(n)} (s)$$
   \item For $n$ a state variable:
     
     
@@ -237,10 +238,10 @@ a variable assignment $g$, and a state $s$.
 The inductive definition is:
 
 \begin{alignat*}{2}
-  &\mathfrak{M}, g, s \dststile{}{} P(t_1, \dotsc , t_n )  && \Longleftrightarrow \langle \overline{t_1}, \dotsc , \overline{t_n} \rangle \in I_s (P)  \\
-  &\mathfrak{M}, g, s \dststile{}{} t_i = t_j  && \Longleftrightarrow \overline{t_i} = \overline{t_j}  \\
+  &\mathfrak{M}, g, s \dststile{}{} P(t_1, \dotsc , t_n )  && \Longleftrightarrow \langle g_s(t_1), \dotsc , g_s(t_n) \rangle \in I_s (P)  \\
+  &\mathfrak{M}, g, s \dststile{}{} t_i = t_j  && \Longleftrightarrow g_s(t_i) = g_s(t_j)  \\
   &\mathfrak{M}, g, s \dststile{}{} n && \Longleftrightarrow I_{nom} (n) = s, \text{for }n\text{ a nominal}  \\
-  & \mathfrak{M}, g, s \dststile{}{} w && \Longleftrightarrow g(w) = s, \text{for }s\text{ a state variable}  \\
+  & \mathfrak{M}, g, s \dststile{}{} w && \Longleftrightarrow g(w) = s, \text{for }w\text{ a state variable}  \\
   & \mathfrak{M}, g, s \dststile{}{} \neg \phi && \Longleftrightarrow  \mathfrak{M}, g, s \not\dststile{}{} \phi \\
   & \mathfrak{M}, g, s \dststile{}{} \phi \land \psi && \Longleftrightarrow  \mathfrak{M}, g, s \dststile{}{} \phi \text{ and } \mathfrak{M}, g, s \dststile{}{} \psi \\
   & \mathfrak{M}, g, s \dststile{}{} \phi \lor \psi && \Longleftrightarrow  \mathfrak{M}, g, s \dststile{}{} \phi \text{ or } \mathfrak{M}, g, s \dststile{}{} \psi \\
@@ -258,7 +259,7 @@ The inductive definition is:
 
 \subsection{The Tableau Calculus}
 
-Non-branching rules:
+
 
 \begin{figure*}
   \begin{multicols}{2}
@@ -465,7 +466,7 @@ Non-branching rules:
   \caption{$G$ and $H$ rules}
 \end{figure*}
 
-\begin{figure*} 
+\begin{figure*}[hbt!] 
   \begin{multicols}{2}
     \begin{prooftree}
       \AxiomC{$@_s P t$}
@@ -482,7 +483,7 @@ Non-branching rules:
   \caption{Temporal order rules.}
 \end{figure*}
 
-\begin{figure*}
+\begin{figure*}[hbt!]
   \begin{multicols}{2}
     \begin{prooftree}
       \AxiomC{$@_s \exists x \phi(x)$}
@@ -497,9 +498,12 @@ Non-branching rules:
     \end{prooftree}
   \end{multicols}
   \caption{Existential rules}
+  \label{ext}
 \end{figure*}
 
-\begin{figure*}
+In the existential rules \ref{ext} $c$ is a parameter new to the branch,
+
+\begin{figure*}[hbt!]
   \begin{multicols}{2}
     \begin{prooftree}
       \AxiomC{$@_s \forall x \phi(x)$}
@@ -514,9 +518,12 @@ Non-branching rules:
     \end{prooftree}
   \end{multicols}
   \caption{Universal rules}
+  \label{univ}
 \end{figure*}
 
-\begin{figure*}
+In the universal rules \ref{univ} $c$ is a term grounded on the branch.
+
+\begin{figure*}[hbt!]
   \begin{multicols}{2}
     \begin{prooftree}
       \AxiomC{}
@@ -540,10 +547,6 @@ Non-branching rules:
   
   \caption{{\it QHTL} Equality rules}
 \end{figure*}
-
-
-
-Binary rules:
 
 
 \subsection{Soundness}

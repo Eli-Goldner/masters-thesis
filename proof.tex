@@ -277,6 +277,60 @@ Non-branching rules:
   \caption{Negation rules}
 \end{figure*}
 
+\begin{figure*}[hbt!]
+  \centering
+  \begin{multicols}{2}
+    \begin{prooftree}
+      \AxiomC{$@_s (\phi \land \psi)$}
+      \RightLabel{$[\land]$}
+      \UnaryInfC{$ @_s \phi$}
+      \noLine
+      \UnaryInfC{$ @_s \psi$}
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$\neg @_s (\phi \lor \psi)$}
+      \RightLabel{$[\neg \lor]$}
+      \UnaryInfC{$\neg @_s \phi$}
+      \noLine
+      \UnaryInfC{$\neg @_s \psi$}
+    \end{prooftree}
+  \end{multicols}
+  
+  \begin{prooftree}
+    \AxiomC{$\neg @_s (\phi \to \psi)$}
+    \RightLabel{$[\neg \to]$}
+    \UnaryInfC{$@_s \phi$}
+    \noLine
+    \UnaryInfC{$\neg @_s \psi$}
+  \end{prooftree}
+  \caption{Conjunctive rules.}
+\end{figure*}
+
+\begin{figure*}[hbt!]
+  \centering
+  \begin{multicols}{2}
+    \begin{prooftree}
+      \AxiomC{$@_s (\phi \lor \psi)$}
+      \RightLabel{$[\lor]$}
+      \UnaryInfC{$@_s \phi \mid @_s \psi$} 
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$\neg @_s (\phi \land \psi)$}
+      \RightLabel{$[\neg \land]$}
+      \UnaryInfC{$\neg @_s \phi \mid \neg @_s \psi$}
+    \end{prooftree}
+  \end{multicols}
+  
+  \begin{prooftree}
+    \AxiomC{$@_s (\phi \to \psi)$}
+    \RightLabel{$[\to]$}
+    \UnaryInfC{$\neg @_s \phi \mid @_s \psi$}
+  \end{prooftree}
+  \caption{Disjunctive rules.}
+\end{figure*}
+
 
 \begin{figure*}
   \begin{multicols}{2}
@@ -296,14 +350,14 @@ Non-branching rules:
   
   \begin{multicols}{2}
     \begin{prooftree}
-      \AxiomC{[$s$ on the branch]}
-      \RightLabel{{[ Ref ]}}
+      \AxiomC{$[s\text{ on the branch}]$}
+      \RightLabel{$[\textsf{Ref}]$}
       \UnaryInfC{$@_s s$} 
     \end{prooftree}
     
     \begin{prooftree}
       \AxiomC{$@_t s$}
-      \RightLabel{{[ Sym ]}}
+      \RightLabel{$[\textsf{Sym}]$}
       \UnaryInfC{$@_s t$}
     \end{prooftree}
   \end{multicols}
@@ -313,15 +367,15 @@ Non-branching rules:
     \begin{prooftree}
       \AxiomC{$@_s P t$}
       \AxiomC{$@_t u$}
-      \RightLabel{$P$-bridge}
-      \BinaryInfC{$@_t P u$} 
+      \RightLabel{$P\textsf{--Bridge}$}
+      \BinaryInfC{$@_s P u$} 
     \end{prooftree}
     
     \begin{prooftree}
       \AxiomC{$@_s F t$}
       \AxiomC{$@_t u$}
-      \RightLabel{$F$-bridge}
-      \BinaryInfC{$@_t F u$}  
+      \RightLabel{$F\textsf{--Bridge}$}
+      \BinaryInfC{$@_s F u$}  
       \end{prooftree}
   \end{multicols}
   
@@ -329,14 +383,14 @@ Non-branching rules:
     \begin{prooftree}
       \AxiomC{$@_s t$}
       \AxiomC{$@_s \phi$}
-      \RightLabel{Nom}
+      \RightLabel{$[\textsf{Nom}]$}
       \BinaryInfC{$@_t \phi$} 
     \end{prooftree}
     
     \begin{prooftree}
       \AxiomC{$@_s t$}
       \AxiomC{$@_t \phi$}
-      \RightLabel{$\text{Nom}^{-1}$}
+      \RightLabel{$[\textsf{Nom}^{-1}]$}
       \BinaryInfC{$@_s \phi$} 
     \end{prooftree}
   \end{multicols}
@@ -344,7 +398,7 @@ Non-branching rules:
   \begin{prooftree}
     \AxiomC{$@_s t$}
     \AxiomC{$@_t r$}
-    \RightLabel{Trans}
+    \RightLabel{$[\textsf{Trans}]$}
     \BinaryInfC{$@_s r$} 
   \end{prooftree}
   
@@ -381,131 +435,15 @@ Non-branching rules:
     \end{prooftree}
     
     \begin{prooftree}
-      \AxiomC{$@_s H \phi$}
+      \AxiomC{$\neg @_s H \phi$}
       \RightLabel{$[\neg H]$}
       \UnaryInfC{$@_s P a$}
       \noLine
       \UnaryInfC{$\neg @_a \phi$} 
     \end{prooftree}
   \end{multicols}
-  \caption{Diamond rules}
+  \caption{$F$ and $P$ rules}
 \end{figure*}
-
-  
-\begin{multicols}{2}
-  \begin{prooftree}
-    \AxiomC{$@_s P t$}
-    \RightLabel{$P$-trans}
-    \UnaryInfC{$@_t F s$} 
-  \end{prooftree}
-  
-  \begin{prooftree}
-    \AxiomC{$@_s F t$}
-    \RightLabel{$F$-trans}
-    \UnaryInfC{$@_t P s$}  
-  \end{prooftree}
-\end{multicols}
-
-  \begin{figure*}
-    \begin{multicols}{2}
-      \begin{prooftree}
-        \AxiomC{$@_s \exists x \phi(x)$}
-        \RightLabel{$[\exists]$}
-        \UnaryInfC{$@_c \phi(c)$} 
-      \end{prooftree}
-      
-      \begin{prooftree}
-        \AxiomC{$@_s \neg \forall x \phi(x)$}
-        \RightLabel{$[\neg \forall]$}
-        \UnaryInfC{$\neg @_c \phi(c)$}
-      \end{prooftree}
-    \end{multicols}
-    \caption{Existential rules}
-  \end{figure*}
-
-  \begin{figure*}
-    \begin{multicols}{2}
-      \begin{prooftree}
-        \AxiomC{$@_s \forall x \phi(x)$}
-        \RightLabel{$[\forall]$}
-        \UnaryInfC{$ @_c \phi(c)$}
-      \end{prooftree}
-      
-      \begin{prooftree}
-      \AxiomC{$\neg @_s \exists x \phi(x)$}
-      \RightLabel{$[\neg \exists]$}
-      \UnaryInfC{$\neg @_c \phi(c)$} 
-      \end{prooftree}
-    \end{multicols}
-    \caption{Universal rules}
-  \end{figure*}
-
-  \begin{figure*}
-    \begin{multicols}{2}
-      \begin{prooftree}
-        \AxiomC{}
-        \RightLabel{{[ $=$-Ref ]}}
-        \UnaryInfC{$t = t$} 
-      \end{prooftree}
-      
-      \begin{prooftree}
-        \AxiomC{$@_n m$}
-        \RightLabel{{[ DD ]}}
-        \UnaryInfC{$@_n q = @_m q$}
-      \end{prooftree}
-    \end{multicols}
-    
-    \begin{multicols}{2}
-      \begin{prooftree}
-        \AxiomC{$@_n (t_i = t_j)$}
-        \RightLabel{$@=$}
-        \UnaryInfC{$t_i = t_j$} 
-      \end{prooftree}
-      
-    \begin{prooftree}
-      \AxiomC{$\neg @_n (t_i = t_j)$}
-      \RightLabel{$\neg @=$}
-      \UnaryInfC{$\neg (t_i = t_j)$} 
-    \end{prooftree}
-    \end{multicols}
-    
-    \begin{prooftree}
-      \AxiomC{$t = u$}
-      \AxiomC{$\phi(t)$}
-      \RightLabel{ RR }
-      \BinaryInfC{$ \phi[u]$} 
-    \end{prooftree}
-
-    \caption{{\it QHTL} Equality rules}
-  \end{figure*}
-
-
-\begin{figure*}[hbt!]
-  \centering
-  \begin{multicols}{2}
-    \begin{prooftree}
-      \AxiomC{$@_s (\phi \lor \psi)$}
-      \RightLabel{$\lor$}
-      \UnaryInfC{$@_s \phi \mid @_s \psi$} 
-    \end{prooftree}
-    
-    \begin{prooftree}
-      \AxiomC{$\neg @_s (\phi \land \psi)$}
-      \RightLabel{$\neg \land$}
-      \UnaryInfC{$\neg @_s \phi \mid \neg @_s \psi$}
-    \end{prooftree}
-  \end{multicols}
-
-  \begin{prooftree}
-    \AxiomC{$@_s (\phi \to \psi)$}
-    \RightLabel{$\to$}
-    \UnaryInfC{$\neg @_s \phi \mid @_s \psi$}
-  \end{prooftree}
-  \caption{Disjunctive rules.}
-\end{figure*}
-
-
-Binary rules:
 
 \begin{figure*}[hbt!]
   \centering
@@ -513,22 +451,104 @@ Binary rules:
     \begin{prooftree}
       \AxiomC{$@_s H \phi$}
       \AxiomC{$@_s P t$}
-      \RightLabel{$H$}
+      \RightLabel{$[H]$}
       \BinaryInfC{$@_t \phi$} 
     \end{prooftree}
     
     \begin{prooftree}
       \AxiomC{$@_s G \phi$}
       \AxiomC{$@_s F t$}
-      \RightLabel{$G$}
+      \RightLabel{$[G]$}
       \BinaryInfC{$@_t \phi$}
     \end{prooftree}
   \end{multicols}
+  \caption{$G$ and $H$ rules}
 \end{figure*}
+
+\begin{figure*} 
+  \begin{multicols}{2}
+    \begin{prooftree}
+      \AxiomC{$@_s P t$}
+      \RightLabel{$[P\textsf{--Trans}]$}
+      \UnaryInfC{$@_t F s$} 
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$@_s F t$}
+      \RightLabel{$[F\textsf{--Trans}]$}
+      \UnaryInfC{$@_t P s$}  
+    \end{prooftree}
+  \end{multicols}
+  \caption{Temporal order rules.}
+\end{figure*}
+
+\begin{figure*}
+  \begin{multicols}{2}
+    \begin{prooftree}
+      \AxiomC{$@_s \exists x \phi(x)$}
+      \RightLabel{$[\exists]$}
+      \UnaryInfC{$@_c \phi(c)$} 
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$@_s \neg \forall x \phi(x)$}
+      \RightLabel{$[\neg \forall]$}
+      \UnaryInfC{$\neg @_c \phi(c)$}
+    \end{prooftree}
+  \end{multicols}
+  \caption{Existential rules}
+\end{figure*}
+
+\begin{figure*}
+  \begin{multicols}{2}
+    \begin{prooftree}
+      \AxiomC{$@_s \forall x \phi(x)$}
+      \RightLabel{$[\forall]$}
+      \UnaryInfC{$ @_c \phi(c)$}
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$\neg @_s \exists x \phi(x)$}
+      \RightLabel{$[\neg \exists]$}
+      \UnaryInfC{$\neg @_c \phi(c)$} 
+    \end{prooftree}
+  \end{multicols}
+  \caption{Universal rules}
+\end{figure*}
+
+\begin{figure*}
+  \begin{multicols}{2}
+    \begin{prooftree}
+      \AxiomC{}
+      \RightLabel{$[=\textsf{--Ref}]$}
+      \UnaryInfC{$t = t$} 
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$@_n m$}
+      \RightLabel{$[\textsf{DD}]$}
+      \UnaryInfC{$@_n q = @_m q$}
+    \end{prooftree}
+  \end{multicols}
+    
+  \begin{prooftree}
+    \AxiomC{$@_s t = u$}
+    \AxiomC{$@_s \phi(t)$}
+    \RightLabel{$[\textsf{RR}]$}
+    \BinaryInfC{$@_s \phi[u]$} 
+  \end{prooftree}
+  
+  \caption{{\it QHTL} Equality rules}
+\end{figure*}
+
+
+
+Binary rules:
+
 
 \subsection{Soundness}
 The proof of the soundness of the tableau method
-for QHTL is adapted from the proof of
+for {\it QHTL} is adapted from the proof of
 soundness of the tableau method for
 $\mathcal{H}(@)$ given in \citet*{internalizing}.
 
@@ -768,9 +788,9 @@ in which $\Sigma$ is satisfiable by label.
 
 \subsection{Decidability}
 
-The proof of the tableau construction algoritheorem's termination is adapted from
+The proof of the tableau construction algorithm's termination is adapted from
 the proof given in \citet*{bolander} for the termination of the
-tableau construction algoritheorem for $\mathcal{H}(@)$
+tableau construction algorithm for $\mathcal{H}(@)$
 as described in \citet*{internalizing} except extended with the universal modality.
 
 \begin{lemma}[Quasi-subformula property]

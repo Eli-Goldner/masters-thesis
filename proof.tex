@@ -223,7 +223,7 @@ the interpretation of terms $t$ denoted by $\overline{t}$
 is defined as:
 \begin{itemize}
 \item
-  $\overline{x} = g(x)$ for $x$ a variable and $t \in T$ a time/world.
+  $\overline{x} = g(x)$ for $x$ a variable.
 \item
   $\overline{c} = I_t (c)$ for $c$ a constant and some $t \in T$.
 \item For $q$ a unary function symbol:
@@ -237,10 +237,10 @@ is defined as:
   \end{itemize}
 \end{itemize}
 
-With the final adjustment of having $g_{d,s}^x$ denoting
-the assignment which is just like $g_s$ except $g_s (x) = d$
-for $d \in g(s)$, we can proceed with the inductive definition
-for satisfaction of a formula.
+Finally we say an assignment $g'$ is an $x$-variant of $g$ if $g'$
+and $g$ on all variables except possiblly $x$.
+In particular, we say $g'$ is an $x$-variant of $g$ at $t$, a time, if $g'$
+and $g$ on all variables except possiblly $x$ and $g'(x) \in D_t$.
 Given a model $\mathfrak{M}$, a variable assignment $g$,
 and a state $s$, the inductive definition is:
 
@@ -451,6 +451,7 @@ and a state $s$, the inductive definition is:
     \end{prooftree}
   \end{multicols}
   \caption{$F$ and $P$ rules}
+  \label{fnp}
 \end{figure*}
 
 \begin{figure*}[hbt!]
@@ -599,12 +600,12 @@ by $R$ as follows based on the different cases for $R$:
 \item
 
   If a nominal $s$ belongs to some formula in $\Sigma$,
-  then $\Sigma^+ = \Sigma \cup { @a_s s }$ is
+  then $\Sigma^+ = \Sigma \cup \{ @_s s \}$ is
   the result of expanding $\Sigma$ by \textsf{Ref}.
 \item
   
   If a nominal $s$ belongs to some formula in $\Sigma$,
-  then $\Sigma^+ = \Sigma \cup { t = t }$ is
+  then $\Sigma^+ = \Sigma \cup \{ @_s t = t \}$ is
   the result of expanding $\Sigma$ by $=$-\textsf{Ref}.
 
 \end{enumerate}
@@ -636,7 +637,7 @@ by $R$ as follows based on the different cases for $R$:
   
 \end{definition}
 
-\begin{theorem}[Soundess]
+\begin{theorem}[{\bf Soundness}]
   \label{sound}
   If $\Sigma$ is a set of satisfaction
   statements which is satisfiable by label,
@@ -649,12 +650,13 @@ by $R$ as follows based on the different cases for $R$:
 %%\begin{proof}
 ({\it Proof}).  We prove soundness by induction on the
 tableau rules, with particular
-attention to ``existential'' rules
-as they are called in \citet*{internalizing}
-which introduce a new parameter on the branch.
+attention to rules which introduce nominals new
+to the branch, namely $\{ F, P, \neg G, \neg H \}$ \ref{fnp},
+and rules which introduce new parameters to the branch,
+namely the universal rules \ref{univ} and existential rules \ref{ext}.
 In all cases discussed below let 
-$\mathfrak{M} = (T, R, D_t, I_{nom}, I_t)_{t \in T}$
-and $g$ be the {\it QHTL} model and assignment
+$$\mathfrak{M} = (T, R, D_t, I_{nom}, I_t)_{t \in T}$$
+be {\it QHTL} model and $g$ the assignment
 in which $\Sigma$ is satisfiable by label.
 
 \begin{itemize}
@@ -732,8 +734,10 @@ in which $\Sigma$ is satisfiable by label.
   $$\mathfrak{M}, g, I_{nom}(s) \dststile{}{} I_{nom}(s) \iff @_s s$$
   Thus the expansion of $\Sigma$ by $=-$\textsf{Ref} or \textsf{Ref}
   is satisfiable by label.
-\end{itemize}
+
 \qed
+
+\end{itemize}
 
 
 \begin{figure*}[hbt!]
@@ -752,8 +756,8 @@ in which $\Sigma$ is satisfiable by label.
     & AT_x (\forall v \phi) && := \langle \lambda x . \forall v AT_x(\phi) \rangle (x)  
     %%\caption{$AT_x^-$}
   \end{alignat*}
-  \label{atm}
-  \caption{TEST}
+  \caption{{\it QHTL} Formulae to First-order Formulae Translation.}
+  \label{qhtl2fol}
 \end{figure*}
 
 
@@ -773,8 +777,8 @@ in which $\Sigma$ is satisfiable by label.
     & AT_x^- (\langle \lambda x . \forall v  \phi \rangle (x)) && := \forall v AT_x^- (\phi)   
     %%\caption{$AT_x^-^-$}
   \end{alignat*}
-  \label{atm}
-  \caption{TEST}
+  \caption{First-order Formulae to {\it QHTL} Formulae Translation.}
+  \label{fol2qhtl}
 \end{figure*}
 
 \begin{figure*}[hbt!]
@@ -791,8 +795,8 @@ in which $\Sigma$ is satisfiable by label.
     & (t_i = t_j)^* && := t_i  t_j 
     %% \caption{$AT_x^-^-$}
   \end{alignat*}
-  \label{atm}
-  \caption{TEST}
+  \caption{Translation of First-order Tableau Literals to {\it QHTL} Literals.}
+  \label{literal}
 \end{figure*}
 
 

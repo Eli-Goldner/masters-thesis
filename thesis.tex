@@ -16,6 +16,7 @@
 \usepackage{times}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{amsthm}
 \usepackage{latexsym}
 \usepackage{lingstyle}
 \usepackage{graphicx}
@@ -26,10 +27,27 @@
 %%\usepackage{prftree.sty} 
 \usepackage{natbib}
 \usepackage{cite}
-\usepackage{float}
+%%\usepackage{float}
 \usepackage{turnstile}
 \usepackage{rotating}
+\usepackage{stfloats}
+\usepackage{subcaption}
+
 \usepackage[margin=0.5in]{geometry}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{prop}{Proposition}
+\newtheorem{corollary}{Corollary}
+
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+
 \usetikzlibrary{arrows,positioning,shapes} 
 \tikzset{
     %Define standard arrow tip
@@ -114,15 +132,13 @@
   This thesis presents a formalization of inference over a merging of
   \citeauthor{donatelli-etal-2018-annotation}'s \citeyearpar{donatelli-etal-2018-annotation} AMR extension for tense and aspect
   and with \citeauthor{pustejovsky-etal-2019-modeling}'s \citeyearpar{pustejovsky-etal-2019-modeling} AMR extension for quantification and scope.
-  Inference is modeled with a merging of Blackburn and Marx's tableaux method for quantified hybrid logic
-  ({\it QHL}) and Blackburn and J{\o}rgensen's tableux method for basic hybrid tense logic ({\it BHTL}).
+  Inference is modeled with a merging of Blackburn and Marx's tableau method for quantified hybrid logic
+  ({\it QHL}) and Blackburn and J{\o}rgensen's tableau method for basic hybrid tense logic ({\it BHTL}).
   We motivate the merging of these AMR variants,
   present their interpretation and inference in the combination of {\it QHL}
   and {\it BHTL}, which we will call {\it QHTL} (quantified hybrid tense logic),
-  and demonstrate {\it QHTL}'s the soundess, completeness,
+  and demonstrate {\it QHTL}'s soundess, completeness,
   and decidability. 
-
-
   
 \end{abstract}
 
@@ -263,17 +279,18 @@ inference than other first-order logic semantics for AMR \citep{lai-etal-2020-co
 
 \subsection{AMR Annotated for Scope and Quantification}
 
+
 \section{Merging Quantified Hybrid Logic and Indexical Hybrid Tense Logic}
 
 \subsection{Background}
 
-\subsubsection{Quantified Hybrid Logic}
+\subsection{Quantified Hybrid Logic}
 
-\subsubsection{Basic Hybrid Tense Logic}
+\subsection{Basic Hybrid Tense Logic}
 
-\subsection{Quantified Hybrid Tense Logic}
+\section{Quantified Hybrid Tense Logic - Syntax and Semantics}
 \smallskip
-The syntax of $QHTL$ is identical to $QHL$ except
+The syntax of {\it QHTL} is identical to {\it QHL} as given in \citet*{quantified} except
 uses of $\downarrow$ as in $\downarrow w . \phi$ are omitted along
 with $\Box$ and $\Diamond$ as in $\Box \phi$ and $\Diamond \phi$.
 $\Box$ and $\Diamond$ are replaced by their semantic equivalents
@@ -282,7 +299,7 @@ $F$ and $G$ and their temporal duals $P$ and $H$ are added.
 \smallskip
 
 
-Atomic formulae are the same as in $QHL$, symbols in \textsf{NOM}
+Atomic formulae are the same as in {\it QHL}, symbols in \textsf{NOM}
 and \textsf{SVAR} together with first-order atomic formulae
 generated from the predicate symbols and equality over the terms. 
 Thus complex formulae are generated from the atomic formulae according to the
@@ -292,10 +309,14 @@ $$\neg \phi | \phi \land \psi | \phi \lor \psi | \phi \to \psi | \exists x \phi 
 
 
 Since we want the domain of quantification to be indexed
-over the collection of nominals/times, we alter the $QHL$ model definition
-to a structure:
-$$(T, R, D_w, I_{nom}, I_w)_{w \in W}$$
-Identical to the definition for a $QHL$ model in that:
+over the collection of nominals/times, we look to
+\citeauthor{fitting-modal}'s \citeyearpar{fitting-modal}
+treatment of first-order modal logic with varying domain semantics
+and use it to alter the {\it QHL} model definition
+to the following:
+$$(T, R, D_t, I_{nom}, I_t)_{t \in T}$$
+Thus with varying domain semantics a {\it QHTL}
+model is identical to the definition for a {\it QHL} model in that:
 \begin{itemize}
   \item
     $(T,R)$ is a modal frame.
@@ -304,68 +325,71 @@ Identical to the definition for a $QHL$ model in that:
 \end{itemize}
 
 The differences manifest on the level of the model and
-interpretation.  That is, for every $t \in T$,
-$(D_t, I_t)$ is a first-order model where:
+interpretation.  Namely, where $D = \cup_{t \in T} D_t$,
+$(D, I_t)$ is a first-order model where:
 \begin{itemize}
 \item
-  $I_t (q) \in D_t$ where $q$ is a unary function symbol.
+  $I_t (q) \in D$ where $q$ is a unary function symbol.
 \item
-  $I_t (P) \subseteq^k D_t$ where $P$ is a $k$-ary predicate symbol.
+  $I_t (P) \in D^k$ where $P$ is a $k$-ary predicate symbol.
 \end{itemize}
 
 Notice we've relaxed the requirement that $I_t (c) = I_{t'} (c)$ for
 $c$ a constant and $t,t' \in T$, since the interpretation of the
-constant need not exist at both times.
+constant need not exist at both times.  This permits us to distinguish
+between the domain of a frame and the domain of a time/world,
+in a way that prevents a variable $x$ from failing to refer
+at a given time/world, even if it has no interpretation at that time.
+Intuitively this permits {\it QHTL} to handle interpretation of entities
+in natural language utterances, which while reasonable to refer to
+do not exist at a current time, e.g. previous and future presidents.
+
 
 \smallskip
 
-Free variables are handled similarly as in $QHL$.
-A $QHTL$ assignment is a function:
+Free variables are handled similarly as in {\it QHL}.
+Where again $D = \cup_{t \in T} D_t $, a {\it QHTL} assignment is a function:
 $$g : \textsf{SVAR} \cup \textsf{FVAR} \to T \cup D $$
 Where state variables are sent to times/worlds and
-first-order variables are sent to $D_t$ where
-$t$ is the time assigned to the state variable by $g$.
+first-order variables are sent to $D$, the domain
+of the frame.
 Thus given a model and an assignment $g$,
 the interpretation of terms $t$ denoted by $\overline{t}$
 is defined as:
 \begin{itemize}
 \item
-  $\overline{x} = g_t(x)$ for $x$ a variable and the relevant $t \in T$.
+  $\overline{x} = g(x)$ for $x$ a variable.
 \item
   $\overline{c} = I_t (c)$ for $c$ a constant and some $t \in T$.
-\item
-  \begin{itemize} For $q$ a unary function symbol:
-    
-    
-  \item For $n$ a nominal:
-    
-    
-    $$\overline{@_n q} = I_{I_{nom}} (n)$$
-  \item For $n$ a state variable:
-    
-    
+\item For $q$ a unary function symbol:
+  \begin{itemize} 
+  \item
+    For $n$ a nominal:
+    $$\overline{@_n q} = I_{I_{nom}(n)} (q)$$
+  \item
+    For $n$ a state variable:
     $$\overline{@_n q} = I_{g(n)} (q)$$
   \end{itemize}
 \end{itemize}
 
-With the final adjustment of having $g_{d,s}^x$ denoting
-the assignment which is just like $g_s$ except $g_s (x) = d$
-for $d \in g(s)$, we can proceed with the inductive definition
-for satisfaction of a formula give a model $\mathfrak{M}$,
-a variable assignment $g$, and a state $s$.
-The inductive definition is:
+Finally we say an assignment $g'$ is an $x$-variant of $g$ if $g'$
+and $g$ on all variables except possiblly $x$.
+In particular, we say $g'$ is an $x$-variant of $g$ at $t$, a time, if $g'$
+and $g$ on all variables except possiblly $x$ and $g'(x) \in D_t$.
+Given a model $\mathfrak{M}$, a variable assignment $g$,
+and a state $s$, the inductive definition is:
 
 \begin{alignat*}{2}
   &\mathfrak{M}, g, s \dststile{}{} P(t_1, \dotsc , t_n )  && \Longleftrightarrow \langle \overline{t_1}, \dotsc , \overline{t_n} \rangle \in I_s (P)  \\
   &\mathfrak{M}, g, s \dststile{}{} t_i = t_j  && \Longleftrightarrow \overline{t_i} = \overline{t_j}  \\
   &\mathfrak{M}, g, s \dststile{}{} n && \Longleftrightarrow I_{nom} (n) = s, \text{for }n\text{ a nominal}  \\
-  & \mathfrak{M}, g, s \dststile{}{} w && \Longleftrightarrow g(w) = s, \text{for }s\text{ a state variable}  \\
+  & \mathfrak{M}, g, s \dststile{}{} w && \Longleftrightarrow g(w) = s, \text{for }w\text{ a state variable}  \\
   & \mathfrak{M}, g, s \dststile{}{} \neg \phi && \Longleftrightarrow  \mathfrak{M}, g, s \not\dststile{}{} \phi \\
   & \mathfrak{M}, g, s \dststile{}{} \phi \land \psi && \Longleftrightarrow  \mathfrak{M}, g, s \dststile{}{} \phi \text{ and } \mathfrak{M}, g, s \dststile{}{} \psi \\
   & \mathfrak{M}, g, s \dststile{}{} \phi \lor \psi && \Longleftrightarrow  \mathfrak{M}, g, s \dststile{}{} \phi \text{ or } \mathfrak{M}, g, s \dststile{}{} \psi \\
   & \mathfrak{M}, g, s \dststile{}{} \phi \to \psi && \Longleftrightarrow  \mathfrak{M}, g, s \dststile{}{} \phi \text{ implies } \mathfrak{M}, g, s \dststile{}{} \psi \\
-  & \mathfrak{M}, g, s \dststile{}{} \exists x \phi && \Longleftrightarrow \mathfrak{M}, g_{d,s}^x, s \dststile{}{} \phi \text{ for some } d \in D_s \\
-  & \mathfrak{M}, g, s \dststile{}{} \forall x \phi && \Longleftrightarrow \mathfrak{M}, g_{d,s}^x, s \dststile{}{} \phi \text{ for all } d \in D_s \\
+  & \mathfrak{M}, g, s \dststile{}{} \exists x \phi && \Longleftrightarrow \mathfrak{M}, g', s \dststile{}{} \phi \text{ for some } x\text{-variant }g'\text{ of } g \text{ at } s \\
+  & \mathfrak{M}, g, s \dststile{}{} \forall x \phi && \Longleftrightarrow \mathfrak{M}, g', s \dststile{}{} \phi  \text{ for some } x\text{-variant }g'\text{ of } g \text{ at } s \\
   & \mathfrak{M}, g, s \dststile{}{} F \phi && \Longleftrightarrow \mathfrak{M}, g, t \dststile{}{} \phi \text{ for some } t \in T \text{ such that } Rst \\
   & \mathfrak{M}, g, s \dststile{}{} G \phi && \Longleftrightarrow \mathfrak{M}, g, t \dststile{}{} \phi \text{ for all } t \in T \text{ such that } Rst \\
   & \mathfrak{M}, g, s \dststile{}{} P \phi && \Longleftrightarrow \mathfrak{M}, g, t \dststile{}{} \phi \text{ for some } t \in T \text{ such that } Rts \\
@@ -375,27 +399,9 @@ The inductive definition is:
   %%\caption{$AT_x$}
 \end{alignat*}
 
+\subsection{The Tableau Calculus}
 
-\begin{figure*}
-  \begin{alignat*}{2}
-    & AT_x (p) && := Px \\
-    & AT_x (n) && := x = n \\
-    & AT_x (\neg \phi) && := \langle \lambda x . \neg AT_x (\phi) \rangle (x) \\
-    & AT_x (\phi \land \psi) && := \langle \lambda x . AT_x (\phi) \land AT_x (\psi) \rangle (x) \\
-    & AT_x(G \phi) && := \langle \lambda x . \forall y (Rxy \to AT_y (\phi)) \rangle (x) \\  
-    & AT_x(H \phi) && := \langle \lambda x . \forall y (Ryx \to AT_y (\phi)) \rangle (x) \\
-    & AT_x(@_n \phi) && := \langle \lambda x . \forall x (x = n \to AT_x (\phi)) \rangle (x) \\
-    & AT_x(P(t_1, \dotsc, t_k)) && := P'(x, t_1, \dotsc, t_k) \\
-    & AT_x(t_i = t_j) && := \langle \lambda x . t_i = t_j \rangle(x) \\
-    & AT_x (\forall v \phi) && := \langle \lambda x . \forall v AT_x(\phi) \rangle (x)  
-    %%\caption{$AT_x^-$}
-  \end{alignat*}
-  \label{atm}
-  \caption{TEST}
-\end{figure*}
-\subsection{The Tableaux Calculus}
 
-Non-branching rules:
 
 \begin{figure*}
   \begin{multicols}{2}
@@ -411,7 +417,65 @@ Non-branching rules:
       \UnaryInfC{$@_s \phi$}
     \end{prooftree}
   \end{multicols}
+  \caption{Negation rules}
+\end{figure*}
 
+\begin{figure*}[hbt!]
+  \centering
+  \begin{multicols}{2}
+    \begin{prooftree}
+      \AxiomC{$@_s (\phi \land \psi)$}
+      \RightLabel{$[\land]$}
+      \UnaryInfC{$ @_s \phi$}
+      \noLine
+      \UnaryInfC{$ @_s \psi$}
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$\neg @_s (\phi \lor \psi)$}
+      \RightLabel{$[\neg \lor]$}
+      \UnaryInfC{$\neg @_s \phi$}
+      \noLine
+      \UnaryInfC{$\neg @_s \psi$}
+    \end{prooftree}
+  \end{multicols}
+  
+  \begin{prooftree}
+    \AxiomC{$\neg @_s (\phi \to \psi)$}
+    \RightLabel{$[\neg \to]$}
+    \UnaryInfC{$@_s \phi$}
+    \noLine
+    \UnaryInfC{$\neg @_s \psi$}
+  \end{prooftree}
+  \caption{Conjunctive rules.}
+\end{figure*}
+
+\begin{figure*}[hbt!]
+  \centering
+  \begin{multicols}{2}
+    \begin{prooftree}
+      \AxiomC{$@_s (\phi \lor \psi)$}
+      \RightLabel{$[\lor]$}
+      \UnaryInfC{$@_s \phi \mid @_s \psi$} 
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$\neg @_s (\phi \land \psi)$}
+      \RightLabel{$[\neg \land]$}
+      \UnaryInfC{$\neg @_s \phi \mid \neg @_s \psi$}
+    \end{prooftree}
+  \end{multicols}
+  
+  \begin{prooftree}
+    \AxiomC{$@_s (\phi \to \psi)$}
+    \RightLabel{$[\to]$}
+    \UnaryInfC{$\neg @_s \phi \mid @_s \psi$}
+  \end{prooftree}
+  \caption{Disjunctive rules.}
+\end{figure*}
+
+
+\begin{figure*}
   \begin{multicols}{2}
     \begin{prooftree}
       \AxiomC{$@_s @_t \phi$}
@@ -425,7 +489,67 @@ Non-branching rules:
       \UnaryInfC{$\neg @_t \phi$} 
     \end{prooftree}
   \end{multicols}
+  
+  
+  \begin{multicols}{2}
+    \begin{prooftree}
+      \AxiomC{$[s\text{ on the branch}]$}
+      \RightLabel{$[\textsf{Ref}]$}
+      \UnaryInfC{$@_s s$} 
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$@_t s$}
+      \RightLabel{$[\textsf{Sym}]$}
+      \UnaryInfC{$@_s t$}
+    \end{prooftree}
+  \end{multicols}
+  
+  
+  \begin{multicols}{2}
+    \begin{prooftree}
+      \AxiomC{$@_s P t$}
+      \AxiomC{$@_t u$}
+      \RightLabel{$P\textsf{--Bridge}$}
+      \BinaryInfC{$@_s P u$} 
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$@_s F t$}
+      \AxiomC{$@_t u$}
+      \RightLabel{$F\textsf{--Bridge}$}
+      \BinaryInfC{$@_s F u$}  
+      \end{prooftree}
+  \end{multicols}
+  
+  \begin{multicols}{2}
+    \begin{prooftree}
+      \AxiomC{$@_s t$}
+      \AxiomC{$@_s \phi$}
+      \RightLabel{$[\textsf{Nom}]$}
+      \BinaryInfC{$@_t \phi$} 
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$@_s t$}
+      \AxiomC{$@_t \phi$}
+      \RightLabel{$[\textsf{Nom}^{-1}]$}
+      \BinaryInfC{$@_s \phi$} 
+    \end{prooftree}
+  \end{multicols}
+  
+  \begin{prooftree}
+    \AxiomC{$@_s t$}
+    \AxiomC{$@_t r$}
+    \RightLabel{$[\textsf{Trans}]$}
+    \BinaryInfC{$@_s r$} 
+  \end{prooftree}
+  
+  \caption{@ rules}
+\end{figure*}
 
+ 
+\begin{figure*}
   \begin{multicols}{2}
     \begin{prooftree}
       \AxiomC{$@_s F \phi$}
@@ -443,7 +567,7 @@ Non-branching rules:
       \UnaryInfC{$@_a \phi$}
     \end{prooftree}
   \end{multicols}
-
+  
   \begin{multicols}{2}
     \begin{prooftree}
       \AxiomC{$\neg @_s G \phi$}
@@ -454,28 +578,55 @@ Non-branching rules:
     \end{prooftree}
     
     \begin{prooftree}
-      \AxiomC{$@_s H \phi$}
+      \AxiomC{$\neg @_s H \phi$}
       \RightLabel{$[\neg H]$}
       \UnaryInfC{$@_s P a$}
       \noLine
       \UnaryInfC{$\neg @_a \phi$} 
     \end{prooftree}
   \end{multicols}
+  \caption{$F$ and $P$ rules}
+  \label{fnp}
+\end{figure*}
 
+\begin{figure*}[hbt!]
+  \centering
+  \begin{multicols}{2}
+    \begin{prooftree}
+      \AxiomC{$@_s H \phi$}
+      \AxiomC{$@_s P t$}
+      \RightLabel{$[H]$}
+      \BinaryInfC{$@_t \phi$} 
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$@_s G \phi$}
+      \AxiomC{$@_s F t$}
+      \RightLabel{$[G]$}
+      \BinaryInfC{$@_t \phi$}
+    \end{prooftree}
+  \end{multicols}
+  \caption{$G$ and $H$ rules}
+\end{figure*}
+
+\begin{figure*}[hbt!] 
   \begin{multicols}{2}
     \begin{prooftree}
       \AxiomC{$@_s P t$}
-      \RightLabel{$P$-trans}
+      \RightLabel{$[P\textsf{--Trans}]$}
       \UnaryInfC{$@_t F s$} 
     \end{prooftree}
     
     \begin{prooftree}
       \AxiomC{$@_s F t$}
-      \RightLabel{$F$-trans}
+      \RightLabel{$[F\textsf{--Trans}]$}
       \UnaryInfC{$@_t P s$}  
     \end{prooftree}
   \end{multicols}
-  
+  \caption{Temporal order rules.}
+\end{figure*}
+
+\begin{figure*}[hbt!]
   \begin{multicols}{2}
     \begin{prooftree}
       \AxiomC{$@_s \exists x \phi(x)$}
@@ -489,192 +640,73 @@ Non-branching rules:
       \UnaryInfC{$\neg @_c \phi(c)$}
     \end{prooftree}
   \end{multicols}
+  \caption{Existential rules}
+  \label{ext}
+\end{figure*}
 
+In the existential rules \ref{ext} $c$ is a parameter new to the branch,
+
+\begin{figure*}[hbt!]
   \begin{multicols}{2}
     \begin{prooftree}
       \AxiomC{$@_s \forall x \phi(x)$}
       \RightLabel{$[\forall]$}
       \UnaryInfC{$ @_c \phi(c)$}
     \end{prooftree}
-
+    
     \begin{prooftree}
       \AxiomC{$\neg @_s \exists x \phi(x)$}
       \RightLabel{$[\neg \exists]$}
       \UnaryInfC{$\neg @_c \phi(c)$} 
     \end{prooftree}
   \end{multicols}
+  \caption{Universal rules}
+  \label{univ}
+\end{figure*}
 
+In the universal rules \ref{univ} $c$ is a term grounded on the branch.
 
-  \begin{multicols}{2}
-    \begin{prooftree}
-      \AxiomC{[$s$ on the branch]}
-      \RightLabel{{[ Ref ]}}
-      \UnaryInfC{$@_s s$} 
-    \end{prooftree}
-    
-    \begin{prooftree}
-      \AxiomC{$@_t s$}
-      \RightLabel{{[ Sym ]}}
-      \UnaryInfC{$@_s t$}
-    \end{prooftree}
-  \end{multicols}
-
+\begin{figure*}[hbt!]
   \begin{multicols}{2}
     \begin{prooftree}
       \AxiomC{}
-      \RightLabel{{[ Ref ]}}
+      \RightLabel{$[=\textsf{--Ref}]$}
       \UnaryInfC{$t = t$} 
     \end{prooftree}
     
     \begin{prooftree}
       \AxiomC{$@_n m$}
-      \RightLabel{{[ DD ]}}
+      \RightLabel{$[\textsf{DD}]$}
       \UnaryInfC{$@_n q = @_m q$}
     \end{prooftree}
   \end{multicols}
-
-  \begin{multicols}{2}
-    \begin{prooftree}
-      \AxiomC{$@_n (t_i = t_j)$}
-      \RightLabel{$@=$}
-      \UnaryInfC{$t_i = t_j$} 
-    \end{prooftree}
     
-    \begin{prooftree}
-      \AxiomC{$\neg @_n (t_i = t_j)$}
-      \RightLabel{$\neg @=$}
-      \UnaryInfC{$\neg (t_i = t_j)$} 
-    \end{prooftree}
-  \end{multicols}
-  
-  \caption{Non-Branching Rules.}
-  \label{nonbranch}
-\end{figure*}
-
-Branching rules:
-
-\begin{figure*}
-  \begin{multicols}{2}
-    \begin{prooftree}
-      \AxiomC{$@_s (\phi \lor \psi)$}
-      \RightLabel{$\lor$}
-      \UnaryInfC{$@_s \phi \mid @_s \psi$} 
-    \end{prooftree}
-    
-    \begin{prooftree}
-      \AxiomC{$\neg @_s (\phi \land \psi)$}
-      \RightLabel{$\neg \land$}
-      \UnaryInfC{$\neg @_s \phi \mid \neg @_s \psi$}
-    \end{prooftree}
-  \end{multicols}
-
   \begin{prooftree}
-    \AxiomC{$@_s (\phi \to \psi)$}
-    \RightLabel{$\to$}
-    \UnaryInfC{$\neg @_s \phi \mid @_s \psi$}
+    \AxiomC{$@_s t = u$}
+    \AxiomC{$@_s \phi(t)$}
+    \RightLabel{$[\textsf{RR}]$}
+    \BinaryInfC{$@_s \phi[u]$} 
   \end{prooftree}
+  
+  \caption{{\it QHTL} Equality rules}
 \end{figure*}
 
 
-Binary rules:
-
-\begin{figure*}
-  \begin{multicols}{2}
-    \begin{prooftree}
-      \AxiomC{$@_s H \phi$}
-      \AxiomC{$@_s P t$}
-      \RightLabel{$H$}
-      \BinaryInfC{$@_t \phi$} 
-    \end{prooftree}
-    
-    \begin{prooftree}
-      \AxiomC{$@_s G \phi$}
-      \AxiomC{$@_s F t$}
-      \RightLabel{$G$}
-      \BinaryInfC{$@_t \phi$}
-    \end{prooftree}
-  \end{multicols}
-
-  \begin{multicols}{2}
-    \begin{prooftree}
-      \AxiomC{$@_s P t$}
-      \AxiomC{$@_t u$}
-      \RightLabel{$P$-bridge}
-      \BinaryInfC{$@_t P u$} 
-    \end{prooftree}
-    
-    \begin{prooftree}
-      \AxiomC{$@_s F t$}
-      \AxiomC{$@_t u$}
-      \RightLabel{$F$-bridge}
-      \BinaryInfC{$@_t F u$}  
-    \end{prooftree}
-  \end{multicols}
-
-  \begin{multicols}{2}
-    \begin{prooftree}
-      \AxiomC{$@_s t$}
-      \AxiomC{$@_s \phi$}
-      \RightLabel{Nom}
-      \BinaryInfC{$@_t \phi$} 
-    \end{prooftree}
-    
-    \begin{prooftree}
-      \AxiomC{$@_s t$}
-      \AxiomC{$@_t \phi$}
-      \RightLabel{$\text{Nom}^{-1}$}
-      \BinaryInfC{$@_s \phi$} 
-    \end{prooftree}
-  \end{multicols}
-
-  \begin{prooftree}
-      \AxiomC{$@_s t$}
-      \AxiomC{$@_t r$}
-      \RightLabel{Trans}
-      \BinaryInfC{$@_s r$} 
-    \end{prooftree}
-\end{figure*}
-
-
-
-(Sketch)
-
-The main issue with the tableaux of the merged logics is
-treatment of the quantification rules,
-for the existential rule, the quantifer is removed
-and a parameter new on the branch is substituted for the
-formerly bound variable, and in the universal case,
-the bound variable in the formula is substituted for a term
-already grounded on the branch (a first-order consant, parameter,
-or grounded definite description).  What is now at issue is unlike
-$QHL$ we are not using a fixed domain semantics, thus we must find a
-way to integrate the constraint that for universal quantification,
-the grounded term needs to have a known interpretation at the current
-world/state/time.
-\smallskip
-NB: Other than the issue of encoding this constraint I see no reason
-why the same approach of merging would not work here as well.
-
-
-
-
-\subsection{Soundness and Completeness}
-
-
-The proof of the soundness of the tableaux method
-for QHTL is adapted from the proof of
-soundness of the tableaux method for
+\subsection{Soundness}
+The proof of the soundness of the tableau method
+for {\it QHTL} is adapted from the proof of
+soundness of the tableau method for
 $\mathcal{H}(@)$ given in \citet*{internalizing}.
 
 \bigskip
 
-We can observe from the tableaux rules that
-every formula in a tableaux is of the
+We can observe from the tableau rules that
+every formula in a tableau is of the
 form  $@_s \phi$ or $\neg @_s \phi$.
 We call formulae of these forms
 {\it satisfaction statements}.
 Give a set of satisfaction statements $\Sigma$
-and a tableaux rule $R$ we develop the
+and a tableau rule $R$ we develop the
 notion of $\Sigma^+$ as an expansion of $\Sigma$
 by $R$ as follows based on the different cases for $R$:
 \begin{enumerate}
@@ -684,84 +716,299 @@ by $R$ as follows based on the different cases for $R$:
   a single formula as input, and $\Sigma^+$ is the set
   obtained by adding to $\Sigma$ the formulae yielded
   by applying $R$ to $\sigma \in \Sigma$,
-  then we say $\Sigma^+$ is the result of expaning
+  then we say $\Sigma^+$ is the result of expanding
   $\Sigma$ by $R$.  
 \item
 
   If $R$ is a binary rule, and $\Sigma^+$ is the set
   obtained by adding to $\Sigma$ the formulae yielded
   by applying $R$ to $\sigma_1 , \sigma_2  , \sigma_2 \in \Sigma$,
-  then we say $\Sigma^+$ is the result of expaning
+  then we say $\Sigma^+$ is the result of expanding
   $\Sigma$ by $R$.
 \item
 
   If $R$ is a branching rule, and $\Sigma^+$ is the set
   obtained by adding to $\Sigma$ the formulae yielded
   by one of the possible outcomes of applying $R$ to $\sigma_1  \in \Sigma$,
-  then we say $\Sigma^+$ is the result of expaning
+  then we say $\Sigma^+$ is the result of expanding
   $\Sigma$ by $R$.
 \item
 
-  If a nominal $s$ belongs to some formula
+  If a nominal $s$ belongs to some formula in $\Sigma$,
+  then $\Sigma^+ = \Sigma \cup \{ @_s s \}$ is
+  the result of expanding $\Sigma$ by \textsf{Ref}.
+\item
+  
+  If a nominal $s$ belongs to some formula in $\Sigma$,
+  then $\Sigma^+ = \Sigma \cup \{ @_s t = t \}$ is
+  the result of expanding $\Sigma$ by $=$-\textsf{Ref}.
+
 \end{enumerate}
 
-\iffalse
-In either of the cases mentioned below,
-the proof of soundess would likely proceed
-by checking satisfaction in a way \citet*{blackburn2012indexical}
- refers to being demonstrated in \citet*{internalizing} 
-For integrating basic hybrid tense logic
-rather than indexical hybrid logic, the completeness proof
-seems merely to be an issue of integrating $AT_x$ 
-translations $F \phi$, $P\phi$ and $AT_x^-$ translations
-of their images under $AT_x$ into the completeness proof of $QHL$
-in \citet*{quantified}.
-\smallskip
-NB: To my current understanding it's less clear how to give a completeness
-proof for $QHL$ with full indexical hybrid tense logic, although since the
-proof does not seem to make much use of the structure of formulae outside
-of tense, it's also not clear to me that adding quantification
-would cause many/any issues, and if so the completeness proof would
-be adapted mostly from \citet*{blackburn2012indexical}
-rather than \citet*{quantified}.    
-\fi
+
+\begin{definition}[Satisfiable by label]
+
+  Suppose $\Sigma$ is a set of satisfaction statements and
+  $\mathfrak{M} = (T, R, D_t, I_{nom}, I_t)_{t \in T}$
+  is a standard {\it QHTL} model.
+  We say $\Sigma$ is
+  {\it satisfied by label} in $\mathfrak{M}$
+  under a {\it QHTL} assignment $g$
+  if and and only if for all formulae in $\Sigma$:
+  \begin{enumerate}
+  \item
+    If $@_s \phi \in \Sigma$ then
+    $\mathfrak{M}, g, I_{nom}(s) \dststile{}{} \phi$
+  \item
+    If $\neg @_s \phi \in \Sigma$ then
+    $\mathfrak{M}, g, I_{nom}(s) \not \dststile{}{} \phi$
+    
+  \end{enumerate}
+
+  We say $\Sigma$ is {\it satisfiable by label}
+  if and only if there is a standard {\it QHTL} model
+  and assignment in which it is satisfied by label.
+
+  
+\end{definition}
+
+\begin{theorem}[{\bf Soundness}]
+  \label{sound}
+  If $\Sigma$ is a set of satisfaction
+  statements which is satisfiable by label,
+  then for any tableau rule $R$, at least one of the
+  sets obtainable by expanding $\Sigma$ by $R$
+  is satisfiable by label.  
+\end{theorem}
+
+
+%%\begin{proof}
+({\it Proof}).  We prove soundness by induction on the
+tableau rules, with particular
+attention to rules which introduce nominals new
+to the branch, namely $\{ F, P, \neg G, \neg H \}$ \ref{fnp},
+and rules which introduce new parameters to the branch,
+namely the universal rules \ref{univ} and existential rules \ref{ext}.
+In all cases discussed below let 
+$$\mathfrak{M} = (T, R, D_t, I_{nom}, I_t)_{t \in T}$$
+be {\it QHTL} model and $g$ the assignment
+in which $\Sigma$ is satisfiable by label.
+
+\begin{itemize}
+\item {\it Non-branching Rules}
+
+  We will take the $\land$ rule
+  as an example.  Beginning
+  from $@_s \phi \land \psi$ we have:
+  $$\mathfrak{M}, g, I_{nom}(s) \dststile{}{} \phi \land \psi$$
+  and consequentially 
+  $$\mathfrak{M}, g, I_{nom}(s) \dststile{}{} \phi \iff @_s \phi$$
+  $$\mathfrak{M}, g, I_{nom}(s) \dststile{}{} \psi \iff @_s \psi$$
+  Similarly for their negations if at least one of $@_s \phi \land \psi$
+  are not satisfied in $\mathfrak{M}$ under $g$.  
+  Thus the results of the application of the $\land$ rule, $@_s \phi$ and $@_s \psi$
+  are satisfiable in $\mathfrak{M}$ under $g$ and the expansion of $\Sigma$
+  by $\land$ is satisfiable by label.
+  \bigskip
+  The proof for other non-branching rules are analogous.
+\item {\it Binary Rules}
+  We will take the $H$ rule
+  as an example.  Beginning
+  with $@_s H \phi$ and $@_s P t$ we have from the former:
+  $$\mathfrak{M}, g, t \dststile{}{} \phi \text{ for all } t \in T \text{ such that } R t I_{nom}(s)$$
+  and from the latter:
+  $$\mathfrak{M}, g, t' \dststile{}{} t \text{ for some } t' \in T \text{ such that } R t I_{nom}(s)$$
+ 
+  and consequentially since $Rts$ 
+  $$\mathfrak{M}, g, I_{nom}(t) \dststile{}{} \phi \iff @_t \phi$$
+  Similarly for their negations if at least one of $@_s H \phi$ and $@_s P t$
+  are not satisfied in $\mathfrak{M}$ under $g$.
+  Thus the result of application of the $H$ rule, $@_t \phi$ is
+  satisfiable in $\mathfrak{M}$ under $g$ and the expansion of $\Sigma$
+  by $H$ is satisfiable by label.
+  \bigskip
+  The proof for other binary rules is analogous.
+\item {\it Branching Rules}
+  We will take the $\lor$ rule
+  as an example.  Beginning
+  from $@_s \phi \lor \psi$ if it's satisfied we have:
+  $$\mathfrak{M}, g, I_{nom}(s) \dststile{}{} \phi \lor \psi$$
+  and consequentially at least one of 
+  $$\mathfrak{M}, g, I_{nom}(s) \dststile{}{} \phi \iff @_s \phi$$
+  or 
+  $$\mathfrak{M}, g, I_{nom}(s) \dststile{}{} \psi \iff @_s \psi$$
+  Similarly for their negations if $@_s \phi \lor \psi$ is not satisfied
+  in $\mathfrak{M}$ under $g$.
+  Thus at least one of the results of the application of the $\lor$ rule,
+  $@_s \phi$ or $@_s \psi$ or their negations
+  are satisfiable in $\mathfrak{M}$ under $g$ and the expansion of $\Sigma$
+  by $\lor$ is satisfiable by label.
+  \bigskip
+  The proof for other branching rules are analogous.
+\item {\it ``Existential'' Rules}
+  We will take the $\forall$ rule
+  as an example.  Beginning
+  from $@_s \forall x \phi (x)$ if it's satisfied we have
+  (where $s' = I_{nom}(s)$):
+  $$\mathfrak{M}, g_{d, s'}^x, s' \dststile{}{} \phi \text{ for all } d \in D_{s'} \iff @_s \phi(t')$$
+  Similarly for its negation if $@_s \forall x \phi (x)$ is not satisfied
+  in $\mathfrak{M}$ under $g$.  
+  In accordance with the constraints for the rule we can select $t'$ to be any
+  grounded term on the branch which is also a member of $D_{I_{nom}(s)}$
+  Thus the result of the application of the $\forall$ rule,
+  or its negations
+  are satisfiable in $\mathfrak{M}$ under $g$ and the expansion of $\Sigma$
+  by $\forall$ is satisfiable by label.
+  \bigskip
+  The proof for $\neg \exists$ is analogous.
+  
+\item {\it Ref rules}
+  $t = t$ is a tautology, invariant of model or assignment.
+  For $@_s s$, we begin with having $s$ is the branch,
+  as result we certainly have
+  $$\mathfrak{M}, g, I_{nom}(s) \dststile{}{} I_{nom}(s) \iff @_s s$$
+  Thus the expansion of $\Sigma$ by $=-$\textsf{Ref} or \textsf{Ref}
+  is satisfiable by label.
+
+\qed
+
+\end{itemize}
+
+
+\begin{figure*}[hbt!]
+  \centering
+  \begin{alignat*}{2}
+    & AT_x (p) && := Px \\
+    & AT_x (n) && := x = n \\
+    & AT_x (w) && := x = w \\
+    & AT_x (\neg \phi) && := \langle \lambda x . \neg AT_x (\phi) \rangle (x) \\
+    & AT_x (\phi \land \psi) && := \langle \lambda x . AT_x (\phi) \land AT_x (\psi) \rangle (x) \\
+    & AT_x(G \phi) && := \langle \lambda x . \forall y (Rxy \to AT_y (\phi)) \rangle (x) \\  
+    & AT_x(H \phi) && := \langle \lambda x . \forall y (Ryx \to AT_y (\phi)) \rangle (x) \\
+    & AT_x(@_n \phi) && := \langle \lambda x . \forall x (x = n \to AT_x (\phi)) \rangle (x) \\
+    & AT_x(P(t_1, \dotsc, t_k)) && := P'(x, t_1, \dotsc, t_k) \\
+    & AT_x(t_i = t_j) && := \langle \lambda x . t_i = t_j \rangle(x) \\
+    & AT_x (\forall v \phi) && := \langle \lambda x . \forall v AT_x(\phi) \rangle (x)  
+    %%\caption{$AT_x^-$}
+  \end{alignat*}
+  \caption{{\it QHTL} Formulae to First-order Formulae Translation.}
+  \label{qhtl2fol}
+\end{figure*}
+
+
+\begin{figure*}[hbt!]
+  \centering
+  \begin{alignat*}{2}
+    & AT_x^- (Px) && := p \\
+    & AT_x^- (x = n) && := n \\
+    & AT_x^- (x = w) && := w \\
+    & AT_x^- (\langle \lambda x . \neg \phi \rangle (x)) && := \neg AT_x^- (\phi) \\
+    & AT_x^- (\langle \lambda x . \neg \phi \land \psi \rangle (x)) && := AT_x^- (\phi) \land AT_x^- (\psi) \\
+    & AT_x^-(\langle \lambda x . \forall y (Rxy \to \phi) \rangle (x)) && := G AT_y^- (\phi) \\  
+    & AT_x^-(\langle \lambda x . \forall y (Ryx \to \phi) \rangle (x)) && := H AT_y^- (\phi) \\
+    & AT_x^-(\langle \lambda x . \forall x (x = n \to \phi) \rangle (x)) && := @_n AT_x^- (\phi) \\
+    & AT_x^-(P'(x, t_1, \dotsc, t_k)) && := P(t_1, \dotsc, t_k) \\
+    & AT_x^-(\langle \lambda x . t_i = t_j \rangle(x)) && := t_i = t_j \\
+    & AT_x^- (\langle \lambda x . \forall v  \phi \rangle (x)) && := \forall v AT_x^- (\phi)   
+    %%\caption{$AT_x^-^-$}
+  \end{alignat*}
+  \caption{First-order Formulae to {\it QHTL} Formulae Translation.}
+  \label{fol2qhtl}
+\end{figure*}
+
+\begin{figure*}[hbt!]
+  \centering
+  \begin{alignat*}{2}
+    & P(t)^* && := @_t p \\
+    & (t = u)^* && := @_t u \\
+    & (Rst)^* && := @_s F t \\
+    & (\langle \lambda x.\phi \rangle (t))^* && := @_t AT_x^- (\langle \lambda x . \phi \rangle (x))\\  
+    & (\langle \lambda y.\phi \rangle (t))^* && := @_t AT_y^- (\langle \lambda y . \phi \rangle (y))\\
+    & (AT_x(\phi)[t / x])^* && := @_t \phi \\
+    & (\neg AT_x(\phi)[t / x])^* && := \neg @_t \phi \\
+    & P'(s, t_1, \dotsc, t_k)^* && := @_s P(t_1, \dotsc, t_k) \\
+    & (t_i = t_j)^* && := t_i  t_j 
+    %% \caption{$AT_x^-^-$}
+  \end{alignat*}
+  \caption{Translation of First-order Tableau Literals to {\it QHTL} Literals.}
+  \label{literal}
+\end{figure*}
+
 
 \subsection{Decidability}
-\subsubsection{Decidabililty of the Merged Logic}
 
+The proof of the tableau construction algorithm's termination is adapted from
+the proof given in \citet*{bolander} for the termination of the
+tableau construction algorithm for $\mathcal{H}(@)$
+as described in \citet*{internalizing} except extended with the universal modality.
 
-(Proof Sketch)
+\begin{definition}
+  When a formula $@_s \phi$ occurs in a tableau
+  branch $\Theta$ we will write $@_s \phi \in \Theta$,
+  and say $\phi$ is true at $s$ on $\Theta$ or
+  $s$ makes $\phi$ true on $\Theta$.  
+\end{definition}
 
+\begin{definition}
+  Given a tableau branch $\Theta$ and a nominal or state variable
+  $s$ the {\it set of true formulae} at $s$ on $\Theta$,
+  is written $T^\Theta (s)$ and defined as follows:
+  $$T^\Theta (s) = {\phi | @_s \phi \in \Theta}$$
+\end{definition}
 
-While $\mathcal{H}(\downarrow @)$ is not decidable, $\mathcal{H}(@)$ is
-\citep{Areces99hybridlogics}.  Quantified hybrid logic makes use of
-$\downarrow$ \citep{quantified}, but modulo $\downarrow$ and quantification over
-first-order variables does not
-differ from $\mathcal{H}(@)$.
-Basic hybrid tense logic does not make use of $\downarrow$
-\citep{blackburn2012indexical}, and differs only from
-$\mathcal{H}(@)$ in replacing the $\Box$ and $\Diamond$
-with $F$ and $P$, which respectively have the same sematics
-and similar semantics (the direction of the accesibility relation is changed)
-to $\Diamond$.  Similarly for $G$ and $H$ respectively in relation to $\Box$.  Thus given the absence of $\downarrow$ in the merged logic,
-replacing $\Box$ and $\Diamond$ with $F$ and $P$ (and by extension $G$ and $H$)
-will not have negatively affect the decidability given the analogous
-complexity of $F$ and $P$ to $\Diamond$.
-\smallskip
-This is especially the case for us because nominals are document creation times,
-of which there will necessarily be a finite number, all totally ordered,
-which in turn will make checking accessibility more efficient.
-Keeping quantification over first-order variables will not affect
-decidability since we take the domain of quantification to be
-objects that exist at a particular world,
-that is at the time indicated by the nominal which picks out that world.
-That is we use presentist quantification as opposed to eternalist quantification. 
+\begin{definition}
+  A formula $\phi$ is a {\it quasi-subformula } of a
+  formula $\psi$ if one of the the following is the case:
+  \begin{enumerate}
+  \item
+    $\phi$ is a subformula of $\psi$.
+  \item
+    $\phi$ is of the form $\neg \chi$ where $\chi$
+    is a subformula $\psi$
+  \end{enumerate}
+\end{definition}
 
-\subsubsection{Termination of the Tableaux/Decision Procedure}
+\begin{lemma}[{\bf Quasi-subformula Property}]
+  Let $\mathcal{T}$ be a tableau with the formula
+  $@_s \phi$ as root.
+  For any formula $@_t \psi$ occuring on $\mathcal{T}$,
+  $\psi$ is a quasi-subformula of $\phi$.
+\end{lemma}
 
-\citet*{bolander} seems like the clearest place to start from for termination
-of the tableaux.  \citet*{norgela2007some} and \citet*{norgela2012decidability}
-seem potentially useful but they discuss things in terms of sequents rather than tableaux.
+\begin{proof}
+  This is verified by induction on the tableau rules
+\end{proof}
+
+\begin{definition}
+\end{definition}
+
+\begin{theorem}
+\end{theorem}
+
+\begin{corollary}
+\end{corollary}
+
+\begin{definition}
+\end{definition}
+
+\begin{theorem}
+\end{theorem}
+
+\begin{definition}
+\end{definition}
+
+\begin{prop}
+\end{prop}
+
+\begin{definition}
+\end{definition}
+
+\begin{definition}
+\end{definition}
+
+\begin{theorem}
+\end{theorem}
+
 
 
 \section{AMR Interpretation in Hybrid Logic}

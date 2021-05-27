@@ -133,11 +133,11 @@
   \citeauthor{donatelli-etal-2018-annotation}'s \citeyearpar{donatelli-etal-2018-annotation} AMR extension for tense and aspect
   and with \citeauthor{pustejovsky-etal-2019-modeling}'s \citeyearpar{pustejovsky-etal-2019-modeling} AMR extension for quantification and scope.
   Inference is modeled with a merging of Blackburn and Marx's tableau method for quantified hybrid logic
-  ({\it QHL}) and Blackburn and J{\o}rgensen's tableu method for basic hybrid tense logic ({\it BHTL}).
+  ({\it QHL}) and Blackburn and J{\o}rgensen's tableau method for basic hybrid tense logic ({\it BHTL}).
   We motivate the merging of these AMR variants,
   present their interpretation and inference in the combination of {\it QHL}
   and {\it BHTL}, which we will call {\it QHTL} (quantified hybrid tense logic),
-  and demonstrate {\it QHTL}'s the soundess, completeness,
+  and demonstrate {\it QHTL}'s soundess, completeness,
   and decidability. 
 
 
@@ -155,7 +155,7 @@
 
 \section{Quantified Hybrid Tense Logic - Syntax and Semantics}
 \smallskip
-The syntax of {\it QHTL} is identical to {\it QHL} except
+The syntax of {\it QHTL} is identical to {\it QHL} as given in \citet*{quantified} except
 uses of $\downarrow$ as in $\downarrow w . \phi$ are omitted along
 with $\Box$ and $\Diamond$ as in $\Box \phi$ and $\Diamond \phi$.
 $\Box$ and $\Diamond$ are replaced by their semantic equivalents
@@ -174,10 +174,14 @@ $$\neg \phi | \phi \land \psi | \phi \lor \psi | \phi \to \psi | \exists x \phi 
 
 
 Since we want the domain of quantification to be indexed
-over the collection of nominals/times, we alter the {\it QHL} model definition
-to a structure:
+over the collection of nominals/times, we look to
+\citeauthor{fitting-modal}'s \citeyearpar{fitting-modal}
+treatment of first-order modal logic with varying domain semantics
+and use it to alter the {\it QHL} model definition
+to the following:
 $$(T, R, D_t, I_{nom}, I_t)_{t \in T}$$
-Identical to the definition for a {\it QHL} model in that:
+Thus with varying domain semantics a {\it QHTL}
+model is identical to the definition for a {\it QHL} model in that:
 \begin{itemize}
   \item
     $(T,R)$ is a modal frame.
@@ -186,46 +190,49 @@ Identical to the definition for a {\it QHL} model in that:
 \end{itemize}
 
 The differences manifest on the level of the model and
-interpretation.  That is, for every $t \in T$,
-$(D_t, I_t)$ is a first-order model where:
+interpretation.  Namely, where $D = \cup_{t \in T} D_t$,
+$(D, I_t)$ is a first-order model where:
 \begin{itemize}
 \item
-  $I_t (q) \in D_t$ where $q$ is a unary function symbol.
+  $I_t (q) \in D$ where $q$ is a unary function symbol.
 \item
-  $I_t (P) \in D_t^k$ where $P$ is a $k$-ary predicate symbol.
+  $I_t (P) \in D^k$ where $P$ is a $k$-ary predicate symbol.
 \end{itemize}
 
 Notice we've relaxed the requirement that $I_t (c) = I_{t'} (c)$ for
 $c$ a constant and $t,t' \in T$, since the interpretation of the
-constant need not exist at both times.
+constant need not exist at both times.  This permits us to distinguish
+between the domain of a frame and the domain of a time/world,
+in a way that prevents a variable $x$ from failing to refer
+at a given time/world, even if it has no interpretation at that time.
+Intuitively this permits {\it QHTL} to handle interpretation of entities
+in natural language utterances, which while reasonable to refer to
+do not exist at a current time, e.g. previous and future presidents.
+
 
 \smallskip
 
 Free variables are handled similarly as in {\it QHL}.
-Where $D = \cup_{t \in T} D_t $, a {\it QHTL} assignment is a function:
-$$g : \textsf{SVAR} \cup (\textsf{FVAR} \times T) \to T \cup D $$
+Where again $D = \cup_{t \in T} D_t $, a {\it QHTL} assignment is a function:
+$$g : \textsf{SVAR} \cup \textsf{FVAR} \to T \cup D $$
 Where state variables are sent to times/worlds and
-first-order variables are sent to $D_t$ where
-$t$ is the time assigned to the state variable by $g$.
+first-order variables are sent to $D$, the domain
+of the frame.
 Thus given a model and an assignment $g$,
 the interpretation of terms $t$ denoted by $\overline{t}$
 is defined as:
 \begin{itemize}
 \item
-  $\overline{x} = g_t(x)$ for $x$ a variable and $t \in T$ a time/world.
+  $\overline{x} = g(x)$ for $x$ a variable and $t \in T$ a time/world.
 \item
   $\overline{c} = I_t (c)$ for $c$ a constant and some $t \in T$.
-\item
-  \begin{itemize} For $q$ a unary function symbol:
-    
-    
-  \item For $n$ a nominal:
-    
-    
-    $$\overline{@_n q} = I_{I_{nom}(n)} (s)$$
-  \item For $n$ a state variable:
-    
-    
+\item For $q$ a unary function symbol:
+  \begin{itemize} 
+  \item
+    For $n$ a nominal:
+    $$\overline{@_n q} = I_{I_{nom}(n)} (q)$$
+  \item
+    For $n$ a state variable:
     $$\overline{@_n q} = I_{g(n)} (q)$$
   \end{itemize}
 \end{itemize}
@@ -233,21 +240,21 @@ is defined as:
 With the final adjustment of having $g_{d,s}^x$ denoting
 the assignment which is just like $g_s$ except $g_s (x) = d$
 for $d \in g(s)$, we can proceed with the inductive definition
-for satisfaction of a formula give a model $\mathfrak{M}$,
-a variable assignment $g$, and a state $s$.
-The inductive definition is:
+for satisfaction of a formula.
+Given a model $\mathfrak{M}$, a variable assignment $g$,
+and a state $s$, the inductive definition is:
 
 \begin{alignat*}{2}
-  &\mathfrak{M}, g, s \dststile{}{} P(t_1, \dotsc , t_n )  && \Longleftrightarrow \langle g_s(t_1), \dotsc , g_s(t_n) \rangle \in I_s (P)  \\
-  &\mathfrak{M}, g, s \dststile{}{} t_i = t_j  && \Longleftrightarrow g_s(t_i) = g_s(t_j)  \\
+  &\mathfrak{M}, g, s \dststile{}{} P(t_1, \dotsc , t_n )  && \Longleftrightarrow \langle \overline{t_1}, \dotsc , \overline{t_n} \rangle \in I_s (P)  \\
+  &\mathfrak{M}, g, s \dststile{}{} t_i = t_j  && \Longleftrightarrow \overline{t_i} = \overline{t_j}  \\
   &\mathfrak{M}, g, s \dststile{}{} n && \Longleftrightarrow I_{nom} (n) = s, \text{for }n\text{ a nominal}  \\
   & \mathfrak{M}, g, s \dststile{}{} w && \Longleftrightarrow g(w) = s, \text{for }w\text{ a state variable}  \\
   & \mathfrak{M}, g, s \dststile{}{} \neg \phi && \Longleftrightarrow  \mathfrak{M}, g, s \not\dststile{}{} \phi \\
   & \mathfrak{M}, g, s \dststile{}{} \phi \land \psi && \Longleftrightarrow  \mathfrak{M}, g, s \dststile{}{} \phi \text{ and } \mathfrak{M}, g, s \dststile{}{} \psi \\
   & \mathfrak{M}, g, s \dststile{}{} \phi \lor \psi && \Longleftrightarrow  \mathfrak{M}, g, s \dststile{}{} \phi \text{ or } \mathfrak{M}, g, s \dststile{}{} \psi \\
   & \mathfrak{M}, g, s \dststile{}{} \phi \to \psi && \Longleftrightarrow  \mathfrak{M}, g, s \dststile{}{} \phi \text{ implies } \mathfrak{M}, g, s \dststile{}{} \psi \\
-  & \mathfrak{M}, g, s \dststile{}{} \exists x \phi && \Longleftrightarrow \mathfrak{M}, g_{d,s}^x, s \dststile{}{} \phi \text{ for some } d \in D_s \\
-  & \mathfrak{M}, g, s \dststile{}{} \forall x \phi && \Longleftrightarrow \mathfrak{M}, g_{d,s}^x, s \dststile{}{} \phi \text{ for all } d \in D_s \\
+  & \mathfrak{M}, g, s \dststile{}{} \exists x \phi && \Longleftrightarrow \mathfrak{M}, g', s \dststile{}{} \phi \text{ for some } x\text{-variant }g'\text{ of } g \text{ at } s \\
+  & \mathfrak{M}, g, s \dststile{}{} \forall x \phi && \Longleftrightarrow \mathfrak{M}, g', s \dststile{}{} \phi  \text{ for some } x\text{-variant }g'\text{ of } g \text{ at } s \\
   & \mathfrak{M}, g, s \dststile{}{} F \phi && \Longleftrightarrow \mathfrak{M}, g, t \dststile{}{} \phi \text{ for some } t \in T \text{ such that } Rst \\
   & \mathfrak{M}, g, s \dststile{}{} G \phi && \Longleftrightarrow \mathfrak{M}, g, t \dststile{}{} \phi \text{ for all } t \in T \text{ such that } Rst \\
   & \mathfrak{M}, g, s \dststile{}{} P \phi && \Longleftrightarrow \mathfrak{M}, g, t \dststile{}{} \phi \text{ for some } t \in T \text{ such that } Rts \\
@@ -796,8 +803,42 @@ the proof given in \citet*{bolander} for the termination of the
 tableau construction algorithm for $\mathcal{H}(@)$
 as described in \citet*{internalizing} except extended with the universal modality.
 
-\begin{lemma}[Quasi-subformula property]
+\begin{definition}
+  When a formula $@_s \phi$ occurs in a tableau
+  branch $\Theta$ we will write $@_s \phi \in \Theta$,
+  and say $\phi$ is true at $s$ on $\Theta$ or
+  $s$ makes $\phi$ true on $\Theta$.  
+\end{definition}
+
+\begin{definition}
+  Given a tableau branch $\Theta$ and a nominal or state variable
+  $s$ the {\it set of true formulae} at $s$ on $\Theta$,
+  is written $T^\Theta (s)$ and defined as follows:
+  $$T^\Theta (s) = {\phi | @_s \phi \in \Theta}$$
+\end{definition}
+
+\begin{definition}
+  A formula $\phi$ is a {\it quasi-subformula } of a
+  formula $\psi$ if one of the the following is the case:
+  \begin{enumerate}
+  \item
+    $\phi$ is a subformula of $\psi$.
+  \item
+    $\phi$ is of the form $\neg \chi$ where $\chi$
+    is a subformula $\psi$
+  \end{enumerate}
+\end{definition}
+
+\begin{lemma}[{\bf Quasi-subformula Property}]
+  Let $\mathcal{T}$ be a tableau with the formula
+  $@_s \phi$ as root.
+  For any formula $@_t \psi$ occuring on $\mathcal{T}$,
+  $\psi$ is a quasi-subformula of $\phi$.
 \end{lemma}
+
+\begin{proof}
+  This is verified by induction on the tableau rules
+\end{proof}
 
 \begin{definition}
 \end{definition}

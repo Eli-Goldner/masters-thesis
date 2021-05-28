@@ -406,86 +406,7 @@ and a state $s$, the inductive definition is:
 
 
 
-\begin{figure*}[hbt!]
-  \begin{framed}
-    \centering
-    \begin{multicols}{2}
-      \begin{prooftree}
-        \AxiomC{$@_s \neg \phi$}
-        \RightLabel{$[\neg]$}
-        \UnaryInfC{$\neg @_s \phi$}
-      \end{prooftree}
-      
-      \begin{prooftree}
-        \AxiomC{$\neg @_s \neg \phi$}
-        \RightLabel{$[\neg \neg]$}
-        \UnaryInfC{$@_s \phi$}
-      \end{prooftree}
-    \end{multicols}
-    \caption{Negation rules}
-  \end{framed}
-\end{figure*}
-
-\begin{figure*}[hbt!]
-  \begin{framed}
-  \centering
-  \begin{multicols}{3}
-    \begin{prooftree}
-      \AxiomC{$@_s (\phi \land \psi)$}
-      \RightLabel{$[\land]$}
-      \UnaryInfC{$ @_s \phi$}
-      \noLine
-      \UnaryInfC{$ @_s \psi$}
-    \end{prooftree}
-    
-    \begin{prooftree}
-      \AxiomC{$\neg @_s (\phi \lor \psi)$}
-      \RightLabel{$[\neg \lor]$}
-      \UnaryInfC{$\neg @_s \phi$}
-      \noLine
-      \UnaryInfC{$\neg @_s \psi$}
-    \end{prooftree}
-    
-    \begin{prooftree}
-      \AxiomC{$\neg @_s (\phi \to \psi)$}
-      \RightLabel{$[\neg \to]$}
-      \UnaryInfC{$@_s \phi$}
-      \noLine
-      \UnaryInfC{$\neg @_s \psi$}
-    \end{prooftree}
-  \end{multicols}
-  \caption{Conjunctive rules.}
-\end{framed}
-\end{figure*}
-
-\begin{figure*}[hbt!]
-  \begin{framed}
-  \centering
-  \begin{multicols}{3}
-    \begin{prooftree}
-      \AxiomC{$@_s (\phi \lor \psi)$}
-      \RightLabel{$[\lor]$}
-      \UnaryInfC{$@_s \phi \mid @_s \psi$} 
-    \end{prooftree}
-    
-    \begin{prooftree}
-      \AxiomC{$\neg @_s (\phi \land \psi)$}
-      \RightLabel{$[\neg \land]$}
-      \UnaryInfC{$\neg @_s \phi \mid \neg @_s \psi$}
-    \end{prooftree}
-    
-    \begin{prooftree}
-      \AxiomC{$@_s (\phi \to \psi)$}
-      \RightLabel{$[\to]$}
-      \UnaryInfC{$\neg @_s \phi \mid @_s \psi$}
-    \end{prooftree}
-  \end{multicols}
-  \caption{Disjunctive rules.}
-\end{framed}
-\end{figure*}
-
-
-\begin{figure*}[H]
+\begin{figure*}[!h]
   \begin{framed}
     \centering
     \begin{multicols}{4}
@@ -569,13 +490,16 @@ and a state $s$, the inductive definition is:
   \end{framed}
 \end{figure*}
 
+\par
+
 For \textsf{Nom}  we have the constraint that
 if the premise $@_t \phi$ are of the form $@_t X c$
 where $X \in \{ F, P, \neg G, \neg H \}$ and $c$ is a nominal or state variable,
 then $@_t \phi$ is a root subformula.
 Similarly  for $\textsf{Nom}^{-1}$ and the premise $@_s\phi$.  
- 
-\begin{figure*}[H]
+\par
+
+\begin{figure*}[!h]
   \begin{framed}
     \begin{multicols}{4}
       \begin{prooftree}
@@ -615,33 +539,13 @@ Similarly  for $\textsf{Nom}^{-1}$ and the premise $@_s\phi$.
   \end{framed}
 \end{figure*}
 
+\par
 In all rules in \ref{fnp}, the nominal $a$ is new to the branch.
 We have the additional constraint that if $\phi$ in the premise
 is a nominal or state variable, then the premise must be a root subformula
 in order for the rule to be applicable.
 
-
-\begin{figure*}
-  \begin{framed}
-  \centering
-  \begin{multicols}{2}
-    \begin{prooftree}
-      \AxiomC{$@_s H \phi$}
-      \AxiomC{$@_s P t$}
-      \RightLabel{$[H]$}
-      \BinaryInfC{$@_t \phi$} 
-    \end{prooftree}
-    
-    \begin{prooftree}
-      \AxiomC{$@_s G \phi$}
-      \AxiomC{$@_s F t$}
-      \RightLabel{$[G]$}
-      \BinaryInfC{$@_t \phi$}
-    \end{prooftree}
-  \end{multicols}
-  \caption{$G$ and $H$ rules}
-\end{framed}
-\end{figure*}
+\par
 
 Following \citet*{fitting-modal} we assume for each nominal $s$,
 there is an infinite list of parameters, where parameters are free variables
@@ -654,7 +558,8 @@ is either a first-order constant, a parameter,
 or a grounded definite description, i.e.
 a term of the form $@_n q$ for $n$ a nominal
 and $q$ a unary function symbol.
-\begin{figure*}[H]
+
+\begin{figure*}[!h]
   \begin{framed}
   \begin{multicols}{2}
     \begin{prooftree}
@@ -674,12 +579,13 @@ and $q$ a unary function symbol.
   \end{framed}
 \end{figure*}
 
+\par
 In the existential rules \ref{ext}, $p_s$ is a parameter associated with the
 nominal $s$, with the constraint that it is new to the branch.
 Since parameters are never quantified over,
 $p_s$ is free in $\phi[p_s / x]$.
-
-\begin{figure*}[H]
+\par
+\begin{figure*}[!h]
 %% \begin{figure*}[H]
   \begin{framed}
     \centering
@@ -704,7 +610,7 @@ $p_s$ is free in $\phi[p_s / x]$.
 In the universal rules \ref{univ} $t$ is a grounded term on the branch
 which exists at $D_s$.  
 
-\begin{figure*}[H]
+\begin{figure*}[!h]
 %%\begin{figure*}[H]
   \begin{framed}
     \centering
@@ -731,6 +637,110 @@ which exists at $D_s$.
   \caption{{\it QHTL} Equality rules}
 \end{framed}
 \end{figure*}
+
+\begin{figure*}
+%%\begin{figure*}[hbt!]
+  \begin{framed}
+    \centering
+    \begin{multicols}{2}
+      \begin{prooftree}
+        \AxiomC{$@_s \neg \phi$}
+        \RightLabel{$[\neg]$}
+        \UnaryInfC{$\neg @_s \phi$}
+      \end{prooftree}
+      
+      \begin{prooftree}
+        \AxiomC{$\neg @_s \neg \phi$}
+        \RightLabel{$[\neg \neg]$}
+        \UnaryInfC{$@_s \phi$}
+      \end{prooftree}
+    \end{multicols}
+    \caption{Negation rules}
+  \end{framed}
+\end{figure*}
+
+\begin{figure*}
+%%\begin{figure*}[hbt!]
+  \begin{framed}
+  \centering
+  \begin{multicols}{3}
+    \begin{prooftree}
+      \AxiomC{$@_s (\phi \land \psi)$}
+      \RightLabel{$[\land]$}
+      \UnaryInfC{$ @_s \phi$}
+      \noLine
+      \UnaryInfC{$ @_s \psi$}
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$\neg @_s (\phi \lor \psi)$}
+      \RightLabel{$[\neg \lor]$}
+      \UnaryInfC{$\neg @_s \phi$}
+      \noLine
+      \UnaryInfC{$\neg @_s \psi$}
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$\neg @_s (\phi \to \psi)$}
+      \RightLabel{$[\neg \to]$}
+      \UnaryInfC{$@_s \phi$}
+      \noLine
+      \UnaryInfC{$\neg @_s \psi$}
+    \end{prooftree}
+  \end{multicols}
+  \caption{Conjunctive rules.}
+\end{framed}
+\end{figure*}
+
+\begin{figure*}
+  \begin{framed}
+  \centering
+  \begin{multicols}{3}
+    \begin{prooftree}
+      \AxiomC{$@_s (\phi \lor \psi)$}
+      \RightLabel{$[\lor]$}
+      \UnaryInfC{$@_s \phi \mid @_s \psi$} 
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$\neg @_s (\phi \land \psi)$}
+      \RightLabel{$[\neg \land]$}
+      \UnaryInfC{$\neg @_s \phi \mid \neg @_s \psi$}
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$@_s (\phi \to \psi)$}
+      \RightLabel{$[\to]$}
+      \UnaryInfC{$\neg @_s \phi \mid @_s \psi$}
+    \end{prooftree}
+  \end{multicols}
+  \caption{Disjunctive rules.}
+\end{framed}
+\end{figure*}
+
+
+\begin{figure*}
+  \begin{framed}
+  \centering
+  \begin{multicols}{2}
+    \begin{prooftree}
+      \AxiomC{$@_s H \phi$}
+      \AxiomC{$@_s P t$}
+      \RightLabel{$[H]$}
+      \BinaryInfC{$@_t \phi$} 
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$@_s G \phi$}
+      \AxiomC{$@_s F t$}
+      \RightLabel{$[G]$}
+      \BinaryInfC{$@_t \phi$}
+    \end{prooftree}
+  \end{multicols}
+  \caption{$G$ and $H$ rules}
+\end{framed}
+\end{figure*}
+
 
 
 \subsection{Soundness}

@@ -27,11 +27,14 @@
 %%\usepackage{prftree.sty} 
 \usepackage{natbib}
 \usepackage{cite}
-%%\usepackage{float}
+\usepackage{float}
 \usepackage{turnstile}
 \usepackage{rotating}
-\usepackage{stfloats}
+%%\usepackage{stfloats}
 \usepackage{subcaption}
+
+\usepackage{graphicx}
+\usepackage{framed}
 
 \usepackage[margin=0.5in]{geometry}
 
@@ -403,26 +406,30 @@ and a state $s$, the inductive definition is:
 
 
 
-\begin{figure*}
-  \begin{multicols}{2}
-    \begin{prooftree}
-      \AxiomC{$@_s \neg \phi$}
-      \RightLabel{$[\neg]$}
-      \UnaryInfC{$\neg @_s \phi$}
-    \end{prooftree}
-    
-    \begin{prooftree}
-      \AxiomC{$\neg @_s \neg \phi$}
-      \RightLabel{$[\neg \neg]$}
-      \UnaryInfC{$@_s \phi$}
-    \end{prooftree}
-  \end{multicols}
-  \caption{Negation rules}
+\begin{figure*}[hbt!]
+  \begin{framed}
+    \centering
+    \begin{multicols}{2}
+      \begin{prooftree}
+        \AxiomC{$@_s \neg \phi$}
+        \RightLabel{$[\neg]$}
+        \UnaryInfC{$\neg @_s \phi$}
+      \end{prooftree}
+      
+      \begin{prooftree}
+        \AxiomC{$\neg @_s \neg \phi$}
+        \RightLabel{$[\neg \neg]$}
+        \UnaryInfC{$@_s \phi$}
+      \end{prooftree}
+    \end{multicols}
+    \caption{Negation rules}
+  \end{framed}
 \end{figure*}
 
 \begin{figure*}[hbt!]
+  \begin{framed}
   \centering
-  \begin{multicols}{2}
+  \begin{multicols}{3}
     \begin{prooftree}
       \AxiomC{$@_s (\phi \land \psi)$}
       \RightLabel{$[\land]$}
@@ -438,21 +445,23 @@ and a state $s$, the inductive definition is:
       \noLine
       \UnaryInfC{$\neg @_s \psi$}
     \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$\neg @_s (\phi \to \psi)$}
+      \RightLabel{$[\neg \to]$}
+      \UnaryInfC{$@_s \phi$}
+      \noLine
+      \UnaryInfC{$\neg @_s \psi$}
+    \end{prooftree}
   \end{multicols}
-  
-  \begin{prooftree}
-    \AxiomC{$\neg @_s (\phi \to \psi)$}
-    \RightLabel{$[\neg \to]$}
-    \UnaryInfC{$@_s \phi$}
-    \noLine
-    \UnaryInfC{$\neg @_s \psi$}
-  \end{prooftree}
   \caption{Conjunctive rules.}
+\end{framed}
 \end{figure*}
 
 \begin{figure*}[hbt!]
+  \begin{framed}
   \centering
-  \begin{multicols}{2}
+  \begin{multicols}{3}
     \begin{prooftree}
       \AxiomC{$@_s (\phi \lor \psi)$}
       \RightLabel{$[\lor]$}
@@ -464,92 +473,105 @@ and a state $s$, the inductive definition is:
       \RightLabel{$[\neg \land]$}
       \UnaryInfC{$\neg @_s \phi \mid \neg @_s \psi$}
     \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$@_s (\phi \to \psi)$}
+      \RightLabel{$[\to]$}
+      \UnaryInfC{$\neg @_s \phi \mid @_s \psi$}
+    \end{prooftree}
   \end{multicols}
-  
-  \begin{prooftree}
-    \AxiomC{$@_s (\phi \to \psi)$}
-    \RightLabel{$[\to]$}
-    \UnaryInfC{$\neg @_s \phi \mid @_s \psi$}
-  \end{prooftree}
   \caption{Disjunctive rules.}
+\end{framed}
 \end{figure*}
 
 
 \begin{figure*}
-  \begin{multicols}{2}
-    \begin{prooftree}
-      \AxiomC{$@_s @_t \phi$}
-      \RightLabel{$[@]$}
-      \UnaryInfC{$@_t \phi$} 
-    \end{prooftree}
-    
-    \begin{prooftree}
-      \AxiomC{$\neg @_s @_t \phi$}
-      \RightLabel{$[\neg @]$}
-      \UnaryInfC{$\neg @_t \phi$} 
-    \end{prooftree}
-  \end{multicols}
-  
-  
-  \begin{multicols}{2}
-    \begin{prooftree}
-      \AxiomC{$[s\text{ on the branch}]$}
-      \RightLabel{$[\textsf{Ref}]$}
-      \UnaryInfC{$@_s s$} 
-    \end{prooftree}
-    
-    \begin{prooftree}
-      \AxiomC{$@_t s$}
-      \RightLabel{$[\textsf{Sym}]$}
-      \UnaryInfC{$@_s t$}
-    \end{prooftree}
-  \end{multicols}
-  
-  
-  \begin{multicols}{2}
-    \begin{prooftree}
-      \AxiomC{$@_s P t$}
-      \AxiomC{$@_t u$}
-      \RightLabel{$P\textsf{--Bridge}$}
-      \BinaryInfC{$@_s P u$} 
-    \end{prooftree}
-    
-    \begin{prooftree}
-      \AxiomC{$@_s F t$}
-      \AxiomC{$@_t u$}
-      \RightLabel{$F\textsf{--Bridge}$}
-      \BinaryInfC{$@_s F u$}  
+  \begin{framed}
+    \centering
+    \begin{multicols}{4}
+      \begin{prooftree}
+        \AxiomC{$@_s @_t \phi$}
+        \RightLabel{$[@]$}
+        \UnaryInfC{$@_t \phi$} 
       \end{prooftree}
-  \end{multicols}
-  
-  \begin{multicols}{2}
-    \begin{prooftree}
-      \AxiomC{$@_s t$}
-      \AxiomC{$@_s \phi$}
-      \RightLabel{$[\textsf{Nom}]$}
-      \BinaryInfC{$@_t \phi$} 
-    \end{prooftree}
+      
+      \begin{prooftree}
+        \AxiomC{$\neg @_s @_t \phi$}
+        \RightLabel{$[\neg @]$}
+        \UnaryInfC{$\neg @_t \phi$} 
+      \end{prooftree}
+      
+      \begin{prooftree}
+        \AxiomC{$[s\text{ on the branch}]$}
+        \RightLabel{$[\textsf{Ref}]$}
+        \UnaryInfC{$@_s s$} 
+      \end{prooftree}
+      
+      \begin{prooftree}
+        \AxiomC{$@_t s$}
+        \RightLabel{$[\textsf{Sym}]$}
+        \UnaryInfC{$@_s t$}
+      \end{prooftree}
+    \end{multicols}
     
-    \begin{prooftree}
-      \AxiomC{$@_s t$}
-      \AxiomC{$@_t \phi$}
-      \RightLabel{$[\textsf{Nom}^{-1}]$}
-      \BinaryInfC{$@_s \phi$} 
-    \end{prooftree}
-  \end{multicols}
-  
-  \begin{prooftree}
-    \AxiomC{$@_s t$}
-    \AxiomC{$@_t r$}
-    \RightLabel{$[\textsf{Trans}]$}
-    \BinaryInfC{$@_s r$} 
-  \end{prooftree}
-  
-  \caption{@ rules}
+    
+    \begin{multicols}{4}
+      \begin{prooftree}
+        \AxiomC{$@_s P t$}
+        \RightLabel{$[P\textsf{--Trans}]$}
+        \UnaryInfC{$@_t F s$} 
+      \end{prooftree}
+      
+      \begin{prooftree}
+        \AxiomC{$@_s F t$}
+        \RightLabel{$[F\textsf{--Trans}]$}
+        \UnaryInfC{$@_t P s$}  
+      \end{prooftree}
+      
+      \begin{prooftree}
+        \AxiomC{$@_s P t$}
+        \AxiomC{$@_t u$}
+        \RightLabel{$P\textsf{--Bridge}$}
+        \BinaryInfC{$@_s P u$} 
+      \end{prooftree}
+      
+      \begin{prooftree}
+        \AxiomC{$@_s F t$}
+        \AxiomC{$@_t u$}
+        \RightLabel{$F\textsf{--Bridge}$}
+        \BinaryInfC{$@_s F u$}  
+      \end{prooftree}
+    \end{multicols}
+    
+    \begin{multicols}{3}
+      \begin{prooftree}
+        \AxiomC{$@_s t$}
+        \AxiomC{$@_s \phi$}
+        \RightLabel{$[\textsf{Nom}]$}
+        \BinaryInfC{$@_t \phi$} 
+      \end{prooftree}
+      
+      \begin{prooftree}
+        \AxiomC{$@_s t$}
+        \AxiomC{$@_t \phi$}
+        \RightLabel{$[\textsf{Nom}^{-1}]$}
+        \BinaryInfC{$@_s \phi$} 
+      \end{prooftree}
+      
+      \begin{prooftree}
+        \AxiomC{$@_s t$}
+        \AxiomC{$@_t r$}
+        \RightLabel{$[\textsf{Trans}]$}
+        \BinaryInfC{$@_s r$} 
+      \end{prooftree} 
+    \end{multicols}
+    \caption{@ rules}
+  \end{framed}
 \end{figure*}
 
  
 \begin{figure*}
+  \begin{framed}
   \begin{multicols}{2}
     \begin{prooftree}
       \AxiomC{$@_s F \phi$}
@@ -587,9 +609,11 @@ and a state $s$, the inductive definition is:
   \end{multicols}
   \caption{$F$ and $P$ rules}
   \label{fnp}
+  \end{framed}
 \end{figure*}
 
 \begin{figure*}[hbt!]
+  \begin{framed}
   \centering
   \begin{multicols}{2}
     \begin{prooftree}
@@ -607,67 +631,75 @@ and a state $s$, the inductive definition is:
     \end{prooftree}
   \end{multicols}
   \caption{$G$ and $H$ rules}
+\end{framed}
 \end{figure*}
 
-\begin{figure*}[hbt!] 
-  \begin{multicols}{2}
-    \begin{prooftree}
-      \AxiomC{$@_s P t$}
-      \RightLabel{$[P\textsf{--Trans}]$}
-      \UnaryInfC{$@_t F s$} 
-    \end{prooftree}
-    
-    \begin{prooftree}
-      \AxiomC{$@_s F t$}
-      \RightLabel{$[F\textsf{--Trans}]$}
-      \UnaryInfC{$@_t P s$}  
-    \end{prooftree}
-  \end{multicols}
-  \caption{Temporal order rules.}
-\end{figure*}
-
+Following \citet*{fitting-modal} we assume for each nominal $s$,
+there is an infinite list of parameters, where parameters are free variables
+which are never quantified over, arranged in such a way that different nominals
+never share the same parameter.  Informally we write $p_s$ to indicate
+a parameter is associated with a nominal $s$.  
+\par
+We also introduce the notion of a grounded term.  A grounded term
+is either a first-order constant, a parameter,
+or a grounded definite description, i.e.
+a term of the form $@_n q$ for $n$ a nominal
+and $q$ a unary function symbol.
 \begin{figure*}[hbt!]
+  \begin{framed}
   \begin{multicols}{2}
     \begin{prooftree}
       \AxiomC{$@_s \exists x \phi(x)$}
       \RightLabel{$[\exists]$}
-      \UnaryInfC{$@_c \phi(c)$} 
+      \UnaryInfC{$@_s \phi(p_s)$} 
     \end{prooftree}
     
     \begin{prooftree}
       \AxiomC{$@_s \neg \forall x \phi(x)$}
       \RightLabel{$[\neg \forall]$}
-      \UnaryInfC{$\neg @_c \phi(c)$}
+      \UnaryInfC{$\neg @_s \phi(p_s)$}
     \end{prooftree}
   \end{multicols}
   \caption{Existential rules}
   \label{ext}
+  \end{framed}
 \end{figure*}
 
-In the existential rules \ref{ext} $c$ is a parameter new to the branch,
+In the existential rules \ref{ext}, $p_s$ is a parameter associated with the
+nominal $s$, with the constraint that it is new to the branch.
+Since parameters are never quantified over,
+$p_s$ is free in $\phi[p_s / x]$.
 
-\begin{figure*}[hbt!]
-  \begin{multicols}{2}
-    \begin{prooftree}
-      \AxiomC{$@_s \forall x \phi(x)$}
-      \RightLabel{$[\forall]$}
-      \UnaryInfC{$ @_c \phi(c)$}
-    \end{prooftree}
-    
-    \begin{prooftree}
-      \AxiomC{$\neg @_s \exists x \phi(x)$}
-      \RightLabel{$[\neg \exists]$}
-      \UnaryInfC{$\neg @_c \phi(c)$} 
-    \end{prooftree}
-  \end{multicols}
-  \caption{Universal rules}
-  \label{univ}
+%% \begin{figure*}[!hbt]
+\begin{figure*}[H]
+  \begin{framed}
+    \centering
+    \begin{multicols}{2}
+      \begin{prooftree}
+        \AxiomC{$@_s \forall x \phi(x)$}
+        \RightLabel{$[\forall]$}
+        \UnaryInfC{$ @_c \phi(t)$}
+      \end{prooftree}
+      
+      \begin{prooftree}
+        \AxiomC{$\neg @_s \exists x \phi(x)$}
+        \RightLabel{$[\neg \exists]$}
+        \UnaryInfC{$\neg @_c \phi(t)$} 
+      \end{prooftree}
+    \end{multicols}
+    \caption{Universal rules}
+    \label{univ}
+  \end{framed}
 \end{figure*}
 
-In the universal rules \ref{univ} $c$ is a term grounded on the branch.
+In the universal rules \ref{univ} $t$ is a grounded term on the branch
+which exists at $D_s$.  
 
-\begin{figure*}[hbt!]
-  \begin{multicols}{2}
+%% \begin{figure*}[!hbt]
+\begin{figure*}[H]
+  \begin{framed}
+    \centering
+  \begin{multicols}{3}
     \begin{prooftree}
       \AxiomC{}
       \RightLabel{$[=\textsf{--Ref}]$}
@@ -679,16 +711,16 @@ In the universal rules \ref{univ} $c$ is a term grounded on the branch.
       \RightLabel{$[\textsf{DD}]$}
       \UnaryInfC{$@_n q = @_m q$}
     \end{prooftree}
-  \end{multicols}
     
-  \begin{prooftree}
-    \AxiomC{$@_s t = u$}
-    \AxiomC{$@_s \phi(t)$}
-    \RightLabel{$[\textsf{RR}]$}
-    \BinaryInfC{$@_s \phi[u]$} 
-  \end{prooftree}
-  
+    \begin{prooftree}
+      \AxiomC{$@_s t = u$}
+      \AxiomC{$@_s \phi(t)$}
+      \RightLabel{$[\textsf{RR}]$}
+      \BinaryInfC{$@_s \phi[u]$} 
+    \end{prooftree}
+  \end{multicols}
   \caption{{\it QHTL} Equality rules}
+\end{framed}
 \end{figure*}
 
 
@@ -783,7 +815,7 @@ by $R$ as follows based on the different cases for $R$:
 
 
 %%\begin{proof}
-({\it Proof}).  We prove soundness by induction on the
+({\it Proof})  We prove soundness by induction on the
 tableau rules, with particular
 attention to rules which introduce nominals new
 to the branch, namely $\{ F, P, \neg G, \neg H \}$ \ref{fnp},
@@ -810,7 +842,7 @@ in which $\Sigma$ is satisfiable by label.
   are satisfiable in $\mathfrak{M}$ under $g$ and the expansion of $\Sigma$
   by $\land$ is satisfiable by label.
   \bigskip
-  The proof for other non-branching rules are analogous.
+  The proofs for other non-branching rules are analogous.
 \item {\it Binary Rules}
   We will take the $H$ rule
   as an example.  Beginning
@@ -827,7 +859,7 @@ in which $\Sigma$ is satisfiable by label.
   satisfiable in $\mathfrak{M}$ under $g$ and the expansion of $\Sigma$
   by $H$ is satisfiable by label.
   \bigskip
-  The proof for other binary rules is analogous.
+  The proofs for other binary rules is analogous.
 \item {\it Branching Rules}
   We will take the $\lor$ rule
   as an example.  Beginning
@@ -844,23 +876,40 @@ in which $\Sigma$ is satisfiable by label.
   are satisfiable in $\mathfrak{M}$ under $g$ and the expansion of $\Sigma$
   by $\lor$ is satisfiable by label.
   \bigskip
-  The proof for other branching rules are analogous.
-\item {\it ``Existential'' Rules}
+  The proofs for other branching rules are analogous.
+\item {\it Existential and Universal Rules}
   We will take the $\forall$ rule
   as an example.  Beginning
   from $@_s \forall x \phi (x)$ if it's satisfied we have
   (where $s' = I_{nom}(s)$):
-  $$\mathfrak{M}, g_{d, s'}^x, s' \dststile{}{} \phi \text{ for all } d \in D_{s'} \iff @_s \phi(t')$$
-  Similarly for its negation if $@_s \forall x \phi (x)$ is not satisfied
+  $$\mathfrak{M}, g', s' \dststile{}{} \phi \text{ for every } x\text{-variant of } g \text{ at } s$$
+  That is for every $c$ in $D_{I_{nom}(s)}$, $\phi[t / x]$ is satisfied in $\mathfrak{M}$
+  under $g$, similarly for $\neg \phi[t / x]$
+  if $@_s \forall x \phi (x)$ is not satisfied
   in $\mathfrak{M}$ under $g$.  
-  In accordance with the constraints for the rule we can select $t'$ to be any
+  In accordance with the constraints for the rule we can select $t$ to be any
   grounded term on the branch which is also a member of $D_{I_{nom}(s)}$
   Thus the result of the application of the $\forall$ rule,
   or its negations
   are satisfiable in $\mathfrak{M}$ under $g$ and the expansion of $\Sigma$
   by $\forall$ is satisfiable by label.
   \bigskip
-  The proof for $\neg \exists$ is analogous.
+  The proofs for $\exists$, $\neg \exists$, and $\neg \forall$ are analogous.
+
+\item {\it Rules Introducing a Nominal to the Branch}
+
+  We will take the $F$ rule as am example.
+  Beginning from $@_s F \phi$, if it's satisfied
+  we have:
+  $$\mathfrak{M}, g, I_{nom}(s) \dststile{}{} \phi \text{ for some } t \in T \text{ such that } R I_{nom}(s) t$$
+  Let $a$ denote a nominal such that $R I_{nom}(s) I_{nom}(a)$ as above. As a result we have:
+  $$\mathfrak{M}, g, I_{nom}(s) \dststile{}{} a \iff$$
+  $$\mathfrak{M}, g, t \dststile{}{} a  \text{ for some } t \in T \text{ such that } R I_{nom}(s) t \iff$$
+  $$\mathfrak{M}, g, I_{nom}(s) = Fa \iff @_s F a$$
+  and
+  $$\mathfrak{M}, g, I_{nom}(a) \dststile{}{} \phi \iff @_a \phi$$
+  Similarly for their negations if $@_s F \phi$ is not satisfied in
+  $\mathfrak{M}$ under $g$.
   
 \item {\it Ref rules}
   $t = t$ is a tautology, invariant of model or assignment.
@@ -870,7 +919,8 @@ in which $\Sigma$ is satisfiable by label.
   Thus the expansion of $\Sigma$ by $=-$\textsf{Ref} or \textsf{Ref}
   is satisfiable by label.
 
-\qed
+  Using this we have demonstrated that the results of applicatition of a tableau rule to one or more premises
+  reflect the validity or non-validity of the premises. \qed
 
 \end{itemize}
 
@@ -953,7 +1003,7 @@ as described in \citet*{internalizing} except extended with the universal modali
   Given a tableau branch $\Theta$ and a nominal or state variable
   $s$ the {\it set of true formulae} at $s$ on $\Theta$,
   is written $T^\Theta (s)$ and defined as follows:
-  $$T^\Theta (s) = {\phi | @_s \phi \in \Theta}$$
+  $$T^\Theta (s) = \{ \phi \mid @_s \phi \in \Theta \}$$
 \end{definition}
 
 \begin{definition}
@@ -975,9 +1025,9 @@ as described in \citet*{internalizing} except extended with the universal modali
   $\psi$ is a quasi-subformula of $\phi$.
 \end{lemma}
 
-\begin{proof}
-  This is verified by induction on the tableau rules
-\end{proof}
+
+({\it Proof}) This is verified by induction on the tableau rules.
+
 
 \begin{definition}
 \end{definition}
@@ -1037,7 +1087,7 @@ as described in \citet*{internalizing} except extended with the universal modali
     \hspace*{1.0cm}:ARG0 p2\\
     \hspace*{1.0cm}:ARG1 f2))}
   \\
-c. It was impossible not to notice the license plate.
+c. It was impossible not to notice the car.
 \\
 d.
 \\

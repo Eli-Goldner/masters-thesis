@@ -797,7 +797,7 @@ by $R$ as follows based on the different cases for $R$:
 \end{enumerate}
 
 
-\begin{definition}[Satisfiable by label]
+\begin{definition}[{\bf Satisfiable by label}]
 
   Suppose $\Sigma$ is a set of satisfaction statements and
   $\mathfrak{M} = (T, R, D_t, I_{nom}, I_t)_{t \in T}$
@@ -938,7 +938,7 @@ in which $\Sigma$ is satisfiable by label.
   Thus the expansion of $\Sigma$ by $=-$\textsf{Ref} or \textsf{Ref}
   is satisfiable by label.
 
-  Using this we have demonstrated that the results of applicatition of a tableau rule to one or more premises
+  Using this we have demonstrated that the results of application of a tableau rule to one or more premises
   reflect the validity or non-validity of the premises. \qed
 
 \end{itemize}
@@ -1025,7 +1025,7 @@ as described in \citet*{internalizing} except extended with the universal modali
   $$T^\Theta (s) = \{ \phi \mid @_s \phi \in \Theta \}$$
 \end{definition}
 
-\begin{definition}
+\begin{definition}[{\bf Quasi-subformula}]
   A formula $\phi$ is a {\it quasi-subformula } of a
   formula $\psi$ if one of the the following is the case:
   \begin{enumerate}
@@ -1036,6 +1036,28 @@ as described in \citet*{internalizing} except extended with the universal modali
     is a subformula $\psi$
   \end{enumerate}
 \end{definition}
+
+\begin{definition}[{\bf Root-subformula}]
+  Where the root formula of a tableau $\Theta$ is written
+  $\textit{root}_{\Theta}$,
+  a formula $@_s \phi$ occuring on a tableau $\Theta$
+  is called a {\it root-subformula} on $\Theta$
+  if it is a quasi-subformula of $\textit{root}_{\Theta}$. 
+\end{definition}
+
+\begin{definition}[{\bf Accessibility formula}]
+  A formula of the form $@_s F t$ or $@_s P t$
+  on $\Theta$ is called an
+  {\it accessibility formula}
+  if it is the first conclusion of an application
+  of $F$, $P$, $\neg G$, or $\neg H$.
+  The intended interpretation of
+  $@_s F t$ is that the time denoted
+  by $t$ is accessible from the
+  time denoted by $s$ and vice versa
+  in the case of $@_s P t$.
+\end{definition}
+
 
 \begin{lemma}[{\bf Quasi-subformula Property}]
   Let $\mathcal{T}$ be a tableau with the formula

@@ -805,7 +805,14 @@ in which $\Sigma$ is satisfiable by label.
 
 \end{itemize}
 
+\subsection{Completeness}
 
+\begin{theorem}[{\bf Completeness}]
+  
+\end{theorem}
+
+
+\iffalse
 \begin{figure*}[hbt!]
   \centering
   \begin{alignat*}{2}
@@ -864,7 +871,7 @@ in which $\Sigma$ is satisfiable by label.
   \caption{Translation of First-order Tableau Literals to {\it QHTL} Literals.}
   \label{literal}
 \end{figure*}
-
+\fi
 
 \subsection{Decidability}
 
@@ -918,7 +925,13 @@ as described in \citet*{internalizing} except extended with the universal modali
 \end{definition}
 
 \begin{definition}[{\bf Equality formula}]
-  
+  An equality formula of one of either of the following forms:
+  \begin{itemize}
+  \item
+    $@_s t_i = t_j$ where $t_i, t_j$ are terms.
+  \item
+    $@_n q = @_m q$ where $q$ is a unary function symbol (a non-rigid designator).
+  \end{itemize}
 \end{definition}
 
 \begin{definition}[{\bf Root-subformula}]
@@ -932,10 +945,10 @@ as described in \citet*{internalizing} except extended with the universal modali
 
 
 \begin{lemma}[{\bf Subformula Property}]
-  Where $\Theta$ be a tableau branch in the {\it QHTL} calculus,
+  Where $\Theta$ is a tableau branch in the {\it QHTL} calculus,
   any formula $@_s \phi$ occuring on $\Theta$
-  is either a root-subformula or an accessibility
-  formula.
+  is either a root-subformula, accessibility
+  formula, or equality formula.
 \end{lemma}
 
 
@@ -943,7 +956,7 @@ as described in \citet*{internalizing} except extended with the universal modali
 $\textit{root}_{\Theta}$ as a base case. \qed
 
 
-\begin{definition}
+\begin{definition}[$\prec_{\Theta}$]
   Where $\Theta$ is a tableau branch in
   the {\it QHTL} calculus, if a nominal $a$
   is introduced to the branch by application of
@@ -955,35 +968,73 @@ $\textit{root}_{\Theta}$ as a base case. \qed
   closure of $\prec_{\Theta}$.  
 \end{definition}
 
-\begin{definition}
+\begin{definition}[$\textit{Nom}_{\Theta}$]
+  The set of nominals and state variables which occur on $\Theta$
+  is written $\textit{Nom}_{\Theta}$
+\end{definition}
+
+\begin{lemma}
+  Where $\Theta$ is a tableau branch in the {\it QHTL} calculus,
+  the graph $G = (\textit{Nom}_{\Theta}, \prec_{\Theta})$ is
+  a wellfounded finitely branching tree.
+\end{lemma}
+
+\begin{lemma}
+  Where $\Theta$ is a tableau branch in the {\it QHTL} calculus,
+  $\Theta$ is infinite if and only if there exists an infinite
+  chain of nominals and state variables
+  $a_1 \prec_{\Theta} a_2 \prec_{\Theta} \dotsc \prec_{\Theta} a_n \prec_{\Theta} \dotsc $
+\end{lemma}
+
+\begin{lemma}
+  Where $\Theta$ is a tableau branch in the {\it QHTL} calculus,
+  if $@_s t \in \Theta$ where each of $s$ and $t$ is a nominal
+  or a state variable then $t$ is a root nominal/state variable. 
+\end{lemma}
+
+\begin{lemma}
+  Where $\Theta$ is a tableau branch in the {\it QHTL} calculus,
+  if $@_s F t \in \Theta$ or $@_s P t \in \Theta$ and
+  $t$ is not a root nominal/state variable then $s \prec_{\Theta} t$
+  or $s$ and $t$ denote the same time.  
+\end{lemma}
+
+\begin{definition}[$m_{\Theta}$ and $d_{\Theta}$]
+  Where $\Theta$ is a tableau branch in the {\it QHTL} calculus,
+  $a$ is a nominal/state variable occuring on $\Theta$,
+  and $|@_s \phi|$ denotes the length of the formula $@_s \phi$,
+  we define $m_{\Theta}(a)$ as:
+  $$m_{\Theta}(a) = \max \{|@_s \phi| : @_s \phi \in \Theta \text{ and } @_s \phi \text{ is a root subformula} \}$$
+  If there are no root subformulae $@_a \phi$ on $\Theta$ then $m_{\Theta}(a) = - \infty$.
+  The {\it depth} of the nominal/state variable $a$ with regard to $\Theta$
+  is the length of the unique path in $(\textit{Nom}_{\Theta}, \prec_{\Theta})$
+  which connects the root nominal/state variable to $a$. 
+\end{definition}
+
+\begin{lemma}
+  Where $\Theta$ is a tableau branch in the {\it QHTL} calculus,
+  for any nominal/state variable on
+  $\Theta$, $m_{\Theta}(a) \leq |\textit{root}_{\Theta}| - d_{\Theta}(a)$
+\end{lemma}
+
+\begin{lemma}
+  Where $\Theta$ is a tableau branch in the {\it QHTL} calculus,
+  if for every nominal/state variable $a$ in $\textit{root}_{\Theta}$:
   
-\end{definition}
+  $$ m_{\Theta}(a) \leq |\textit{root}_{\Theta}| - d_{\Theta}(a) $$
+
+  then $\Theta$ is finite.
+\end{lemma}
+
+\begin{lemma}
+  Any tableau in the {\it QHTL} calculus
+  is finite.
+\end{lemma}
 
 \begin{theorem}
-\end{theorem}
-
-\begin{corollary}
-\end{corollary}
-
-\begin{definition}
-\end{definition}
-
-\begin{theorem}
-\end{theorem}
-
-\begin{definition}
-\end{definition}
-
-\begin{prop}
-\end{prop}
-
-\begin{definition}
-\end{definition}
-
-\begin{definition}
-\end{definition}
-
-\begin{theorem}
+  The satisfiability of a finite set of
+  {\it QHTL} sentences in a {\it QHTL}
+  model is decidable.
 \end{theorem}
 
 

@@ -800,12 +800,60 @@ in which $\Sigma$ is satisfiable by label.
   Thus the expansion of $\Sigma$ by $=-$\textsf{Ref} or \textsf{Ref}
   is satisfiable by label.
 
-  Using this we have demonstrated that the results of application of a tableau rule to one or more premises
+  Using this we have demonstrated that the results
+  of application of a tableau rule to one or more premises
   reflect the validity or non-validity of the premises. \qed
 
 \end{itemize}
 
 \subsection{Completeness}
+
+\begin{definition}[$\sigma_{\Theta}$]
+  We fix a function $\sigma$ 
+  that to each tableau branch
+  and each non-empty subset
+  $N \subseteq \textit{Nom}_{\Theta}$
+  picks out the element of $N$ which
+  denotes the earliest time under the
+  accessibility relation $R$ which is
+  a total order.  We write the function
+  value as $\sigma_{\Theta} N$.
+\end{definition}
+
+\begin{definition}[{\bf Urfathers}]
+  Let $\Theta$ be a tableau branch
+  in the {\it QHTL} calculus and
+  let $a$ be a nominal/state variable
+  occuring on $\Theta$.  The {\it urfather}
+  of $a$ on $\Theta$ written $u_{\Theta} (a)$
+  is defined by:
+  \[
+  u_{\Theta} (a) = 
+  \begin{cases}
+    \sigma_{\Theta} \{ b | @_a b \in \Theta\},& \text{if } \{ b | @_a b \in \Theta\} \neq \emptyset \\
+    a,              & \text{otherwise.}
+  \end{cases}
+  \]
+  a nominal $a$ is called an {\it urfather} on $\Theta$
+  if $a = u_{\Theta} (b)$ for some nominal $b$.
+\end{definition}
+
+\begin{lemma}
+  Where $\Theta$ is a saturated tableau branch
+  in the {\it QHTL} calculus, we have the following:
+  \begin{itemize}
+  \item
+
+    If $@_a \phi$ is a root-subformula not of the form
+    $@_a F c$ or $@_s P c$ then $u_{\Theta} (a) \in \Theta$.
+  \item
+
+    If $@_a b \in \Theta$ then $u_{\Theta} (a) = u_{\Theta} (b)$
+  \item
+
+    If $a$ is an urfather on $\Theta$ then $u_{\Theta} (a) = a$ 
+  \end{itemize}
+\end{lemma}
 
 \begin{theorem}[{\bf Completeness}]
   

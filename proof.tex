@@ -254,7 +254,7 @@ and a state $s$, the inductive definition is:
   & \mathfrak{M}, g, s \dststile{}{} \phi \lor \psi && \Longleftrightarrow  \mathfrak{M}, g, s \dststile{}{} \phi \text{ or } \mathfrak{M}, g, s \dststile{}{} \psi \\
   & \mathfrak{M}, g, s \dststile{}{} \phi \to \psi && \Longleftrightarrow  \mathfrak{M}, g, s \dststile{}{} \phi \text{ implies } \mathfrak{M}, g, s \dststile{}{} \psi \\
   & \mathfrak{M}, g, s \dststile{}{} \exists x \phi && \Longleftrightarrow \mathfrak{M}, g', s \dststile{}{} \phi \text{ for some } x\text{-variant }g'\text{ of } g \text{ at } s \\
-  & \mathfrak{M}, g, s \dststile{}{} \forall x \phi && \Longleftrightarrow \mathfrak{M}, g', s \dststile{}{} \phi  \text{ for some } x\text{-variant }g'\text{ of } g \text{ at } s \\
+  & \mathfrak{M}, g, s \dststile{}{} \forall x \phi && \Longleftrightarrow \mathfrak{M}, g', s \dststile{}{} \phi  \text{ for every } x\text{-variant }g'\text{ of } g \text{ at } s \\
   & \mathfrak{M}, g, s \dststile{}{} F \phi && \Longleftrightarrow \mathfrak{M}, g, t \dststile{}{} \phi \text{ for some } t \in T \text{ such that } Rst \\
   & \mathfrak{M}, g, s \dststile{}{} G \phi && \Longleftrightarrow \mathfrak{M}, g, t \dststile{}{} \phi \text{ for all } t \in T \text{ such that } Rst \\
   & \mathfrak{M}, g, s \dststile{}{} P \phi && \Longleftrightarrow \mathfrak{M}, g, t \dststile{}{} \phi \text{ for some } t \in T \text{ such that } Rts \\
@@ -845,7 +845,7 @@ in which $\Sigma$ is satisfiable by label.
   \item
 
     If $@_a \phi$ is a root-subformula not of the form
-    $@_a F c$ or $@_s P c$ then $u_{\Theta} (a) \in \Theta$.
+    $@_a F c$ or $@_a P c$ then $u_{\Theta} (a) \in \Theta$.
   \item
 
     If $@_a b \in \Theta$ then $u_{\Theta} (a) = u_{\Theta} (b)$

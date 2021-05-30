@@ -616,9 +616,9 @@ which exists at $D_s$.
     \centering
   \begin{multicols}{3}
     \begin{prooftree}
-      \AxiomC{}
-      \RightLabel{$[=\textsf{--Ref}]$}
-      \UnaryInfC{$t = t$} 
+      \AxiomC{$[s \text{ on  the branch}]$}
+      \RightLabel{$[=\textendash\textsf{Ref}]$}
+      \UnaryInfC{$@_s t = t$} 
     \end{prooftree}
     
     \begin{prooftree}
@@ -1030,19 +1030,16 @@ as described in \citet*{internalizing} except extended with the universal modali
   formula $\psi$ if one of the the following is the case:
   \begin{enumerate}
   \item
-    $\phi$ is a subformula of $\psi$.
+    $\phi$ is a subformula of $\psi$ modulo substitution
+    of free variables in $\phi$ for grounded terms.
   \item
     $\phi$ is of the form $\neg \chi$ where $\chi$
-    is a subformula $\psi$
+    modulo substitution
+    of free variables in $\chi$ for grounded terms.
   \end{enumerate}
-\end{definition}
-
-\begin{definition}[{\bf Root-subformula}]
-  Where the root formula of a tableau $\Theta$ is written
-  $\textit{root}_{\Theta}$,
-  a formula $@_s \phi$ occuring on a tableau $\Theta$
-  is called a {\it root-subformula} on $\Theta$
-  if it is a quasi-subformula of $\textit{root}_{\Theta}$. 
+  Altering the definition to allow grounded terms being substituted
+  for free variables ensures compatibility of the following proofs
+  with the universal, existential, and \textsf{RR} rules.  
 \end{definition}
 
 \begin{definition}[{\bf Accessibility formula}]
@@ -1058,19 +1055,46 @@ as described in \citet*{internalizing} except extended with the universal modali
   in the case of $@_s P t$.
 \end{definition}
 
+\begin{definition}[{\bf Equality formula}]
+  
+\end{definition}
 
-\begin{lemma}[{\bf Quasi-subformula Property}]
-  Let $\mathcal{T}$ be a tableau with the formula
-  $@_s \phi$ as root.
-  For any formula $@_t \psi$ occuring on $\mathcal{T}$,
-  $\psi$ is a quasi-subformula of $\phi$.
+\begin{definition}[{\bf Root-subformula}]
+  Where the root formula of a tableau $\Theta$ is written
+  $\textit{root}_{\Theta}$,
+  a formula $@_s \phi$ occuring on a tableau $\Theta$
+  is called a {\it root-subformula} on $\Theta$
+  if it is a quasi-subformula of $\textit{root}_{\Theta}$. 
+\end{definition}
+
+
+
+\begin{lemma}[{\bf Subformula Property}]
+  Where $\Theta$ be a tableau branch in the {\it QHTL} calculus,
+  any formula $@_s \phi$ occuring on $\Theta$
+  is either a root-subformula or an accessibility
+  formula.
 \end{lemma}
 
 
-({\it Proof}) This is verified by induction on the tableau rules.
+({\it Proof}) This is verified by induction on the tableau rules beginning with
+$\textit{root}_{\Theta}$ as a base case. \qed
 
 
 \begin{definition}
+  Where $\Theta$ is a tableau branch in
+  the {\it QHTL} calculus, if a nominal $a$
+  is introduced to the branch by application of
+  of $F$, $P$, $\neg G$, or $\neg H$
+  to a premise $@_s \phi$, we
+  say $a$ is {\it generated} by $s$
+  on $\Theta$ and write $s \prec_{\Theta} a$.
+  We write $\prec_{\Theta}^*$ to denote the reflexive and transitive
+  closure of $\prec_{\Theta}$.  
+\end{definition}
+
+\begin{definition}
+  
 \end{definition}
 
 \begin{theorem}

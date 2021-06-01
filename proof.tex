@@ -401,19 +401,18 @@ Similarly  for $\textsf{Nom}^{-1}$ and the premise $@_s\phi$.
   \end{framed}
 \end{figure*}
 
-\par
 In all rules in \ref{fnp}, the nominal $a$ is new to the branch.
 We have the additional constraint that if $\phi$ in the premise
 is a nominal or state variable, then the premise must be a root subformula
 in order for the rule to be applicable.
 
-\par
-
-Following \citet*{fitting-modal} we assume for each nominal $s$,
+Following \citet*{fitting-modal} we assume for each nominal
+or state variable $s$,
 there is an infinite list of parameters, where parameters are free variables
-which are never quantified over, arranged in such a way that different nominals
+which are never quantified over, arranged in such a way that different
+nominals/state variables
 never share the same parameter.  Informally we write $p_s$ to indicate
-a parameter is associated with a nominal $s$.  
+a parameter is associated with a nominal/state variable $s$.  
 \par
 We also introduce the notion of a grounded term.  A grounded term
 is either a first-order constant, a parameter,
@@ -478,9 +477,9 @@ which exists at $D_s$.
     \centering
   \begin{multicols}{3}
     \begin{prooftree}
-      \AxiomC{$[s \text{ on  the branch}]$}
-      \RightLabel{$[=\textendash\textsf{Ref}]$}
-      \UnaryInfC{$@_s t = t$} 
+      \AxiomC{}
+      \RightLabel{$[\textsf{TermRef}]$}
+      \UnaryInfC{$t = t$} 
     \end{prooftree}
     
     \begin{prooftree}
@@ -490,12 +489,27 @@ which exists at $D_s$.
     \end{prooftree}
     
     \begin{prooftree}
-      \AxiomC{$@_s t = u$}
+      \AxiomC{$t = u$}
       \AxiomC{$@_s \phi(t)$}
       \RightLabel{$[\textsf{RR}]$}
       \BinaryInfC{$@_s \phi[u]$} 
     \end{prooftree}
   \end{multicols}
+
+  \begin{multicols}{2}
+    \begin{prooftree}
+      \AxiomC{$@_n (t_i = t_j)$}
+      \RightLabel{$[@=]$}
+      \UnaryInfC{$t_i = t_j$}
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$\neg @_n (t_i = t_j)$}
+      \RightLabel{$[\neg @=]$}
+      \UnaryInfC{$\neg (t_i = t_j)$}
+    \end{prooftree}
+  \end{multicols}
+
   \caption{{\it QHTL} Equality rules}
 \end{framed}
 \end{figure*}
@@ -855,32 +869,37 @@ in which $\Sigma$ is satisfiable by label.
   \end{itemize}
 \end{lemma}
 
+\begin{definition}[$\mathfrak{M}^{\Theta}$]
+  Where $\Theta$ is a saturated tableau branch
+  in the {\it QHTL} calculus, we have following
+  model definition:
+  $$\mathfrak{M}^{\Theta} = (T^{\Theta}, R^{\Theta}, D_t, I_{nom_{\Theta}}, I_t)_{t \in T^{\Theta}}$$
+  from:
+ \begin{figure*}[hbt!]
+  \centering
+  \begin{alignat*}{2}
+    & T^{\Theta} && = \{ u_{\Theta} (a) | a \text{ is a nominal/state variable occuring on } \Theta \} \\
+    & R^{\Theta} && = \{ (a, u_{\Theta} (b)) \in T^2 | @_a F b \in \Theta \text{ or } @_b P a \in \Theta \} \\
+    & I_{nom_{\Theta}}(a) && = I_{nom} (u_{\Theta} (a))
+    %%\caption{$AT_x^-$}
+  \end{alignat*}
+
+  Finally where $\mathfrak{M}$ had the assignment $g$, we give
+  $\mathfrak{M}^{\Theta}$ the assignment $g^{\Theta}$ which is exactly
+  like $g$ except for a state variable $s$,
+  we have $g^{\Theta} (s) = g (u_{\Theta} (s))$.
+  Interpretation of terms is adjusted accordingly. 
+\end{figure*}
+
+ 
+\end{definition}
+
 \begin{theorem}[{\bf Completeness}]
   
 \end{theorem}
 
 
 \iffalse
-\begin{figure*}[hbt!]
-  \centering
-  \begin{alignat*}{2}
-    & AT_x (p) && := Px \\
-    & AT_x (n) && := x = n \\
-    & AT_x (w) && := x = w \\
-    & AT_x (\neg \phi) && := \langle \lambda x . \neg AT_x (\phi) \rangle (x) \\
-    & AT_x (\phi \land \psi) && := \langle \lambda x . AT_x (\phi) \land AT_x (\psi) \rangle (x) \\
-    & AT_x(G \phi) && := \langle \lambda x . \forall y (Rxy \to AT_y (\phi)) \rangle (x) \\  
-    & AT_x(H \phi) && := \langle \lambda x . \forall y (Ryx \to AT_y (\phi)) \rangle (x) \\
-    & AT_x(@_n \phi) && := \langle \lambda x . \forall x (x = n \to AT_x (\phi)) \rangle (x) \\
-    & AT_x(P(t_1, \dotsc, t_k)) && := P'(x, t_1, \dotsc, t_k) \\
-    & AT_x(t_i = t_j) && := \langle \lambda x . t_i = t_j \rangle(x) \\
-    & AT_x (\forall v \phi) && := \langle \lambda x . \forall v AT_x(\phi) \rangle (x)  
-    %%\caption{$AT_x^-$}
-  \end{alignat*}
-  \caption{{\it QHTL} Formulae to First-order Formulae Translation.}
-  \label{qhtl2fol}
-\end{figure*}
-
 
 \begin{figure*}[hbt!]
   \centering
@@ -973,13 +992,7 @@ as described in \citet*{internalizing} except extended with the universal modali
 \end{definition}
 
 \begin{definition}[{\bf Equality formula}]
-  An equality formula of one of either of the following forms:
-  \begin{itemize}
-  \item
-    $@_s t_i = t_j$ where $t_i, t_j$ are terms.
-  \item
-    $@_n q = @_m q$ where $q$ is a unary function symbol (a non-rigid designator).
-  \end{itemize}
+  An equality formula is of the form $@_s t_i = t_j$ where $t_i, t_j$ are grounded terms.
 \end{definition}
 
 \begin{definition}[{\bf Root-subformula}]

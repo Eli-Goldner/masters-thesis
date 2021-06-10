@@ -13,15 +13,17 @@
 
 \documentclass[11pt]{article}
 %%\usepackage[hyperref]{acl2021}
-\usepackage{times}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsthm}
+
+\usepackage{times}
 \usepackage{latexsym}
 \usepackage{lingstyle}
 \usepackage{graphicx}
 \usepackage{tikz}
 \usepackage{hyperref}
+\usepackage{cleveref}
 \usepackage{bussproofs}
 \usepackage{multicol}
 %%\usepackage{prftree.sty} 
@@ -29,11 +31,12 @@
 \usepackage{cite}
 \usepackage{float}
 %%\usepackage{stfloats}
-\usepackage{turnstile}
+%%\usepackage{turnstile}
 \usepackage{rotating}
 \usepackage{subcaption}
 \usepackage{graphicx}
 \usepackage{framed}
+
 
 \usepackage[margin=0.5in]{geometry}
 
@@ -48,6 +51,8 @@
 
 \theoremstyle{remark}
 \newtheorem*{remark}{Remark}
+
+%%\newenvironment{proof}{\paragraph{Proof:}}{\hfill$\square$}
 
 \usetikzlibrary{arrows,positioning,shapes} 
 \tikzset{
@@ -87,7 +92,7 @@
  \def\topdrs#1#2{\begin{tabular}{|l|}\hline #1 \\ \hline \\
                 [-8pt] #2 \\[-8pt] \\ \hline \end{tabular} }
 
- \def\proof#1#2#3#4{\drs{#1}{#2} \ $\vdash$ \ \drs{#3}{#4}}
+ %%\def\proof#1#2#3#4{\drs{#1}{#2} \ $\vdash$ \ \drs{#3}{#4}}
  \def\modimp#1#2#3#4{\mbox{\drs{#1}{#2} \ $\Box$ \ \drs{#3}{#4}}}
  \def\imp#1#2#3#4{\drs{#1}{#2} \ $\Rightarrow$ \ \drs{#3}{#4}}
  \def\dis#1#2#3#4{\mbox{\drs{#1}{#2} \ $\vee$ \ \drs{#3}{#4}}}
@@ -133,12 +138,15 @@
   This thesis presents a formalization of inference over a merging of
   \citeauthor{donatelli-etal-2018-annotation}'s \citeyearpar{donatelli-etal-2018-annotation} AMR extension for tense and aspect
   and with \citeauthor{pustejovsky-etal-2019-modeling}'s \citeyearpar{pustejovsky-etal-2019-modeling} AMR extension for quantification and scope.
-  Inference is modeled with a merging of Blackburn and Marx's tableau method for quantified hybrid logic
-  ({\it QHL}) and Blackburn and J{\o}rgensen's tableau method for basic hybrid tense logic ({\it BHTL}).
+  Inference is modeled with a merging of \citeauthor{hansen2007tableau}'s
+  \citeyearpar{hansen2007tableau} tableau method for
+  first-order hybrid logic with varying domain semantics 
+  ({\it FHL}) and \citeauthor{blackburn2012indexical}'s \citeyearpar{blackburn2012}
+  tableau method for basic hybrid tense logic ({\it BHTL}).
   We motivate the merging of these AMR variants,
-  present their interpretation and inference in the combination of {\it QHL}
-  and {\it BHTL}, which we will call {\it QHTL} (quantified hybrid tense logic),
-  and demonstrate {\it QHTL}'s soundess, completeness,
+  present their interpretation and inference in the combination of {\it FHL}
+  and {\it BHTL}, which we will call {\it FHTL} (quantified hybrid tense logic),
+  and demonstrate {\it FHTL}'s soundess, completeness,
   and decidability. 
 
 
@@ -155,7 +163,7 @@
 
 \section{Quantified Hybrid Tense Logic - Syntax and Semantics}
 \smallskip
-The syntax of {\it QHTL} is identical to {\it QHL} as given in \citet*{quantified} except
+The syntax of {\it FHTL} is identical to {\it FHL} as given in \citet*{hansen2007tableau} except
 uses of $\downarrow$ as in $\downarrow w . \phi$ are omitted along
 with $\Box$ and $\Diamond$ as in $\Box \phi$ and $\Diamond \phi$.
 $\Box$ and $\Diamond$ are replaced by their semantic equivalents
@@ -164,7 +172,7 @@ $F$ and $G$ and their temporal duals $P$ and $H$ are added.
 \smallskip
 
 
-Atomic formulae are the same as in {\it QHL}, symbols in \textsf{NOM}
+Atomic formulae are the same as in {\it FHL}, symbols in \textsf{NOM}
 and \textsf{SVAR} together with first-order atomic formulae
 generated from the predicate symbols and equality over the terms. 
 Thus complex formulae are generated from the atomic formulae according to the
@@ -177,11 +185,11 @@ Since we want the domain of quantification to be indexed
 over the collection of nominals/times, we look to
 \citeauthor{fitting-modal}'s \citeyearpar{fitting-modal}
 treatment of first-order modal logic with varying domain semantics
-and use it to alter the {\it QHL} model definition
+and use it to alter the {\it FHL} model definition
 to the following:
 $$(T, R, D_t, I_{nom}, I_t)_{t \in T}$$
-Thus with varying domain semantics a {\it QHTL}
-model is identical to the definition for a {\it QHL} model in that:
+Thus with varying domain semantics a {\it FHTL}
+model is identical to the definition for a {\it FHL} model in that:
 \begin{itemize}
   \item
     $(T,R)$ is a modal frame.
@@ -205,15 +213,15 @@ constant need not exist at both times.  This permits us to distinguish
 between the domain of a frame and the domain of a time/world,
 in a way that prevents a variable $x$ from failing to refer
 at a given time/world, even if it has no interpretation at that time.
-Intuitively this permits {\it QHTL} to handle interpretation of entities
+Intuitively this permits {\it FHTL} to handle interpretation of entities
 in natural language utterances, which while reasonable to refer to
 do not exist at a current time, e.g. previous and future presidents.
 
 
 \smallskip
 
-Free variables are handled similarly as in {\it QHL}.
-Where again $D = \cup_{t \in T} D_t $, a {\it QHTL} assignment is a function:
+Free variables are handled similarly as in {\it FHL}.
+Where again $D = \cup_{t \in T} D_t $, a {\it FHTL} assignment is a function:
 $$g : \textsf{SVAR} \cup \textsf{FVAR} \to T \cup D $$
 Where state variables are sent to times/worlds and
 first-order variables are sent to $D$, the domain
@@ -245,22 +253,22 @@ Given a model $\mathfrak{M}$, a variable assignment $g$,
 and a state $s$, the inductive definition is:
 
 \begin{alignat*}{2}
-  &\mathfrak{M}, g, s \dststile{}{} P(t_1, \dotsc , t_n )  && \Longleftrightarrow \langle \overline{t_1}, \dotsc , \overline{t_n} \rangle \in I_s (P)  \\
-  &\mathfrak{M}, g, s \dststile{}{} t_i = t_j  && \Longleftrightarrow \overline{t_i} = \overline{t_j}  \\
-  &\mathfrak{M}, g, s \dststile{}{} n && \Longleftrightarrow I_{nom} (n) = s, \text{for }n\text{ a nominal}  \\
-  & \mathfrak{M}, g, s \dststile{}{} w && \Longleftrightarrow g(w) = s, \text{for }w\text{ a state variable}  \\
-  & \mathfrak{M}, g, s \dststile{}{} \neg \phi && \Longleftrightarrow  \mathfrak{M}, g, s \not\dststile{}{} \phi \\
-  & \mathfrak{M}, g, s \dststile{}{} \phi \land \psi && \Longleftrightarrow  \mathfrak{M}, g, s \dststile{}{} \phi \text{ and } \mathfrak{M}, g, s \dststile{}{} \psi \\
-  & \mathfrak{M}, g, s \dststile{}{} \phi \lor \psi && \Longleftrightarrow  \mathfrak{M}, g, s \dststile{}{} \phi \text{ or } \mathfrak{M}, g, s \dststile{}{} \psi \\
-  & \mathfrak{M}, g, s \dststile{}{} \phi \to \psi && \Longleftrightarrow  \mathfrak{M}, g, s \dststile{}{} \phi \text{ implies } \mathfrak{M}, g, s \dststile{}{} \psi \\
-  & \mathfrak{M}, g, s \dststile{}{} \exists x \phi && \Longleftrightarrow \mathfrak{M}, g', s \dststile{}{} \phi \text{ for some } x\text{-variant }g'\text{ of } g \text{ at } s \\
-  & \mathfrak{M}, g, s \dststile{}{} \forall x \phi && \Longleftrightarrow \mathfrak{M}, g', s \dststile{}{} \phi  \text{ for every } x\text{-variant }g'\text{ of } g \text{ at } s \\
-  & \mathfrak{M}, g, s \dststile{}{} F \phi && \Longleftrightarrow \mathfrak{M}, g, t \dststile{}{} \phi \text{ for some } t \in T \text{ such that } Rst \\
-  & \mathfrak{M}, g, s \dststile{}{} G \phi && \Longleftrightarrow \mathfrak{M}, g, t \dststile{}{} \phi \text{ for all } t \in T \text{ such that } Rst \\
-  & \mathfrak{M}, g, s \dststile{}{} P \phi && \Longleftrightarrow \mathfrak{M}, g, t \dststile{}{} \phi \text{ for some } t \in T \text{ such that } Rts \\
-  & \mathfrak{M}, g, s \dststile{}{} H \phi && \Longleftrightarrow \mathfrak{M}, g, t \dststile{}{} \phi \text{ for all } t \in T \text{ such that } Rts \\
-  & \mathfrak{M}, g, s \dststile{}{} @_n \phi && \Longleftrightarrow \mathfrak{M}, g, I_{nom}(n) \dststile{}{} \phi \text{ for } n \text{ a nominal } \\
-  & \mathfrak{M}, g, s \dststile{}{} @_w \phi && \Longleftrightarrow \mathfrak{M}, g, g(w) \dststile{}{} \phi \text{ for } w \text{ a state variable }
+  &\mathfrak{M}, g, s \vDash P(t_1, \dotsc , t_n )  && \Longleftrightarrow \langle \overline{t_1}, \dotsc , \overline{t_n} \rangle \in I_s (P)  \\
+  &\mathfrak{M}, g, s \vDash t_i = t_j  && \Longleftrightarrow \overline{t_i} = \overline{t_j}  \\
+  &\mathfrak{M}, g, s \vDash n && \Longleftrightarrow I_{nom} (n) = s, \text{for }n\text{ a nominal}  \\
+  & \mathfrak{M}, g, s \vDash w && \Longleftrightarrow g(w) = s, \text{for }w\text{ a state variable}  \\
+  & \mathfrak{M}, g, s \vDash \neg \phi && \Longleftrightarrow  \mathfrak{M}, g, s \not\vDash \phi \\
+  & \mathfrak{M}, g, s \vDash \phi \land \psi && \Longleftrightarrow  \mathfrak{M}, g, s \vDash \phi \text{ and } \mathfrak{M}, g, s \vDash \psi \\
+  & \mathfrak{M}, g, s \vDash \phi \lor \psi && \Longleftrightarrow  \mathfrak{M}, g, s \vDash \phi \text{ or } \mathfrak{M}, g, s \vDash \psi \\
+  & \mathfrak{M}, g, s \vDash \phi \to \psi && \Longleftrightarrow  \mathfrak{M}, g, s \vDash \phi \text{ implies } \mathfrak{M}, g, s \vDash \psi \\
+  & \mathfrak{M}, g, s \vDash \exists x \phi && \Longleftrightarrow \mathfrak{M}, g', s \vDash \phi \text{ for some } x\text{-variant }g'\text{ of } g \text{ at } s \\
+  & \mathfrak{M}, g, s \vDash \forall x \phi && \Longleftrightarrow \mathfrak{M}, g', s \vDash \phi  \text{ for every } x\text{-variant }g'\text{ of } g \text{ at } s \\
+  & \mathfrak{M}, g, s \vDash F \phi && \Longleftrightarrow \mathfrak{M}, g, t \vDash \phi \text{ for some } t \in T \text{ such that } Rst \\
+  & \mathfrak{M}, g, s \vDash G \phi && \Longleftrightarrow \mathfrak{M}, g, t \vDash \phi \text{ for all } t \in T \text{ such that } Rst \\
+  & \mathfrak{M}, g, s \vDash P \phi && \Longleftrightarrow \mathfrak{M}, g, t \vDash \phi \text{ for some } t \in T \text{ such that } Rts \\
+  & \mathfrak{M}, g, s \vDash H \phi && \Longleftrightarrow \mathfrak{M}, g, t \vDash \phi \text{ for all } t \in T \text{ such that } Rts \\
+  & \mathfrak{M}, g, s \vDash @_n \phi && \Longleftrightarrow \mathfrak{M}, g, I_{nom}(n) \vDash \phi \text{ for } n \text{ a nominal } \\
+  & \mathfrak{M}, g, s \vDash @_w \phi && \Longleftrightarrow \mathfrak{M}, g, g(w) \vDash \phi \text{ for } w \text{ a state variable }
   %%\caption{$AT_x$}
 \end{alignat*}
 
@@ -396,12 +404,12 @@ Similarly  for $\textsf{Nom}^{-1}$ and the premise $@_s\phi$.
         \UnaryInfC{$\neg @_a \phi$} 
       \end{prooftree}
     \end{multicols}
-    \caption{$F$ and $P$ rules}
-    \label{fnp}
   \end{framed}
+  \caption{$F$ and $P$ rules}
+  \label{fnp}
 \end{figure*}
 
-In all rules in \ref{fnp}, the nominal $a$ is new to the branch.
+In all rules in \cref{fnp}, the nominal $a$ is new to the branch.
 We have the additional constraint that if $\phi$ in the premise
 is a nominal or state variable, then the premise must be a root subformula
 in order for the rule to be applicable.
@@ -441,7 +449,7 @@ and $q$ a unary function symbol.
 \end{figure*}
 
 \par
-In the existential rules \ref{ext}, $p_s$ is a parameter associated with the
+In the existential rules \cref{ext}, $p_s$ is a parameter associated with the
 nominal $s$, with the constraint that it is new to the branch.
 Since parameters are never quantified over,
 $p_s$ is free in $\phi[p_s / x]$.
@@ -463,12 +471,12 @@ $p_s$ is free in $\phi[p_s / x]$.
         \UnaryInfC{$\neg @_c \phi(t)$} 
       \end{prooftree}
     \end{multicols}
-    \caption{Universal rules}
-    \label{univ}
   \end{framed}
+  \caption{Universal rules}
+  \label{univ}
 \end{figure*}
 
-In the universal rules \ref{univ} $t$ is a grounded term on the branch
+In the universal rules \cref{univ} $t$ is a grounded term on the branch
 which exists at $D_s$.  
 
 \begin{figure*}[!h]
@@ -510,7 +518,7 @@ which exists at $D_s$.
     \end{prooftree}
   \end{multicols}
 
-  \caption{{\it QHTL} Equality rules}
+  \caption{{\it FHTL} Equality rules}
 \end{framed}
 \end{figure*}
 
@@ -621,7 +629,7 @@ which exists at $D_s$.
 
 \subsection{Soundness}
 The proof of the soundness of the tableau method
-for {\it QHTL} is adapted from the proof of
+for {\it FHTL} is adapted from the proof of
 soundness of the tableau method for
 $\mathcal{H}(@)$ given in \citet*{internalizing}.
 
@@ -677,23 +685,23 @@ by $R$ as follows based on the different cases for $R$:
 
   Suppose $\Sigma$ is a set of satisfaction statements and
   $\mathfrak{M} = (T, R, D_t, I_{nom}, I_t)_{t \in T}$
-  is a standard {\it QHTL} model.
+  is a standard {\it FHTL} model.
   We say $\Sigma$ is
   {\it satisfied by label} in $\mathfrak{M}$
-  under a {\it QHTL} assignment $g$
+  under a {\it FHTL} assignment $g$
   if and and only if for all formulae in $\Sigma$:
   \begin{enumerate}
   \item
     If $@_s \phi \in \Sigma$ then
-    $\mathfrak{M}, g, I_{nom}(s) \dststile{}{} \phi$
+    $\mathfrak{M}, g, I_{nom}(s) \vDash \phi$
   \item
     If $\neg @_s \phi \in \Sigma$ then
-    $\mathfrak{M}, g, I_{nom}(s) \not \dststile{}{} \phi$
+    $\mathfrak{M}, g, I_{nom}(s) \not \vDash \phi$
     
   \end{enumerate}
 
   We say $\Sigma$ is {\it satisfiable by label}
-  if and only if there is a standard {\it QHTL} model
+  if and only if there is a standard {\it FHTL} model
   and assignment in which it is satisfied by label.
 
   
@@ -713,12 +721,12 @@ by $R$ as follows based on the different cases for $R$:
 ({\it Proof})  We prove soundness by induction on the
 tableau rules, with particular
 attention to rules which introduce nominals new
-to the branch, namely $\{ F, P, \neg G, \neg H \}$ \ref{fnp},
+to the branch, namely $\{ F, P, \neg G, \neg H \}$ \cref{fnp},
 and rules which introduce new parameters to the branch,
-namely the universal rules \ref{univ} and existential rules \ref{ext}.
+namely the universal rules \cref{univ} and existential rules \cref{ext}.
 In all cases discussed below let 
 $$\mathfrak{M} = (T, R, D_t, I_{nom}, I_t)_{t \in T}$$
-be {\it QHTL} model and $g$ the assignment
+be {\it FHTL} model and $g$ the assignment
 in which $\Sigma$ is satisfiable by label.
 
 \begin{itemize}
@@ -727,10 +735,10 @@ in which $\Sigma$ is satisfiable by label.
   We will take the $\land$ rule
   as an example.  Beginning
   from $@_s \phi \land \psi$ we have:
-  $$\mathfrak{M}, g, I_{nom}(s) \dststile{}{} \phi \land \psi$$
+  $$\mathfrak{M}, g, I_{nom}(s) \vDash \phi \land \psi$$
   and consequentially 
-  $$\mathfrak{M}, g, I_{nom}(s) \dststile{}{} \phi \iff @_s \phi$$
-  $$\mathfrak{M}, g, I_{nom}(s) \dststile{}{} \psi \iff @_s \psi$$
+  $$\mathfrak{M}, g, I_{nom}(s) \vDash \phi \iff @_s \phi$$
+  $$\mathfrak{M}, g, I_{nom}(s) \vDash \psi \iff @_s \psi$$
   Similarly for their negations if at least one of $@_s \phi \land \psi$
   are not satisfied in $\mathfrak{M}$ under $g$.  
   Thus the results of the application of the $\land$ rule, $@_s \phi$ and $@_s \psi$
@@ -742,12 +750,12 @@ in which $\Sigma$ is satisfiable by label.
   We will take the $H$ rule
   as an example.  Beginning
   with $@_s H \phi$ and $@_s P t$ we have from the former:
-  $$\mathfrak{M}, g, t \dststile{}{} \phi \text{ for all } t \in T \text{ such that } R t I_{nom}(s)$$
+  $$\mathfrak{M}, g, t \vDash \phi \text{ for all } t \in T \text{ such that } R t I_{nom}(s)$$
   and from the latter:
-  $$\mathfrak{M}, g, t' \dststile{}{} t \text{ for some } t' \in T \text{ such that } R t I_{nom}(s)$$
+  $$\mathfrak{M}, g, t' \vDash t \text{ for some } t' \in T \text{ such that } R t I_{nom}(s)$$
  
   and consequentially since $Rts$ 
-  $$\mathfrak{M}, g, I_{nom}(t) \dststile{}{} \phi \iff @_t \phi$$
+  $$\mathfrak{M}, g, I_{nom}(t) \vDash \phi \iff @_t \phi$$
   Similarly for their negations if at least one of $@_s H \phi$ and $@_s P t$
   are not satisfied in $\mathfrak{M}$ under $g$.
   Thus the result of application of the $H$ rule, $@_t \phi$ is
@@ -759,11 +767,11 @@ in which $\Sigma$ is satisfiable by label.
   We will take the $\lor$ rule
   as an example.  Beginning
   from $@_s \phi \lor \psi$ if it's satisfied we have:
-  $$\mathfrak{M}, g, I_{nom}(s) \dststile{}{} \phi \lor \psi$$
+  $$\mathfrak{M}, g, I_{nom}(s) \vDash \phi \lor \psi$$
   and consequentially at least one of 
-  $$\mathfrak{M}, g, I_{nom}(s) \dststile{}{} \phi \iff @_s \phi$$
+  $$\mathfrak{M}, g, I_{nom}(s) \vDash \phi \iff @_s \phi$$
   or 
-  $$\mathfrak{M}, g, I_{nom}(s) \dststile{}{} \psi \iff @_s \psi$$
+  $$\mathfrak{M}, g, I_{nom}(s) \vDash \psi \iff @_s \psi$$
   Similarly for their negations if $@_s \phi \lor \psi$ is not satisfied
   in $\mathfrak{M}$ under $g$.
   Thus at least one of the results of the application of the $\lor$ rule,
@@ -777,7 +785,7 @@ in which $\Sigma$ is satisfiable by label.
   as an example.  Beginning
   from $@_s \forall x \phi (x)$ if it's satisfied we have
   (where $s' = I_{nom}(s)$):
-  $$\mathfrak{M}, g', s' \dststile{}{} \phi \text{ for every } x\text{-variant of } g \text{ at } s$$
+  $$\mathfrak{M}, g', s' \vDash \phi \text{ for every } x\text{-variant of } g \text{ at } s$$
   That is for every $c$ in $D_{I_{nom}(s)}$, $\phi[t / x]$ is satisfied in $\mathfrak{M}$
   under $g$, similarly for $\neg \phi[t / x]$
   if $@_s \forall x \phi (x)$ is not satisfied
@@ -796,13 +804,13 @@ in which $\Sigma$ is satisfiable by label.
   We will take the $F$ rule as am example.
   Beginning from $@_s F \phi$, if it's satisfied
   we have:
-  $$\mathfrak{M}, g, I_{nom}(s) \dststile{}{} \phi \text{ for some } t \in T \text{ such that } R I_{nom}(s) t$$
+  $$\mathfrak{M}, g, I_{nom}(s) \vDash \phi \text{ for some } t \in T \text{ such that } R I_{nom}(s) t$$
   Let $a$ denote a nominal such that $R I_{nom}(s) I_{nom}(a)$ as above. As a result we have:
-  $$\mathfrak{M}, g, I_{nom}(s) \dststile{}{} a \iff$$
-  $$\mathfrak{M}, g, t \dststile{}{} a  \text{ for some } t \in T \text{ such that } R I_{nom}(s) t \iff$$
+  $$\mathfrak{M}, g, I_{nom}(s) \vDash a \iff$$
+  $$\mathfrak{M}, g, t \vDash a  \text{ for some } t \in T \text{ such that } R I_{nom}(s) t \iff$$
   $$\mathfrak{M}, g, I_{nom}(s) = Fa \iff @_s F a$$
   and
-  $$\mathfrak{M}, g, I_{nom}(a) \dststile{}{} \phi \iff @_a \phi$$
+  $$\mathfrak{M}, g, I_{nom}(a) \vDash \phi \iff @_a \phi$$
   Similarly for their negations if $@_s F \phi$ is not satisfied in
   $\mathfrak{M}$ under $g$.
   
@@ -810,7 +818,7 @@ in which $\Sigma$ is satisfiable by label.
   $t = t$ is a tautology, invariant of model or assignment.
   For $@_s s$, we begin with having $s$ is the branch,
   as result we certainly have
-  $$\mathfrak{M}, g, I_{nom}(s) \dststile{}{} I_{nom}(s) \iff @_s s$$
+  $$\mathfrak{M}, g, I_{nom}(s) \vDash I_{nom}(s) \iff @_s s$$
   Thus the expansion of $\Sigma$ by $=-$\textsf{Ref} or \textsf{Ref}
   is satisfiable by label.
 
@@ -836,7 +844,7 @@ in which $\Sigma$ is satisfiable by label.
 
 \begin{definition}[{\bf Urfathers}]
   Let $\Theta$ be a tableau branch
-  in the {\it QHTL} calculus and
+  in the {\it FHTL} calculus and
   let $a$ be a nominal/state variable
   occuring on $\Theta$.  The {\it urfather}
   of $a$ on $\Theta$ written $u_{\Theta} (a)$
@@ -854,7 +862,7 @@ in which $\Sigma$ is satisfiable by label.
 
 \begin{lemma}
   Where $\Theta$ is a saturated tableau branch
-  in the {\it QHTL} calculus, we have the following:
+  in the {\it FHTL} calculus, we have the following:
   \begin{itemize}
   \item
 
@@ -871,7 +879,7 @@ in which $\Sigma$ is satisfiable by label.
 
 \begin{definition}[$\mathfrak{M}^{\Theta}$]
   Where $\Theta$ is a saturated tableau branch
-  in the {\it QHTL} calculus, we have following
+  in the {\it FHTL} calculus, we have following
   model definition:
   $$\mathfrak{M}^{\Theta} = (T^{\Theta}, R^{\Theta}, D_t, I_{nom_{\Theta}}, I_t)_{t \in T^{\Theta}}$$
   from:
@@ -917,7 +925,7 @@ in which $\Sigma$ is satisfiable by label.
     & AT_x^- (\langle \lambda x . \forall v  \phi \rangle (x)) && := \forall v AT_x^- (\phi)   
     %%\caption{$AT_x^-^-$}
   \end{alignat*}
-  \caption{First-order Formulae to {\it QHTL} Formulae Translation.}
+  \caption{First-order Formulae to {\it FHTL} Formulae Translation.}
   \label{fol2qhtl}
 \end{figure*}
 
@@ -935,7 +943,7 @@ in which $\Sigma$ is satisfiable by label.
     & (t_i = t_j)^* && := t_i  t_j 
     %% \caption{$AT_x^-^-$}
   \end{alignat*}
-  \caption{Translation of First-order Tableau Literals to {\it QHTL} Literals.}
+  \caption{Translation of First-order Tableau Literals to {\it FHTL} Literals.}
   \label{literal}
 \end{figure*}
 \fi
@@ -943,7 +951,7 @@ in which $\Sigma$ is satisfiable by label.
 \subsection{Decidability}
 
 The proof of the tableau construction algorithm's termination is adapted from
-the proof given in \citet*{bolander} for the termination of the
+the proof given in \citet*{bolander2009terminating} for the termination of the
 tableau construction algorithm for $\mathcal{H}(@)$
 as described in \citet*{internalizing} except extended with the universal modality.
 
@@ -984,15 +992,37 @@ as described in \citet*{internalizing} except extended with the universal modali
   {\it accessibility formula}
   if it is the first conclusion of an application
   of $F$, $P$, $\neg G$, or $\neg H$.
-  The intended interpretation of
-  $@_s F t$ is that the time denoted
-  by $t$ is accessible from the
-  time denoted by $s$ and vice versa
-  in the case of $@_s P t$.
+  Additionally we say
+  any formula of the form $@_i i$
+  is an accessibility formula if it is
+  the conclusion of the {\bf nom ref} rule.
 \end{definition}
 
+The intended interpretation of
+$@_s F t$ is that the time denoted
+by $t$ is accessible from the
+time denoted by $s$ and vice versa
+in the case of $@_s P t$.
+While $@_i i$ is not a
+modal accessibility formula in the same way as
+$@_s F t$ or $@_s P t$ since its meaning does
+not involve the accessibility relation $R$
+of the model (and modal accessibility relations
+need not be reflexive), intuitively every time/world
+relates to itself in a similar way to how
+different times relate to each other,
+especially since we will take for granted that
+the collection of times is totally ordered.
+The main motivation for considering these
+formulae as one kind is that it supports
+the termination proof in ways we will soon see.
+
 \begin{definition}[{\bf Equality formula}]
-  An equality formula is of the form $@_s t_i = t_j$ where $t_i, t_j$ are grounded terms.
+  A formula of the form $@_i t = s$
+  or $@_i \neg t = s$ where $s, t$ are extended terms
+  is called an equality formula if it is a
+  conclusion of {\bf ref}, {\bf :1}, {\bf :2},
+  {\bf :3}, {\bf :fix 3}, or {\bf :fix 4}.
 \end{definition}
 
 \begin{definition}[{\bf Root-subformula}]
@@ -1006,20 +1036,20 @@ as described in \citet*{internalizing} except extended with the universal modali
 
 
 \begin{lemma}[{\bf Subformula Property}]
-  Where $\Theta$ is a tableau branch in the {\it QHTL} calculus,
+  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
   any formula $@_s \phi$ occuring on $\Theta$
   is either a root-subformula, accessibility
   formula, or equality formula.
 \end{lemma}
 
-
-({\it Proof}) This is verified by induction on the tableau rules beginning with
-$\textit{root}_{\Theta}$ as a base case. \qed
-
+\begin{proof}
+This is verified by induction on the tableau rules beginning with
+$\textit{root}_{\Theta}$ as a base case.
+\end{proof}
 
 \begin{definition}[$\prec_{\Theta}$]
   Where $\Theta$ is a tableau branch in
-  the {\it QHTL} calculus, if a nominal $a$
+  the {\it FHTL} calculus, if a nominal $a$
   is introduced to the branch by application of
   of $F$, $P$, $\neg G$, or $\neg H$
   to a premise $@_s \phi$, we
@@ -1035,33 +1065,88 @@ $\textit{root}_{\Theta}$ as a base case. \qed
 \end{definition}
 
 \begin{lemma}
-  Where $\Theta$ is a tableau branch in the {\it QHTL} calculus,
+  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
   the graph $G = (\textit{Nom}_{\Theta}, \prec_{\Theta})$ is
   a wellfounded finitely branching tree.
 \end{lemma}
 
+\begin{proof}
+  Each aspect is proved below:
+  \begin{itemize}
+  \item {\it Wellfoundedness of trees in }$G$
+
+    We have that if $a \prec_{\Theta} b$
+    then the first occurence of $a$
+    on $\Theta$ is before the first occurence
+    of $b$, thus by induction any subset of $\textit{Nom}_{\Theta}$ under the relation
+    $\prec_{\Theta}$ has a least element and each tree in $G$ is wellfounded.
+  \item $G$ {\it is a tree}
+
+    Every nominal in $\textit{Nom}_{\Theta}$
+    can be generated by at most one other nominal, 
+    and every nominal in $\textit{Nom}_{\Theta}$
+    must have one of the finitely many nominals in the
+    root formula as an ancestor.
+  \item $G$ {\it is finitely branching}
+
+    We show $G$ is finitely branching by showing that
+    given a nominal $a$, there can only be finitely
+    many distinct nominals $b$ such that
+    $a \prec_{\Theta} b$.
+    Each nominal $b$
+    such that
+    $a \prec_{\Theta} b$
+    is generated by applying one of the
+    $F$, $P$, $\neg H$, $\neg G$ rules to
+    a premise of the form
+    $@_i F \phi$, $@_i P \phi$,
+    $\neg @_i G \phi$, or $\neg @_i G \phi$
+    respectively, where by
+    our restrictions, either $\phi$
+    is not a nominal, or the entire
+    premise is a root subformula.
+    Since there can only be finitely
+    many root subformulae of the form
+    of one of the the possible premises,
+    where $i$ is the prefix nominal in each case,
+    only finitely many new nominals have been generated
+    from $i$.  Thus $G$ is finitely branching.
+    
+  \end{itemize}
+  \end{proof}
+
 \begin{lemma}
-  Where $\Theta$ is a tableau branch in the {\it QHTL} calculus,
+  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
   $\Theta$ is infinite if and only if there exists an infinite
   chain of nominals and state variables
   $a_1 \prec_{\Theta} a_2 \prec_{\Theta} \dotsc \prec_{\Theta} a_n \prec_{\Theta} \dotsc $
 \end{lemma}
 
+\begin{proof}
+  The 'if' direction follows from the observation that the
+  talbeau rules can only generate a finite tableau while not
+  generating additional nominals, since our conventions
+  ensure that all formulae occuring $\Theta$ are distinct.
+  For the other direction, first we demonstrate
+  $\textit{Nom}_{\Theta}$ is infinite.  Suppose by contradiction
+  $\textit{Nom}_{\Theta}$ is finite
+\end{proof}
+
 \begin{lemma}
-  Where $\Theta$ is a tableau branch in the {\it QHTL} calculus,
+  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
   if $@_s t \in \Theta$ where each of $s$ and $t$ is a nominal
   or a state variable then $t$ is a root nominal/state variable. 
 \end{lemma}
 
 \begin{lemma}
-  Where $\Theta$ is a tableau branch in the {\it QHTL} calculus,
+  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
   if $@_s F t \in \Theta$ or $@_s P t \in \Theta$ and
   $t$ is not a root nominal/state variable then $s \prec_{\Theta} t$
   or $s$ and $t$ denote the same time.  
 \end{lemma}
 
 \begin{definition}[$m_{\Theta}$ and $d_{\Theta}$]
-  Where $\Theta$ is a tableau branch in the {\it QHTL} calculus,
+  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
   $a$ is a nominal/state variable occuring on $\Theta$,
   and $|@_s \phi|$ denotes the length of the formula $@_s \phi$,
   we define $m_{\Theta}(a)$ as:
@@ -1073,13 +1158,13 @@ $\textit{root}_{\Theta}$ as a base case. \qed
 \end{definition}
 
 \begin{lemma}
-  Where $\Theta$ is a tableau branch in the {\it QHTL} calculus,
+  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
   for any nominal/state variable on
   $\Theta$, $m_{\Theta}(a) \leq |\textit{root}_{\Theta}| - d_{\Theta}(a)$
 \end{lemma}
 
 \begin{lemma}
-  Where $\Theta$ is a tableau branch in the {\it QHTL} calculus,
+  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
   if for every nominal/state variable $a$ in $\textit{root}_{\Theta}$:
   
   $$ m_{\Theta}(a) \leq |\textit{root}_{\Theta}| - d_{\Theta}(a) $$
@@ -1088,13 +1173,13 @@ $\textit{root}_{\Theta}$ as a base case. \qed
 \end{lemma}
 
 \begin{lemma}
-  Any tableau in the {\it QHTL} calculus
+  Any tableau in the {\it FHTL} calculus
   is finite.
 \end{lemma}
 
 \begin{theorem}
   The satisfiability of a finite set of
-  {\it QHTL} sentences in a {\it QHTL}
+  {\it FHTL} sentences in a {\it FHTL}
   model is decidable.
 \end{theorem}
 

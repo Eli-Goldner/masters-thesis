@@ -52,6 +52,8 @@
 \theoremstyle{remark}
 \newtheorem*{remark}{Remark}
 
+\DeclareMathSymbol{:}{\mathord}{operators}{"3A}
+
 %%\newenvironment{proof}{\paragraph{Proof:}}{\hfill$\square$}
 
 \usetikzlibrary{arrows,positioning,shapes} 
@@ -146,7 +148,7 @@
   We motivate the merging of these AMR variants,
   present their interpretation and inference in the combination of {\it FHL}
   and {\it BHTL}, which we will call {\it FHTL} (quantified hybrid tense logic),
-  and demonstrate {\it FHTL}'s soundess, completeness,
+  and demonstrate {\it FHTL}'s soundness, completeness,
   and decidability. 
 
 
@@ -177,7 +179,7 @@ and \textsf{SVAR} together with first-order atomic formulae
 generated from the predicate symbols and equality over the terms. 
 Thus complex formulae are generated from the atomic formulae according to the
 following rules:
-$$\neg \phi | \phi \land \psi | \phi \lor \psi | \phi \to \psi | \exists x \phi | \forall x \phi | F \phi | G \phi | P \phi | H \phi | @_n \phi $$
+$$\neg \phi \mid \phi \land \psi \mid \phi \lor \psi \mid \phi \to \psi \mid \exists x \phi \mid \forall x \phi \mid F \phi \mid G \phi \mid P \phi \mid H \phi \mid @_n \phi $$
 
 
 
@@ -287,15 +289,15 @@ and a state $s$, the inductive definition is:
       \end{prooftree}
       
       \begin{prooftree}
-        \AxiomC{$\neg @_s @_t \phi$}
+        \AxiomC{$@_s \neg @_t \phi$}
         \RightLabel{$[\neg @]$}
-        \UnaryInfC{$\neg @_t \phi$} 
+        \UnaryInfC{$@_t \neg \phi$} 
       \end{prooftree}
       
       \begin{prooftree}
-        \AxiomC{$[s\text{ on the branch}]$}
+        \AxiomC{$[i\text{ on the branch}]$}
         \RightLabel{$[\textsf{Ref}]$}
-        \UnaryInfC{$@_s s$} 
+        \UnaryInfC{$@_i i$} 
       \end{prooftree}
       
       \begin{prooftree}
@@ -389,19 +391,19 @@ Similarly  for $\textsf{Nom}^{-1}$ and the premise $@_s\phi$.
       \end{prooftree}
       
       \begin{prooftree}
-        \AxiomC{$\neg @_s G \phi$}
+        \AxiomC{$@_s \neg G \phi$}
         \RightLabel{$[\neg G]$}
         \UnaryInfC{$@_s F a$}
         \noLine
-        \UnaryInfC{$\neg @_a \phi$} 
+        \UnaryInfC{$@_a \neg \phi$} 
       \end{prooftree}
       
       \begin{prooftree}
-        \AxiomC{$\neg @_s H \phi$}
+        \AxiomC{$@_s \neg H \phi$}
         \RightLabel{$[\neg H]$}
         \UnaryInfC{$@_s P a$}
         \noLine
-        \UnaryInfC{$\neg @_a \phi$} 
+        \UnaryInfC{$@_a \neg \phi$} 
       \end{prooftree}
     \end{multicols}
   \end{framed}
@@ -432,15 +434,15 @@ and $q$ a unary function symbol.
   \begin{framed}
   \begin{multicols}{2}
     \begin{prooftree}
-      \AxiomC{$@_s \exists x \phi(x)$}
+      \AxiomC{$@_s \exists x \phi$}
       \RightLabel{$[\exists]$}
-      \UnaryInfC{$@_s \phi(p_s)$} 
+      \UnaryInfC{$@_s \phi[s:p / x]$} 
     \end{prooftree}
     
     \begin{prooftree}
-      \AxiomC{$@_s \neg \forall x \phi(x)$}
+      \AxiomC{$@_s \neg \forall x \phi$}
       \RightLabel{$[\neg \forall]$}
-      \UnaryInfC{$\neg @_s \phi(p_s)$}
+      \UnaryInfC{$@_s \neg \phi[s:p / x]$}
     \end{prooftree}
   \end{multicols}
   \caption{Existential rules}
@@ -449,10 +451,10 @@ and $q$ a unary function symbol.
 \end{figure*}
 
 \par
-In the existential rules \cref{ext}, $p_s$ is a parameter associated with the
-nominal $s$, with the constraint that it is new to the branch.
+In the existential rules \cref{ext}, $s:p$ is a parameter associated with the
+nominal $s$, with the requirement that it is new to the branch.
 Since parameters are never quantified over,
-$p_s$ is free in $\phi[p_s / x]$.
+$s:p$ is free in $\phi[s:p / x]$.
 \par
 \begin{figure*}[!h]
 %% \begin{figure*}[H]
@@ -460,15 +462,15 @@ $p_s$ is free in $\phi[p_s / x]$.
     \centering
     \begin{multicols}{2}
       \begin{prooftree}
-        \AxiomC{$@_s \forall x \phi(x)$}
+        \AxiomC{$@_s \forall x \phi$}
         \RightLabel{$[\forall]$}
-        \UnaryInfC{$ @_c \phi(t)$}
+        \UnaryInfC{$ @_s \phi[s : p / x]$}
       \end{prooftree}
       
       \begin{prooftree}
-        \AxiomC{$\neg @_s \exists x \phi(x)$}
+        \AxiomC{$@_s \neg \exists x \phi$}
         \RightLabel{$[\neg \exists]$}
-        \UnaryInfC{$\neg @_c \phi(t)$} 
+        \UnaryInfC{$@_s \neg \phi[s : p / x]$} 
       \end{prooftree}
     \end{multicols}
   \end{framed}
@@ -476,8 +478,7 @@ $p_s$ is free in $\phi[p_s / x]$.
   \label{univ}
 \end{figure*}
 
-In the universal rules \cref{univ} $t$ is a grounded term on the branch
-which exists at $D_s$.  
+In the universal rules \cref{univ} $s : p$ is any parameter at $s$.  
 
 \begin{figure*}[!h]
 %%\begin{figure*}[H]
@@ -497,24 +498,24 @@ which exists at $D_s$.
     \end{prooftree}
     
     \begin{prooftree}
-      \AxiomC{$t = u$}
-      \AxiomC{$@_s \phi(t)$}
+      \AxiomC{$@_i j:t = k:s$}
+      \AxiomC{$@_i \phi$}
       \RightLabel{$[\textsf{RR}]$}
-      \BinaryInfC{$@_s \phi[u]$} 
+      \BinaryInfC{$@_i \phi[j:t // k:s]$} 
     \end{prooftree}
   \end{multicols}
 
   \begin{multicols}{2}
     \begin{prooftree}
-      \AxiomC{$@_n (t_i = t_j)$}
+      \AxiomC{$@_i t = s$}
       \RightLabel{$[@=]$}
-      \UnaryInfC{$t_i = t_j$}
+      \UnaryInfC{$@_i i : t = i : s$}
     \end{prooftree}
     
     \begin{prooftree}
-      \AxiomC{$\neg @_n (t_i = t_j)$}
+      \AxiomC{$@_i \neg t = s$}
       \RightLabel{$[\neg @=]$}
-      \UnaryInfC{$\neg (t_i = t_j)$}
+      \UnaryInfC{$@_i \neg i : t = i : s$}
     \end{prooftree}
   \end{multicols}
 
@@ -526,15 +527,21 @@ which exists at $D_s$.
 %%\begin{figure*}[hbt!]
   \begin{framed}
     \centering
-    \begin{multicols}{2}
+    \begin{multicols}{3}
+      \begin{prooftree}
+        \AxiomC{$\neg @_s \phi$}
+        \RightLabel{$[\neg]$}
+        \UnaryInfC{$@_s \neg \phi$}
+      \end{prooftree}
+
       \begin{prooftree}
         \AxiomC{$@_s \neg \phi$}
-        \RightLabel{$[\neg]$}
+        \RightLabel{$[\neg^{-1}]$}
         \UnaryInfC{$\neg @_s \phi$}
       \end{prooftree}
       
       \begin{prooftree}
-        \AxiomC{$\neg @_s \neg \phi$}
+        \AxiomC{$ @_s \neg \neg \phi$}
         \RightLabel{$[\neg \neg]$}
         \UnaryInfC{$@_s \phi$}
       \end{prooftree}
@@ -557,19 +564,19 @@ which exists at $D_s$.
     \end{prooftree}
     
     \begin{prooftree}
-      \AxiomC{$\neg @_s (\phi \lor \psi)$}
+      \AxiomC{$@_s \neg (\phi \lor \psi)$}
       \RightLabel{$[\neg \lor]$}
-      \UnaryInfC{$\neg @_s \phi$}
+      \UnaryInfC{$@_s \neg \phi$}
       \noLine
-      \UnaryInfC{$\neg @_s \psi$}
+      \UnaryInfC{$@_s \neg \psi$}
     \end{prooftree}
     
     \begin{prooftree}
-      \AxiomC{$\neg @_s (\phi \to \psi)$}
+      \AxiomC{$@_s \neg (\phi \to \psi)$}
       \RightLabel{$[\neg \to]$}
       \UnaryInfC{$@_s \phi$}
       \noLine
-      \UnaryInfC{$\neg @_s \psi$}
+      \UnaryInfC{$@_s \neg \psi$}
     \end{prooftree}
   \end{multicols}
   \caption{Conjunctive rules.}
@@ -587,15 +594,15 @@ which exists at $D_s$.
     \end{prooftree}
     
     \begin{prooftree}
-      \AxiomC{$\neg @_s (\phi \land \psi)$}
+      \AxiomC{$@_s \neg (\phi \land \psi)$}
       \RightLabel{$[\neg \land]$}
-      \UnaryInfC{$\neg @_s \phi \mid \neg @_s \psi$}
+      \UnaryInfC{$@_s \neg \phi \mid  @_s \neg \psi$}
     \end{prooftree}
     
     \begin{prooftree}
       \AxiomC{$@_s (\phi \to \psi)$}
       \RightLabel{$[\to]$}
-      \UnaryInfC{$\neg @_s \phi \mid @_s \psi$}
+      \UnaryInfC{$ @_s \neg \phi \mid @_s \psi$}
     \end{prooftree}
   \end{multicols}
   \caption{Disjunctive rules.}
@@ -628,6 +635,265 @@ which exists at $D_s$.
 
 
 \subsection{Soundness}
+\subsection{Completeness}
+
+
+\subsection{Decidability}
+
+The proof of the tableau construction algorithm's termination is adapted from
+the proof given in \citet*{bolander2009terminating} for the termination of the
+tableau construction algorithm for $\mathcal{H}(@)$
+as described in \citet*{internalizing} except extended with the universal modality.
+
+\begin{definition}
+  When a formula $@_s \phi$ occurs in a tableau
+  branch $\Theta$ we will write $@_s \phi \in \Theta$,
+  and say $\phi$ is true at $s$ on $\Theta$ or
+  $s$ makes $\phi$ true on $\Theta$.  
+\end{definition}
+
+\begin{definition}
+  Given a tableau branch $\Theta$ and a nominal or state variable
+  $s$ the {\it set of true formulae} at $s$ on $\Theta$,
+  is written $T^\Theta (s)$ and defined as follows:
+  $$T^\Theta (s) = \{ \phi \mid @_s \phi \in \Theta \}$$
+\end{definition}
+
+\begin{definition}[{\bf Quasi-subformula}]
+  A formula $\phi$ is a {\it quasi-subformula } of a
+  formula $\psi$ if one of the the following is the case:
+  \begin{enumerate}
+  \item
+    $\phi$ is a subformula of $\psi$ modulo substitution
+    of free variables in $\phi$ for grounded terms.
+  \item
+    $\phi$ is of the form $\neg \chi$ where $\chi$
+    modulo substitution
+    of free variables in $\chi$ for grounded terms.
+  \end{enumerate}
+  Altering the definition to allow grounded terms being substituted
+  for free variables ensures compatibility of the following proofs
+  with the universal, existential, and \textsf{RR} rules.  
+\end{definition}
+
+\begin{definition}[{\bf Accessibility formula}]
+  A formula of the form $@_s F t$ or $@_s P t$
+  on $\Theta$ is called an
+  {\it accessibility formula}
+  if it is the first conclusion of an application
+  of $F$, $P$, $\neg G$, or $\neg H$.
+  Additionally we say
+  any formula of the form $@_i i$
+  is an accessibility formula if it is
+  the conclusion of the {\bf nom ref} rule.
+\end{definition}
+
+The intended interpretation of
+$@_s F t$ is that the time denoted
+by $t$ is accessible from the
+time denoted by $s$ and vice versa
+in the case of $@_s P t$.
+While $@_i i$ is not a
+modal accessibility formula in the same way as
+$@_s F t$ or $@_s P t$ since its meaning does
+not involve the accessibility relation $R$
+of the model (and modal accessibility relations
+need not be reflexive), intuitively every time/world
+relates to itself in a similar way to how
+different times relate to each other,
+especially since we will take for granted that
+the collection of times is totally ordered.
+The main motivation for considering these
+formulae as one kind is that it supports
+the termination proof in ways we will soon see.
+
+\begin{definition}[{\bf Equality formula}]
+  A formula of the form $@_i t = s$
+  or $@_i \neg t = s$ where $s, t$ are extended terms
+  is called an equality formula if it is a
+  conclusion of {\bf ref}, {\bf :1}, {\bf :2},
+  {\bf :3}, {\bf :fix 3}, or {\bf :fix 4}.
+\end{definition}
+
+\begin{definition}[{\bf Root-subformula}]
+  Where the root formula of a tableau $\Theta$ is written
+  $\textit{root}_{\Theta}$,
+  a formula $@_s \phi$ occuring on a tableau $\Theta$
+  is called a {\it root-subformula} on $\Theta$
+  if it is a quasi-subformula of $\textit{root}_{\Theta}$. 
+\end{definition}
+
+
+
+\begin{lemma}[{\bf Subformula Property}]
+  \label{subformula}
+  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
+  any formula $@_s \phi$ occuring on $\Theta$
+  is either a root-subformula, accessibility
+  formula, or equality formula.
+\end{lemma}
+
+\begin{proof}
+This is verified by induction on the tableau rules beginning with
+$\textit{root}_{\Theta}$ as a base case.
+\end{proof}
+
+\begin{definition}[$\prec_{\Theta}$]
+  \label{prec}
+  Where $\Theta$ is a tableau branch in
+  the {\it FHTL} calculus, if a nominal $a$
+  is introduced to the branch by application of
+  of $F$, $P$, $\neg G$, or $\neg H$
+  to a premise $@_s \phi$, we
+  say $a$ is {\it generated} by $s$
+  on $\Theta$ and write $s \prec_{\Theta} a$.
+  We write $\prec_{\Theta}^*$ to denote the reflexive and transitive
+  closure of $\prec_{\Theta}$.  
+\end{definition}
+
+\begin{definition}[$\textit{Nom}_{\Theta}$]
+  The set of nominals and state variables which occur on $\Theta$
+  is written $\textit{Nom}_{\Theta}$
+\end{definition}
+
+\begin{lemma}
+  \label{wellfounded}
+  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
+  the graph $G = (\textit{Nom}_{\Theta}, \prec_{\Theta})$ is
+  a wellfounded finitely branching tree.
+\end{lemma}
+
+\begin{proof}
+  Each aspect is proved below:
+  \begin{itemize}
+  \item {\it Wellfoundedness of trees in }$G$
+    
+    We have that if $a \prec_{\Theta} b$
+    then the first occurence of $a$
+    on $\Theta$ is before the first occurence
+    of $b$, thus by induction any subset of $\textit{Nom}_{\Theta}$ under the relation
+    $\prec_{\Theta}$ has a least element and each tree in $G$ is wellfounded.
+  \item $G$ {\it is a tree}
+    
+    Every nominal in $\textit{Nom}_{\Theta}$
+    can be generated by at most one other nominal, 
+    and every nominal in $\textit{Nom}_{\Theta}$
+    must have one of the finitely many nominals in the
+    root formula as an ancestor.
+  \item $G$ {\it is finitely branching}
+    
+    We show $G$ is finitely branching by showing that
+    given a nominal $a$, there can only be finitely
+    many distinct nominals $b$ such that
+    $a \prec_{\Theta} b$.
+    Each nominal $b$
+    such that
+    $a \prec_{\Theta} b$
+    is generated by applying one of the
+    $F$, $P$, $\neg H$, $\neg G$ rules to
+    a premise of the form
+    $@_i F \phi$, $@_i P \phi$,
+    $@_i \neg H \phi$, or $@_i \neg G \phi$
+    respectively, where by
+    our restrictions, either $\phi$
+    is not a nominal, or the entire
+    premise is a root subformula.
+    Since there can only be finitely
+    many root subformulae of the form
+    of one of the the possible premises,
+    where $i$ is the prefix nominal in each case,
+    only finitely many new nominals have been generated
+    from $i$.  Thus $G$ is finitely branching.
+    
+  \end{itemize}
+\end{proof}
+
+\begin{lemma}
+  \label{inf}
+  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
+  $\Theta$ is infinite if and only if there exists an infinite
+  chain of nominals and state variables
+  $a_1 \prec_{\Theta} a_2 \prec_{\Theta} \dotsc \prec_{\Theta} a_n \prec_{\Theta} \dotsc $
+\end{lemma}
+  
+\begin{proof}
+  Since the structure of the formulae and tableau rules are not involved
+  in the proof from \citet*{bolander2009terminating} it holds here as well.
+  
+  
+  \iffalse
+  The 'if' direction follows from the observation that the
+  talbeau rules can only generate a finite tableau while not
+  generating additional nominals, since our conventions
+  ensure that all formulae occuring $\Theta$ are distinct.
+  For the other direction, first we demonstrate
+  $\textit{Nom}_{\Theta}$ is infinite.  Suppose by contradiction
+  $\textit{Nom}_{\Theta}$ is finite
+  \fi
+\end{proof}
+
+\begin{lemma}
+  \label{root}
+  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
+  if $@_s t \in \Theta$ where $s$ and $t$ are nominals then $t$
+  is a root nominal. 
+\end{lemma}
+
+\begin{lemma}
+  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
+  if $@_s F t \in \Theta$ or $@_s P t \in \Theta$ and
+  $t$ is not a root nominal then $s \prec_{\Theta} t$
+  or $s$ and $t$ denote the same time.  
+\end{lemma}
+
+\begin{definition}[$m_{\Theta}$ and $d_{\Theta}$]
+  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
+  $a$ is a nominal/state variable occuring on $\Theta$,
+  and $|@_s \phi|$ denotes the length of the formula $@_s \phi$,
+  we define $m_{\Theta}(a)$ as:
+  $$m_{\Theta}(a) = \max \{|@_s \phi| : @_s \phi \in \Theta \text{ and } @_s \phi \text{ is a root subformula} \}$$
+  If there are no root subformulae $@_a \phi$ on $\Theta$ then $m_{\Theta}(a) = - \infty$.
+  The {\it depth} of the nominal/state variable $a$ with regard to $\Theta$
+  is the length of the unique path in $(\textit{Nom}_{\Theta}, \prec_{\Theta})$
+  which connects the root nominal/state variable to $a$. 
+\end{definition}
+
+\begin{lemma}
+  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
+  for any nominal/state variable on
+  $\Theta$, $m_{\Theta}(a) \leq |\textit{root}_{\Theta}| - d_{\Theta}(a)$
+\end{lemma}
+
+\begin{lemma}
+  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
+  if for every nominal/state variable $a$ in $\textit{root}_{\Theta}$:
+  
+  $$ m_{\Theta}(a) \leq |\textit{root}_{\Theta}| - d_{\Theta}(a) $$
+
+  then $\Theta$ is finite.
+\end{lemma}
+
+\begin{lemma}
+  Any tableau in the {\it FHTL} calculus
+  is finite.
+\end{lemma}
+
+\begin{theorem}
+  The satisfiability of a finite set of
+  {\it FHTL} sentences in a {\it FHTL}
+  model is decidable.
+\end{theorem}
+
+
+
+ 
+\bibliographystyle{acl_natbib}
+\bibliography{references}
+\end{document}
+
+
+
+\iffalse
 The proof of the soundness of the tableau method
 for {\it FHTL} is adapted from the proof of
 soundness of the tableau method for
@@ -637,7 +903,7 @@ $\mathcal{H}(@)$ given in \citet*{internalizing}.
 
 We can observe from the tableau rules that
 every formula in a tableau is of the
-form  $@_s \phi$ or $\neg @_s \phi$.
+form  $@_s \phi$ or $@_s \neg \phi$.
 We call formulae of these forms
 {\it satisfaction statements}.
 Give a set of satisfaction statements $\Sigma$
@@ -695,7 +961,7 @@ by $R$ as follows based on the different cases for $R$:
     If $@_s \phi \in \Sigma$ then
     $\mathfrak{M}, g, I_{nom}(s) \vDash \phi$
   \item
-    If $\neg @_s \phi \in \Sigma$ then
+    If $@_s \neg \phi \in \Sigma$ then
     $\mathfrak{M}, g, I_{nom}(s) \not \vDash \phi$
     
   \end{enumerate}
@@ -828,7 +1094,7 @@ in which $\Sigma$ is satisfiable by label.
 
 \end{itemize}
 
-\subsection{Completeness}
+%% Completeness
 
 \begin{definition}[$\sigma_{\Theta}$]
   We fix a function $\sigma$ 
@@ -906,8 +1172,7 @@ in which $\Sigma$ is satisfiable by label.
   
 \end{theorem}
 
-
-\iffalse
+%%translation stuff
 
 \begin{figure*}[hbt!]
   \centering
@@ -946,246 +1211,5 @@ in which $\Sigma$ is satisfiable by label.
   \caption{Translation of First-order Tableau Literals to {\it FHTL} Literals.}
   \label{literal}
 \end{figure*}
+
 \fi
-
-\subsection{Decidability}
-
-The proof of the tableau construction algorithm's termination is adapted from
-the proof given in \citet*{bolander2009terminating} for the termination of the
-tableau construction algorithm for $\mathcal{H}(@)$
-as described in \citet*{internalizing} except extended with the universal modality.
-
-\begin{definition}
-  When a formula $@_s \phi$ occurs in a tableau
-  branch $\Theta$ we will write $@_s \phi \in \Theta$,
-  and say $\phi$ is true at $s$ on $\Theta$ or
-  $s$ makes $\phi$ true on $\Theta$.  
-\end{definition}
-
-\begin{definition}
-  Given a tableau branch $\Theta$ and a nominal or state variable
-  $s$ the {\it set of true formulae} at $s$ on $\Theta$,
-  is written $T^\Theta (s)$ and defined as follows:
-  $$T^\Theta (s) = \{ \phi \mid @_s \phi \in \Theta \}$$
-\end{definition}
-
-\begin{definition}[{\bf Quasi-subformula}]
-  A formula $\phi$ is a {\it quasi-subformula } of a
-  formula $\psi$ if one of the the following is the case:
-  \begin{enumerate}
-  \item
-    $\phi$ is a subformula of $\psi$ modulo substitution
-    of free variables in $\phi$ for grounded terms.
-  \item
-    $\phi$ is of the form $\neg \chi$ where $\chi$
-    modulo substitution
-    of free variables in $\chi$ for grounded terms.
-  \end{enumerate}
-  Altering the definition to allow grounded terms being substituted
-  for free variables ensures compatibility of the following proofs
-  with the universal, existential, and \textsf{RR} rules.  
-\end{definition}
-
-\begin{definition}[{\bf Accessibility formula}]
-  A formula of the form $@_s F t$ or $@_s P t$
-  on $\Theta$ is called an
-  {\it accessibility formula}
-  if it is the first conclusion of an application
-  of $F$, $P$, $\neg G$, or $\neg H$.
-  Additionally we say
-  any formula of the form $@_i i$
-  is an accessibility formula if it is
-  the conclusion of the {\bf nom ref} rule.
-\end{definition}
-
-The intended interpretation of
-$@_s F t$ is that the time denoted
-by $t$ is accessible from the
-time denoted by $s$ and vice versa
-in the case of $@_s P t$.
-While $@_i i$ is not a
-modal accessibility formula in the same way as
-$@_s F t$ or $@_s P t$ since its meaning does
-not involve the accessibility relation $R$
-of the model (and modal accessibility relations
-need not be reflexive), intuitively every time/world
-relates to itself in a similar way to how
-different times relate to each other,
-especially since we will take for granted that
-the collection of times is totally ordered.
-The main motivation for considering these
-formulae as one kind is that it supports
-the termination proof in ways we will soon see.
-
-\begin{definition}[{\bf Equality formula}]
-  A formula of the form $@_i t = s$
-  or $@_i \neg t = s$ where $s, t$ are extended terms
-  is called an equality formula if it is a
-  conclusion of {\bf ref}, {\bf :1}, {\bf :2},
-  {\bf :3}, {\bf :fix 3}, or {\bf :fix 4}.
-\end{definition}
-
-\begin{definition}[{\bf Root-subformula}]
-  Where the root formula of a tableau $\Theta$ is written
-  $\textit{root}_{\Theta}$,
-  a formula $@_s \phi$ occuring on a tableau $\Theta$
-  is called a {\it root-subformula} on $\Theta$
-  if it is a quasi-subformula of $\textit{root}_{\Theta}$. 
-\end{definition}
-
-
-
-\begin{lemma}[{\bf Subformula Property}]
-  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
-  any formula $@_s \phi$ occuring on $\Theta$
-  is either a root-subformula, accessibility
-  formula, or equality formula.
-\end{lemma}
-
-\begin{proof}
-This is verified by induction on the tableau rules beginning with
-$\textit{root}_{\Theta}$ as a base case.
-\end{proof}
-
-\begin{definition}[$\prec_{\Theta}$]
-  Where $\Theta$ is a tableau branch in
-  the {\it FHTL} calculus, if a nominal $a$
-  is introduced to the branch by application of
-  of $F$, $P$, $\neg G$, or $\neg H$
-  to a premise $@_s \phi$, we
-  say $a$ is {\it generated} by $s$
-  on $\Theta$ and write $s \prec_{\Theta} a$.
-  We write $\prec_{\Theta}^*$ to denote the reflexive and transitive
-  closure of $\prec_{\Theta}$.  
-\end{definition}
-
-\begin{definition}[$\textit{Nom}_{\Theta}$]
-  The set of nominals and state variables which occur on $\Theta$
-  is written $\textit{Nom}_{\Theta}$
-\end{definition}
-
-\begin{lemma}
-  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
-  the graph $G = (\textit{Nom}_{\Theta}, \prec_{\Theta})$ is
-  a wellfounded finitely branching tree.
-\end{lemma}
-
-\begin{proof}
-  Each aspect is proved below:
-  \begin{itemize}
-  \item {\it Wellfoundedness of trees in }$G$
-
-    We have that if $a \prec_{\Theta} b$
-    then the first occurence of $a$
-    on $\Theta$ is before the first occurence
-    of $b$, thus by induction any subset of $\textit{Nom}_{\Theta}$ under the relation
-    $\prec_{\Theta}$ has a least element and each tree in $G$ is wellfounded.
-  \item $G$ {\it is a tree}
-
-    Every nominal in $\textit{Nom}_{\Theta}$
-    can be generated by at most one other nominal, 
-    and every nominal in $\textit{Nom}_{\Theta}$
-    must have one of the finitely many nominals in the
-    root formula as an ancestor.
-  \item $G$ {\it is finitely branching}
-
-    We show $G$ is finitely branching by showing that
-    given a nominal $a$, there can only be finitely
-    many distinct nominals $b$ such that
-    $a \prec_{\Theta} b$.
-    Each nominal $b$
-    such that
-    $a \prec_{\Theta} b$
-    is generated by applying one of the
-    $F$, $P$, $\neg H$, $\neg G$ rules to
-    a premise of the form
-    $@_i F \phi$, $@_i P \phi$,
-    $\neg @_i G \phi$, or $\neg @_i G \phi$
-    respectively, where by
-    our restrictions, either $\phi$
-    is not a nominal, or the entire
-    premise is a root subformula.
-    Since there can only be finitely
-    many root subformulae of the form
-    of one of the the possible premises,
-    where $i$ is the prefix nominal in each case,
-    only finitely many new nominals have been generated
-    from $i$.  Thus $G$ is finitely branching.
-    
-  \end{itemize}
-  \end{proof}
-
-\begin{lemma}
-  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
-  $\Theta$ is infinite if and only if there exists an infinite
-  chain of nominals and state variables
-  $a_1 \prec_{\Theta} a_2 \prec_{\Theta} \dotsc \prec_{\Theta} a_n \prec_{\Theta} \dotsc $
-\end{lemma}
-
-\begin{proof}
-  The 'if' direction follows from the observation that the
-  talbeau rules can only generate a finite tableau while not
-  generating additional nominals, since our conventions
-  ensure that all formulae occuring $\Theta$ are distinct.
-  For the other direction, first we demonstrate
-  $\textit{Nom}_{\Theta}$ is infinite.  Suppose by contradiction
-  $\textit{Nom}_{\Theta}$ is finite
-\end{proof}
-
-\begin{lemma}
-  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
-  if $@_s t \in \Theta$ where each of $s$ and $t$ is a nominal
-  or a state variable then $t$ is a root nominal/state variable. 
-\end{lemma}
-
-\begin{lemma}
-  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
-  if $@_s F t \in \Theta$ or $@_s P t \in \Theta$ and
-  $t$ is not a root nominal/state variable then $s \prec_{\Theta} t$
-  or $s$ and $t$ denote the same time.  
-\end{lemma}
-
-\begin{definition}[$m_{\Theta}$ and $d_{\Theta}$]
-  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
-  $a$ is a nominal/state variable occuring on $\Theta$,
-  and $|@_s \phi|$ denotes the length of the formula $@_s \phi$,
-  we define $m_{\Theta}(a)$ as:
-  $$m_{\Theta}(a) = \max \{|@_s \phi| : @_s \phi \in \Theta \text{ and } @_s \phi \text{ is a root subformula} \}$$
-  If there are no root subformulae $@_a \phi$ on $\Theta$ then $m_{\Theta}(a) = - \infty$.
-  The {\it depth} of the nominal/state variable $a$ with regard to $\Theta$
-  is the length of the unique path in $(\textit{Nom}_{\Theta}, \prec_{\Theta})$
-  which connects the root nominal/state variable to $a$. 
-\end{definition}
-
-\begin{lemma}
-  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
-  for any nominal/state variable on
-  $\Theta$, $m_{\Theta}(a) \leq |\textit{root}_{\Theta}| - d_{\Theta}(a)$
-\end{lemma}
-
-\begin{lemma}
-  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
-  if for every nominal/state variable $a$ in $\textit{root}_{\Theta}$:
-  
-  $$ m_{\Theta}(a) \leq |\textit{root}_{\Theta}| - d_{\Theta}(a) $$
-
-  then $\Theta$ is finite.
-\end{lemma}
-
-\begin{lemma}
-  Any tableau in the {\it FHTL} calculus
-  is finite.
-\end{lemma}
-
-\begin{theorem}
-  The satisfiability of a finite set of
-  {\it FHTL} sentences in a {\it FHTL}
-  model is decidable.
-\end{theorem}
-
-
-
- 
-\bibliographystyle{acl_natbib}
-\bibliography{references}
-\end{document}

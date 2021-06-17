@@ -53,7 +53,7 @@
 \newtheorem*{remark}{Remark}
 
 \DeclareMathSymbol{:}{\mathord}{operators}{"3A}
-
+\renewcommand{\phi}{\varphi}
 %%\newenvironment{proof}{\paragraph{Proof:}}{\hfill$\square$}
 
 \usetikzlibrary{arrows,positioning,shapes} 
@@ -147,7 +147,7 @@
   tableau method for basic hybrid tense logic ({\it BHTL}).
   We motivate the merging of these AMR variants,
   present their interpretation and inference in the combination of {\it FHL}
-  and {\it BHTL}, which we will call {\it FHTL} (quantified hybrid tense logic),
+  and {\it BHTL}, which we will call {\it FHTL} (first-order hybrid tense logic),
   and demonstrate {\it FHTL}'s soundness, completeness,
   and decidability. 
 
@@ -159,11 +159,18 @@
 
 \subsection{Background}
 
-\subsection{Quantified Hybrid Logic}
+\subsection{First-order Hybrid Logic}
+\citet*{hansen2007tableau}
+
+from 
+
+\citet*{quantified}
 
 \subsection{Basic Hybrid Tense Logic}
 
-\section{Quantified Hybrid Tense Logic - Syntax and Semantics}
+\citet*{blackburn2012indexical}
+
+\section{First-order Hybrid Tense Logic - Syntax and Semantics}
 \smallskip
 The syntax of {\it FHTL} is identical to {\it FHL} as given in \citet*{hansen2007tableau} except
 uses of $\downarrow$ as in $\downarrow w . \phi$ are omitted along
@@ -251,26 +258,24 @@ Finally we say an assignment $g'$ is an $x$-variant of $g$ if $g'$
 and $g$ on all variables except possiblly $x$.
 In particular, we say $g'$ is an $x$-variant of $g$ at $t$, a time, if $g'$
 and $g$ on all variables except possiblly $x$ and $g'(x) \in D_t$.
+We omit definitions for $\land$, $\to$, $H$, $G$, and $\forall$, since
+they can be defined in terms of the other rules.
 Given a model $\mathfrak{M}$, a variable assignment $g$,
-and a state $s$, the inductive definition is:
+and a state $s$, the inductive definition of
+$\mathfrak{M}, s \vDash_g \phi$ is:
 
 \begin{alignat*}{2}
-  &\mathfrak{M}, g, s \vDash P(t_1, \dotsc , t_n )  && \Longleftrightarrow \langle \overline{t_1}, \dotsc , \overline{t_n} \rangle \in I_s (P)  \\
-  &\mathfrak{M}, g, s \vDash t_i = t_j  && \Longleftrightarrow \overline{t_i} = \overline{t_j}  \\
-  &\mathfrak{M}, g, s \vDash n && \Longleftrightarrow I_{nom} (n) = s, \text{for }n\text{ a nominal}  \\
-  & \mathfrak{M}, g, s \vDash w && \Longleftrightarrow g(w) = s, \text{for }w\text{ a state variable}  \\
-  & \mathfrak{M}, g, s \vDash \neg \phi && \Longleftrightarrow  \mathfrak{M}, g, s \not\vDash \phi \\
-  & \mathfrak{M}, g, s \vDash \phi \land \psi && \Longleftrightarrow  \mathfrak{M}, g, s \vDash \phi \text{ and } \mathfrak{M}, g, s \vDash \psi \\
-  & \mathfrak{M}, g, s \vDash \phi \lor \psi && \Longleftrightarrow  \mathfrak{M}, g, s \vDash \phi \text{ or } \mathfrak{M}, g, s \vDash \psi \\
-  & \mathfrak{M}, g, s \vDash \phi \to \psi && \Longleftrightarrow  \mathfrak{M}, g, s \vDash \phi \text{ implies } \mathfrak{M}, g, s \vDash \psi \\
-  & \mathfrak{M}, g, s \vDash \exists x \phi && \Longleftrightarrow \mathfrak{M}, g', s \vDash \phi \text{ for some } x\text{-variant }g'\text{ of } g \text{ at } s \\
-  & \mathfrak{M}, g, s \vDash \forall x \phi && \Longleftrightarrow \mathfrak{M}, g', s \vDash \phi  \text{ for every } x\text{-variant }g'\text{ of } g \text{ at } s \\
-  & \mathfrak{M}, g, s \vDash F \phi && \Longleftrightarrow \mathfrak{M}, g, t \vDash \phi \text{ for some } t \in T \text{ such that } Rst \\
-  & \mathfrak{M}, g, s \vDash G \phi && \Longleftrightarrow \mathfrak{M}, g, t \vDash \phi \text{ for all } t \in T \text{ such that } Rst \\
-  & \mathfrak{M}, g, s \vDash P \phi && \Longleftrightarrow \mathfrak{M}, g, t \vDash \phi \text{ for some } t \in T \text{ such that } Rts \\
-  & \mathfrak{M}, g, s \vDash H \phi && \Longleftrightarrow \mathfrak{M}, g, t \vDash \phi \text{ for all } t \in T \text{ such that } Rts \\
-  & \mathfrak{M}, g, s \vDash @_n \phi && \Longleftrightarrow \mathfrak{M}, g, I_{nom}(n) \vDash \phi \text{ for } n \text{ a nominal } \\
-  & \mathfrak{M}, g, s \vDash @_w \phi && \Longleftrightarrow \mathfrak{M}, g, g(w) \vDash \phi \text{ for } w \text{ a state variable }
+  &\mathfrak{M}, s \vDash_g P(t_1, \dotsc , t_n )  && \Longleftrightarrow \langle \overline{t_1}, \dotsc , \overline{t_n} \rangle \in I_s (P)  \\
+  &\mathfrak{M},  s \vDash_g t_i = t_j  && \Longleftrightarrow \overline{t_i} = \overline{t_j}  \\
+  &\mathfrak{M},  s \vDash_g n && \Longleftrightarrow I_{nom} (n) = s, \text{for }n\text{ a nominal}  \\
+  & \mathfrak{M},  s \vDash_g w && \Longleftrightarrow g(w) = s, \text{for }w\text{ a state variable}  \\
+  & \mathfrak{M},  s \vDash_g \neg \phi && \Longleftrightarrow  \mathfrak{M},  s \not\vDash_g \phi \\
+  & \mathfrak{M},  s \vDash_g \phi \lor \psi && \Longleftrightarrow  \mathfrak{M},  s \vDash_g \phi \text{ or } \mathfrak{M},  s \vDash_g \psi \\
+  & \mathfrak{M},  s \vDash_g \exists x \phi && \Longleftrightarrow \mathfrak{M}, s \vDash_{g'} \phi \text{ for some } x\text{-variant }g'\text{ of } g \text{ at } s \\
+  & \mathfrak{M},  s \vDash_g F \phi && \Longleftrightarrow \mathfrak{M},  t \vDash_g \phi \text{ for some } t \in T \text{ such that } Rst \\
+  & \mathfrak{M},  s \vDash_g P \phi && \Longleftrightarrow \mathfrak{M},  t \vDash_g \phi \text{ for some } t \in T \text{ such that } Rts \\
+  & \mathfrak{M},  s \vDash_g @_n \phi && \Longleftrightarrow \mathfrak{M},  I_{nom}(n) \vDash_g \phi \text{ for } n \text{ a nominal } \\
+  & \mathfrak{M},  s \vDash_g @_w \phi && \Longleftrightarrow \mathfrak{M},  g(w) \vDash_g \phi \text{ for } w \text{ a state variable }
   %%\caption{$AT_x$}
 \end{alignat*}
 
@@ -281,7 +286,7 @@ and a state $s$, the inductive definition is:
 \begin{figure*}[!h]
   \begin{framed}
     \centering
-    \begin{multicols}{4}
+    \begin{multicols}{2}
       \begin{prooftree}
         \AxiomC{$@_s @_t \phi$}
         \RightLabel{$[@]$}
@@ -294,21 +299,10 @@ and a state $s$, the inductive definition is:
         \UnaryInfC{$@_t \neg \phi$} 
       \end{prooftree}
       
-      \begin{prooftree}
-        \AxiomC{$[i\text{ on the branch}]$}
-        \RightLabel{$[\textsf{Ref}]$}
-        \UnaryInfC{$@_i i$} 
-      \end{prooftree}
-      
-      \begin{prooftree}
-        \AxiomC{$@_t s$}
-        \RightLabel{$[\textsf{Sym}]$}
-        \UnaryInfC{$@_s t$}
-      \end{prooftree}
-    \end{multicols}
+      \end{multicols}
     
     
-    \begin{multicols}{4}
+    \begin{multicols}{2}
       \begin{prooftree}
         \AxiomC{$@_s P t$}
         \RightLabel{$[P\textsf{--Trans}]$}
@@ -320,7 +314,9 @@ and a state $s$, the inductive definition is:
         \RightLabel{$[F\textsf{--Trans}]$}
         \UnaryInfC{$@_t P s$}  
       \end{prooftree}
-      
+    \end{multicols}
+    
+    \begin{multicols}{2}
       \begin{prooftree}
         \AxiomC{$@_s P t$}
         \AxiomC{$@_t u$}
@@ -336,31 +332,36 @@ and a state $s$, the inductive definition is:
       \end{prooftree}
     \end{multicols}
     
-    \begin{multicols}{3}
+    \begin{multicols}{2}
       \begin{prooftree}
         \AxiomC{$@_s t$}
         \AxiomC{$@_s \phi$}
         \RightLabel{$[\textsf{Nom}]$}
         \BinaryInfC{$@_t \phi$} 
       \end{prooftree}
-      
+
       \begin{prooftree}
-        \AxiomC{$@_s t$}
-        \AxiomC{$@_t \phi$}
-        \RightLabel{$[\textsf{Nom}^{-1}]$}
-        \BinaryInfC{$@_s \phi$} 
+        \AxiomC{$[i\text{ on the branch}]$}
+        \RightLabel{$[\textsf{ref}]$}
+        \UnaryInfC{$@_i i$} 
       \end{prooftree}
-      
-      \begin{prooftree}
-        \AxiomC{$@_s t$}
-        \AxiomC{$@_t r$}
-        \RightLabel{$[\textsf{Trans}]$}
-        \BinaryInfC{$@_s r$} 
-      \end{prooftree} 
+    
     \end{multicols}
     \caption{@ rules}
   \end{framed}
 \end{figure*}
+
+
+\iffalse
+
+\begin{prooftree}
+  \AxiomC{$@_t s$}
+  \RightLabel{$[\textsf{Sym}]$}
+  \UnaryInfC{$@_s t$}
+\end{prooftree}
+
+\fi
+
 
 \par
 
@@ -373,7 +374,7 @@ Similarly  for $\textsf{Nom}^{-1}$ and the premise $@_s\phi$.
 
 \begin{figure*}[!h]
   \begin{framed}
-    \begin{multicols}{4}
+    \begin{multicols}{2}
       \begin{prooftree}
         \AxiomC{$@_s F \phi$}
         \RightLabel{$[F]$}
@@ -390,21 +391,6 @@ Similarly  for $\textsf{Nom}^{-1}$ and the premise $@_s\phi$.
         \UnaryInfC{$@_a \phi$}
       \end{prooftree}
       
-      \begin{prooftree}
-        \AxiomC{$@_s \neg G \phi$}
-        \RightLabel{$[\neg G]$}
-        \UnaryInfC{$@_s F a$}
-        \noLine
-        \UnaryInfC{$@_a \neg \phi$} 
-      \end{prooftree}
-      
-      \begin{prooftree}
-        \AxiomC{$@_s \neg H \phi$}
-        \RightLabel{$[\neg H]$}
-        \UnaryInfC{$@_s P a$}
-        \noLine
-        \UnaryInfC{$@_a \neg \phi$} 
-      \end{prooftree}
     \end{multicols}
   \end{framed}
   \caption{$F$ and $P$ rules}
@@ -440,12 +426,12 @@ and $q$ a unary function symbol.
     \end{prooftree}
     
     \begin{prooftree}
-      \AxiomC{$@_s \neg \forall x \phi$}
-      \RightLabel{$[\neg \forall]$}
-      \UnaryInfC{$@_s \neg \phi[s:p / x]$}
-    \end{prooftree}
+        \AxiomC{$@_s \neg \exists x \phi$}
+        \RightLabel{$[\neg \exists]$}
+        \UnaryInfC{$@_s \neg \phi[s : p / x]$} 
+      \end{prooftree}
   \end{multicols}
-  \caption{Existential rules}
+  \caption{Quantifiers rules}
   \label{ext}
   \end{framed}
 \end{figure*}
@@ -456,27 +442,6 @@ nominal $s$, with the requirement that it is new to the branch.
 Since parameters are never quantified over,
 $s:p$ is free in $\phi[s:p / x]$.
 \par
-\begin{figure*}[!h]
-%% \begin{figure*}[H]
-  \begin{framed}
-    \centering
-    \begin{multicols}{2}
-      \begin{prooftree}
-        \AxiomC{$@_s \forall x \phi$}
-        \RightLabel{$[\forall]$}
-        \UnaryInfC{$ @_s \phi[s : p / x]$}
-      \end{prooftree}
-      
-      \begin{prooftree}
-        \AxiomC{$@_s \neg \exists x \phi$}
-        \RightLabel{$[\neg \exists]$}
-        \UnaryInfC{$@_s \neg \phi[s : p / x]$} 
-      \end{prooftree}
-    \end{multicols}
-  \end{framed}
-  \caption{Universal rules}
-  \label{univ}
-\end{figure*}
 
 In the universal rules \cref{univ} $s : p$ is any parameter at $s$.  
 
@@ -484,50 +449,94 @@ In the universal rules \cref{univ} $s : p$ is any parameter at $s$.
 %%\begin{figure*}[H]
   \begin{framed}
     \centering
+    \begin{multicols}{2}
+      \begin{prooftree}
+        \AxiomC{}
+        \RightLabel{\bf (ref)}
+        \UnaryInfC{$@_i j:t = j:t$} 
+      \end{prooftree}
+      
+      
+      \begin{prooftree}
+        \AxiomC{$@_i j:t = k:s$}
+        \AxiomC{$@_i \phi$}
+        \RightLabel{\bf (sub)}
+        \BinaryInfC{$@_i \phi[j:t // k:s]$} 
+      \end{prooftree}
+    \end{multicols}
+
+    \caption{Equality rules}
+  \end{framed}
+\end{figure*}
+
+
+\begin{figure*}[!h]
+  %% \begin{figure*}[H]
+  
   \begin{multicols}{3}
     \begin{prooftree}
+      \AxiomC{$@_i k_1 : t = k_2 : s$}
+      \RightLabel{\bf (:1)}
+      \UnaryInfC{$@_i k_1 : t = k_2 : s$}
+    \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{$@_i j$}
+      \RightLabel{\bf (:2)}
+      \UnaryInfC{$@_k i: t = j : t$}
+    \end{prooftree}
+
+    \begin{prooftree}
       \AxiomC{}
-      \RightLabel{$[\textsf{TermRef}]$}
-      \UnaryInfC{$t = t$} 
-    \end{prooftree}
-    
-    \begin{prooftree}
-      \AxiomC{$@_n m$}
-      \RightLabel{$[\textsf{DD}]$}
-      \UnaryInfC{$@_n q = @_m q$}
-    \end{prooftree}
-    
-    \begin{prooftree}
-      \AxiomC{$@_i j:t = k:s$}
-      \AxiomC{$@_i \phi$}
-      \RightLabel{$[\textsf{RR}]$}
-      \BinaryInfC{$@_i \phi[j:t // k:s]$} 
+      \RightLabel{\bf (:3)}
+      \UnaryInfC{$@_i k :j: t = j : t$}
     \end{prooftree}
   \end{multicols}
 
   \begin{multicols}{2}
     \begin{prooftree}
+      \AxiomC{$@_i R(t_1,...,t_n)$}
+      \RightLabel{\bf (:fix 1)}
+      \UnaryInfC{$@_i R(i:t_1,...,i:t_n)$}
+    \end{prooftree}
+
+    \begin{prooftree}
+      \AxiomC{$@_i \neg R(t_1,...,t_n)$}
+      \RightLabel{\bf (:fix 2)}
+      \UnaryInfC{$@_i \neg R(i:t_1,...,i:t_n)$}
+    \end{prooftree}
+  \end{multicols}
+  
+  \begin{multicols}{3}  
+    \begin{prooftree}
       \AxiomC{$@_i t = s$}
-      \RightLabel{$[@=]$}
+      \RightLabel{\bf (:fix 3)}
       \UnaryInfC{$@_i i : t = i : s$}
     \end{prooftree}
     
     \begin{prooftree}
       \AxiomC{$@_i \neg t = s$}
-      \RightLabel{$[\neg @=]$}
+      \RightLabel{\bf (:fix 4)}
       \UnaryInfC{$@_i \neg i : t = i : s$}
     \end{prooftree}
+    
+    \begin{prooftree}
+      \AxiomC{}
+      \RightLabel{\bf (:func)}
+      \UnaryInfC{$@_i f(t_1,..., t_n) = f(i:t_1,..., i:t_n)$}
+    \end{prooftree}
   \end{multicols}
-
-  \caption{{\it FHTL} Equality rules}
-\end{framed}
+  
+  
+  
+  \caption{{\it FHTL} term rules}
 \end{figure*}
 
 \begin{figure*}
-%%\begin{figure*}[hbt!]
+  %% \begin{figure*}[hbt!]
   \begin{framed}
     \centering
-    \begin{multicols}{3}
+    \begin{multicols}{2}
       \begin{prooftree}
         \AxiomC{$\neg @_s \phi$}
         \RightLabel{$[\neg]$}
@@ -539,13 +548,7 @@ In the universal rules \cref{univ} $s : p$ is any parameter at $s$.
         \RightLabel{$[\neg^{-1}]$}
         \UnaryInfC{$\neg @_s \phi$}
       \end{prooftree}
-      
-      \begin{prooftree}
-        \AxiomC{$ @_s \neg \neg \phi$}
-        \RightLabel{$[\neg \neg]$}
-        \UnaryInfC{$@_s \phi$}
-      \end{prooftree}
-    \end{multicols}
+     \end{multicols}
     \caption{Negation rules}
   \end{framed}
 \end{figure*}
@@ -556,12 +559,11 @@ In the universal rules \cref{univ} $s : p$ is any parameter at $s$.
   \centering
   \begin{multicols}{3}
     \begin{prooftree}
-      \AxiomC{$@_s (\phi \land \psi)$}
-      \RightLabel{$[\land]$}
-      \UnaryInfC{$ @_s \phi$}
-      \noLine
-      \UnaryInfC{$ @_s \psi$}
+      \AxiomC{$@_s (\phi \lor \psi)$}
+      \RightLabel{$[\lor]$}
+      \UnaryInfC{$@_s \phi \mid @_s \psi$} 
     \end{prooftree}
+    
     
     \begin{prooftree}
       \AxiomC{$@_s \neg (\phi \lor \psi)$}
@@ -570,42 +572,16 @@ In the universal rules \cref{univ} $s : p$ is any parameter at $s$.
       \noLine
       \UnaryInfC{$@_s \neg \psi$}
     \end{prooftree}
-    
-    \begin{prooftree}
-      \AxiomC{$@_s \neg (\phi \to \psi)$}
-      \RightLabel{$[\neg \to]$}
-      \UnaryInfC{$@_s \phi$}
-      \noLine
-      \UnaryInfC{$@_s \neg \psi$}
-    \end{prooftree}
-  \end{multicols}
-  \caption{Conjunctive rules.}
-\end{framed}
-\end{figure*}
 
-\begin{figure*}
-  \begin{framed}
-  \centering
-  \begin{multicols}{3}
+     
     \begin{prooftree}
-      \AxiomC{$@_s (\phi \lor \psi)$}
-      \RightLabel{$[\lor]$}
-      \UnaryInfC{$@_s \phi \mid @_s \psi$} 
+      \AxiomC{$ @_s \neg \neg \phi$}
+      \RightLabel{$[\neg \neg]$}
+      \UnaryInfC{$@_s \phi$}
     \end{prooftree}
     
-    \begin{prooftree}
-      \AxiomC{$@_s \neg (\phi \land \psi)$}
-      \RightLabel{$[\neg \land]$}
-      \UnaryInfC{$@_s \neg \phi \mid  @_s \neg \psi$}
-    \end{prooftree}
-    
-    \begin{prooftree}
-      \AxiomC{$@_s (\phi \to \psi)$}
-      \RightLabel{$[\to]$}
-      \UnaryInfC{$ @_s \neg \phi \mid @_s \psi$}
-    \end{prooftree}
   \end{multicols}
-  \caption{Disjunctive rules.}
+  \caption{Propositional rules.}
 \end{framed}
 \end{figure*}
 
@@ -615,17 +591,17 @@ In the universal rules \cref{univ} $s : p$ is any parameter at $s$.
   \centering
   \begin{multicols}{2}
     \begin{prooftree}
-      \AxiomC{$@_s H \phi$}
+      \AxiomC{$@_s \neg P \phi$}
       \AxiomC{$@_s P t$}
       \RightLabel{$[H]$}
-      \BinaryInfC{$@_t \phi$} 
+      \BinaryInfC{$@_t \neg \phi$} 
     \end{prooftree}
     
     \begin{prooftree}
-      \AxiomC{$@_s G \phi$}
+      \AxiomC{$@_s \neg F \phi$}
       \AxiomC{$@_s F t$}
       \RightLabel{$[G]$}
-      \BinaryInfC{$@_t \phi$}
+      \BinaryInfC{$@_t \neg \phi$}
     \end{prooftree}
   \end{multicols}
   \caption{$G$ and $H$ rules}
@@ -634,16 +610,45 @@ In the universal rules \cref{univ} $s : p$ is any parameter at $s$.
 
 
 
-\subsection{Soundness}
-\subsection{Completeness}
+\subsection{Soundness and completeness}
 
+The proof of soundness and completeness of
+{\it FHL} in \citet*{hansen2007tableau}
+uses the notions of $\diamond$--{\it completeness}
+and $\exists$--{\it completeness}.  As a result we substitute
+$\diamond$--completeness with the equivalent notion 
+$F$--{\it completeness} and add the notion of
+$P$--{\it completeness} where the $\exists$--completeness
+stays the same as before.  Thus set of $@$-formulae
+(formulae in the extended language (including parameters) of the form $@_i \phi$)
+is $F$--complete if:
+$$@_i F \phi \in S \Longrightarrow @_i F j \text{ or } @_j P i, @_j \phi \in S, \text{ for some nominal } j$$
+A set of $@$-formulae is $P$--complete if:
+$$@_i P \phi \in S \Longrightarrow @_i P j \text{ or } @_j F i, @_j \phi \in S, \text{ for some nominal } j$$
+Soundness and completeness for for {\it FHTL} follows straightforward modification of Hansen's proof of soundness and completeness
+for {\it FHL} in a way that reflects the new formulae of the form $@_i P \phi$. 
 
 \subsection{Decidability}
 
-The proof of the tableau construction algorithm's termination is adapted from
+For our task of AMR inference, we are not concered with the determining the general satisfiability or
+validity of an AMR formula translated into {\it FHTL}, but
+rather whether it holds in the smallest model consistent with
+an established set of {\it FTHL} translations of AMR sentences.
+This model will necessarily be finite, since across any finite
+number of AMR sentences only a finite number of times and entities
+can be referenced. 
+In particular, we have a case of a local model-checking problem
+where given formula $\phi$, a finite {\it FHTL} model structure $\mathfrak{M}$, a time $t$
+in $\mathfrak{M}$, and a variable assignment $g$, we need to determine
+whether $\mathfrak{M}, t \vDash_g \phi$
+
+
+
+
+
+The proof of termination for every tableau construction is adapted from
 the proof given in \citet*{bolander2009terminating} for the termination of the
-tableau construction algorithm for $\mathcal{H}(@)$
-as described in \citet*{internalizing} except extended with the universal modality.
+tableau construction algorithm for $\mathcal{H}(@)$.
 
 \begin{definition}
   When a formula $@_s \phi$ occurs in a tableau
@@ -651,7 +656,7 @@ as described in \citet*{internalizing} except extended with the universal modali
   and say $\phi$ is true at $s$ on $\Theta$ or
   $s$ makes $\phi$ true on $\Theta$.  
 \end{definition}
-
+ 
 \begin{definition}
   Given a tableau branch $\Theta$ and a nominal or state variable
   $s$ the {\it set of true formulae} at $s$ on $\Theta$,

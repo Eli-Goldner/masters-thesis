@@ -686,38 +686,27 @@ tableau construction algorithm for $\mathcal{H}(@)$.
   on $\Theta$ is called an
   {\it accessibility formula}
   if it is the first conclusion of an application
-  of $F$, $P$, $\neg G$, or $\neg H$.
-  Additionally we say
-  any formula of the form $@_i i$
-  is an accessibility formula if it is
-  the conclusion of the {\bf nom ref} rule.
+  of $F$ or $P$.
 \end{definition}
 
-The intended interpretation of
-$@_s F t$ is that the time denoted
-by $t$ is accessible from the
-time denoted by $s$ and vice versa
-in the case of $@_s P t$.
-While $@_i i$ is not a
-modal accessibility formula in the same way as
-$@_s F t$ or $@_s P t$ since its meaning does
-not involve the accessibility relation $R$
-of the model (and modal accessibility relations
-need not be reflexive), intuitively every time/world
-relates to itself in a similar way to how
-different times relate to each other,
-especially since we will take for granted that
-the collection of times is totally ordered.
-The main motivation for considering these
-formulae as one kind is that it supports
-the termination proof in ways we will soon see.
 
-\begin{definition}[{\bf Equality formula}]
+\begin{definition}[{\bf Term equality formula}]
   A formula of the form $@_i t = s$
-  or $@_i \neg t = s$ where $s, t$ are extended terms
-  is called an equality formula if it is a
-  conclusion of {\bf ref}, {\bf :1}, {\bf :2},
-  {\bf :3}, {\bf :fix 3}, or {\bf :fix 4}.
+  where $s$ and $t$ are extended terms
+  is called a term equality formula if it is a
+  an immediate conclusion of {\bf (ref)}, {\bf (:3)}, or
+  {\bf (:func)}, or has such a formula as an ancestor
+  on the branch while being a conclusion of {\bf (:1)},
+  {\bf (:2)}, {\bf (:fix 3)}, or {\bf (:fix 4)}.
+\end{definition}
+
+\begin{definition}[{\bf Nominal equality formula}]
+  A formula of the form $@_S t$ where
+  $s$ and $t$ are nominals is a nominal
+  equality formula if it is an immediate conclusion
+  of {\bf (:nom ref)} or has such a formula as an ancestor
+  on the branch while being an immediate conclusion of
+  {\bf (:nom)}
 \end{definition}
 
 \begin{definition}[{\bf Root-subformula}]

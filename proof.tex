@@ -36,7 +36,7 @@
 \usepackage{subcaption}
 \usepackage{graphicx}
 \usepackage{framed}
-
+\usepackage[ruled,vlined]{algorithm2e}
 
 \usepackage[margin=0.5in]{geometry}
 
@@ -880,10 +880,186 @@ $\textit{root}_{\Theta}$ as a base case.
 
 
 
- 
+\section{AMR Interpretation in Hybrid Logic}
+
+\subsection{Examples}
+
+\enumsentence{
+  a. Carl submitted the forms and everyone will sign up again tomorrow.
+  \\
+  b.
+  \\
+  \scriptsize\texttt{(a / and\\
+    \hspace*{0.5cm}:op1 (s / scope\\
+    \hspace*{1.0cm}:pred (f / fill-out-03 :ongoing - :complete + :time (b / before :op1 (n / now))\\
+    \hspace*{1.5cm}:ARG0 (p / person\\
+    \hspace*{2.0cm}:name (n2 / name\\
+    \hspace*{2.5cm}:op "Carl"))\\
+    \hspace*{1.5cm}:ARG1 (f2 / form))\\
+    \hspace*{1.0cm}:ARG0 p\\
+    \hspace*{1.0cm}:ARG1 f2)\\
+    \hspace*{0.5cm}:op2 (s2 / scope\\
+    \hspace*{1.0cm}:pred (m / submit-01  :ongoing - :complete + :time (a2 / after :op1 n)\\
+    \hspace*{1.5cm}:ARG0 (p2 / person\\
+    \hspace*{2.0cm}:mod (a3 / all))\\
+    \hspace*{1.5cm}:ARG1 f2)\\
+    \hspace*{1.0cm}:ARG0 p2\\
+    \hspace*{1.0cm}:ARG1 f2))}
+  \\
+c. It was impossible not to notice the car.
+\\
+d.
+\\
+\small\texttt{(s / scope\\
+  \hspace*{1.0cm}:pred (p / possible-01\\
+  \hspace*{1.5cm}:ARG0 (n / notice-01  :ongoing - :complete + :time (b / before :op1 (n2 / now))\\
+  \hspace*{2.0cm}:polarity (n3 / not)\\
+  \hspace*{2.0cm}:ARG1 (c /car)\\
+  \hspace*{1.5cm}:polarity (n4 / not))\\
+  \hspace*{1.0cm}:ARG0 n4\\
+  \hspace*{1.0cm}:ARG1 p))}
+}
+\smallskip
+NB: Will complete these translations in full.
+\subsection{Extraction Steps}
+With the chosen annotation, the root node
+can consist of either a logical connective
+(\verb|and|, \verb|or|, or \verb|cond|) linking two
+AMR graphs, or a \verb|scope| node with its following
+predicate and arguments.      
+
+\subsection{General Extraction Algorithm}
+
+\begin{algorithm}[H]
+  \SetAlgoLined
+  \SetKwInput{KwInput}{Input}                % Set the Input
+  \SetKwInput{KwOutput}{Output}              % set the Output
+  \DontPrintSemicolon
+
+  \KwInput{AMR sentence}
+  \KwOutput{{\it FHTL} formula}
+
+  % Set Function Names
+  \SetKwFunction{FInterpretEntry}{InterpretEntry}
+  \SetKwFunction{FInterpretClause}{InterpretClause}
+  \SetKwFunction{FSkolemize}{Skolemize}
+  \SetKwFunction{FInferArg}{InferArg}
+  
+  \SetKwProg{Fn}{Def}{:}{}
+  \Fn{\FInterpretEntry{AMR}}{
+    root = Root(AMR)\;
+    now = current date/time\;
+    \If{root $\in \{ \texttt{and},\texttt{or}, \texttt{cond} \}$}{
+      connective = filter(root, $\{ \land, \lor, \to \}$)\;
+      clauses = []\;
+      \For{\texttt{op} $\in$ Children(root)}{
+        append(clauses, \FInterpretClause(\texttt{op}))\;
+      }
+      return $@_{\text{now}}$ join(connective, clauses)
+    }
+    return $@_{\text{now}}$ \FInterpretClause(root)
+  }
+  \;
+
+  \Fn{\FInterpretClause{AMR}}{
+  } 
+  \;
+
+  \Fn{\FSkolemize{UnaryPred}}{
+  } 
+  \;
+
+  \Fn{\FInferArg{PropBankPred}}{
+  } 
+  \;
+  
+ \caption{Transform into clauses and connectives.}
+\end{algorithm}
+
 \bibliographystyle{acl_natbib}
 \bibliography{references}
 \end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

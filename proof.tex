@@ -641,11 +641,44 @@ In particular, we have a case of a local model-checking problem
 where given formula $\phi$, a finite {\it FHTL} model structure $\mathfrak{M}$, a time $t$
 in $\mathfrak{M}$, and a variable assignment $g$, we need to determine
 whether $\mathfrak{M}, t \vDash_g \phi$
+\par
+Consequently our use of tableaux for {\it FHTL} formulae will provide
+a decision procedure for their satisfiability within a finite model generated
+by some set of AMR sentences, rather than their general validity or invalidity,
+as is usually the case with tableaux methods.  Using tableaux as a decision
+procedure for satisfiability requires some further notions
 
 
+\begin{definition}[{\bf Closed and open}]
+  If a tableau branch contains a formula
+  $@_s \phi$ and its negation $@_s \neg \phi$
+  we say the branch is {\it closed}.
+  If every branch of the tableau is closed we
+  say the tableau itself is closed.  If a
+  tableau or branch is not closed we say it is {\it open}.
+\end{definition}
 
+A closed tableau is a proof of the unsatisfiability of the tableau's root formula, i.e.
+there is no model or assignment of variables in which it holds.  The question of when a tableau
+indicates satisfiability of the root formula leads us to our next definition.
 
+\begin{definition}[{\bf Saturated branch}]
+  A tableau branch is {\it saturated}
+  if no more rules can be applied to the branch in a way that
+  satisfies their constraints.
+  If every branch of the tableau
+  is saturated we say the tableau is saturated.
+\end{definition}
 
+For the unconstrained tableau rules, completeness gives us that
+an open saturated tableau is satisfiable.
+Since the constrained rules only guarantee termination in the
+case of finite models, we are not compromising completeness
+for termination we have the same guarantee for open saturated tableaux.
+As a result, given termination of the tableax and finite models, we
+can use the tableaux to check whether the root formula is satisfied
+in the model, in particular the process is decidable.
+\par
 The proof of termination for every tableau construction is adapted from
 the proof given in \citet*{bolander2009terminating} for the termination of the
 tableau construction algorithm for $\mathcal{H}(@)$.
@@ -658,7 +691,7 @@ tableau construction algorithm for $\mathcal{H}(@)$.
 \end{definition}
  
 \begin{definition}
-  Given a tableau branch $\Theta$ and a nominal or state variable
+  Given a tableau branch $\Theta$ and a nominal
   $s$ the {\it set of true formulae} at $s$ on $\Theta$,
   is written $T^\Theta (s)$ and defined as follows:
   $$T^\Theta (s) = \{ \phi \mid @_s \phi \in \Theta \}$$
@@ -942,7 +975,7 @@ predicate and arguments.
   % Set Function Names
   \SetKwFunction{FInterpretEntry}{InterpretEntry}
   \SetKwFunction{FInterpretClause}{InterpretClause}
-  \SetKwFunction{FSkolemize}{Skolemize}
+  \SetKwFunction{FInterpretPred}{InterpretPred}
   \SetKwFunction{FInferArg}{InferArg}
   
   \SetKwProg{Fn}{Def}{:}{}
@@ -955,18 +988,31 @@ predicate and arguments.
       \For{\texttt{op} $\in$ Children(root)}{
         append(clauses, \FInterpretClause(\texttt{op}))\;
       }
-      return $@_{\text{now}}$ join(connective, clauses)
+      return $@_{\text{now}}$ join(connective, clauses)\;
     }
-    return $@_{\text{now}}$ \FInterpretClause(root)
+    return $@_{\text{now}}$ \FInterpretClause(root)\;
   }
   \;
 
   \Fn{\FInterpretClause{AMR}}{
+    
   } 
   \;
 
-  \Fn{\FSkolemize{UnaryPred}}{
-  } 
+  
+  
+  \Fn{\FInterpretPred{UnaryPred}}{
+  }
+  \If{hasMods(UnaryPred)}{
+    mods = []\;
+    \For{mod $\in$ Children(UnaryPred)}{
+      append(mods, name(mod)($x$))\;
+    }
+    FinalPred = $\lambda x .$ join(mods, $\land$)\;
+    return $\lambda \phi . \exists y . \text{FinalPred}(y) \land \phi(y)$\;
+  } \Else{
+    FinalPred = $\lambda \phi . \exists x . \text{name(UnaryPred)}(x) \land \phi(x)$\; 
+   }
   \;
 
   \Fn{\FInferArg{PropBankPred}}{

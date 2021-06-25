@@ -421,30 +421,29 @@ and $q$ a unary function symbol.
   \begin{multicols}{2}
     \begin{prooftree}
       \AxiomC{$@_s \exists x \phi$}
-      \RightLabel{$[\exists]$}
+      \RightLabel{$(\exists)$}
       \UnaryInfC{$@_s \phi[s:p / x]$} 
     \end{prooftree}
     
     \begin{prooftree}
         \AxiomC{$@_s \neg \exists x \phi$}
-        \RightLabel{$[\neg \exists]$}
-        \UnaryInfC{$@_s \neg \phi[s : p / x]$} 
+        \RightLabel{$(\neg \exists)$}
+        \UnaryInfC{$@_s \neg \phi[t / x]$} 
       \end{prooftree}
   \end{multicols}
-  \caption{Quantifiers rules}
-  \label{ext}
+  \caption{Quantifier rules}
+  \label{quant}
   \end{framed}
 \end{figure*}
 
 \par
-In the existential rules \cref{ext}, $s:p$ is a parameter associated with the
+In $(\exists)$, $s:p$ is a parameter associated with the
 nominal $s$, with the requirement that it is new to the branch.
 Since parameters are never quantified over,
-$s:p$ is free in $\phi[s:p / x]$.
-\par
-
-In the universal rules \cref{univ} $s : p$ is any parameter at $s$.  
-
+$s:p$ is free in $\phi[s:p / x]$ but refers the same way as a constant.
+In $(\neg \exists)$, $t$ is any parameter or term without variables which exists at $s$.
+Following \citet*{fitting-tab} to ensure termination of tableau construction
+we borrow the notion of quantifier depth
 \begin{figure*}[!h]
 %%\begin{figure*}[H]
   \begin{framed}
@@ -472,7 +471,7 @@ In the universal rules \cref{univ} $s : p$ is any parameter at $s$.
 
 \begin{figure*}[!h]
   %% \begin{figure*}[H]
-  
+  \begin{framed}
   \begin{multicols}{3}
     \begin{prooftree}
       \AxiomC{$@_i k_1 : t = k_2 : s$}
@@ -507,7 +506,7 @@ In the universal rules \cref{univ} $s : p$ is any parameter at $s$.
     \end{prooftree}
   \end{multicols}
   
-  \begin{multicols}{3}  
+  \begin{multicols}{2}  
     \begin{prooftree}
       \AxiomC{$@_i t = s$}
       \RightLabel{\bf (:fix 3)}
@@ -519,17 +518,16 @@ In the universal rules \cref{univ} $s : p$ is any parameter at $s$.
       \RightLabel{\bf (:fix 4)}
       \UnaryInfC{$@_i \neg i : t = i : s$}
     \end{prooftree}
-    
-    \begin{prooftree}
-      \AxiomC{}
-      \RightLabel{\bf (:func)}
-      \UnaryInfC{$@_i f(t_1,..., t_n) = f(i:t_1,..., i:t_n)$}
-    \end{prooftree}
   \end{multicols}
   
-  
+  \begin{prooftree}
+    \AxiomC{}
+    \RightLabel{\bf (:func)}
+    \UnaryInfC{$@_i f(t_1,..., t_n) = f(i:t_1,..., i:t_n)$}
+  \end{prooftree}
   
   \caption{{\it FHTL} term rules}
+\end{framed}
 \end{figure*}
 
 \begin{figure*}

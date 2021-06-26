@@ -83,8 +83,6 @@
               font=\small}
 }
 
-
-
  \def\drs#1#2{\begin{tabular}{|l|}\hline #1 \\ \hline \\
                 [-8pt] #2\\[-8pt] \\ \hline \end{tabular} }
 
@@ -99,8 +97,8 @@
  \def\imp#1#2#3#4{\drs{#1}{#2} \ $\Rightarrow$ \ \drs{#3}{#4}}
  \def\dis#1#2#3#4{\mbox{\drs{#1}{#2} \ $\vee$ \ \drs{#3}{#4}}}
  \def\int#1#2{\mbox{$^{\wedge}$ \ \drs{#1}{#2}}}
- \def\pos#1#2{\mbox{$\Diamond$ \ \drs{#1}{#2}}}
- \def\nec#1#2{\mbox{$\Box$ \ \drs{#1}{#2}}}
+ %%\def\pos#1#2{\mbox{$\lozenge$ \ \drs{#1}{#2}}}
+ %%\def\nec#1#2{\mbox{$\Box$ \ \drs{#1}{#2}}}
  \def\nega#1#2{\mbox{$\neg$ \ \drs{#1}{#2}}}
  \def\pred#1#2#3{\mbox{#1\ :\drs{#2}{#3}}}
 
@@ -174,8 +172,8 @@ from
 \smallskip
 The syntax of {\it FHTL} is identical to {\it FHL} as given in \citet*{hansen2007tableau} except
 uses of $\downarrow$ as in $\downarrow w . \phi$ are omitted along
-with $\Box$ and $\Diamond$ as in $\Box \phi$ and $\Diamond \phi$.
-$\Box$ and $\Diamond$ are replaced by their semantic equivalents
+with $\Box$ and $\lozenge$ as in $\Box \phi$ and $\lozenge \phi$.
+$\Box$ and $\lozenge$ are replaced by their semantic equivalents
 $F$ and $G$ and their temporal duals $P$ and $H$ are added.
 
 \smallskip
@@ -612,9 +610,9 @@ we borrow the notion of quantifier depth
 
 The proof of soundness and completeness of
 {\it FHL} in \citet*{hansen2007tableau}
-uses the notions of $\diamond$--{\it completeness}
+uses the notions of $\lozenge$--{\it completeness}
 and $\exists$--{\it completeness}.  As a result we substitute
-$\diamond$--completeness with the equivalent notion 
+$\lozenge$--completeness with the equivalent notion 
 $F$--{\it completeness} and add the notion of
 $P$--{\it completeness} where the $\exists$--completeness
 stays the same as before.  Thus set of $@$-formulae
@@ -643,8 +641,9 @@ whether $\mathfrak{M}, t \vDash_g \phi$
 Consequently our use of tableaux for {\it FHTL} formulae will provide
 a decision procedure for their satisfiability within a finite model generated
 by some set of AMR sentences, rather than their general validity or invalidity,
-as is usually the case with tableaux methods.  Using tableaux as a decision
-procedure for satisfiability requires some further notions
+as is usually the case with tableaux methods.  Using tableaux as
+a means of model checking has precedent in \citet*{bhat1998tableau} Using tableaux as a decision
+procedure for satisfiability requires some further notions.
 
 
 \begin{definition}[{\bf Closed and open}]
@@ -660,7 +659,7 @@ A closed tableau is a proof of the unsatisfiability of the tableau's root formul
 there is no model or assignment of variables in which it holds.  The question of when a tableau
 indicates satisfiability of the root formula leads us to our next definition.
 
-\begin{definition}[{\bf Saturated branch}]
+\begin{definition}[{\bf Saturation}]
   A tableau branch is {\it saturated}
   if no more rules can be applied to the branch in a way that
   satisfies their constraints.
@@ -916,7 +915,7 @@ $\textit{root}_{\Theta}$ as a base case.
 \subsection{Examples}
 
 \enumsentence{
-  a. Carl submitted the forms and everyone will sign up again tomorrow.
+  a. Carl filled out the forms and everyone will submit them tomorrow.
   \\
   b.
   \\
@@ -934,21 +933,48 @@ $\textit{root}_{\Theta}$ as a base case.
     \hspace*{1.5cm}:ARG0 (p2 / person\\
     \hspace*{2.0cm}:mod (a3 / all))\\
     \hspace*{1.5cm}:ARG1 f2)\\
-    \hspace*{1.0cm}:ARG0 p2\\
-    \hspace*{1.0cm}:ARG1 f2))}
+    \hspace*{1.0cm}:ARG0 f2\\
+    \hspace*{1.0cm}:ARG1 p2))}
   \\
-c. It was impossible not to notice the car.
+  c. Technically correct:
+  \\
+  $@_{\textit{now}} \exists x [\texttt{form}(x) \land P \texttt{fill-out-03}(\texttt{Carl}, x)] \land @_{\textit{now}} \exists x [\texttt{form}(x) \land \forall y [\texttt{person}(y) \to F \texttt{submit-01}(y, x)]]$
+  \\
+  d. Correct wrt plurality:
+  \\
+  $@_{\textit{now}} \forall x [\texttt{form}(x) \land P \texttt{fill-out-03}(\texttt{Carl}, x)] \land @_{\textit{now}} \forall x [\texttt{form}(x) \land \forall y [\texttt{person}(y) \to F \texttt{submit-01}(y, x)]]$
+  \\
+  e. Correct wrt reentrance (but not plurality) (maybe requires the passive for singular case?):
+  \\
+  $@_{\textit{now}} \exists x [\texttt{form}(x) \land P \texttt{fill-out-03}(\texttt{Carl}, x) \land  \forall y [\texttt{person}(y) \to F \texttt{submit-01}(y, x)]]$
+  \\
+}
+\enumsentence{
+a. It was impossible not to notice the car.
 \\
-d.
+b.
 \\
 \small\texttt{(s / scope\\
   \hspace*{1.0cm}:pred (p / possible-01\\
   \hspace*{1.5cm}:ARG0 (n / notice-01  :ongoing - :complete + :time (b / before :op1 (n2 / now))\\
   \hspace*{2.0cm}:polarity (n3 / not)\\
-  \hspace*{2.0cm}:ARG1 (c /car)\\
+  \hspace*{2.0cm}:ARG1 (c / car)\\
   \hspace*{1.5cm}:polarity (n4 / not))\\
   \hspace*{1.0cm}:ARG0 n4\\
   \hspace*{1.0cm}:ARG1 p))}
+\\
+c. Incorrect:
+\\
+$@_{\textit{now}} \neg F \exists x [\texttt{car}(x) \land \neg P \texttt{notice-01}(x)]$
+\\
+d. Technically correct:
+\\
+$@_{\textit{now}} \neg F \exists x [\texttt{car}(x) \land \neg \forall y [ \texttt{person}(y) \to P \texttt{notice-01}(x, y)]]$
+\\
+e. Correct wrt particularity of the car:
+\\
+$@_{\textit{now}} \neg F \neg \forall x [ \texttt{person}(y) \to P \texttt{notice-01}(\texttt{car}, y)]]$
+\\
 }
 \smallskip
 NB: Will complete these translations in full.

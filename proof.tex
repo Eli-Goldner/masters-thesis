@@ -735,12 +735,41 @@ tableau construction algorithm for $\mathcal{H}(@)$.
   Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
   any formula $@_s \phi$ occuring on $\Theta$
   is either a root-subformula, accessibility
-  formula, or equality formula.
+  formula, nominal equality formula, or term equality formula.
 \end{lemma}
 
 \begin{proof}
-This is verified by induction on the tableau rules beginning with
-$\textit{root}_{\Theta}$ as a base case.
+  This is verified by checking the tableau rules.
+  We observe the propositional, quantifier, and $@$ rules, along with
+  {\bf (:fix 1)}, {\bf (:fix 2)}, and {\bf (:fix 4)} can only take
+  root-subformulae as premises and yield root-subformulae as conclusions.
+  Definitionally {\bf (ref)}, {\bf (:3)}, and {\bf (:func)}
+  generate only term equality formulae
+  and {\bf (nom  ref)} generates only nominal equality formulae.
+  Whether the premise of {\bf (:2)} is a nominal equality or root-subformula,
+  the conclusion is a term equality.  {\bf (:1)} and {\bf (:fix 3)} both preserve
+  the ``type'' of their premise, since {\bf (:1)}'s conclusion only changes the nominal
+  prefix and if {\bf (:fix 3)}'s premise is a root-subformula then its
+  conclusion with its changed terms
+  is still a quasi-subformula of the premise by definition.
+  \bigskip
+  This leaves us with {\bf ($F/P$}), {\bf ($\neg F / \neg P$)},
+  {\bf ($F/P$--bridge)}, {\bf (sub)}, and {\bf (nom)}.
+  The premise of {\bf ($F/P$}) must be either an accessibility formula or a root subformula,
+  in the first case the second conclusion is a nominal equality,
+  and in the second case the second conclusion is a root subformula,
+  in either case the first conclusion is an accessibility formula.
+  In the case of {\bf ($\neg F / \neg P$)}, the first premise can only be
+  a root subformula since there's no way to introduce a negation,
+  as a result the conclusion must be a root subformula.
+  In the case of {\bf ($F/P$--bridge)}, the second premise is
+  either an accessibility formula or a root subformula, and since
+  the definition of quasi-subformula allows for substitution of (equivalent) nominals,
+  the conclusion is the same kind of formula as the second premise.  
+  Likewise {\bf (sub)}'s conclusion will be of the same type as its second premise
+  since the definition of quasi-subformula allows for substitution of (equivalent) terms.  
+  And finally {\bf (nom)}'s conclusion will be of the same type as its second premise
+  since the definition of quasi-subformula allows for change of prefix nominals.
 \end{proof}
 
 \begin{definition}[$\prec_{\Theta}$]

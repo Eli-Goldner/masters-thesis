@@ -624,27 +624,8 @@ $$@_i P \phi \in S \Longrightarrow @_i P j \text{ or } @_j F i, @_j \phi \in S, 
 Soundness and completeness for for {\it FHTL} follows straightforward modification of Hansen's proof of soundness and completeness
 for {\it FHL} in a way that reflects the new formulae of the form $@_i P \phi$. 
 
-\subsection{Decidability}
 
-For our task of AMR inference, we are not concered with the determining the general satisfiability or
-validity of an AMR formula translated into {\it FHTL}, but
-rather whether it holds in the smallest model consistent with
-an established set of {\it FTHL} translations of AMR sentences.
-This model will necessarily be finite, since across any finite
-number of AMR sentences only a finite number of times and entities
-can be referenced. 
-In particular, we have a case of a local model-checking problem
-where given formula $\phi$, a finite {\it FHTL} model structure $\mathfrak{M}$, a time $t$
-in $\mathfrak{M}$, and a variable assignment $g$, we need to determine
-whether $\mathfrak{M}, t \vDash_g \phi$
-\par
-Consequently our use of tableaux for {\it FHTL} formulae will provide
-a decision procedure for their satisfiability within a finite model generated
-by some set of AMR sentences, rather than their general validity or invalidity,
-as is usually the case with tableaux methods.  Using tableaux as
-a means of model checking has precedent in \citet*{bhat1998tableau} Using tableaux as a decision
-procedure for satisfiability requires some further notions.
-
+\subsection{Tableau Construction}
 
 \begin{definition}[{\bf Closed and open}]
   If a tableau branch contains a formula
@@ -909,8 +890,29 @@ $\textit{root}_{\Theta}$ as a base case.
 \end{theorem}
 
 
+\subsection{Decidability}
 
-\section{AMR Interpretation in Hybrid Logic}
+For our task of AMR inference, we are not concered with the determining the general satisfiability or
+validity of an AMR formula translated into {\it FHTL}, but
+rather whether it holds in the smallest model consistent with
+an established set of {\it FTHL} translations of AMR sentences.
+This model will necessarily be finite, since across any finite
+number of AMR sentences only a finite number of times and entities
+can be referenced. 
+In particular, we have a case of a local model-checking problem
+where given formula $\phi$, a finite {\it FHTL} model structure $\mathfrak{M}$, a time $t$
+in $\mathfrak{M}$, and a variable assignment $g$, we need to determine
+whether $\mathfrak{M}, t \vDash_g \phi$ \citep{muller1999model}.
+\par
+Consequently our use of tableaux for {\it FHTL} formulae will provide
+a decision procedure for their satisfiability within a finite model generated
+by some set of AMR sentences, rather than their general validity or invalidity,
+as is usually the case with tableaux methods.  We develop an approach to using
+tableaux as a means of model checking for {\it FHTL}
+based on the apporaches in \citet{bhat1998tableau} and \citet{bohn1998first}. 
+
+
+\section{AMR Interpretation in {\it FHTL}}
 
 \subsection{Examples}
 
@@ -1001,6 +1003,12 @@ predicate and arguments.
   \SetKwFunction{FInterpretClause}{InterpretClause}
   \SetKwFunction{FInterpretPred}{InterpretPred}
   \SetKwFunction{FInferArg}{InferArg}
+  \SetKwFunction{FRemoveSubgraph}{RemoveSubgraph}
+  \SetKwFunction{FTime}{Time}
+  \SetKwFunction{FTense}{Tense}
+  \SetKwFunction{FPred}{Pred}
+  \SetKwFunction{FReference}{Reference}
+  \SetKwFunction{FGetArgs}{GetArgs}
   
   \SetKwProg{Fn}{Def}{:}{}
   \Fn{\FInterpretEntry{AMR}}{
@@ -1012,18 +1020,20 @@ predicate and arguments.
       \For{\texttt{op} $\in$ Children(root)}{
         append(clauses, \FInterpretClause(\texttt{op}))\;
       }
-      return $@_{\text{now}}$ join(connective, clauses)\;
+      \Return $@_{\text{now}}$ join(connective, clauses)\;
     }
-    return $@_{\text{now}}$ \FInterpretClause(root)\;
+    \Return $@_{\text{now}}$ \FInterpretClause(root)\;
   }
   \;
 
   \Fn{\FInterpretClause{AMR}}{
-    
-  } 
+    time = \FTime(AMR)\;
+    nominal = \FReference(time)\;
+    tense = \FTense(time)\;
+    pred = \FInferArg( \FPred(AMR))(tense)\;
+    \Return $@_{\text{nominal}}$ pred(\FGetArgs(AMR))\;
+  }
   \;
-
-  
   
   \Fn{\FInterpretPred{UnaryPred}}{
   }
@@ -1033,7 +1043,7 @@ predicate and arguments.
       append(mods, name(mod)($x$))\;
     }
     FinalPred = $\lambda x .$ join(mods, $\land$)\;
-    return $\lambda \phi . \exists y . \text{FinalPred}(y) \land \phi(y)$\;
+    \Return $\lambda \phi . \exists y . \text{FinalPred}(y) \land \phi(y)$\;
   } \Else{
     FinalPred = $\lambda \phi . \exists x . \text{name(UnaryPred)}(x) \land \phi(x)$\; 
    }

@@ -777,7 +777,7 @@ tableau construction algorithm for $\mathcal{H}(@)$.
   Where $\Theta$ is a tableau branch in
   the {\it FHTL} calculus, if a nominal $a$
   is introduced to the branch by application of
-  of $F$, $P$, $\neg G$, or $\neg H$
+  of $F$ or $P$
   to a premise $@_s \phi$, we
   say $a$ is {\it generated} by $s$
   on $\Theta$ and write $s \prec_{\Theta} a$.
@@ -852,7 +852,7 @@ tableau construction algorithm for $\mathcal{H}(@)$.
   
 \begin{proof}
   Since the structure of the formulae and tableau rules are not involved
-  in the proof from \citet*{bolander2009terminating} it holds here as well.
+  in the proof from \citet*{bolander2009terminating} holds here as well.
   
   
   \iffalse
@@ -866,48 +866,24 @@ tableau construction algorithm for $\mathcal{H}(@)$.
   \fi
 \end{proof}
 
-\begin{lemma}
-  \label{root}
-  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
-  if $@_s t \in \Theta$ where $s$ and $t$ are nominals then $t$
-  is a root nominal. 
+\iffalse
+The remaining part of the argument for tableau construction
+termination is adapted from \citet{areces2009tableaux}.
+\fi
+\begin{lemma}[{\bf Decreasing length}]
+  Let $\Theta$ be a {\it FHTL} tableau branch,
+  and $s$ and $t$ are nominals occuring on $\Theta$.
+  If $s \prec_{\Theta} t$ then $m_{\Theta}(s) > m_{\Theta}(t)$.
 \end{lemma}
 
-\begin{lemma}
-  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
-  if $@_s F t \in \Theta$ or $@_s P t \in \Theta$ and
-  $t$ is not a root nominal then $s \prec_{\Theta} t$
-  or $s$ and $t$ denote the same time.  
-\end{lemma}
+\begin{proof}
+  Where $\phi$ is a formula of maximal length
+  true at $t$ on $\Theta$, we need to show
+  $m_{\Theta}(s) > |\phi|$.
+  Since $s \prec_{\Theta} t$ 
+\end{proof}
 
-\begin{definition}[$m_{\Theta}$ and $d_{\Theta}$]
-  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
-  $a$ is a nominal/state variable occuring on $\Theta$,
-  and $|@_s \phi|$ denotes the length of the formula $@_s \phi$,
-  we define $m_{\Theta}(a)$ as:
-  $$m_{\Theta}(a) = \max \{|@_s \phi| : @_s \phi \in \Theta \text{ and } @_s \phi \text{ is a root subformula} \}$$
-  If there are no root subformulae $@_a \phi$ on $\Theta$ then $m_{\Theta}(a) = - \infty$.
-  The {\it depth} of the nominal/state variable $a$ with regard to $\Theta$
-  is the length of the unique path in $(\textit{Nom}_{\Theta}, \prec_{\Theta})$
-  which connects the root nominal/state variable to $a$. 
-\end{definition}
-
-\begin{lemma}
-  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
-  for any nominal/state variable on
-  $\Theta$, $m_{\Theta}(a) \leq |\textit{root}_{\Theta}| - d_{\Theta}(a)$
-\end{lemma}
-
-\begin{lemma}
-  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
-  if for every nominal/state variable $a$ in $\textit{root}_{\Theta}$:
-  
-  $$ m_{\Theta}(a) \leq |\textit{root}_{\Theta}| - d_{\Theta}(a) $$
-
-  then $\Theta$ is finite.
-\end{lemma}
-
-\begin{lemma}
+\begin{lemma}[{\bf Tableau construction termination}]
   Any tableau in the {\it FHTL} calculus
   is finite.
 \end{lemma}
@@ -1173,6 +1149,72 @@ predicate and arguments.
 
 
 \iffalse
+
+\begin{lemma}
+  \label{root}
+  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
+  if $@_s t \in \Theta$ where $s$ and $t$ are nominals then $t$
+  is a root nominal. 
+\end{lemma}
+
+\begin{lemma}
+  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
+  if $@_s F t \in \Theta$ or $@_s P t \in \Theta$ and
+  $t$ is not a root nominal then $s \prec_{\Theta} t$
+  or $s$ and $t$ denote the same time.  
+\end{lemma}
+
+\begin{definition}[$m_{\Theta}$ and $d_{\Theta}$]
+  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
+  $a$ is a nominal/state variable occuring on $\Theta$,
+  and $|@_s \phi|$ denotes the length of the formula $@_s \phi$,
+  we define $m_{\Theta}(a)$ as:
+  $$m_{\Theta}(a) = \max \{|@_s \phi| : @_s \phi \in \Theta \text{ and } @_s \phi \text{ is a root subformula} \}$$
+  If there are no root subformulae $@_a \phi$ on $\Theta$ then $m_{\Theta}(a) = - \infty$.
+  The {\it depth} of the nominal/state variable $a$ with regard to $\Theta$
+  is the length of the unique path in $(\textit{Nom}_{\Theta}, \prec_{\Theta})$
+  which connects the root nominal/state variable to $a$. 
+\end{definition}
+
+\begin{lemma}
+  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
+  for any nominal/state variable on
+  $\Theta$, $m_{\Theta}(a) \leq |\textit{root}_{\Theta}| - d_{\Theta}(a)$
+\end{lemma}
+
+\begin{lemma}
+  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
+  if for every nominal/state variable $a$ in $\textit{root}_{\Theta}$:
+  
+  $$ m_{\Theta}(a) \leq |\textit{root}_{\Theta}| - d_{\Theta}(a) $$
+
+  then $\Theta$ is finite.
+\end{lemma}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 The proof of the soundness of the tableau method
 for {\it FHTL} is adapted from the proof of
 soundness of the tableau method for

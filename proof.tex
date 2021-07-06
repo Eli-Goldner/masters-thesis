@@ -891,7 +891,7 @@ termination is adapted from \citet{areces2009tableaux}.
 \end{theorem}
 
 
-\subsection{Decidability}
+\section{Model Checking via Tableaux}
 
 For our task of AMR inference, we are not concered with the determining the general satisfiability or
 validity of an AMR formula translated into {\it FHTL}, but
@@ -910,9 +910,25 @@ a decision procedure for their satisfiability within a finite model generated
 by some set of AMR sentences, rather than their general validity or invalidity,
 as is usually the case with tableaux methods.  We develop an approach to using
 tableaux as a means of model checking for {\it FHTL}
-based on the apporaches in \citet{bhat1998tableau} and \citet{bohn1998first}. 
+based on the approach in \citet{bohn1998first}. 
 
+\subsection{Node Annotation}
 
+The approach involves annotating each node of an open
+branch with the variable assignments in the model which witness the
+formula at the node, building inductively from the terminal nodes.
+If the root formula of the tableau with at least one open branch
+can be annotated with non-empty set of
+variable assignments, then it is satisfiable in the model.
+If a tableau is closed then the root formula $@_s \phi$ is unsatisfiable.
+As a result if the root formula is of the form $@_s \neg \psi$
+then this constitutes a proof of the validity of $@_s \psi$ by contradiction.
+We now view each node in the tableau graph as a pair $( @_s \phi , \mathcal{V} )$, 
+of the formula at the node and the set $\mathcal{V}$ of variable assignments
+in our model $\mathfrak{M}$ which
+witness the formula.  We define an annotation function $\textit{ann}(@_s \phi) = \mathcal{V}$  
+beginning with terminal nodes:
+$$\textit{ann}(@_s \phi) = \{g \mid \mathfrak{M}, I_{\textit{nom}} (s) \vDash_g \phi\}$$
 \section{AMR Interpretation in {\it FHTL}}
 
 \subsection{Examples}

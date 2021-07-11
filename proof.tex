@@ -572,29 +572,6 @@ In $(\neg \exists)$, $t$ is any parameter or term without variables which exists
 Following \citet*{fitting-tab} to ensure termination of tableau construction
 we borrow the notion of quantifier depth
 
-\iffalse
-\begin{figure*}
-  %% \begin{figure*}[hbt!]
-  \begin{framed}
-    \centering
-    \begin{multicols}{2}
-      \begin{prooftree}
-        \AxiomC{$\neg @_s \phi$}
-        \RightLabel{$[\neg]$}
-        \UnaryInfC{$@_s \neg \phi$}
-      \end{prooftree}
-
-      \begin{prooftree}
-        \AxiomC{$@_s \neg \phi$}
-        \RightLabel{$[\neg^{-1}]$}
-        \UnaryInfC{$\neg @_s \phi$}
-      \end{prooftree}
-     \end{multicols}
-    \caption{Negation rules}
-  \end{framed}
-\end{figure*}
-\fi
-
 
 \subsection{Soundness and completeness}
 
@@ -616,6 +593,26 @@ for {\it FHL} in a way that reflects the new formulae of the form $@_i P \phi$.
 
 
 \subsection{Tableau Construction}
+
+\underline{\bf Quantifier rules for tableau with unification:}
+
+\begin{figure*}
+  \begin{mdframed}
+    \begin{multicols}{2}
+      \begin{prooftree}
+        \AxiomC{$@_s \exists x \phi$}
+        \RightLabel{\bf ($\exists$)\footnote{$f$ is a new Skolem function and $u_1 : y_1,..., u_n : y_n$ are the prefixed variables free in $\phi$}}
+        \UnaryInfC{$@_s \phi[f(u_1 : y_1 ,..., u_n : y_n ) / x]$} 
+      \end{prooftree}
+      
+      \begin{prooftree}
+        \AxiomC{$@_s \neg \exists x \phi$}
+        \RightLabel{\bf ($\neg \exists$)\footnote{$s : y$ is a first-order variable new to the tableau and free in $\exists x \phi$.}}
+        \UnaryInfC{$@_s \neg \phi[s : y / x]$} 
+      \end{prooftree}
+    \end{multicols}
+  \end{mdframed}
+\end{figure*}
 
 \begin{definition}[{\bf Closed and open}]
   If a tableau branch contains a formula
@@ -856,27 +853,65 @@ tableau construction algorithm for $\mathcal{H}(@)$.
   \fi
 \end{proof}
 
-\iffalse
-The remaining part of the argument for tableau construction
-termination is adapted from \citet{areces2009tableaux}.
-\fi
 \begin{lemma}[{\bf Decreasing length}]
-  Let $\Theta$ be a {\it FHTL} tableau branch,
-  and $s$ and $t$ are nominals occuring on $\Theta$.
-  If $s \prec_{\Theta} t$ then $m_{\Theta}(s) > m_{\Theta}(t)$.
-\end{lemma}
+  Let $\Theta$ be a {\it FHTL} tableau branch.
+  For any nominal $a$ on $\Theta$, $m_{\Theta}(a) \leq |\textit{root}_{\Theta}| - d_{\Theta}(a)$.
+  \end{lemma}
 
 \begin{proof}
-  Where $\phi$ is a formula of maximal length
+  The proof is by induction on the depth of $a$.
+  For the base case, where $d_{\Theta} (a) = 0$,
+  we have that $a$ a is a root nominal and consequently
+  $m_{\Theta}(a) \leq |\textit{root}_{\Theta}|$.
+  For the inductive step let $b$ be nominal
+  such that $d_{\Theta} (b) > 0$.  We need to demonstrate
+  $m_{\Theta}(b) \leq |\textit{root}_{\Theta}| - d_{\Theta}(b)$
+  assuming the inequality holds for all nominals of lower
+  depth.  If there are no root subformulae true at
+  $b$ on $\Theta$ then definitionally $m_{\Theta}(b) = - \infty$
+  and the inequality holds.  Otherwise where $\phi$ is the earliest
+  formula (without loss of generality)
+  of maximal length for which $@_b \phi$ is a root subformula
+  on $\Theta$, $@_b \phi$ has been introduced by application of an
+  {\it FHTL} tableau rule to a root subformula.  The formula $@_b \phi$
+  cannot have been introduced to the branch by an
+  application of one of the propositional or quantifier rules
+  since that would contradict the maximality of $\phi$,
+  nor can it have been introduced to the branch by application
+  of {\bf (sub)} or any term rules, since then $@_b \phi$ would
+  not be the earliest maximal formula.  Assume $@_b \phi$
+  has been introduced to the branch by applying {\bf ($@$)}  
+  to a root subformula of the form $@_c @_b \phi$, then $b$
+  is a root nominal which contradicts the inductive assumption
+  and {\bf ($@$)} cannot have been the rule introducing $@_b \phi$,
+  similarly if $@_b \phi$ is introduced by {\bf ($\neg @$)}.
+  Assume $@_b \phi$ is introduced by {\bf (nom)},
+  then it was introduced from premises of the form
+  $@_a \phi$, $@_a b$ for some nominal $a$,
+  
+  
+  
+  
+  \iffalse
+  Where $\phi$ is the earliest formula of maximal length
+  (term rules that preserve formula type preserve length so we will ignore them)
   true at $t$ on $\Theta$, we need to show
   $m_{\Theta}(s) > |\phi|$.
   Since $s \prec_{\Theta} t$ then $\phi$ must have
   been introduced to the branch by application
   of some {\it FHTL rule}.  However it cannot
   have been introduced to the branch by any of the
-  propositional rules, quantifier rules, @ rules,
-  term rules, $\neg P$ or $\neg F$ since that would
+  propositional rules or quantifier rules since that would
   contradict the formula's maximality.
+  As a result the formula must have been introduced by
+  $F$ or $P$, $\neg F$ or $\neg P$, {\bf (nom)}, or an @--rule.
+  In the case of $F/P$, $@_t \phi$ must have been introduced to the branch
+  from a formula of the form $@_s (F / P) \phi$.
+  In the case of $\neg F / \neg P$, $@_s \phi$ must
+  be of the form $@_s \neg \psi$ and follows
+  from two premises of the form $@_s \neg (F / P) \psi$
+  and $@_s (F / P) t$.  In the
+  \fi
 \end{proof}
 
 \begin{lemma}[{\bf Tableau construction termination}]
@@ -1186,6 +1221,26 @@ predicate and arguments.
 
 
 \iffalse
+\begin{figure*}
+  %% \begin{figure*}[hbt!]
+  \begin{framed}
+    \centering
+    \begin{multicols}{2}
+      \begin{prooftree}
+        \AxiomC{$\neg @_s \phi$}
+        \RightLabel{$[\neg]$}
+        \UnaryInfC{$@_s \neg \phi$}
+      \end{prooftree}
+
+      \begin{prooftree}
+        \AxiomC{$@_s \neg \phi$}
+        \RightLabel{$[\neg^{-1}]$}
+        \UnaryInfC{$\neg @_s \phi$}
+      \end{prooftree}
+     \end{multicols}
+    \caption{Negation rules}
+  \end{framed}
+\end{figure*}
 
 \begin{lemma}
   \label{root}

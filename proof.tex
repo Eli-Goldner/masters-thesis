@@ -297,21 +297,6 @@ $\mathfrak{M}, s \vDash_g \phi$ is:
 
 \fi
 
-
-\par
-
-For \textsf{Nom}  we have the constraint that
-if the premise $@_t \phi$ are of the form $@_t X c$
-where $X \in \{ F, P, \neg G, \neg H \}$ and $c$ is a nominal or state variable,
-then $@_t \phi$ is a root subformula.
-Similarly  for $\textsf{Nom}^{-1}$ and the premise $@_s\phi$.  
-\par
-
-In all rules in \cref{fnp}, the nominal $a$ is new to the branch.
-We have the additional constraint that if $\phi$ in the premise
-is a nominal or state variable, then the premise must be a root subformula
-in order for the rule to be applicable.
-
 Following \citet*{fitting-modal} we assume for each nominal
 or state variable $s$,
 there is an infinite list of parameters, where parameters are free variables
@@ -319,12 +304,6 @@ which are never quantified over, arranged in such a way that different
 nominals/state variables
 never share the same parameter.  Informally we write $p_s$ to indicate
 a parameter is associated with a nominal/state variable $s$.  
-\par
-We also introduce the notion of a grounded term.  A grounded term
-is either a first-order constant, a parameter,
-or a grounded definite description, i.e.
-a term of the form $@_n q$ for $n$ a nominal
-and $q$ a unary function symbol.
 
 %%\begin{adjustbox}{max size={\textwidth}{\textheight}, nofloat = figure}
 \begin{figure*}[!h]
@@ -563,17 +542,20 @@ and $q$ a unary function symbol.
 \end{adjustbox}
 \end{figure*}
 
-\par
-In $(\exists)$, $s:p$ is a parameter associated with the
-nominal $s$, with the requirement that it is new to the branch.
-Since parameters are never quantified over,
-$s:p$ is free in $\phi[s:p / x]$ but refers the same way as a constant.
-In $(\neg \exists)$, $t$ is any parameter or term without variables which exists at $s$.
-Following \citet*{fitting-tab} to ensure termination of tableau construction
-we borrow the notion of quantifier depth
-
 
 \subsection{Soundness and completeness}
+
+\begin{definition}[$\subseteq_{\Theta}$]
+  Where $a$ and $b$ are nominals occuring on an {\it FHTL} tableau branch
+  $\Theta$, $a$ is {\it included} in $b$ with respect to $\Theta$
+  if for any root subformula $\phi$, if $@_a \phi$ occurs on $\Theta$
+  then $@_b \phi$ also occurs on $\Theta$, similarly for their negations.
+  If $a$  is included in $b$ with respect to $\Theta$,
+  and the first occurence of $b$ on $\Theta$ is
+  before the first occurence of $a$ on $\Theta$, then
+  we write $a \subseteq_{\Theta} b$.
+\end{definition}
+
 
 The proof of soundness and completeness of
 {\it FHL} in \citet*{hansen2007tableau}
@@ -592,12 +574,13 @@ Soundness and completeness for for {\it FHTL} follows straightforward modificati
 for {\it FHL} in a way that reflects the new formulae of the form $@_i P \phi$. 
 
 
-\subsection{Tableau Construction}
+\subsubsection{Adding unification}
 
-\underline{\bf Quantifier rules for tableau with unification:}
 
-\begin{figure*}
+  \begin{figure*}
+  \centering
   \begin{mdframed}
+    \underline{\bf Quantifier rules for tableau with unification:}
     \begin{multicols}{2}
       \begin{prooftree}
         \AxiomC{$@_s \exists x \phi$}
@@ -613,6 +596,13 @@ for {\it FHL} in a way that reflects the new formulae of the form $@_i P \phi$.
     \end{multicols}
   \end{mdframed}
 \end{figure*}
+
+
+
+
+
+\subsection{Tableau Construction}
+
 
 \begin{definition}[{\bf Closed and open}]
   If a tableau branch contains a formula
@@ -635,84 +625,25 @@ indicates satisfiability of the root formula leads us to our next definition.
   is saturated we say the tableau is saturated.
 \end{definition}
 
-For the unconstrained tableau rules, completeness gives us that
-an open saturated tableau is satisfiable.
-Since the constrained rules only guarantee termination in the
-case of finite models, we are not compromising completeness
-for termination we have the same guarantee for open saturated tableaux.
-As a result, given termination of the tableax and finite models, we
-can use the tableaux to check whether the root formula is satisfied
-in the model, in particular the process is decidable.
-\par
-The proof of termination for every tableau construction is adapted from
-the proof given in \citet*{bolander2009terminating} for the termination of the
-tableau construction algorithm for $\mathcal{H}(@)$.
-
-\begin{definition}
-  When a formula $@_s \phi$ occurs in a tableau
-  branch $\Theta$ we will write $@_s \phi \in \Theta$,
-  and say $\phi$ is true at $s$ on $\Theta$ or
-  $s$ makes $\phi$ true on $\Theta$.  
-\end{definition}
- 
-\begin{definition}
-  Given a tableau branch $\Theta$ and a nominal
-  $s$ the {\it set of true formulae} at $s$ on $\Theta$,
-  is written $T^\Theta (s)$ and defined as follows:
-  $$T^\Theta (s) = \{ \phi \mid @_s \phi \in \Theta \}$$
-\end{definition}
 
 \begin{definition}[{\bf Quasi-subformula}]
   A formula $\phi$ is a {\it quasi-subformula } of a
   formula $\psi$ if one of the the following is the case:
   \begin{enumerate}
   \item
-    $\phi$ is a subformula of $\psi$ modulo substitution
+    $\phi$ is a subformula of $\psi$ modulo
+     renaming of free variables and substitution
     of free variables in $\phi$ for grounded terms.
   \item
     $\phi$ is of the form $\neg \chi$ where $\chi$
-    modulo substitution
+    is a subformula of $\psi$ modulo renaming
     of free variables in $\chi$ for grounded terms.
   \end{enumerate}
   Altering the definition to allow grounded terms being substituted
   for free variables ensures compatibility of the following proofs
-  with the quantifier and term rules.  
-\end{definition}
-
-\begin{definition}[{\bf Accessibility formula}]
-  A formula of the form $@_s F t$ or $@_s P t$
-  on $\Theta$ is called an
-  {\it accessibility formula}
-  if it is the first conclusion of an application
-  of $F$ or $P$.
-\end{definition}
-
-
-\begin{definition}[{\bf Term equality formula}]
-  A formula of the form $@_i t = s$
-  where $s$ and $t$ are extended terms
-  is called a term equality formula if it is a
-  an immediate conclusion of {\bf (ref)}, {\bf (:3)}, or
-  {\bf (:func)}, or is generated from such a formula
-  by one or more applications of  {\bf (:1)},
-  {\bf (:2)}, {\bf (:fix 3)}, or {\bf (:fix 4)}.
-\end{definition}
-
-\begin{definition}[{\bf Nominal equality formula}]
-  A formula of the form $@_s t$ where
-  $s$ and $t$ are nominals is a nominal
-  equality formula if it is an immediate conclusion
-  of {\bf (:nom ref)} or has such a formula as an ancestor
-  on the branch while being an immediate conclusion of
-  {\bf (:nom)}
-\end{definition}
-
-\begin{definition}[{\bf Root-subformula}]
-  Where the root formula of a tableau $\Theta$ is written
-  $\textit{root}_{\Theta}$,
-  a formula $@_s \phi$ occuring on a tableau $\Theta$
-  is called a {\it root-subformula} on $\Theta$
-  if it is a quasi-subformula of $\textit{root}_{\Theta}$. 
+  with the quantifier and term rules.  We say a formula $@_s \phi$
+  on a {\it FHTL} tableau branch $\Theta$ is a {\it root subformula}
+  if $\phi$ is a quasi subformula of the root formula of the tableau.  
 \end{definition}
 
 
@@ -720,13 +651,15 @@ tableau construction algorithm for $\mathcal{H}(@)$.
 \begin{lemma}[{\bf Subformula Property}]
   \label{subformula}
   Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
-  any formula $@_s \phi$ occuring on $\Theta$
-  is either a root-subformula, accessibility
-  formula, nominal equality formula, or term equality formula.
+  and a formula $@_s \phi$ occurs on $\Theta$ where
+  $\phi$ is not of the form $a$, $F a$, or $P a$ for $a$ a nominal,
+  or $u = t$ for optionally prefixed closed terms $t$ and $u$,
+  then $\phi$ is a root subformula. 
 \end{lemma}
 
 \begin{proof}
   This is verified by checking the tableau rules.
+  \iffalse
   We observe the propositional, quantifier, and $@$ rules, along with
   {\bf (:fix 1)}, {\bf (:fix 2)}, and {\bf (:fix 4)} can only take
   root-subformulae as premises and yield root-subformulae as conclusions.
@@ -757,6 +690,7 @@ tableau construction algorithm for $\mathcal{H}(@)$.
   since the definition of quasi-subformula allows for substitution of (equivalent) terms.  
   And finally {\bf (nom)}'s conclusion will be of the same type as its second premise
   since the definition of quasi-subformula allows for change of prefix nominals.
+  \fi
 \end{proof}
 
 \begin{definition}[$\prec_{\Theta}$]

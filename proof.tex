@@ -346,7 +346,7 @@ a parameter is associated with a nominal/state variable $s$.
     \begin{multicols}{4}
       \begin{prooftree}
         \AxiomC{$@_s F \phi$}
-        \RightLabel{\bf ($F$)\footnote{\label{intro}The nominal $a$ is new to the branch.}}
+        \RightLabel{\bf ($F$)\footnote{\label{intro}The nominal $a$ is new to the branch.}\footnote{\label{nom}The formula $\phi$ is not a nominal.}}
         \UnaryInfC{$@_s F a$}
         \noLine
         \UnaryInfC{$@_a \phi$}
@@ -354,7 +354,7 @@ a parameter is associated with a nominal/state variable $s$.
       
       \begin{prooftree}
         \AxiomC{$@_s P \phi$}
-        \RightLabel{\bf ($P$)\footnoteref{intro}}
+        \RightLabel{\bf ($P$)\footnoteref{intro}\footnoteref{nom}}
         \UnaryInfC{$@_s P a$}
         \noLine
         \UnaryInfC{$@_a \phi$}
@@ -545,87 +545,6 @@ a parameter is associated with a nominal/state variable $s$.
 
 \subsection{Soundness and completeness}
 
-\begin{definition}[$\subseteq_{\Theta}$]
-  Where $a$ and $b$ are nominals occuring on an {\it FHTL} tableau branch
-  $\Theta$, $a$ is {\it included} in $b$ with respect to $\Theta$
-  if for any root subformula $\phi$, if $@_a \phi$ occurs on $\Theta$
-  then $@_b \phi$ also occurs on $\Theta$, similarly for their negations.
-  If $a$  is included in $b$ with respect to $\Theta$,
-  and the first occurence of $b$ on $\Theta$ is
-  before the first occurence of $a$ on $\Theta$, then
-  we write $a \subseteq_{\Theta} b$.
-\end{definition}
-
-
-The proof of soundness and completeness of
-{\it FHL} in \citet*{hansen2007tableau}
-uses the notions of $\lozenge$--{\it completeness}
-and $\exists$--{\it completeness}.  As a result we substitute
-$\lozenge$--completeness with the equivalent notion 
-$F$--{\it completeness} and add the notion of
-$P$--{\it completeness} where the $\exists$--completeness
-stays the same as before.  Thus set of $@$-formulae
-(formulae in the extended language (including parameters) of the form $@_i \phi$)
-is $F$--complete if:
-$$@_i F \phi \in S \Longrightarrow @_i F j \text{ or } @_j P i, @_j \phi \in S, \text{ for some nominal } j$$
-A set of $@$-formulae is $P$--complete if:
-$$@_i P \phi \in S \Longrightarrow @_i P j \text{ or } @_j F i, @_j \phi \in S, \text{ for some nominal } j$$
-Soundness and completeness for for {\it FHTL} follows straightforward modification of Hansen's proof of soundness and completeness
-for {\it FHL} in a way that reflects the new formulae of the form $@_i P \phi$. 
-
-
-\subsubsection{Adding unification}
-
-
-  \begin{figure*}
-  \centering
-  \begin{mdframed}
-    \underline{\bf Quantifier rules for tableau with unification:}
-    \begin{multicols}{2}
-      \begin{prooftree}
-        \AxiomC{$@_s \exists x \phi$}
-        \RightLabel{\bf ($\exists$)\footnote{$f$ is a new Skolem function and $u_1 : y_1,..., u_n : y_n$ are the prefixed variables free in $\phi$}}
-        \UnaryInfC{$@_s \phi[f(u_1 : y_1 ,..., u_n : y_n ) / x]$} 
-      \end{prooftree}
-      
-      \begin{prooftree}
-        \AxiomC{$@_s \neg \exists x \phi$}
-        \RightLabel{\bf ($\neg \exists$)\footnote{$s : y$ is a first-order variable new to the tableau and free in $\exists x \phi$.}}
-        \UnaryInfC{$@_s \neg \phi[s : y / x]$} 
-      \end{prooftree}
-    \end{multicols}
-  \end{mdframed}
-\end{figure*}
-
-
-
-
-
-\subsection{Tableau Construction}
-
-
-\begin{definition}[{\bf Closed and open}]
-  If a tableau branch contains a formula
-  $@_s \phi$ and its negation $@_s \neg \phi$
-  we say the branch is {\it closed}.
-  If every branch of the tableau is closed we
-  say the tableau itself is closed.  If a
-  tableau or branch is not closed we say it is {\it open}.
-\end{definition}
-
-A closed tableau is a proof of the unsatisfiability of the tableau's root formula, i.e.
-there is no model or assignment of variables in which it holds.  The question of when a tableau
-indicates satisfiability of the root formula leads us to our next definition.
-
-\begin{definition}[{\bf Saturation}]
-  A tableau branch is {\it saturated}
-  if no more rules can be applied to the branch in a way that
-  satisfies their constraints.
-  If every branch of the tableau
-  is saturated we say the tableau is saturated.
-\end{definition}
-
-
 \begin{definition}[{\bf Quasi-subformula}]
   A formula $\phi$ is a {\it quasi-subformula } of a
   formula $\psi$ if one of the the following is the case:
@@ -706,15 +625,15 @@ indicates satisfiability of the root formula leads us to our next definition.
   closure of $\prec_{\Theta}$.  
 \end{definition}
 
-\begin{definition}[$\textit{Nom}_{\Theta}$]
+\begin{definition}[$N_{\Theta}$]
   The set of nominals and state variables which occur on $\Theta$
-  is written $\textit{Nom}_{\Theta}$
+  is written $N_{\Theta}$
 \end{definition}
 
 \begin{lemma}
   \label{wellfounded}
   Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
-  the graph $G = (\textit{Nom}_{\Theta}, \prec_{\Theta})$ is
+  the graph $G = (N_{\Theta}, \prec_{\Theta})$ is
   a wellfounded finitely branching tree.
 \end{lemma}
 
@@ -726,13 +645,13 @@ indicates satisfiability of the root formula leads us to our next definition.
     We have that if $a \prec_{\Theta} b$
     then the first occurence of $a$
     on $\Theta$ is before the first occurence
-    of $b$, thus by induction any subset of $\textit{Nom}_{\Theta}$ under the relation
+    of $b$, thus by induction any subset of $N_{\Theta}$ under the relation
     $\prec_{\Theta}$ has a least element and each tree in $G$ is wellfounded.
   \item $G$ {\it is a tree}
     
-    Every nominal in $\textit{Nom}_{\Theta}$
+    Every nominal in $N_{\Theta}$
     can be generated by at most one other nominal, 
-    and every nominal in $\textit{Nom}_{\Theta}$
+    and every nominal in $N_{\Theta}$
     must have one of the finitely many nominals in the
     root formula as an ancestor.
   \item $G$ {\it is finitely branching}
@@ -744,11 +663,10 @@ indicates satisfiability of the root formula leads us to our next definition.
     Each nominal $b$
     such that
     $a \prec_{\Theta} b$
-    is generated by applying one of the
-    $F$, $P$, $\neg H$, $\neg G$ rules to
+    is generated by applying one of 
+    $F$, $P$ to
     a premise of the form
-    $@_i F \phi$, $@_i P \phi$,
-    $@_i \neg H \phi$, or $@_i \neg G \phi$
+    $@_i F \phi$ or $@_i P \phi$
     respectively, where by
     our restrictions, either $\phi$
     is not a nominal, or the entire
@@ -782,10 +700,137 @@ indicates satisfiability of the root formula leads us to our next definition.
   generating additional nominals, since our conventions
   ensure that all formulae occuring $\Theta$ are distinct.
   For the other direction, first we demonstrate
-  $\textit{Nom}_{\Theta}$ is infinite.  Suppose by contradiction
-  $\textit{Nom}_{\Theta}$ is finite
+  $N_{\Theta}$ is infinite.  Suppose by contradiction
+  $N_{\Theta}$ is finite
   \fi
 \end{proof}
+
+
+\begin{definition}[$\subseteq_{\Theta}$]
+  Where $a$ and $b$ are nominals occuring on an {\it FHTL} tableau branch
+  $\Theta$, $a$ is {\it included} in $b$ with respect to $\Theta$
+  if for any root subformula $\phi$, if $@_a \phi$ occurs on $\Theta$
+  then $@_b \phi$ also occurs on $\Theta$, similarly for their negations.
+  If $a$  is included in $b$ with respect to $\Theta$,
+  and the first occurence of $b$ on $\Theta$ is
+  before the first occurence of $a$ on $\Theta$, then
+  we write $a \subseteq_{\Theta} b$.
+\end{definition}
+
+\begin{definition}[$\sim_{\Theta}$]
+  Where $\Theta$ is a {\it FHTL} tableau branch, 
+  define a binary relation $\sim_{\Theta}$
+  on $N_{\Theta}$ by $a \sim_{\Theta} b$ if and only if
+  $@_a b$ occurs on $\Theta$.
+  Let $\sim_{\Theta}^*$ be reflexive, transitive,
+  and symmetric closure of $\sim_{\Theta}$.
+\end{definition}
+
+\begin{definition}[$W, \approx$]
+  Let $W$ be the subset of
+  $N_{\Theta}$ containing any nominal
+  $a$ with the property that there
+  is no nominal $b$ such that
+  $a \subseteq_{\Theta} b$.
+  Let $\approx$ be the restriction of $\sim_{\Theta}$ 
+  to $W$.
+\end{definition}
+
+\begin{definition}
+  Let $R$ be the binary relation defined on $W$
+  defined by $a R c$ if and only if there are nominals
+  $a' \approx a$ and $c' \approx c$ satisfying one of the
+  following conditions:
+  \begin{enumerate}
+  \item
+
+    The formula $@_{a'} F c'$ or $@_{a'} P c'$
+    occurs at $\Theta$ and was introduced to the
+    branch
+    by $F$ or $P$ respectively.
+  \item
+
+    There is a nominal $d \in N_{\Theta}$
+    such that the formula $@_{a'} F d$ or $@_{a'} P d$
+    was introduced to the branch by
+    $F$ or $P$ respectively 
+    and $d \subseteq_{\Theta} c'$
+  \item
+    The formula $@_{a'} F c'$ or $@_{a'} P c'$
+    occurs at $\Theta$ and $a'$ or $c'$
+    occurs in the root formula.
+  \end{enumerate}
+\end{definition}
+
+\iffalse
+The proof of soundness and completeness of
+{\it FHL} in \citet*{hansen2007tableau}
+uses the notions of $\lozenge$--{\it completeness}
+and $\exists$--{\it completeness}.  As a result we substitute
+$\lozenge$--completeness with the equivalent notion 
+$F$--{\it completeness} and add the notion of
+$P$--{\it completeness} where the $\exists$--completeness
+stays the same as before.  Thus set of $@$-formulae
+(formulae in the extended language (including parameters) of the form $@_i \phi$)
+is $F$--complete if:
+$$@_i F \phi \in S \Longrightarrow @_i F j \text{ or } @_j P i, @_j \phi \in S, \text{ for some nominal } j$$
+A set of $@$-formulae is $P$--complete if:
+$$@_i P \phi \in S \Longrightarrow @_i P j \text{ or } @_j F i, @_j \phi \in S, \text{ for some nominal } j$$
+Soundness and completeness for for {\it FHTL} follows straightforward modification of Hansen's proof of soundness and completeness
+for {\it FHL} in a way that reflects the new formulae of the form $@_i P \phi$. 
+\fi
+
+\iffalse
+\subsubsection{Adding unification}
+
+
+  \begin{figure*}
+  \centering
+  \begin{mdframed}
+    \underline{\bf Quantifier rules for tableau with unification:}
+    \begin{multicols}{2}
+      \begin{prooftree}
+        \AxiomC{$@_s \exists x \phi$}
+        \RightLabel{\bf ($\exists$)\footnote{$f$ is a new Skolem function and $u_1 : y_1,..., u_n : y_n$ are the prefixed variables free in $\phi$}}
+        \UnaryInfC{$@_s \phi[f(u_1 : y_1 ,..., u_n : y_n ) / x]$} 
+      \end{prooftree}
+      
+      \begin{prooftree}
+        \AxiomC{$@_s \neg \exists x \phi$}
+        \RightLabel{\bf ($\neg \exists$)\footnote{$s : y$ is a first-order variable new to the tableau and free in $\exists x \phi$.}}
+        \UnaryInfC{$@_s \neg \phi[s : y / x]$} 
+      \end{prooftree}
+    \end{multicols}
+  \end{mdframed}
+\end{figure*}
+\fi
+
+
+
+
+\subsection{Tableau Construction}
+
+
+\begin{definition}[{\bf Closed and open}]
+  If a tableau branch contains a formula
+  $@_s \phi$ and its negation $@_s \neg \phi$
+  we say the branch is {\it closed}.
+  If every branch of the tableau is closed we
+  say the tableau itself is closed.  If a
+  tableau or branch is not closed we say it is {\it open}.
+\end{definition}
+
+A closed tableau is a proof of the unsatisfiability of the tableau's root formula, i.e.
+there is no model or assignment of variables in which it holds.  The question of when a tableau
+indicates satisfiability of the root formula leads us to our next definition.
+
+\begin{definition}[{\bf Saturation}]
+  A tableau branch is {\it saturated}
+  if no more rules can be applied to the branch in a way that
+  satisfies their constraints.
+  If every branch of the tableau
+  is saturated we say the tableau is saturated.
+\end{definition}
 
 \begin{lemma}[{\bf Decreasing length}]
   Let $\Theta$ be a {\it FHTL} tableau branch.
@@ -848,17 +893,6 @@ indicates satisfiability of the root formula leads us to our next definition.
   \fi
 \end{proof}
 
-\begin{lemma}[{\bf Tableau construction termination}]
-  Any tableau in the {\it FHTL} calculus
-  is finite.
-\end{lemma}
-
-\begin{theorem}
-  The satisfiability of a finite set of
-  {\it FHTL} sentences in a {\it FHTL}
-  model is decidable.
-\end{theorem}
-
 
 \section{Model Checking via Tableaux}
 
@@ -880,6 +914,35 @@ by some set of AMR sentences, rather than their general validity or invalidity,
 as is usually the case with tableaux methods.  We develop an approach to using
 tableaux as a means of model checking for {\it FHTL}
 based on the approach in \citet{bohn1998first}. 
+
+\subsection{Systematic tableau construction}
+
+\begin{definition}[{\it Tableau construction algorithm}]
+  Where $@a_a \phi$ is the formula whose validity we are deciding.
+  We inductively define a sequence of finite tableaux
+  $\mathcal{T}_0, \mathcal{T}_1, \mathcal{T}_2, \ldots$
+  each where each element of the sequence is embedded in all
+  of its successors.  We let $\mathcal{T}_0$ be the finite
+  tableau consisting of the formula $\neg @a_a \phi$.
+  Assuming the finite tableau $\mathcal{T}_n$ is defined.
+  If possible, apply an arbitrary {\it FHTL} tableau rule with
+  the following restriction.
+  \begin{itemize}
+  \item {\bf (Loop check)}
+    The rule $F$ is not applied to a formula occurence $@_a F \phi$
+    at a branch $\Theta$ if there is a nominal $b$ such that
+    $a \subseteq_{\Theta} b$, and simlarly for the rule $P$.
+  \end{itemize}
+  Let $\mathcal{T}_{n + 1}$ be the resulting tableau.
+\end{definition}
+
+\begin{theorem}
+  The systematic tableau construction algorithm terminates.
+\end{theorem}
+
+\begin{proof}
+  Suppose by contradiction the ned
+\end{proof}
 
 \subsection{Node Annotation}
 
@@ -1198,7 +1261,7 @@ predicate and arguments.
   $$m_{\Theta}(a) = \max \{|@_s \phi| : @_s \phi \in \Theta \text{ and } @_s \phi \text{ is a root subformula} \}$$
   If there are no root subformulae $@_a \phi$ on $\Theta$ then $m_{\Theta}(a) = - \infty$.
   The {\it depth} of the nominal/state variable $a$ with regard to $\Theta$
-  is the length of the unique path in $(\textit{Nom}_{\Theta}, \prec_{\Theta})$
+  is the length of the unique path in $(N_{\Theta}, \prec_{\Theta})$
   which connects the root nominal/state variable to $a$. 
 \end{definition}
 
@@ -1334,7 +1397,7 @@ by $R$ as follows based on the different cases for $R$:
 ({\it Proof})  We prove soundness by induction on the
 tableau rules, with particular
 attention to rules which introduce nominals new
-to the branch, namely $\{ F, P, \neg G, \neg H \}$ \cref{fnp},
+to the branch, namely $\{ F, P \}$ \cref{fnp},
 and rules which introduce new parameters to the branch,
 namely the universal rules \cref{univ} and existential rules \cref{ext}.
 In all cases discussed below let 
@@ -1447,7 +1510,7 @@ in which $\Sigma$ is satisfiable by label.
   We fix a function $\sigma$ 
   that to each tableau branch
   and each non-empty subset
-  $N \subseteq \textit{Nom}_{\Theta}$
+  $N \subseteq N_{\Theta}$
   picks out the element of $N$ which
   denotes the earliest time under the
   accessibility relation $R$ which is

@@ -598,6 +598,26 @@ a parameter is associated with a nominal/state variable $s$.
 
 \subsection{Soundness and completeness}
 
+The proof of soundness for {\it FHTL} follows from the
+soundness of {\it FHL} established in \citet*{hansen2007tableau},
+with additions for the rules {\bf ($P$)}, {\bf ($\neg P$)}, {\bf ($P$)--bridge},
+and {\bf ($P / F$)--trans}, the soundness of which is easy to demonstrate.
+The proof of completeness is the same as the one given in
+\citet*{bolander} for Blackburn's tableau system for standard
+hybrid logic ($\mathcal{HL}(@)$) with accomodations made for
+the first order aspects of {\it FHTL} adapted from \citet*{hansen2007tableau}.
+While \citet*{bolander} en route to completeness proves termination
+for Blackburn's tableau system, we cannot do that for
+{\it FHTL}, since a terminating tableau system would be
+equivalent to a general decision procedure for first-order predicate logic.
+We will however intoduce restrictions on the quantifier and term rules
+in the next section which will lead to terminating tableau constructions
+at the cost of general completeness,
+which will be no real loss since the purpose of our
+revised terminating tableau system is for finite model checking.  
+
+
+
 \begin{definition}[{\bf Quasi-subformula}]
   A formula $\phi$ is a {\it quasi-subformula } of a
   formula $\psi$ if one of the the following is the case:
@@ -744,7 +764,7 @@ a parameter is associated with a nominal/state variable $s$.
   
 \begin{proof}
   Since the structure of the formulae and tableau rules are not involved
-  in the proof from \citet*{bolander2009terminating} holds here as well.
+  in the proof from \citet*{bolander} holds here as well.
   
   
   \iffalse
@@ -789,6 +809,12 @@ a parameter is associated with a nominal/state variable $s$.
   to $W$.
 \end{definition}
 
+We can see that $W$ contains every nominal in the root formula,
+and since any branch $\Theta$ is closed under {\bf (nom ref)} and
+{\bf (nom)} we have that $\sim_{\Theta}$ and $\approx$ are equivalence relations.
+For a nominal $a$ in $W$ we write $[a]$ to denote the equivalence class of $a$
+and $W / \approx$ to denote the set of equivalence classes.  
+
 \begin{definition}
   Let $R$ be the binary relation defined on $W$
   defined by $a R c$ if and only if there are nominals
@@ -815,57 +841,22 @@ a parameter is associated with a nominal/state variable $s$.
   \end{enumerate}
 \end{definition}
 
-
-\subsubsection{Soundness and completeness}
-
-The proof of soundness for {\it FHTL} follows from the
-soundness of {\it FHL} established in \citet*{hansen2007tableau},
-with additions for the rules {\bf ($P$)}, {\bf ($\neg P$)}, {\bf ($P$)--bridge},
-and {\bf ($P / F$)--trans}, the soundness of which is easy to demonstrate.
-\iffalse
-The proof of soundness and completeness of
-{\it FHL} in \citet*{hansen2007tableau}
-uses the notions of $\lozenge$--{\it completeness}
-and $\exists$--{\it completeness}.  As a result we substitute
-$\lozenge$--completeness with the equivalent notion 
-$F$--{\it completeness} and add the notion of
-$P$--{\it completeness} where the $\exists$--completeness
-stays the same as before.  Thus set of $@$-formulae
-(formulae in the extended language (including parameters) of the form $@_i \phi$)
-is $F$--complete if:
-$$@_i F \phi \in S \Longrightarrow @_i F j \text{ or } @_j P i, @_j \phi \in S, \text{ for some nominal } j$$
-A set of $@$-formulae is $P$--complete if:
-$$@_i P \phi \in S \Longrightarrow @_i P j \text{ or } @_j F i, @_j \phi \in S, \text{ for some nominal } j$$
-Soundness and completeness for for {\it FHTL} follows straightforward modification of Hansen's proof of soundness and completeness
-for {\it FHL} in a way that reflects the new formulae of the form $@_i P \phi$. 
-\fi
-
-\iffalse
-\subsubsection{Adding unification}
-
-
-  \begin{figure*}
-  \centering
-  \begin{mdframed}
-    \underline{\bf Quantifier rules for tableau with unification:}
-    \begin{multicols}{2}
-      \begin{prooftree}
-        \AxiomC{$@_s \exists x \phi$}
-        \RightLabel{\bf ($\exists$)\footnote{$f$ is a new Skolem function and $u_1 : y_1,..., u_n : y_n$ are the prefixed variables free in $\phi$}}
-        \UnaryInfC{$@_s \phi[f(u_1 : y_1 ,..., u_n : y_n ) / x]$} 
-      \end{prooftree}
-      
-      \begin{prooftree}
-        \AxiomC{$@_s \neg \exists x \phi$}
-        \RightLabel{\bf ($\neg \exists$)\footnote{$s : y$ is a first-order variable new to the tableau and free in $\exists x \phi$.}}
-        \UnaryInfC{$@_s \neg \phi[s : y / x]$} 
-      \end{prooftree}
-    \end{multicols}
-  \end{mdframed}
-\end{figure*}
-\fi
-
-
+Note that the nominal $d$ in the second item is not an element of $W$
+and that the accessibility relation $R$ is compatible with $\approx$.
+We define $\overline{R}$ as the binary relation on $W / \approx$
+defined by $\overline{R} [a] [c]$ if and only if $R a c$.
+\par
+$(W, \overline{R})$ are a modal frame, the first step
+towards constructing a model
+of an open tableau branch $\Theta$.
+Here we define the analogues of
+$D_{[w]}, I_{[w]}$ for $[w] \in W$ and $I_{\textit{nom}}$.
+To start we let $D$ be set defined by:
+$$D = \{ i : t \mid \text{for some } i \in W \text{ and some closed term of the extended language } t\}$$
+Further we define a relation $\equiv$ on $D$ by:
+$i : t \equiv j : s \Longleftrightarrow @_k i : t \equiv j : s \in \Theta \text{ for some } k \in W$
+From the tableau rules {\bf (ref)}, {\bf (sub)}, and {\bf (:1)}, we observe $\equiv$ is an equivalence
+relation on $D$
 
 
 \subsection{Tableau Construction}

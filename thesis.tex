@@ -813,11 +813,11 @@ We can see that $W$ contains every nominal in the root formula,
 and since any branch $\Theta$ is closed under {\bf (nom ref)} and
 {\bf (nom)} we have that $\sim_{\Theta}$ and $\approx$ are equivalence relations.
 For a nominal $a$ in $W$ we write $[a]$ to denote the equivalence class of $a$
-and $W / \approx$ to denote the set of equivalence classes.  
+and $W /_{\approx}$ to denote the set of equivalence classes.  
 
 \begin{definition}
   Let $R$ be the binary relation defined on $W$
-  defined by $a R c$ if and only if there are nominals
+  defined by $R a c$ if and only if there are nominals
   $a' \approx a$ and $c' \approx c$ satisfying one of the
   following conditions:
   \begin{enumerate}
@@ -843,20 +843,31 @@ and $W / \approx$ to denote the set of equivalence classes.
 
 Note that the nominal $d$ in the second item is not an element of $W$
 and that the accessibility relation $R$ is compatible with $\approx$.
-We define $\overline{R}$ as the binary relation on $W / \approx$
+We define $\overline{R}$ as the binary relation on $W /_{\approx}$
 defined by $\overline{R} [a] [c]$ if and only if $R a c$.
 \par
 $(W, \overline{R})$ are a modal frame, the first step
 towards constructing a model
 of an open tableau branch $\Theta$.
 Here we define the analogues of
-$D_{[w]}, I_{[w]}$ for $[w] \in W$ and $I_{\textit{nom}}$.
-To start we let $D$ be set defined by:
-$$D = \{ i : t \mid \text{for some } i \in W \text{ and some closed term of the extended language } t\}$$
+$D_{[w]}, I_{[w]}$ for $[w] \in W/_{\approx}$ and $I_{\textit{nom}}$.
+To start we let $\mathcal{D}$ be set defined by:
+$$\mathcal{D} = \{ i : t \mid \text{for some } i \in W \text{ and some closed term of the extended language } t\}$$
 Further we define a relation $\equiv$ on $D$ by:
 $i : t \equiv j : s \Longleftrightarrow @_k i : t \equiv j : s \in \Theta \text{ for some } k \in W$
 From the tableau rules {\bf (ref)}, {\bf (sub)}, and {\bf (:1)}, we observe $\equiv$ is an equivalence
-relation on $D$
+relation on $\mathcal{D}$.
+From here we define the domain $D$ of the model as $\mathcal{D} /_{\equiv}$,
+with the elements written as $\overline{i : t}$, for all $[w] \in W /_{\approx}$
+define:
+$$D_{[w]} = \{ \overline{j : p} \mid j \in [w] \text{ and } p \text{ a parameter}\}$$
+For $a$ a constant or parameter and $[w] \in W/_{\approx}$
+we define $I_{[w]}(a) = \overline{w : a}$ which is well defined by {\bf (:2)}.
+For an $n$-ary relation symbol $R$ and $[w] \in W/_{\approx}$ define $I_{[w]} (R)$ by:
+$$I_{[w]} (R)(\overline{i_1 : t_1}, ... , \overline{i_n : t_n}) \Longleftrightarrow @_w R(i_1 : t_1, ... , i_n : t_n) \in \Theta$$
+for all $\overline{i_1 : t_1}, ... , \overline{i_n : t_n} \in D$
+
+
 
 
 \subsection{Tableau Construction}

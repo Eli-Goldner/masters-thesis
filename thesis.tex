@@ -39,7 +39,7 @@
 \usepackage{adjustbox}
 \usepackage{framed}
 \usepackage{mdframed}
-
+\usepackage{stmaryrd}
 \usepackage[ruled,vlined]{algorithm2e}
 
 \usepackage[margin=1.0in]{geometry}
@@ -617,6 +617,27 @@ which will be no real loss since the purpose of our
 revised terminating tableau system is for finite model checking.  
 
 
+\begin{definition}[{\bf Closed and open}]
+  If a tableau branch contains a formula
+  $@_s \phi$ and its negation $@_s \neg \phi$
+  we say the branch is {\it closed}.
+  If every branch of the tableau is closed we
+  say the tableau itself is closed.  If a
+  tableau or branch is not closed we say it is {\it open}.
+\end{definition}
+
+A closed tableau is a proof of the unsatisfiability of the tableau's root formula, i.e.
+there is no model or assignment of variables in which it holds.  The question of when a tableau
+indicates satisfiability of the root formula leads us to our next definition.
+
+\begin{definition}[{\bf Saturation}]
+  A tableau branch is {\it saturated}
+  if no more rules can be applied to the branch in a way that
+  satisfies their constraints.
+  If every branch of the tableau
+  is saturated we say the tableau is saturated.
+\end{definition}
+
 
 \begin{definition}[{\bf Quasi-subformula}]
   A formula $\phi$ is a {\it quasi-subformula } of a
@@ -683,6 +704,23 @@ revised terminating tableau system is for finite model checking.
   And finally {\bf (nom)}'s conclusion will be of the same type as its second premise
   since the definition of quasi-subformula allows for change of prefix nominals.
   \fi
+\end{proof}
+
+\begin{theorem}
+  \label{sim}
+  Let $@_a F b$ be a formula occurence on a branch $\Theta$
+  of a tableau.  Either there is a positively occuring
+  subformula $F b'$ of the root formula
+  such that $b \sim_{\Theta}^* b'$
+  or there is an accessibility formula occurence
+  $@_{a'} F b'$ such that $a \sim_{\Theta}^* a'$ and $b \sim_{\Theta}^* b'$.
+  Similarly for a formula occurence $@_a P b$. 
+\end{theorem}
+
+\begin{proof}
+  This is verified by checking each of the
+  tableau rules, in some cases it is necessary to
+  invoke lemma \ref{subformula}.
 \end{proof}
 
 \begin{definition}[$\prec_{\Theta}$]
@@ -865,34 +903,65 @@ For $a$ a constant or parameter and $[w] \in W/_{\approx}$
 we define $I_{[w]}(a) = \overline{w : a}$ which is well defined by {\bf (:2)}.
 For an $n$-ary relation symbol $R$ and $[w] \in W/_{\approx}$ define $I_{[w]} (R)$ by:
 $$I_{[w]} (R)(\overline{i_1 : t_1}, ... , \overline{i_n : t_n}) \Longleftrightarrow @_w R(i_1 : t_1, ... , i_n : t_n) \in \Theta$$
-for all $\overline{i_1 : t_1}, ... , \overline{i_n : t_n} \in D$
+for all $\overline{i_1 : t_1}, ... , \overline{i_n : t_n} \in D$.
+The interpretation is similar for $n$-ary function symbols.
+And naturally for interpretation of nominals, for $w \in W$ define $I_{\textit{nom}}(w) = [w]$.
+\par
+Before finally demonstrating that this model $\mathfrak{M}$ realizes every formula on
+the tableau branch from which it was constructed we need the following lemma.
+\begin{lemma}
+  If $t$ is a term of the extended language that contains no variables and $i$
+  is a nominal then we have $\llbracket t \rrbracket_{[i]}^{\mathfrak{M},g} = \overline{i:t}$
+  for all variable assignments $g$ in our model $\mathfrak{M}$.    
+\end{lemma}
+
+\begin{proof}
+  The proof is by induction on the construction of $t$.
+  By our assumption $t$ cannot a first-order variable,
+  and if $t$ is a constant or a parameter then 
+  $$\llbracket t \rrbracket_{[i]}^{\mathfrak{M},g} = \llbracket t \rrbracket_{[i]}^{\mathfrak{M}} I_{[i]}(t) = \overline{i : t}$$
+  by definition.
+  Suppose alternatively $t$ is of the form $u: s$
+  for $u \in W$, since $t$ contains no variables
+  neither does $s$ and consequently:
+  $$\llbracket u:s \rrbracket_{[i]}^{\mathfrak{M},g} = \llbracket s \rrbracket_{[u]}^{\mathfrak{M},g} \stackrel{*}{=} \overline{u : s} \stackrel{\textbf{(:3)}}{=}  \overline{i : u : s}$$
+  Where $*$ follows from the inductive hypothesis
+  and {\bf (:3)} from {\bf (:3)}.
+  Similarly for the case involving functional symbols. 
+\end{proof}
 
 
+\begin{lemma}
+  Assuming the branch $\Theta$ is open,
+  for any formula $@_a \phi$
+  which contains only nominals from $W$,
+  the following two statements hold:
+  \begin{itemize}
+  \item $@_a \phi \in \Theta \Longrightarrow \mathfrak{M}, [a] \vDash_g \phi \text{ for some (all) variable assignment }g$
+  \item $@_a \neg \phi \in \Theta \Longrightarrow \mathfrak{M}, [a] \not \vDash_g \phi \text{ for some (all) variable assignment }g$ 
+  \end{itemize}
+\end{lemma}
 
-
-\subsection{Tableau Construction}
-
-
-\begin{definition}[{\bf Closed and open}]
-  If a tableau branch contains a formula
-  $@_s \phi$ and its negation $@_s \neg \phi$
-  we say the branch is {\it closed}.
-  If every branch of the tableau is closed we
-  say the tableau itself is closed.  If a
-  tableau or branch is not closed we say it is {\it open}.
-\end{definition}
-
-A closed tableau is a proof of the unsatisfiability of the tableau's root formula, i.e.
-there is no model or assignment of variables in which it holds.  The question of when a tableau
-indicates satisfiability of the root formula leads us to our next definition.
-
-\begin{definition}[{\bf Saturation}]
-  A tableau branch is {\it saturated}
-  if no more rules can be applied to the branch in a way that
-  satisfies their constraints.
-  If every branch of the tableau
-  is saturated we say the tableau is saturated.
-\end{definition}
+\begin{proof}
+  This is demonstrated by induction on the structure of the formula.
+  We present the most difficult case, namely where $\phi$ is of the
+  form $F \psi$.
+  \par
+  Assume $@_a F \psi \in \Theta$.  Then we need to show that there is an
+  equivalence class $[c] \in W /_{\approx}$ such that
+  $R [a] [c]$ and $\mathfrak{M}, [c] \vDash_g \psi$.
+  We have two cases based on the question of whether
+  or not $\psi$ is a nominal.  In the case where
+  \begin{itemize}
+    \item {\it $\psi$ a nominal}
+  Suppose $\psi$ is some nominal $b$, we only need prove
+  $R [a] [b]$. By theorem \ref{sim} there is either a root
+  nominal $b'$ such that $b' \sim_{\Theta} b$  or there is
+  an accessibility formula $@_{a'} F b' \in \Theta$
+  such that $a' \sim_{\Theta} a$ and $b' \sim_{\Theta} b$.
+  In the first case then we have
+  \item {\it $\psi$ not a nominal}
+\end{proof}
 
 
 \section{Model Checking via Tableaux}

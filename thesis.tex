@@ -40,9 +40,13 @@
 \usepackage{framed}
 \usepackage{mdframed}
 \usepackage{stmaryrd}
+\usepackage{xcolor}
 \usepackage[ruled,vlined]{algorithm2e}
 
 \usepackage[margin=1.0in]{geometry}
+
+\newcommand\mycommfont[1]{\footnotesize\ttfamily\textcolor{blue}{#1}}
+\SetCommentSty{mycommfont}
 
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}
@@ -953,14 +957,15 @@ the tableau branch from which it was constructed we need the following lemma.
   We have two cases based on the question of whether
   or not $\psi$ is a nominal.  In the case where
   \begin{itemize}
-    \item {\it $\psi$ a nominal}
-  Suppose $\psi$ is some nominal $b$, we only need prove
-  $R [a] [b]$. By theorem \ref{sim} there is either a root
-  nominal $b'$ such that $b' \sim_{\Theta} b$  or there is
-  an accessibility formula $@_{a'} F b' \in \Theta$
-  such that $a' \sim_{\Theta} a$ and $b' \sim_{\Theta} b$.
-  In the first case then we have
+  \item {\it $\psi$ a nominal}
+    Suppose $\psi$ is some nominal $b$, we only need prove
+    $R [a] [b]$. By theorem \ref{sim} there is either a root
+    nominal $b'$ such that $b' \sim_{\Theta} b$  or there is
+    an accessibility formula $@_{a'} F b' \in \Theta$
+    such that $a' \sim_{\Theta} a$ and $b' \sim_{\Theta} b$.
+    In the first case then we have
   \item {\it $\psi$ not a nominal}
+  \end{itemize}
 \end{proof}
 
 
@@ -1127,7 +1132,25 @@ $$\textit{ann}(@_s \phi) = \{g \mid \mathfrak{M}, I_{\textit{nom}} (s) \vDash_g 
 \section{AMR Interpretation in {\it FHTL}}
 
 \subsection{Examples}
-
+\underline{Easier examples:}
+\enumsentence{
+  a. Every computer will be located at a desk.
+  \\
+  b.
+  \\
+  \small\texttt{(s / scope\\
+    \hspace*{1.0cm}:pred (b / be-located-at-91 :ongoing - :complete + :time (a / after :op1 (n / now))\\
+    \hspace*{1.5cm}:ARG0 (c / computer)\\
+    \hspace*{1.5cm}:ARG1 (d / desk\\
+    \hspace*{2.0cm}:quant (e / every)))\\
+    \hspace*{1.0cm}:ARG0 d\\
+    \hspace*{1.0cm}:ARG1 c)}
+  \\
+  c. $\forall y [ \text{desk}(y) \to \exists[\text{computer}(x) \land F \text{be-located-at-91}(x, y)]]$
+  \\
+  d. Also acceptable $F \forall y [ \text{desk}(y) \to \exists[\text{computer}(x) \land  \text{be-located-at-91}(x, y)]]$
+}
+\underline{Harder examples:}
 \enumsentence{
   a. Carl filled out the forms and everyone will submit them tomorrow.
   \\
@@ -1154,74 +1177,47 @@ $$\textit{ann}(@_s \phi) = \{g \mid \mathfrak{M}, I_{\textit{nom}} (s) \vDash_g 
   \\
   $@_{\textit{now}} \exists x [\texttt{form}(x) \land P \texttt{fill-out-03}(\texttt{Carl}, x)] \land @_{\textit{now}} \exists x [\texttt{form}(x) \land \forall y [\texttt{person}(y) \to F \texttt{submit-01}(y, x)]]$
   \\
+  \iffalse
   d. Correct wrt plurality:
   \\
   $@_{\textit{now}} \forall x [\texttt{form}(x) \land P \texttt{fill-out-03}(\texttt{Carl}, x)] \land @_{\textit{now}} \forall x [\texttt{form}(x) \land \forall y [\texttt{person}(y) \to F \texttt{submit-01}(y, x)]]$
   \\
-  e. Correct wrt reentrance (but not plurality) (maybe requires the passive for singular case?):
+  \fi
+  d. Correct with regard to reentrance (maybe requires the passive for singular case?):
   \\
   $@_{\textit{now}} \exists x [\texttt{form}(x) \land P \texttt{fill-out-03}(\texttt{Carl}, x) \land  \forall y [\texttt{person}(y) \to F \texttt{submit-01}(y, x)]]$
   \\
 }
+
+The difficulty of the following is due to requiring
+inference of absent arguments.  
 \enumsentence{
-a. It was impossible not to notice the car.
-\\
-b.
-\\
-\small\texttt{(s / scope\\
-  \hspace*{1.0cm}:pred (p / possible-01\\
-  \hspace*{1.5cm}:ARG0 (n / notice-01  :ongoing - :complete + :time (b / before :op1 (n2 / now))\\
-  \hspace*{2.0cm}:polarity (n3 / not)\\
-  \hspace*{2.0cm}:ARG1 (c / car)\\
-  \hspace*{1.5cm}:polarity (n4 / not))\\
-  \hspace*{1.0cm}:ARG0 n4\\
-  \hspace*{1.0cm}:ARG1 p))}
-\\
-c. Incorrect:
-\\
-$@_{\textit{now}} \neg F \exists x [\texttt{car}(x) \land \neg P \texttt{notice-01}(x)]$
-\\
-d. Technically correct:
-\\
-$@_{\textit{now}} \neg F \exists x [\texttt{car}(x) \land \neg \forall y [ \texttt{person}(y) \to P \texttt{notice-01}(x, y)]]$
-\\
-e. Correct wrt particularity of the car:
-\\
-$@_{\textit{now}} \neg F \neg \forall x [ \texttt{person}(y) \to P \texttt{notice-01}(\texttt{car}, y)]]$
-\\
+  a. It was impossible not to notice the car.
+  \\
+  b.
+  \\
+  \small\texttt{(s / scope\\
+    \hspace*{1.0cm}:pred (p / possible-01\\
+    \hspace*{1.5cm}:ARG0 (n / notice-01  :ongoing - :complete + :time (b / before :op1 (n2 / now))\\
+    \hspace*{2.0cm}:polarity (n3 / not)\\
+    \hspace*{2.0cm}:ARG1 (c / car)\\
+    \hspace*{1.5cm}:polarity (n4 / not))\\
+    \hspace*{1.0cm}:ARG0 n4\\
+    \hspace*{1.0cm}:ARG1 p))}
+  \\
+  c. Incorrect, since \texttt{notice-01} is a two-place predicate:
+  \\
+  $@_{\textit{now}} \neg \texttt{possible-01}( \exists x [\texttt{car}(x) \land \neg P \texttt{notice-01}(x)])$
+  \\
+  d. Correct:
+  \\
+  $@_{\textit{now}} \neg \texttt{possible-01} ( \exists x [\texttt{car}(x) \land \neg \forall y [ \texttt{person}(y) \to P \texttt{notice-01}(x, y)]])$
+  \\
+  e. Alternative, the particular car as a constant:
+  \\
+  $@_{\textit{now}} \neg \texttt{possible-01}( \neg \forall x [ \texttt{person}(y) \to P \texttt{notice-01}(\texttt{car}, y)]])$
+  \\
 }
-
-(Better examples(?))
-  \enumsentence{
-    a. Every computer will be located at a desk.
-    \\
-    b.
-    \\
-     \small\texttt{(s / scope\\
-       \hspace*{1.0cm}:pred (b / be-located-at-91 :ongoing - :complete + :time (a / after :op1 (n / now))\\
-       \hspace*{1.5cm}:ARG0 (c / computer)\\
-       \hspace*{1.5cm}:ARG1 (d / desk\\
-       \hspace*{2.0cm}:quant (e / every)))\\
-       \hspace*{1.0cm}:ARG0 d\\
-       \hspace*{1.0cm}:ARG1 c)}
-     c. $\forall y [ \text{desk}(y) \to \exists[\text{computer}(x) \land F \text{be-located-at-91}(x, y)]]$
-     d. Also acceptable $F \forall y [ \text{desk}(y) \to \exists[\text{computer}(x) \land  \text{be-located-at-91}(x, y)]]$
-  }
-
-  \enumsentence{ 
-    a. \small\texttt{(s / scope\\
-      \hspace*{1.0cm}:pred (p / possible-01\\
-      \hspace*{1.5cm}:ARG0 (a / afford-01\\
-      \hspace*{2.0cm}:ARG0 (p2 / person\\
-      \hspace*{2.5cm}:name (n / name\\
-      \hspace*{3.0cm}:op "John"))\\
-      \hspace*{2.0cm}:ARG1 (c /car)\\
-      \hspace*{2.0cm}:time (m / moment))\\
-      \hspace*{1.5cm}:polarity (n2 / not))\\
-      \hspace*{1.0cm}:ARG0 n2\\
-      \hspace*{1.0cm}:ARG1 p)}\\
-  }
-
 
 \subsection{Extraction Steps}
 With the chosen annotation, the root node
@@ -1304,6 +1300,10 @@ predicate and arguments.
   \;
   
   \Fn{\FInterpretPred{UnaryPred}}{
+    \tcc{Propositional modifiers are handled differently than predicates.}
+    \If{isPropMod(name(UnaryPred))}{
+      \Return InterpPropMod(UnaryPred)
+    }
     \If{hasMods(UnaryPred)}{
       mods = [name(UnaryPred)]\;
       \For{mod $\in$ Children(UnaryPred)}{
@@ -1321,6 +1321,17 @@ predicate and arguments.
   }
   \;
 
+  \Fn{InterpPropMod{PropMod}}{
+    \If{PropMod == \texttt{not}}{
+      \Return $\lambda p . \lambda k . \neg p (k)$
+    }
+    \tcc{Given the new sematics of $F / \lozenge$}
+    \tcc{we adopt the na{\" i}ve way of treating \texttt{possible-01}}
+    \tcc{as a predicate symbol.}
+    \If{PropMod == \texttt{possible-01}}{
+      \Return $\lambda p . \lambda k . \textsf{possible-01}( p (k))$
+    }
+  }
   \caption{Supporting definitions.}
 \end{algorithm}
 

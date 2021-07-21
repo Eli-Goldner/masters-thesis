@@ -1190,8 +1190,39 @@ e. Correct wrt particularity of the car:
 $@_{\textit{now}} \neg F \neg \forall x [ \texttt{person}(y) \to P \texttt{notice-01}(\texttt{car}, y)]]$
 \\
 }
-\smallskip
-NB: Will complete these translations in full.
+
+(Better examples(?))
+  \enumsentence{
+    a. Every computer will be located at a desk.
+    \\
+    b.
+    \\
+     \small\texttt{(s / scope\\
+       \hspace*{1.0cm}:pred (b / be-located-at-91 :ongoing - :complete + :time (a / after :op1 (n / now))\\
+       \hspace*{1.5cm}:ARG0 (c / computer)\\
+       \hspace*{1.5cm}:ARG1 (d / desk\\
+       \hspace*{2.0cm}:quant (e / every)))\\
+       \hspace*{1.0cm}:ARG0 d\\
+       \hspace*{1.0cm}:ARG1 c)}
+     c. $\forall y [ \text{desk}(y) \to \exists[\text{computer}(x) \land F \text{be-located-at-91}(x, y)]]$
+     d. Also acceptable $F \forall y [ \text{desk}(y) \to \exists[\text{computer}(x) \land  \text{be-located-at-91}(x, y)]]$
+  }
+
+  \enumsentence{ 
+    a. \small\texttt{(s / scope\\
+      \hspace*{1.0cm}:pred (p / possible-01\\
+      \hspace*{1.5cm}:ARG0 (a / afford-01\\
+      \hspace*{2.0cm}:ARG0 (p2 / person\\
+      \hspace*{2.5cm}:name (n / name\\
+      \hspace*{3.0cm}:op "John"))\\
+      \hspace*{2.0cm}:ARG1 (c /car)\\
+      \hspace*{2.0cm}:time (m / moment))\\
+      \hspace*{1.5cm}:polarity (n2 / not))\\
+      \hspace*{1.0cm}:ARG0 n2\\
+      \hspace*{1.0cm}:ARG1 p)}\\
+  }
+
+
 \subsection{Extraction Steps}
 With the chosen annotation, the root node
 can consist of either a logical connective

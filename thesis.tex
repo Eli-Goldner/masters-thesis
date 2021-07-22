@@ -969,26 +969,32 @@ the tableau branch from which it was constructed we need the following lemma.
 \end{proof}
 
 
-\section{Model Checking via Tableaux}
 
 For our task of AMR inference, we are not concered with the determining the general satisfiability or
 validity of an AMR formula translated into {\it FHTL}, but
-rather whether it holds in the smallest model consistent with
+rather whether it holds in a model consistent with
 an established set of {\it FTHL} translations of AMR sentences.
 This model will necessarily be finite, since across any finite
-number of AMR sentences only a finite number of times and entities
+number of AMR sentences only a finite number of times (nominals),
+entities (terms of the extended language),
+and relationships between entities (function symbols and predicate symbols)
 can be referenced. 
 In particular, we have a case of a local model-checking problem
 where given formula $\phi$, a finite {\it FHTL} model structure $\mathfrak{M}$, a time $t$
 in $\mathfrak{M}$, and a variable assignment $g$, we need to determine
-whether $\mathfrak{M}, t \vDash_g \phi$ \citep{muller1999model}.
+whether $\mathfrak{M}, t \vDash_g \phi$ \citep{muller1999model}.  
 \par
-Consequently our use of tableaux for {\it FHTL} formulae will provide
-a decision procedure for their satisfiability within a finite model generated
-by some set of AMR sentences, rather than their general validity or invalidity,
-as is usually the case with tableaux methods.  We develop an approach to using
-tableaux as a means of model checking for {\it FHTL}
-based on the approach in \citet{bohn1998first}. 
+
+Here we develop a restriction of our method for tableau construction, which
+ensures termination at the cost of completeness.  This compromise only has
+positive ramifications for model checking since it does not particularly benefit from
+completeness of a tableau method but termination is critical to decidability.
+Our approach to using
+terminating tableaux as a means of model checking for {\it FHTL}
+based on the approach in \citet{bohn1998first},
+and makes use of the idea of quantifier depth from \citet{fitting-tab}. 
+
+\subsection{Restricted rules}
 
 \begin{figure*}[!h]
   \begin{adjustbox}{varwidth=\linewidth,scale=1.0}
@@ -1079,6 +1085,42 @@ based on the approach in \citet{bohn1998first}.
 \end{adjustbox}
 \end{figure*}
 
+We will show later these new restrictions on these rules
+ensures that eventually any branch will be saturated,
+since the amount of times any of the term rules can be applied
+depends on the number of nominals and terms on the branch.
+We add the further restriction for universal quantification rules
+(just {\bf ($\neg \exists$)} in our tableau method)
+where $Q$ is a positive natural number: 
+
+\begin{figure*}[!h]
+  \begin{adjustbox}{varwidth=\linewidth,scale=1.0}
+    %% \begin{framed}
+    \centering
+    
+    \begin{mdframed}
+      \centering
+      \begin{prooftree}
+        \AxiomC{$@_s \neg \exists x \phi$}
+        \RightLabel{\bf ($\neg \exists$)\footnote{$p$ is any parameter and the premise can produce only $Q$ conclusions.}}
+        \UnaryInfC{$@_s \neg \phi[s:p / x]$} 
+      \end{prooftree}
+    \end{mdframed}
+  \end{adjustbox}
+  \end{figure*}
+
+  In first-order tableau systems universal rules are the main culprit for
+  non-termination.  Since proofs are finite objects, any tableau proof
+  for a formula involving universal quantification will close
+  for some quantifier depth $Q$, the trouble being there is no general way
+  to anticipate the value of $Q$ as that would constitute a decision procedure
+  for first-order logic. The main function of a universal rule
+  in a tableau proof is to close the branch, so selecting a particular
+  quantifier depth is a way of giving a branch every reasonable chance
+  to close where it has a possible application of a universal rule.
+  While for model checking we actually will not need branches to close
+  so long as they terminate, closed branches are helpful since
+  we automatically do not have to check them for satisfiability.  
 
 
 \subsection{Systematic tableau construction}

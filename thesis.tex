@@ -1149,7 +1149,7 @@ where $Q$ is a positive natural number:
 \end{theorem}
 
 \begin{proof}
-  Suppose by contradiction the ned
+  Suppose by contradiction ...
 \end{proof}
 
 
@@ -1171,6 +1171,8 @@ in our model $\mathfrak{M}$ which
 witness the formula.  We define an annotation function $\textit{ann}(@_s \phi) = \mathcal{V}$  
 beginning with terminal nodes:
 $$\textit{ann}(@_s \phi) = \{g \mid \mathfrak{M}, I_{\textit{nom}} (s) \vDash_g \phi\}$$
+
+
 \section{AMR Interpretation in {\it FHTL}}
 
 \subsection{Examples}
@@ -1188,9 +1190,9 @@ $$\textit{ann}(@_s \phi) = \{g \mid \mathfrak{M}, I_{\textit{nom}} (s) \vDash_g 
     \hspace*{1.0cm}:ARG0 d\\
     \hspace*{1.0cm}:ARG1 c)}
   \\
-  c. $\forall y [ \text{desk}(y) \to \exists[\text{computer}(x) \land F \text{be-located-at-91}(x, y)]]$
+  c. $@_{\textit{now}} \forall y [ \text{desk}(y) \to \exists[\text{computer}(x) \land F \text{be-located-at-91}(x, y)]]$
   \\
-  d. Also acceptable $F \forall y [ \text{desk}(y) \to \exists[\text{computer}(x) \land  \text{be-located-at-91}(x, y)]]$
+  d. Also acceptable $@_{\textit{now}} F \forall y [ \text{desk}(y) \to \exists[\text{computer}(x) \land  \text{be-located-at-91}(x, y)]]$
 }
 \underline{Harder examples:}
 \enumsentence{

@@ -1171,7 +1171,88 @@ in our model $\mathfrak{M}$ which
 witness the formula.  We define an annotation function $\textit{ann}(@_s \phi) = \mathcal{V}$  
 beginning with terminal nodes:
 $$\textit{ann}(@_s \phi) = \{g \mid \mathfrak{M}, I_{\textit{nom}} (s) \vDash_g \phi\}$$
+If we have a branch that we know to be closed from the tableau construction
+(or discover it is closed during model checking as we will see) and $@_t \psi$
+is the root of that branch, we define:
+$$\textit{ann}(@_t \psi) = \emptyset$$
+For this reason during the annotation process we need not check
+formulae of the form $@_i j$ or $@_i (F / P) j$, or nodes not involving free variables
+since their truth or falsehood is independent of variable assignments.  
+Terminal nodes will necessarily not contain quantifiers, double negation,
+nested prefix/satisfaction operators, or logical connectives,
+as a result they will consist only of equality or relation statements
+over extended terms possibly involving free variables.
+Now we can begin describing the dependency relationships between tableau rule
+conclusions and their premises.  
+\begin{itemize}
+\item {\bf Term rules:}
+  In all cases we can see that for every rule with a
+  premise the same variable assignments which satisfy the
+  conclusion satisfies the premise.
+  This is immediate for {\bf (:2)}, {\bf (:3)},
+  and {\bf (:func)}, since they only involve closed terms,
+  and are verified by checking definitions in all other cases.
+\item {\bf @ rules:}
+  For $P / F--bridge$, and $P / F--trans$ all variable assignments
+  trivially satisfy both the conclusions and premises.
+  For {\bf (nom)}, since by the first premise
+  $$I_{\textit{nom}}(i) = I_{\textit{nom}}(j)$$
+  the variable assignments that witness the conclusion
+  witness the second premise
+  (the first premise being a nominal equivalence
+  is trivally witnessed by all variable assignments).
+  That the premise and conclusion of both {\bf ($@$)} and {\bf ($\neg @$)}
+  are satisfied by the same variable assignments are verified
+  by checking their satisfiability definitions.
+\item {\bf Equality rules:}
+  The only rule to check is {\bf (sub)},
+  from which it follows immediately that the
+  premise and conclusion are witnessed by
+  the same variable assignments.  
+\item {\bf Quantifier rules:}
+  These are the first and only
+  cases where it is perhaps not obvious
+  what to do. 
+  For {\bf ($\exists$)}, we consider the
+  variable assignment functions which witness
+  the conclusion along with some domain element for which the
+  new parameter in the conclusion witnesses the conclusion.
+  Taking this same set of assignments with the exception of fixing
+  the value of the quantified variable in the premise to the
+  domain element assigned to the parameter,
+  we can see that this set of variable assignments satisfies the premise.
+  For {\bf ($\neg \exists$)}, we cannot rely on any number of conclusions
+  to give us a set of variable assignments which will satisfy the
+  premise, since distinct parameters need not have distinct values.
+  As a result we simply check whether each assignment of the quantified
+  variable satisfies the premise.
+  If every assignment satisfies the premise then we can proceed, if not,
+  then we have effictively have a parameter for which we can contradict
+  the conclusion of the rule thereby closing the branch.
+\item {\bf Modal rules:}
+  For $F$ and $P$, that the the premise and the
+  second conclusion are satisfied by the same variable assignments
+  follows from checking the definitions.
+  Similarly for the first premise and the 
+  conclusion of $\neg P$ and $\neg F$.
+\item {\bf Propositional rules:}
+  For {\bf ($\lor$)} given the semantics of the premise,
+  the union of the sets of variable assignments satisfying each of the
+  conclusions satisfies the premise.
+  Similarly for {\bf ($\neg \lor$)}, except we take the intersection of the
+  variable assignment sets.
+  That the premise and conclusion of {\bf $(\neg \neg)$} are satisfied
+  by the same set of variable assignments follows from checking
+  the semantics.
+\end{itemize}
 
+\begin{lemma}
+  Node annotation for a model checking tableau over a finite model is decidable.
+\end{lemma}
+
+\begin{theorem}
+  Finite model checking for {\it FHTL} is decidable.
+\end{theorem}
 
 \section{AMR Interpretation in {\it FHTL}}
 

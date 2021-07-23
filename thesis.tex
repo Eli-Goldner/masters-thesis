@@ -1532,10 +1532,21 @@ conclusions and their premises.
   premise. 
   Finally assume by induction that computing the annotations for the conclusions of  
   {\bf ($\exists$)} and {\bf ($\neg \exists$)} terminates.
-  For {\bf ($\exists$)}, recalling \ref{finite-vars} again, 
-  we check each variable assignment from a finite set whether they have
-  a variant at a fixed variable that satisfies  
-  and for {\bf ($\neg \exists$)} 
+  For {\bf ($\exists$)}, assuming without loss of generality the
+  premise is of the form $@_s \exists x \phi$, recalling \ref{finite-vars} again, 
+  we check each variable assignment from a finite set whether it has 
+  an $x$-variant at $s$ that satisfies the premise stripped of its quantifier.
+  But since we have parameter annotations,
+  it suffices to check if the conclusion's parameter annotation is non-empty,
+  since that ensures for any variable assignment an appropriate $x$-variant could be constructed.
+  As a result if the parameter annotation is non-empty then the variable assignment annotation
+  for the premise is the same as for the conclusion, clearly this step of the process terminates.
+  Similarly for {\bf ($\neg \exists$)}, in determining whether the variable assignments in
+  the annotation for the conclusion satisfy the premise, it suffices the annotation for the
+  relevant parameter, say $i:p$ is the same size as $D_{I_{\textit{nom}}(i)}$.
+  If they are the same size then the variable assignments
+  annotation for the premise is the same as for the conclusion,
+  and since $D_{I_{\textit{nom}}(i)}$ is finite clearly this terminates.
 \end{proof}
 
 \begin{theorem}

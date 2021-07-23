@@ -667,11 +667,12 @@ indicates satisfiability of the root formula leads us to our next definition.
 
 \begin{lemma}[{\bf Subformula Property}]
   \label{subformula}
-  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
-  and a formula $@_s \phi$ occurs on $\Theta$ where
+  If a formula $@_s \phi$ occurs in a {\it FHTL} tableau where
   $\phi$ is not of the form $a$, $F a$, or $P a$ for $a$ a nominal,
   or $u = t$ for optionally prefixed closed terms $t$ and $u$,
-  then $\phi$ is a root subformula. 
+  then $\phi$ is a (positively occuring) root subformula. 
+  If $@_s \neg \phi$ occurs in a {\it FHTL} tableau then $\phi$ is a
+  root subformula, but we say it is negatively occuring.
 \end{lemma}
 
 \begin{proof}
@@ -710,6 +711,33 @@ indicates satisfiability of the root formula leads us to our next definition.
   \fi
 \end{proof}
 
+\begin{definition}
+  An occurence of a nominal in a formula is {\it equational} if
+  the occurence is a formula (i.e. not part of a satisfaction operator).
+\end{definition}
+
+For instance, the occurence of a nominal $c$ is equational in the formula
+$@_a c \lor \exists x . psi$ but not in the formula $@_c \exists x . psi$.
+
+\begin{theorem}
+  \label{nomeq}
+  Where $@_a b$ occurs on a branch $\Theta$, if the nominals
+  $a$ and $b$ are distinct, then each has the property that
+  it is identical to, or related by $\sim_{\Theta}$ to,
+  a nominal with a positive and equational occurence in
+  the root subformula.
+\end{theorem}
+
+\begin{proof}
+  This is verified by checking each rule, in some cases making use of
+  \ref{subformula}.  {\bf (nom ref)} might initially appear to be a problem,
+  since we are permitted to apply it for any nominal on the branch,
+  but the nominals in its conclusions are not distinct.
+  For $F$ and $P$ we make use of the restriction that they cannot be
+  applied to premises of the form $@_a (F / P) \phi$ where $\phi$ is a
+  nominal.  
+\end{proof}
+  
 \begin{theorem}
   \label{sim}
   Let $@_a F b$ be a formula occurence on a branch $\Theta$
@@ -723,8 +751,7 @@ indicates satisfiability of the root formula leads us to our next definition.
 
 \begin{proof}
   This is verified by checking each of the
-  tableau rules, in some cases it is necessary to
-  invoke lemma \ref{subformula}.
+  tableau rules, in some cases making use of \ref{subformula}.
 \end{proof}
 
 \begin{definition}[$\prec_{\Theta}$]
@@ -858,6 +885,7 @@ For a nominal $a$ in $W$ we write $[a]$ to denote the equivalence class of $a$
 and $W /_{\approx}$ to denote the set of equivalence classes.  
 
 \begin{definition}
+  \label{rel}
   Let $R$ be the binary relation defined on $W$
   defined by $R a c$ if and only if there are nominals
   $a' \approx a$ and $c' \approx c$ satisfying one of the
@@ -940,10 +968,11 @@ the tableau branch from which it was constructed we need the following lemma.
   for any formula $@_a \phi$
   which contains only nominals from $W$,
   the following two statements hold:
-  \begin{itemize}
-  \item $@_a \phi \in \Theta \Longrightarrow \mathfrak{M}, [a] \vDash_g \phi \text{ for some (all) variable assignment }g$
-  \item $@_a \neg \phi \in \Theta \Longrightarrow \mathfrak{M}, [a] \not \vDash_g \phi \text{ for some (all) variable assignment }g$ 
-  \end{itemize}
+
+  \begin{alignat*}{2}
+    &@_a \phi \in \Theta  &&  \Longrightarrow \mathfrak{M}, [a] \vDash_g \phi \text{ for some (all) variable assignments }g\\
+    &@_a \neg \phi \in \Theta  &&  \Longrightarrow \mathfrak{M}, [a] \not \vDash_g \phi \text{ for some (all) variable assignments }g\\
+  \end{alignat*}
 \end{lemma}
 
 \begin{proof}
@@ -953,19 +982,80 @@ the tableau branch from which it was constructed we need the following lemma.
   \par
   Assume $@_a F \psi \in \Theta$.  Then we need to show that there is an
   equivalence class $[c] \in W /_{\approx}$ such that
-  $R [a] [c]$ and $\mathfrak{M}, [c] \vDash_g \psi$.
+  $R [a] [c]$ and $\mathfrak{M}, [c] \vDash_g \psi$ for some
+  variable assignments $g$.
   We have two cases based on the question of whether
   or not $\psi$ is a nominal.  In the case where
   \begin{itemize}
   \item {\it $\psi$ a nominal}
     Suppose $\psi$ is some nominal $b$, we only need prove
-    $R [a] [b]$. By theorem \ref{sim} there is either a root
+    $\overline{R} [a] [b]$. By theorem \ref{sim} there is either a root
     nominal $b'$ such that $b' \sim_{\Theta} b$  or there is
     an accessibility formula $@_{a'} F b' \in \Theta$
     such that $a' \sim_{\Theta} a$ and $b' \sim_{\Theta} b$.
-    In the first case then we have
+    In the first case then we have $@_a F b' \in \Theta$
+    and $b' in W$ so $\overline{R} [a] [b']$ and since
+    $b' \approx b$ (since both are in $W$) we have $[b'] = [b]$ and we are done.
+    In the second case, there are four subcases
+    depending on whether or not $a'$ and $a$ are equal
+    and $b'$ and $b$ are equal:
+    \begin{itemize}
+    \item $a' = a$ and $b' = b$:
+      
+      Then we have $\overline{R} [a] [b]$ and are done.
+    \item $a' = a$ and $b' \neq b$:
+
+      By \ref{nomeq} there is a nominal $c$
+      occuring in the root formula such that $b' \sim_{\Theta} c$.
+      But then $@_a F c \in \Theta$ and $c \in W$ so
+      $\overline{R} [a] [c]$, and by the definition of
+      $\approx$ we have $[c] = [b]$ and are done.
+      
+    \item $a' \neq a$ and $b' = b$:
+
+      By \ref{nomeq} there is a nominal $c$
+      occuring in the root formula such that $a' \sim_{\Theta} c$.
+      But then $@_c F b \in \Theta$ and $c \in W$ so
+      $\overline{R} [c] [b]$, and by the definition of
+      $\approx$ we have $[c] = [a]$ and are done.
+      
+    \item $a' \neq a$ and $b' \neq b$:
+
+      By \ref{nomeq} there are nominals $c$ and $d$ 
+      occuring in the root formula such that $a' \sim_{\Theta} c$
+      and $b' \sim_{\Theta} d$.  But then also $@_c F d \in \Theta$,
+      and $c,d \in W$ so $\overline{R} [c] [d]$ and by definition
+      of $\approx$ we have $[c] = [a]$ and $[d] = [b]$ and are done.
+    \end{itemize}
   \item {\it $\psi$ not a nominal}
+    Since $a \in W$ the application of {\bf ($F$)}
+    to $@_a \psi$ is not blocked by the loop-check condition
+    of the tableau construction algorithm.
+    From the rule {\bf ($F$)}, 
+    there are formulae $@_a F c , @_c \psi \in \Theta$
+    where the nominal $c$ is new to the branch.
+    If $c \in W$ then $\overline{R} [a] [c]$
+    and by induction $\mathfrak{M}, [c] \vDash_g \psi$
+    for some variable assignments $g$.
+    If $c \not\in W$ then by the definition of $W$
+    there is a nominal $d$ where $c \subseteq_{\Theta} d$.
+    Without loss of generality assume there is no nominal $e$
+    such that $d \subseteq_{\Theta} e$, this implies $d \in W$.
+    Additionally by \ref{subformula} $\psi$ is a root subformula
+    and we have $@_d \psi \in \Theta$.  By induction we have
+    $\mathfrak{M}, [d] \vDash_g \phi$, and by the definition
+    of $W$ and $\approx$ we have $\overline{R} [a] [d]$.   
   \end{itemize}
+
+  Assume $@_a \neg F \psi \in \Theta$, we need to show
+  $\mathfrak{M}, [a] \not \vDash_g F \psi$ does not hold
+  for any variable assignment $g$, i.e. for any $[c] \in W /_{\approx}$
+  where $\overline{R} [a] [c]$ that $\mathfrak{M}, [c] \not \vDash_g \psi$
+  for any variable assignment $g$.  From $\overline{R} [a] [c]$
+  we have that there are nominals $a' \approx a$ 
+  and $c' \approx c$ satisfying one of the three conditions of $R$ in
+  definition \ref{rel}.  In the first and third conditions of the definition
+  we have $@_a' F c'$
 \end{proof}
 
 
@@ -1145,6 +1235,7 @@ where $Q$ is a positive natural number:
 \end{definition}
 
 \begin{theorem}
+  \label{term}
   The systematic tableau construction algorithm terminates.
 \end{theorem}
 
@@ -1218,14 +1309,14 @@ conclusions and their premises.
   the conclusion along with some domain element for which the
   new parameter in the conclusion witnesses the conclusion.
   Taking this same set of assignments with the exception of fixing
-  the value of the quantified variable in the premise to the
-  domain element assigned to the parameter,
+  the value of the quantified variable in the premise to any of the
+  possible domain elements assigned to the parameter,
   we can see that this set of variable assignments satisfies the premise.
+  %% FIX
   For {\bf ($\neg \exists$)}, we cannot rely on any number of conclusions
   to give us a set of variable assignments which will satisfy the
   premise, since distinct parameters need not have distinct values.
-  As a result we simply check whether each assignment of the quantified
-  variable satisfies the premise.
+  As a result, assuming the quantified .
   If every assignment satisfies the premise then we can proceed, if not,
   then we have effictively have a parameter for which we can contradict
   the conclusion of the rule thereby closing the branch.
@@ -1246,13 +1337,50 @@ conclusions and their premises.
   the semantics.
 \end{itemize}
 
+\begin{remark}
+  \label{finite-vars}
+  We note that
+  any annotation of variable assignments for a node will
+  be finite since any formula will have only finitely many variables,
+  and the model's domain itself is finite.  
+\end{remark}
+
 \begin{lemma}
+  \label{dec}
   Node annotation for a model checking tableau over a finite model is decidable.
 \end{lemma}
+
+\begin{proof}
+  
+  For cases of closed terms, since any model checking tableau
+  is finite, it has only
+  finitely many function symbols, constants, and parameters,
+  and the model has only finitely many worlds/times and a
+  finite domain for each world/time, computing the value of
+  a closed term is guaranteed to terminate.  
+  Similarly for the cased of relation and equality statements over
+  closed terms.  Since the @ rules, modal rules, and equality rules, and
+  {\bf ($\neg \neg$)}
+  merely don't involve any operations on the set of variable assignments
+  satisfying the conclusions, we turn now to the quantifier rules and other
+  propositional rules.  Recalling \ref{finite-vars}, we
+  see that {\bf ($\lor$)} and {\bf ($\neg \lor$)}
+  involve only union and intersection of finite sets,
+  both being terminating processes.
+  %% FIX
+  For {\bf ($\exists$)}
+  we are selecting from a finite set of variable assignments
+  based on a single equality constraint for one of the variables,
+  and for {\bf ($\neg \exists$)} 
+\end{proof}
 
 \begin{theorem}
   Finite model checking for {\it FHTL} is decidable.
 \end{theorem}
+
+\begin{proof}
+  This follows immediately from theorem \ref{term} and lemma \ref{dec}.
+\end{proof}
 
 \section{AMR Interpretation in {\it FHTL}}
 

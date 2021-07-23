@@ -58,7 +58,7 @@
 \newtheorem{definition}{Definition}[section]
 
 \theoremstyle{remark}
-\newtheorem*{remark}{Remark}
+\newtheorem{remark}{Remark}[section]
 
 \DeclareMathSymbol{:}{\mathord}{operators}{"3A}
 \renewcommand{\phi}{\varphi}
@@ -1430,25 +1430,22 @@ conclusions and their premises.
   premise and conclusion are witnessed by
   the same variable assignments.  
 \item {\bf Quantifier rules:}
-  These are the first and only
-  cases where it is perhaps not obvious
-  what to do. 
-  For {\bf ($\exists$)}, we consider the
-  variable assignment functions which witness
-  the conclusion along with some domain element for which the
-  new parameter in the conclusion witnesses the conclusion.
-  Taking this same set of assignments with the exception of fixing
-  the value of the quantified variable in the premise to any of the
-  possible domain elements assigned to the parameter,
-  we can see that this set of variable assignments satisfies the premise.
-  %% FIX
-  For {\bf ($\neg \exists$)}, we cannot rely on any number of conclusions
-  to give us a set of variable assignments which will satisfy the
-  premise, since distinct parameters need not have distinct values.
-  As a result, assuming the quantified .
-  If every assignment satisfies the premise then we can proceed, if not,
-  then we have effictively have a parameter for which we can contradict
-  the conclusion of the rule thereby closing the branch.
+  For {\bf ($\exists$)}, we let $C$ be
+  set of variable assignments which satisfy
+  the conclusion.  Without loss of generality,
+  where the premise is $@_s \exists x \phi$,
+  we see from the semantics of $\exists$ that $P$, the set of variable assignments which satisfies
+  the premise can be defined as:
+  $$P = \{ g \mid g \in C \text{ such that there is an }x\text{-variant } g' \text{ of }g  \text{ at } s \text{ where } \mathfrak{M},s \vDash_{g'} \phi \}$$
+  Similarly For {\bf ($\neg \exists$)}
+  let $C$ be
+  the set of variable assignments which satisfy
+  the conclusion.  Without loss of generality,
+  where the premise is $@_s \neg \exists x \phi$,
+  we see from the semantics of $\neg \exists$ that $P$, the set of variable assignments which satisfies
+  the premise can be defined as:
+  $$P = \{ g \mid g \in C \text{ such that for every }x\text{-variant } g' \text{ of }g  \text{ at } s \text{ we have } \mathfrak{M},s \vDash_{g'} \neg \phi \}$$
+  
 \item {\bf Modal rules:}
   For $F$ and $P$, that the the premise and the
   second conclusion are satisfied by the same variable assignments
@@ -1480,26 +1477,32 @@ conclusions and their premises.
 \end{lemma}
 
 \begin{proof}
-  
-  For cases of closed terms, since any model checking tableau
+
+  We give an inductive argument, where the base cases are formulae without free variables.
+  First we consider closed terms.  Since any model checking tableau
   is finite, it has only
-  finitely many function symbols, constants, and parameters,
-  and the model has only finitely many worlds/times and a
-  finite domain for each world/time, computing the value of
-  a closed term is guaranteed to terminate.  
-  Similarly for the cased of relation and equality statements over
-  closed terms.  Since the @ rules, modal rules, and equality rules, and
+  finitely many function symbols, constants, and parameters.
+  Furthermore the model has only finitely many worlds/times and a
+  finite domain for each world/time, consequently computing the value of
+  a closed term is guaranteed to terminate and the annotation consists of
+  every possible variable assignment
+  (any implementation of this process would represent the totallity of variable
+  assignments via a flag which would consume only
+  constant space).  
+  Similarly, computating annotations for relation and equality statements over
+  closed terms terminates.  Since the @ rules, modal rules, and equality rules, and
   {\bf ($\neg \neg$)}
-  merely don't involve any operations on the set of variable assignments
-  satisfying the conclusions, we turn now to the quantifier rules and other
-  propositional rules.  Recalling \ref{finite-vars}, we
+  do not involve any operations on the set of variable assignments
+  satisfying the conclusions, by induction these node annotations terminate.
+  Assume by induction computing the annotations for the conclusions of {\bf ($\lor$)} and {\bf ($\neg \lor$)}
+  terminates.  Recalling \ref{finite-vars}, we
   see that {\bf ($\lor$)} and {\bf ($\neg \lor$)}
-  involve only union and intersection of finite sets,
-  both being terminating processes.
-  %% FIX
+  involve only union and intersection of finite sets respectively.
+  Finally assume by induction that computing the annotations for the conclusions of  
+  {\bf ($\exists$)} and {\bf ($\neg \exists$)} terminates.
   For {\bf ($\exists$)}
-  we are selecting from a finite set of variable assignments
-  based on a single equality constraint for one of the variables,
+  we check each variable assignment from a finite set whether they have
+  a variant at a single variable 
   and for {\bf ($\neg \exists$)} 
 \end{proof}
 

@@ -132,7 +132,6 @@
 
 
 \title{Formalization of AMR Inference via Hybrid Logic Tableaux}
- 
 
  
 \author{
@@ -160,11 +159,29 @@
   present their interpretation and inference in the combination of {\it FHL}
   and {\it BHTL}, which we will call {\it FHTL} (first-order hybrid tense logic),
   and demonstrate {\it FHTL}'s soundness, completeness,
-  and decidability.   
+  and decidability for finite model checking.   
 \end{abstract}
 
 
 \section{Introduction}
+
+Version 1.2 of the AMR specication states that an AMR does not indicate how
+it should be processed \citep{banarescu2012abstract}.  Indeed, besides
+concepts that can be interpreted as propositional connectives like
+\verb|:and|, \verb|:or|, and \verb|:cond|, there is little that can
+be directly inferred from a basic AMR besides possibly
+lexical inference on the concepts and relations,
+and performing lexical inference directly would require
+extensive hand authoring of relationships between PropBank frames.
+\citet{pustejovsky-etal-2019-modeling} makes direct inference on AMR
+significantly
+easier by providing an unambiguous way to interpret an AMR
+that makes use of quantification, negation, or modality,
+while retaining the predicative core of AMR.
+\citet{donatelli-etal-2018-annotation}
+extends AMR with a treatment of tense and aspect
+which allows for direct inference involving temporal information.   
+
 
 \section{Related Work}
 
@@ -189,9 +206,7 @@ negation, bound variables, and donkey anaphora, which better affords
 inference than other first-order logic semantics for AMR \citep{lai-etal-2020-continuation}.
 This uses a neo-davidsonian representation for the target first-order logic semantics.  
 
-\section{Merging Quantified Hybrid Logic and Indexical Hybrid Tense Logic}
-
-\subsection{Background}
+\subsection{Hybrid Logic and Semantics}
 
 Hybrid logic is an extension of the propositional modal logic $K$
 ($K$ has no conditions on the modal frame of its underlying models)
@@ -212,6 +227,9 @@ $@_a p$ or $@_a \neg p$.  Worlds are used to model any notion
 consistent with it, usually possible states of affairs,
 in particular we will use them to describe states of affairs at
 different points in time.  
+
+
+\section{Merging Quantified Hybrid Logic and Indexical Hybrid Tense Logic}
 
 \subsection{First-order Hybrid Logic}
 
@@ -458,7 +476,7 @@ a parameter is associated with a nominal/state variable $s$.
     \begin{multicols}{2}
       \begin{prooftree}
         \AxiomC{}
-        \RightLabel{\bf (ref)\footnote{\label{closed}Where $t$ is a closed term.}}
+        \RightLabel{\bf (ref)\footnote{\label{1stclosed}Where $t$ is a closed term.}}
         \UnaryInfC{$@_i j:t = j:t$} 
       \end{prooftree}
       
@@ -549,13 +567,13 @@ a parameter is associated with a nominal/state variable $s$.
       
       \begin{prooftree}
         \AxiomC{$@_i j$}
-        \RightLabel{\bf (:2)\footnoteref{closed}}
+        \RightLabel{\bf (:2)\footnoteref{1stclosed}}
         \UnaryInfC{$@_k i: t = j : t$}
       \end{prooftree}
       
       \begin{prooftree}
         \AxiomC{}
-        \RightLabel{\bf (:3)\footnoteref{closed}}
+        \RightLabel{\bf (:3)\footnoteref{1stclosed}}
         \UnaryInfC{$@_i k :j: t = j : t$}
       \end{prooftree}
     \end{multicols}
@@ -634,15 +652,6 @@ A closed tableau is a proof of the unsatisfiability of the tableau's root formul
 there is no model or assignment of variables in which it holds.  The question of when a tableau
 indicates satisfiability of the root formula leads us to our next definition.
 
-\begin{definition}[{\bf Saturation}]
-  A tableau branch is {\it saturated}
-  if no more rules can be applied to the branch in a way that
-  satisfies their constraints.
-  If every branch of the tableau
-  is saturated we say the tableau is saturated.
-\end{definition}
-
-
 \begin{definition}[{\bf Quasi-subformula}]
   A formula $\phi$ is a {\it quasi-subformula } of a
   formula $\psi$ if one of the the following is the case:
@@ -717,7 +726,7 @@ indicates satisfiability of the root formula leads us to our next definition.
 \end{definition}
 
 For instance, the occurence of a nominal $c$ is equational in the formula
-$@_a c \lor \exists x . psi$ but not in the formula $@_c \exists x . psi$.
+$@_a c \lor \exists x \psi$ but not in the formula $@_c \exists x \psi$.
 
 \begin{theorem}
   \label{nomeq}
@@ -754,101 +763,14 @@ $@_a c \lor \exists x . psi$ but not in the formula $@_c \exists x . psi$.
   tableau rules, in some cases making use of \ref{subformula}.
 \end{proof}
 
-\begin{definition}[$\prec_{\Theta}$]
-  \label{prec}
-  Where $\Theta$ is a tableau branch in
-  the {\it FHTL} calculus, if a nominal $a$
-  is introduced to the branch by application of
-  of $F$ or $P$
-  to a premise $@_s \phi$, we
-  say $a$ is {\it generated} by $s$
-  on $\Theta$ and write $s \prec_{\Theta} a$.
-  We write $\prec_{\Theta}^*$ to denote the reflexive and transitive
-  closure of $\prec_{\Theta}$.  
-\end{definition}
-
 \begin{definition}[$N_{\Theta}$]
-  The set of nominals and state variables which occur on $\Theta$
+  The set of nominals which occur on $\Theta$
   is written $N_{\Theta}$
 \end{definition}
 
-\begin{lemma}
-  \label{wellfounded}
-  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
-  the graph $G = (N_{\Theta}, \prec_{\Theta})$ is
-  a wellfounded finitely branching tree.
-\end{lemma}
-
-\begin{proof}
-  Each aspect is proved below:
-  \begin{itemize}
-  \item {\it Wellfoundedness of trees in }$G$
-    
-    We have that if $a \prec_{\Theta} b$
-    then the first occurence of $a$
-    on $\Theta$ is before the first occurence
-    of $b$, thus by induction any subset of $N_{\Theta}$ under the relation
-    $\prec_{\Theta}$ has a least element and each tree in $G$ is wellfounded.
-  \item $G$ {\it is a tree}
-    
-    Every nominal in $N_{\Theta}$
-    can be generated by at most one other nominal, 
-    and every nominal in $N_{\Theta}$
-    must have one of the finitely many nominals in the
-    root formula as an ancestor.
-  \item $G$ {\it is finitely branching}
-    
-    We show $G$ is finitely branching by showing that
-    given a nominal $a$, there can only be finitely
-    many distinct nominals $b$ such that
-    $a \prec_{\Theta} b$.
-    Each nominal $b$
-    such that
-    $a \prec_{\Theta} b$
-    is generated by applying one of 
-    $F$, $P$ to
-    a premise of the form
-    $@_i F \phi$ or $@_i P \phi$
-    respectively, where by
-    our restrictions, either $\phi$
-    is not a nominal, or the entire
-    premise is a root subformula.
-    Since there can only be finitely
-    many root subformulae of the form
-    of one of the the possible premises,
-    where $i$ is the prefix nominal in each case,
-    only finitely many new nominals have been generated
-    from $i$.  Thus $G$ is finitely branching.
-    
-  \end{itemize}
-\end{proof}
-
-\begin{lemma}
-  \label{inf}
-  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
-  $\Theta$ is infinite if and only if there exists an infinite
-  chain of nominals and state variables
-  $a_1 \prec_{\Theta} a_2 \prec_{\Theta} \dotsc \prec_{\Theta} a_n \prec_{\Theta} \dotsc $
-\end{lemma}
-  
-\begin{proof}
-  Since the structure of the formulae and tableau rules are not involved
-  in the proof from \citet*{bolander} holds here as well.
-  
-  
-  \iffalse
-  The 'if' direction follows from the observation that the
-  talbeau rules can only generate a finite tableau while not
-  generating additional nominals, since our conventions
-  ensure that all formulae occuring $\Theta$ are distinct.
-  For the other direction, first we demonstrate
-  $N_{\Theta}$ is infinite.  Suppose by contradiction
-  $N_{\Theta}$ is finite
-  \fi
-\end{proof}
-
 
 \begin{definition}[$\subseteq_{\Theta}$]
+  \label{included}
   Where $a$ and $b$ are nominals occuring on an {\it FHTL} tableau branch
   $\Theta$, $a$ is {\it included} in $b$ with respect to $\Theta$
   if for any root subformula $\phi$, if $@_a \phi$ occurs on $\Theta$
@@ -1055,7 +977,17 @@ the tableau branch from which it was constructed we need the following lemma.
   we have that there are nominals $a' \approx a$ 
   and $c' \approx c$ satisfying one of the three conditions of $R$ in
   definition \ref{rel}.  In the first and third conditions of the definition
-  we have $@_a' F c'$
+  we have $@_{a'} F c' \in \Theta$ and as a result $@_a F c \in \Theta$
+  and in turn by {\bf ($\neg F$)} $@_c \neg \psi \in \Theta$.
+  By induction we have $\mathfrak{M}, [c] \not \vDash_g \psi$ for every variable assignment
+  $g$.  In the second condition of $R$ in definition \ref{rel} there is a nominal
+  $d \in N_{\Theta}$ such that $@_{a'} F d \in \Theta$ and
+  $d \subseteq_{\Theta} c'$, consequently $@_a F d \in \Theta$ and
+  by {\bf ($\neg F$)} $@_d \neg \psi \in \Theta$.
+  But by lemma \ref{subformula} $\psi$ is a root subformula,
+  and since $d \subseteq_{\Theta} c'$ we have $@_{c'} \neg \psi \in \Theta$.
+  By induction we have $\mathfrak{M}, [c'] \not \vDash_g \psi$ for every variable assignment
+  $g$ and by the definition of $\approx$ also $[c'] = [c]$.
 \end{proof}
 
 
@@ -1215,24 +1147,186 @@ where $Q$ is a positive natural number:
 
 \subsection{Systematic tableau construction}
 
-\begin{definition}[{\it Tableau construction algorithm}]
-  Where $@a_a \phi$ is the formula whose validity we are deciding.
-  We inductively define a sequence of finite tableaux
-  $\mathcal{T}_0, \mathcal{T}_1, \mathcal{T}_2, \ldots$
-  each where each element of the sequence is embedded in all
-  of its successors.  We let $\mathcal{T}_0$ be the finite
-  tableau consisting of the formula $\neg @a_a \phi$.
-  Assuming the finite tableau $\mathcal{T}_n$ is defined.
-  If possible, apply an arbitrary {\it FHTL} tableau rule with
-  the following restriction.
+
+\begin{definition}[{\bf Saturation}]
+  A tableau branch is {\it saturated}
+  if there are no rules can be applied to the branch in a way that
+  satisfies their constraints or that avoid
+  adding duplicate formulae to the branch.
+  If every branch of the tableau
+  is saturated we say the tableau is saturated.
+\end{definition}
+
+\begin{definition}[$\prec_{\Theta}$]
+  \label{prec}
+  Where $\Theta$ is a tableau branch in
+  the {\it FHTL} calculus, if a nominal $a$
+  is introduced to the branch by application of
+  of $F$ or $P$
+  to a premise $@_s \phi$, we
+  say $a$ is {\it generated} by $s$
+  on $\Theta$ and write $s \prec_{\Theta} a$.
+  We write $\prec_{\Theta}^*$ to denote the reflexive and transitive
+  closure of $\prec_{\Theta}$.  
+\end{definition}
+
+\begin{lemma}
+  \label{wellfounded}
+  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
+  the graph $G = (N_{\Theta}, \prec_{\Theta})$
+  is the disjoint union of a finite set of well-founded and finitely
+  branching trees.
+\end{lemma}
+
+\begin{proof}
+  Each aspect is proved below:
   \begin{itemize}
+  \item {\it Wellfoundedness of trees in }$G$
+    
+    We have that if $a \prec_{\Theta} b$
+    then the first occurence of $a$
+    on $\Theta$ is before the first occurence
+    of $b$, thus by induction any subset of $N_{\Theta}$ under the relation
+    $\prec_{\Theta}$ has a least element and each tree in $G$ is wellfounded.
+  \item $G$ {\it is a disjoint union of a set of trees}
+
+    This follows from well-foundedness and the
+    fact every nominal in $N_{\Theta}$
+    can be generated by at most one other nominal, 
+    and every nominal in $N_{\Theta}$
+    must have one of the finitely many nominals in the
+    root formula as an ancestor.
+  \item{\it The set of trees is finite}
+
+    If a nominal $c$ occurs on a branch but not in the
+    root formula then there is some nominal $a$ which
+    generated $c$, as a result $c$ cannot be the root of a
+    tree, and since there are only finitely many nominals
+    in a root formula there can only be finitely many trees.
+  \item {\it Each tree finitely branching}
+    
+    We show some tree $\mathcal{T}$ is finitely branching by showing that
+    given a nominal $a$, there can only be finitely
+    many distinct nominals $b$ such that
+    $a \prec_{\Theta} b$.
+    Each nominal $b$
+    such that
+    $a \prec_{\Theta} b$
+    is generated by applying one of 
+    $F$, $P$ to
+    a premise of the form
+    $@_a F \phi$ or $@_a P \phi$
+    respectively, where by
+    our restrictions $\phi$
+    is not a nominal.
+    Since there can only be finitely
+    many root subformulae of the form
+    of one of the the possible premises,
+    where $a$ is the prefix nominal in each case,
+    only finitely many new nominals have been generated
+    from $a$.  Thus $\mathcal{T}$ is finitely branching.
+    
+  \end{itemize}
+\end{proof}
+
+
+\begin{remark}
+  In the restricted rules, a term can have no nominal among its
+  prefixes more than once.  Consequently where $n$ is the number of
+  nominals on the branch and $k$ is the number of  prefix strings a term can have
+  ($k \leq n$) the number of possible prefixed versions of a term are
+  $$\sum_{k = 1}^n \frac{n!}{(n - k)!}$$
+\end{remark}
+
+
+\begin{lemma}
+  \label{saturation}
+  Using the restricted rules, minus any rules
+  which generate new nominals on a branch ($F$ and $P$),
+  any {\it FHTL} tableau branch $\Theta$
+  saturates within a finite number of steps.
+\end{lemma}
+
+\begin{proof}
+  The propositional rules, {\bf ($\neg F / P$)}, {\bf ($\exists$)}
+  and the @ rules, have only finitely many possible applications
+  before they can no longer be applied on $\Theta$.
+  With the quantifier depth restriction {\bf ($\neg\exists$)}
+  can only be applied a finite number of times,
+  and while {\bf (sub)} can generate multiple conclusions since
+  there are multiple partial substitutions for any formula,
+  there are only finitely many partial substitutions possible.
+  For {\bf (ref)} and the term rules, we have at worst cases like {\bf (:3)}
+  and {\bf (ref)} which depend on the number of nominals and terms on the branch
+  for the number of possible applications before a redunant application.
+  There are only finitely many nominals and terms on the branch at any given time,
+  and by our remark, there are finitely many possible prefix strings for a given term.
+  Thus there are only finitely many possible applications of {\bf (ref)} to the branch.
+\end{proof}
+
+\iffalse
+\begin{lemma}
+  \label{inf}
+  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
+  $\Theta$ is infinite if and only if there exists an infinite
+  chain of nominals and state variables
+  $a_1 \prec_{\Theta} a_2 \prec_{\Theta} \dotsc \prec_{\Theta} a_n \prec_{\Theta} \dotsc $
+\end{lemma}
+  
+\begin{proof}
+  Since the structure of the formulae and tableau rules are not involved
+  in the proof from \citet*{bolander} holds here as well.
+  
+  
+  \iffalse
+  The 'if' direction follows from the observation that the
+  talbeau rules can only generate a finite tableau while not
+  generating additional nominals, since our conventions
+  ensure that all formulae occuring $\Theta$ are distinct.
+  For the other direction, first we demonstrate
+  $N_{\Theta}$ is infinite.  Suppose by contradiction
+  $N_{\Theta}$ is finite
+  \fi
+\end{proof}
+\fi
+
+\begin{definition}[{\it Tableau construction algorithm}]
+  Let $@a_a \phi$ be the formula whose validity (or failing that, local satisfiability)
+  we are deciding.
+  We inductively define a sequence of finite tableaux
+  $$\mathcal{T}_0, \mathcal{T}_1, \mathcal{T}_2, \ldots$$
+  where each element of the sequence is embedded in all
+  of its successors.  We let $\mathcal{T}_0$ be the finite
+  tableau consisting of the formula $@_a \neg \phi$.
+  Assuming the finite tableau $\mathcal{T}_n$ is defined,
+  apply, where possible according to its restrictions,
+  an arbitrary model checking {\it FHTL} tableau rule with
+  the following restrictions.
+  \begin{itemize}
+  \item {\bf Saturation}
+
+    Do not apply a rule to a premise if the resulting
+    conclusion is a formula already on the branch.
   \item {\bf (Loop check)}
-    The rule $F$ is not applied to a formula occurence $@_a F \phi$
+
+    The rule {\bf ($F$)} is not applied to a formula occurence $@_a F \phi$
     at a branch $\Theta$ if there is a nominal $b$ such that
-    $a \subseteq_{\Theta} b$, and simlarly for the rule $P$.
+    $a \subseteq_{\Theta} b$,
+    and simlarly for the rule {\bf ($P$)}.
   \end{itemize}
   Let $\mathcal{T}_{n + 1}$ be the resulting tableau.
 \end{definition}
+
+The saturation conditions prevent the algorithm
+from extending the tableau indefinitely with redundant
+formulae and forces the algorithm to use every applicable
+rule the maximum possible amount of times,
+i.e. this algorithm is ``fair'' \citep(fitting-modal).
+The loop check condition is in the same spirit,
+preventing the algorithm from introducing nominals
+to the branch which would be redundant in their sharing
+identical information with some ancestor nominal already on the branch.
+Now we can demonstrate the algorithm always terminates.  
 
 \begin{theorem}
   \label{term}
@@ -1240,7 +1334,42 @@ where $Q$ is a positive natural number:
 \end{theorem}
 
 \begin{proof}
-  Suppose by contradiction ...
+  Suppose by contradiction the algorithm does not terminate.
+  Then the tableau is infinite branch $\Theta$.
+  By lemma \ref{wellfounded} the graph $(N_{\Theta}, \prec_{\Theta})$
+  is a disjoint union of a finite set of finitely branching trees.
+  Thus it has some inifinite branch
+  $$a_1 \prec_{\Theta} a_2 \prec_{\Theta} \ldots \prec_{\Theta} a_i \prec_{\Theta} \ldots $$
+  otherwise by lemmas \ref{subformula} and \ref{saturation}
+  there would only be finitely many formulae on the branch,
+  contradicting that it is infinite.
+  For each $i$ in the indices of this infinite chain of nominals,
+  let $\Theta_i$ denote the initial segment of $\Theta$ up to
+  but not including the first formula where the nominal $a_{i + 1}$
+  occurs.  Thus one of {\bf ($F$)} or {\bf ($P$)} was applied
+  to a formula in $\Theta_i$ which generated $a_{i + 1}$.
+  Let $\Gamma_i$ be the set of all $@_{a_i} \phi \in \Theta_i$
+  for $\phi$ a root subformula and
+  let $\Delta_i$ be the set of all $@_{a_i} \neg \phi \in \Theta_i$
+  for $\phi$ a root subformula.
+  Since there can only be finitely many sets of root subformulae,
+  there are nominals in the infinite chain $a_j, a_k$ where
+  $j < k$ and $\Gamma_j = \Gamma_k$ and $\Delta_j = \Delta_k$.
+  Since $j < k$ the first occurence of $a_j$ on $\Theta_k$ must be before
+  the first occurence of $a_k$ on $\Theta_k$.  Additionally
+  for any root subformula $\phi$, if $@_{a_k} \phi \in \Theta_k$
+  then $\phi \in \Gamma_k$ and consequently $\phi \in \Gamma_j$,
+  but then $@_{a_j} \phi \in \Theta_j$ which is an initial segment
+  of $\Theta_k$.  Thus by definition \ref{included}
+  $a_k$ is included in $a_j$ with respect to $\Theta_k$, and
+  since the first occurence of $a_j$ is before the first occurence
+  of $a_k$ we have $a_k \subseteq_{\Theta} a_j$.  But this contradicts that
+  {\bf ($F$)} or {\bf ($P$)} was applied on $\Theta_k$
+  resulting in the first formula containing an occurence
+  of the nominal $a_{k + 1}$ since $a_k \subseteq_{\Theta} a_j$ would
+  result in the loop check condition blocking the application.
+  Thus the algorithm terminates.
+  
 \end{proof}
 
 

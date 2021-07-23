@@ -1427,8 +1427,12 @@ conclusions and their premises.
 \item {\bf Equality rules:}
   The only rule to check is {\bf (sub)},
   from which it follows immediately that the
-  premise and conclusion are witnessed by
-  the same variable assignments.  
+  second premise is satisfied by
+  the variable assignments which satisfy the
+  conclusion and satisfy the constraint
+  given by the first premise,
+  without loss of generality that
+  $\overline{j:t} = \overline{k:s}$.  
 \item {\bf Quantifier rules:}
   For {\bf ($\exists$)}, we let $C$ be
   set of variable assignments which satisfy
@@ -1482,15 +1486,39 @@ conclusions and their premises.
   First we consider closed terms.  Since any model checking tableau
   is finite, it has only
   finitely many function symbols, constants, and parameters.
-  Furthermore the model has only finitely many worlds/times and a
+  Since parameters are not free variables but stand in for them,
+  we will deal with them as follows:  Recalling every parameter is
+  of the form $j: \ldots :i:p$ with a string of at least one distinct prefixes
+  (without loss of generality letting $i$ be the immediate prefix):
+  \begin{enumerate}
+  \item
+    Proceeding with annotation as normal,
+    ignore any parameter until reaching the lowest equality or relation statement where it
+    appear in the conclusion, then solve for the values in $D_{I_{\textit{nom}}(i)}$
+    for which the parameters would satisfy the formula.
+    Clearly this process terminates since for any nominal $i$,
+    $D_{I_{\textit{nom}}(i)}$ is finite.
+  \item
+    From here on, we treat the sets of parameters which
+    satisfy a formula as we would the set of variable assignments which
+    would satisfy a formula with the exception of quantifier rules
+    which we will cover later.  In particular, for a case of {\bf ($\lor$)}
+    as in $@_s (\phi[i:p] \lor \psi[i:p])$ we take the union of the parameter
+    sets for $@_s \phi[i:p]$ and $@_s \psi[i:p]$, similary taking the intersection
+    in the case of {\bf ($\neg \lor$)}
+  \end{enumerate}
+  The proof of termination for computing these parameter annotations for each node
+  is essentially the same as the proof of termination for variable assignment annotations,
+  so without loss of generality we omit the former and proceed with the latter. 
+  The model has only finitely many worlds/times and a
   finite domain for each world/time, consequently computing the value of
   a closed term is guaranteed to terminate and the annotation consists of
   every possible variable assignment
   (any implementation of this process would represent the totallity of variable
   assignments via a flag which would consume only
-  constant space).  
+  constant space, similarly for parameter annotations until we solve for them).  
   Similarly, computating annotations for relation and equality statements over
-  closed terms terminates.  Since the @ rules, modal rules, and equality rules, and
+  closed terms terminates.  Since the @ rules, modal rules, and
   {\bf ($\neg \neg$)}
   do not involve any operations on the set of variable assignments
   satisfying the conclusions, by induction these node annotations terminate.
@@ -1498,16 +1526,20 @@ conclusions and their premises.
   terminates.  Recalling \ref{finite-vars}, we
   see that {\bf ($\lor$)} and {\bf ($\neg \lor$)}
   involve only union and intersection of finite sets respectively.
+  For {\bf (sub)} by we assume by induction that computing the annotations
+  for the first premise and the conclusion terminates, since they are finite,
+  computing their intersection terminates and we have the annotation for the second
+  premise. 
   Finally assume by induction that computing the annotations for the conclusions of  
   {\bf ($\exists$)} and {\bf ($\neg \exists$)} terminates.
-  For {\bf ($\exists$)}
+  For {\bf ($\exists$)}, recalling \ref{finite-vars} again, 
   we check each variable assignment from a finite set whether they have
-  a variant at a single variable 
+  a variant at a fixed variable that satisfies  
   and for {\bf ($\neg \exists$)} 
 \end{proof}
 
 \begin{theorem}
-  Finite model checking for {\it FHTL} is decidable.
+  Finite model checking for {\it FHTL} via restricted tableau is decidable.
 \end{theorem}
 
 \begin{proof}

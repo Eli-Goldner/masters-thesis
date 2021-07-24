@@ -210,7 +210,14 @@ like (actualist) quantification \citep{hansen2007tableau},
 and hybrid logic equipped for reasoning about time and tense
 \citep{blackburn2012indexical}.  We present a sound and complete
 tableau-based proof procedure for {\it FTHL} sentences.
-The tableau method is a well known  
+The tableau method is a well known approach to theorem proving
+that has been adapted to many logics, it works by extracting a tree
+from a sentence in a logic, where the nodes consist of root subformulae
+or supporting formulae to be proved or refuted.
+We also provide a modified version of this tableau method,
+which we use to check the satisfiability of translated extended AMR sentences
+in a finite model, and a method for translating an extended AMR
+into a {\it FHTL} formula. 
 
 
 \section{Related Work}
@@ -221,38 +228,43 @@ The tableau method is a well known
 %% Reference UMR?
 
 In recent years there have been more efforts towards
-extending AMR and interpreting it in ways more suitable to
+extension and interpretation of AMR in ways more suitable to
 direct inference.  
 \citet{bos-2016-squib} provides a means of translating
 standard AMR to first-order predicate logic with negation,
 and that an AMR  without recurrent variables
 under this translation is in the decidable two-variable fragment of first-order predicate logic.
-
-Extension of sentential AMR to incorporate a coarse grained
-treatment of tense and aspect \citep{donatelli-etal-2018-annotation}
-
-\citet{ogorman-etal-2018-amr} multi-sentence AMR
-for document level semantics on top of sentence-level
-semantics.
-(Maybe better for future work) possibility
-document-level and discourse-level inference.
-
-Quantification and scope \citet{pustejovsky-etal-2019-modeling}
-
-Continuation based semantics for translating AMR into first-order
-logic in a way that preserves projection phenomena such as quantification,
-negation, bound variables, and donkey anaphora, which better affords
-inference than other first-order logic semantics for AMR \citep{lai-etal-2020-continuation}.
-This uses a neo-davidsonian representation for the target first-order logic semantics.  
-
-
-
+\citep{donatelli-etal-2018-annotation} extends sentential AMR to incorporate a coarse grained
+treatment of tense and aspect, both of which affords inference,
+and in a very rich way in the case of aspect, as we will discuss at the end. 
+\citet{ogorman-etal-2018-amr} describes a multi-sentential treatment of AMR
+with a corpora of examples, for handing document level semantics in addition
+to AMR's current sentential semantics. This has possible implications for 
+document-level and discourse-level inference in AMR, {\`a} la discourse representation theory.
+\citet{pustejovsky-etal-2019-modeling} and its extension of AMR with quantification, scope, negation,
+and modality, is effectively a royal road to interpretation of AMR into first-order logic
+or related variants, and we will frequent use of it in section \ref{interp}. 
+\citep{lai-etal-2020-continuation} provides a continuation-based semantics
+for translating AMR into first-order
+predicate logic in a way that preserves projective phenomena.
+While this influenced our interpretation approach and its translation
+method is much more elegant than ours, we elected not to use it since  
+it uses a Neo-Davidsonian representation for the target first-order predicate logic semantics,
+which as we will is more expensive to handle via tableau-based reasoning since
+it guarantees that there is at least one quantifier in the interpretation for every relation symbol.  
+\iffalse
 Separating argument structure in AMR from logical structure, enables
 translation from AMR to DRT \citep{bos-2020-separating}
+\fi
+Finally, \citet{bonial-etal-2020-dialogue} provides an AMR extension
+designed for faciliatating natural language understanding in dialogue
+systems integrating both tense and aspect and a speech act inventory,
+which conveys the illocutionary force of a statement accompanying the content.
+This is another extension that affords the possbility of discourse level inference
+in addition to sentential inference, which while offering rich conclusions will
+require more a sophisticated semantics sensitive to context. 
 
-\citep{bonial-etal-2020-dialogue}
-
-\subsection{Hybrid Logic and Semantics}
+\subsection{Hybrid Logic and Its Extensions}
 
 Hybrid logic is an extension of the propositional modal logic $K$
 ($K$ has no conditions on the modal frame of its underlying models)
@@ -274,36 +286,51 @@ consistent with it, usually possible states of affairs,
 in particular we will use them to describe states of affairs at
 different points in time.  
 
+\subsubsection{First-order Hybrid Logic}
 
-\section{Merging Quantified Hybrid Logic and Indexical Hybrid Tense Logic}
-
-\subsection{First-order Hybrid Logic}
-
-First-order modal logic (or quantified modal logic / QML) extends first-order predicate logic
+First-order modal logic (or quantified modal logic / {\it QML}) extends first-order predicate logic
 in a way analogous to how propositional modal logic extends first order
 propositional logic.
 An introduction to both QML and propositional modal logic can be found in
-\citet*{fitting-modal}. 
-\citet*{hansen2007tableau}
+\citet*{fitting-modal}.  As before, a tableau method is a proof procedure for
+some first-order language (and a decision procedure for a propositional language), and it is the
+most widely used proof procedure for modal logics \citep{girle2014modal}.
+In a sense, hybrid logic simply makes explicit through the satisfaction operator what is implicit in modal logic, and indeed, in modal tableau prefixes play an explicit role.  As a result the tableau method generalizes
+to hybrid logics very well.  \citet*{quantified} provides the first tableau method for a first-order extension of hyrbid logic.  Quantified hybrid logic {\it QHL} as defined in \citet*{quantified} unfortunately
+for us, uses constant-domain semantics and possibilist quantification
+(where quantifiers range over all the collective domain of all worlds/times),
+making it inconvenient for modeling quantification and reference in natural language.
+Furthermore it omits non-unary function symbols, which are a necessity for modeling
+AMR concepts as \texttt{have-rel-role} in first-order language.
+\citet*{hansen2007tableau} remedies this by developing a semantics and tableau method for first-order hybrid logic {\it FHL},
+a variant of {\it QHL} using varying-domain semantics and actualist quantification
+(quantifiers only range over entities at the time of reference).
+As can be inferred from the name,
+{\it FHL} is the core component of our development of {\it FHTL} in section \ref{fhtl}.     
 
-from 
 
-\citet*{quantified}
+\subsubsection{Basic Hybrid Tense Logic}
 
-\subsection{Basic Hybrid Tense Logic}
-
-
+The roots of hyrbid logic, and hybrid tense logic in particular,
+range back to the philosopher Arthur N. Prior's work in the 1960s \citep{prior2003papers}.
+We take our treatment of basic hybrid tense logic {\it BHTL} from \citet*{blackburn2012indexical},
+which roughly can be seen as renaming $\lozenge$ and $\Box$ to $F$ and $G$ in basic hybrid logic,
+and adding their duals under the accessibility relation $P$ and $H$, sometimes written 
+$\lozenge^{-1}$ and $\Box^{-1}$
 For intuition, if we have $@_i F \phi$ for some time $i$, 
 then we have that $\phi$ holds at some time in the future from the perspective of $i$.
 If we have $@_i G \phi$, then $\phi$ holds at every world in the future from the perspective of
 $i$.  Similarly for $@_i P \phi$ and $@_i H \phi$, except both statements refer to the past from
-the perspective of $i$.
-
-\citet*{blackburn2012indexical}
-
-(sometimes called $\lozenge^{-1}$
+the perspective of $i$.  Now that the accessibility relation $R$ of an interpretation
+of {\it BHTL} notionally models time, there additional properties of $R$ to consider
+(such as it being a strict partial order) when
+proving soundness and completeness for the language.
+This is accomplished in \citet*{blackburn2012indexical},
+but in this paper we avoid these considerations and make no
+assumptions about the model's accessibility relation. 
 
 \section{First-order Hybrid Tense Logic}
+\label{fhtl}
 Here we give a modification of Hansen's First-order Hybrid Logic which
 describes tense instead of modality while retaining {\it FHL}'s varying domain
 semantics and actualist quantification.
@@ -441,13 +468,16 @@ whether $\mathfrak{M}, s \vDash_g \phi$ does not depend on the variable assignme
 
 \fi
 
-Following \citet*{fitting-modal} we assume for each nominal
+When working with the tableau calculus, following \citet*{fitting-modal} we assume for each nominal
 or state variable $s$,
-there is an infinite list of parameters, where parameters are free variables
+there is a countably infinite list of parameters \textsf{PAR}, where parameters are free variables
 which are never quantified over, arranged in such a way that different
 nominals/state variables
-never share the same parameter.  Informally we write $p_s$ to indicate
-a parameter is associated with a nominal/state variable $s$.  
+never share the same parameter.  We write $s:p$ to indicate
+a parameter is associated with a nominal/state variable $s$,
+just as we do with terms.  The {\it extended language} is the language obtained by
+adding \textsf{PAR} to the standard {\it FHTL} language.  
+
 
 %%\begin{adjustbox}{max size={\textwidth}{\textheight}, nofloat = figure}
 \begin{figure*}[!h]
@@ -1642,7 +1672,7 @@ conclusions and their premises.
 \end{proof}
 
 \section{AMR Interpretation in {\it FHTL}}
-
+\label{interp}
 In this section we present an approach for translating
 AMR annotated for quantification and scope along with tense and aspect into {\it FHTL}.
 In this work we do not make use of aspect but we discuss a possibility of
@@ -1898,7 +1928,7 @@ and we do not provide them.
 \texttt{Apply} is standard continuation based application of predicates \citep{van2010computational}.
 \texttt{InterpretPred} handles AMR concepts possibly with nested relations to other concepts, letting
 us extract $@_t (\forall x)((dog(x) \land friendly(x)) \to P (bark(x)))$
-from {\it Every friendly dog barked} rather than recursively obtaining a neo-davidsonian
+from {\it Every friendly dog barked} rather than recursively obtaining a Neo-Davidsonian
 approach as in \citet{lai-etal-2020-continuation}.
 \texttt{InterpPropMod} handles AMR concepts which modify entire
 sentences/propositions such as negation and modality.    

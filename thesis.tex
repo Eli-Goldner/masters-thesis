@@ -166,15 +166,35 @@
 \section{Introduction}
 
 
-
-Version 1.2 of the AMR specication states that an AMR does not indicate how
-it should be processed \citep{banarescu2012abstract}.  Indeed, besides
+AMR's reductive approach to semantic representation enjoys a
+duly earned popularity in the increasingly data driven environment
+of post-2000s NLP and CL.  Its ablation of fine-grained semantic
+and syntactic features makes AMR a highly competitive choice
+for the development of annotated corpora and as a target representation
+for statistically driven parsing techniques.
+It is exactly the aspects of AMR that are so valued that cause it
+to fall very short in an area where most semantic representations
+have felt some obgligation to succeed, namely intepretation and inference.    
+That AMR has made this compromise is no oversight, but an informed design choice.
+Version 1.2 of the AMR specication states that by default an AMR does not indicate how
+it should be processed \citep{banarescu2012abstract}. 
+Indeed, besides
 concepts that can be interpreted as propositional connectives like
 \verb|:and|, \verb|:or|, and \verb|:cond|, there is little that can
 be directly inferred from a basic AMR besides possibly
-lexical inference on the concepts and relations,
-and performing lexical inference directly would require
-extensive hand authoring of relationships between PropBank frames.
+lexical inference on the concepts and relations.
+Performing lexical inference directly would require
+at least extensive hand authoring of relationships between PropBank frames,
+and in general is beyond the scope of this paper.
+\par
+Finding ways to support inference for AMR is no trivial
+curiousity.  For machine-based natural language understanding,
+it is arguable that a semantic representation needs to deeply reflect natural language at the expressive level
+while supporting complex reasoning and capturing certain aspects of knowledge \citep{KK_Schubert2015}.
+Furthermore, inferential methods are critical to being able to guarantee, verify, and discover properties of software systems.
+One relevant application is discovering and resolving bias in NLP systems \citep{gordon-13}.
+AMR extensions ameliorate the issue of expressivity by integrating more semantic information
+into an AMR while still retaining its minimal and predicative structure.
 \citet{pustejovsky-etal-2019-modeling} makes direct inference on AMR
 significantly
 easier by providing an unambiguous way to interpret an AMR
@@ -182,7 +202,15 @@ that makes use of quantification, negation, or modality,
 while retaining the predicative core of AMR.
 \citet{donatelli-etal-2018-annotation}
 extends AMR with a treatment of tense and aspect
-which allows for direct inference involving temporal information.   
+which allows for direct inference involving temporal information.
+We will show that integrating these two AMR extensions allows for interpretation
+into a highly expressive logic we call first-order hybrid tense logic {\it FHTL},
+which merges hybrid logic equipped with first order features
+like (actualist) quantification \citep{hansen2007tableau},
+and hybrid logic equipped for reasoning about time and tense
+\citep{blackburn2012indexical}.  We present a sound and complete
+tableau-based proof procedure for {\it FTHL} sentences.
+The tableau method is a well known  
 
 
 \section{Related Work}

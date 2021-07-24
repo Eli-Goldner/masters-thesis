@@ -165,6 +165,8 @@
 
 \section{Introduction}
 
+
+
 Version 1.2 of the AMR specication states that an AMR does not indicate how
 it should be processed \citep{banarescu2012abstract}.  Indeed, besides
 concepts that can be interpreted as propositional connectives like
@@ -190,21 +192,37 @@ which allows for direct inference involving temporal information.
 
 %% Reference UMR?
 
-Separating argument structure in AMR from logical structure, enables
-translation from AMR to DRT \citep{bos-2020-separating}
-
-AMR expressivity without recurrent variables
-(and with no more than one universal quantifier per sentence)
-are in the decidable two-variable fragment of first-order logic \citep{bos-2016-squib}
+In recent years there have been more efforts towards
+extending AMR and interpreting it in ways more suitable to
+direct inference.  
+\citet{bos-2016-squib} provides a means of translating
+standard AMR to first-order predicate logic with negation,
+and that an AMR  without recurrent variables
+under this translation is in the decidable two-variable fragment of first-order predicate logic.
 
 Extension of sentential AMR to incorporate a coarse grained
 treatment of tense and aspect \citep{donatelli-etal-2018-annotation}
+
+\citet{ogorman-etal-2018-amr} multi-sentence AMR
+for document level semantics on top of sentence-level
+semantics.
+(Maybe better for future work) possibility
+document-level and discourse-level inference.
+
+\citet{pustejovsky-etal-2019-modeling}
 
 Continuation based semantics for translating AMR into first-order
 logic in a way that preserves projection phenomena such as quantification,
 negation, bound variables, and donkey anaphora, which better affords
 inference than other first-order logic semantics for AMR \citep{lai-etal-2020-continuation}.
 This uses a neo-davidsonian representation for the target first-order logic semantics.  
+
+
+
+Separating argument structure in AMR from logical structure, enables
+translation from AMR to DRT \citep{bos-2020-separating}
+
+\citep{bonial-etal-2020-dialogue}
 
 \subsection{Hybrid Logic and Semantics}
 
@@ -1767,11 +1785,27 @@ predicate and arguments.
 \section{Future Work}
 
 \subsection{$\downarrow$ and Quantification over Nominals}
+
+\citet{hansen2007tableau} includes treatment of two operators which we have
+omitted, namely $\downarrow$ and $E$.  $\downarrow$ binds
+a nominal to the point of evaluation, i.e.
+$@_a \downarrow w . \phi$, $\downarrow w . \phi$  is the case at $a$,
+if and only if $\phi$ is the case at $w$ ($@_w \phi$) when $a$ refers
+to $w$.  This feature allows to represent statements
+such as {\it Caroline is the current chief architect}
+via a formula of the form $\downarrow x . (c = @_x a)$
+where $c$ is a rigid designator (for us a constant) denoting
+{\it Caroline} and $a$ is a non-rigid designator
+(for us a unary function symbol) denoting {\it chief architect}.
+Intuitively $E$ is existential quantification over nominals
+(and $\neg E \neg \equiv A$ is universal quantification over nominals),
+i.e. $@_s E \phi$ if there is some nominal $j$ such that $@_j \phi$.  
 Main points, at the cost of undecidability with adding $\downarrow$
 some additional things can be done,
 and at the cost of the integration of generalized quantifiers you can
 ostensibly handle even things like habitual aspect.
 
+\iffalse
 \subsection{AMR Reentrancy and Non-Temoral Nominals}
 
 
@@ -1780,28 +1814,47 @@ worlds being maximal with this idea, but there seems to be a direct sympathy bet
 the predicative core of an AMR sentence and in general reentrancy of the nodes with the
 idea of a nominal as a ``point of view'' rather than the ``name'' of a world.
 Maybe things like epistemic logic could be helpful here.
-\subsection{Automated Inference and HTab}
+\fi
 
+\subsection{Implementing Theorem Proving and Model Checking}
+
+Now that we have a general approach for automated inference and
+model checking of first-order hybrid logic, there is the question of implementation.
 HTab \citep{htab} provides an implementation of $\mathcal{H}(@, \textsf{A})$,
-which does not natively provide a way to reason with $P$, $H$,
-or first-order quantification.  The effort required in making the needed
-changes to handle these remains to be determined.
+(propositional hybrid logic with quantification over nominals)
+which does not natively provide a way to reason with $P$
+(sometimes called $\lozenge^{-1}$
+or first-order quantification.  While it may
+be possible to extend HTab to accomodate these, it
+might be more productive to consider theorem provers
+for first-order modal logic utilizing tableau such as \textsf{leanTAP}  \citep{beckert1995leantap} and extending them to
+accomodate hybrid logic's satisfaction operator and the other aspects of {\it FHTL}.
+MDK-verifier \footnote{\url{http://www.cril.univ-artois.fr/~montmirail/mdk-verifier/}}
+is the only modal model checker we are aware of, and currently only
+works with propositional $K$.
+
 \subsection{The Future of AMR and Parsing for Semantic Features}
 
-To what extent can current AMR parsers extract the needed semantic features
-to make full use of automated inference?  Of UMR, Dialogue-AMR,
-and the AMR annotation variants we've used,
-which logistically has the best outlook?
+AMR parsing is an area which receives a great deal of attention,
+we are not aware however of many efforts in AMR parsing towards accomodating
+extensions with these semantic features which enable any kind of descriptive
+direct inference.  Indeed, whether any research in automated reasoning
+over AMR and its extensions is of practical relevance depends entirely on
+whether AMR parsers can accomplish this in a resource effective way.
+Determining where and to what extent AMR parsing for extensions
+is effective is a worthwhile pursuit for AMR researchers in general,
+whether or not they are concerned with the semantic descriptiveness
+of these extensions or their suitability for inference.  
 
 
 \section{Conclusion}
 
-We have demonstrated how the core aspects of AMR along with annotations
+We have demonstrated how the core aspects of AMR along with extensions
 for scope, quantification, and tense, can be accomodated
 in first-order hybrid tense logic, and that {\it FHTL}
-better affords reasoning and inference than AMR,
-given its general tableau method which acts as a proof procedure for {\it FHTL} sentences
-and its terminating tableau methond which acts as a model checker.  
+affords reasoning for AMR sentences,
+through its general tableau method which acts as a proof procedure for {\it FHTL} sentences
+and its terminating tableau methond which acts as a model checker.    
 
 \bibliographystyle{acl_natbib}
 \bibliography{references}

@@ -142,7 +142,7 @@
 \begin{abstract}
   AMR and its extensions have become popular in semantic representation due
   to their ease of annotation by non-experts, attention to the predicative core of sentences,
-  and abstraction away from various syntactic matter.
+  and abstraction away from syntactic matter.
   An area where AMR and its extensions warrant improvement is formalization
   and suitability for inference, where it is lacking compared to
   other semantic representations, such as
@@ -157,9 +157,9 @@
   tableau method for basic hybrid tense logic ({\it BHTL}).
   We motivate the merging of these AMR variants,
   present their interpretation and inference in the combination of {\it FHL}
-  and {\it BHTL}, which we will call {\it FHTL} (first-order hybrid tense logic),
-  and demonstrate {\it FHTL}'s soundness, completeness,
-  and decidability for finite model checking.   
+  and {\it BHTL}, which we will call first-order hybrid tense logic ({\it FHTL}),
+  and demonstrate the soundness and completeness of {\it FHTL}'s general tableau method,
+  and its decidability for finite model checking.   
 \end{abstract}
 
 
@@ -476,13 +476,15 @@ nominals/state variables
 never share the same parameter.  We write $s:p$ to indicate
 a parameter is associated with a nominal/state variable $s$,
 just as we do with terms.  The {\it extended language} is the language obtained by
-adding \textsf{PAR} to the standard {\it FHTL} language.  
+adding \textsf{PAR} to the standard {\it FHTL} language.  In the tableau rules,
+a term in the extended language is called a closed term if it contains no
+first-order variables or state variables.
 
 
 %%\begin{adjustbox}{max size={\textwidth}{\textheight}, nofloat = figure}
 \begin{figure*}[!h]
   \centering
-  \begin{adjustbox}{varwidth=1.1\linewidth,scale=0.85}
+  \begin{adjustbox}{varwidth=1.1\linewidth,scale=1.0}
     %% \begin{framed}
     \centering
     \begin{mdframed}
@@ -644,7 +646,7 @@ adding \textsf{PAR} to the standard {\it FHTL} language.
 
 \begin{figure*}[!h]
   \centering
-  \begin{adjustbox}{varwidth=1.1\linewidth,scale=0.85}
+  \begin{adjustbox}{varwidth=1.1\linewidth,scale=1.0}
     %% \begin{framed}
     \centering
     \begin{mdframed}
@@ -738,11 +740,11 @@ The proof of soundness for {\it FHTL} follows from the
 soundness of {\it FHL} established in \citet*{hansen2007tableau},
 with additions for the rules {\bf ($P$)}, {\bf ($\neg P$)}, {\bf ($P$)--bridge},
 and {\bf ($P / F$)--trans}, the soundness of which is easy to demonstrate.
-The proof of completeness is the same as the one given in
+The proof of completeness is essentially the same as the one given in
 \citet*{bolander} for Blackburn's tableau system for standard
 hybrid logic ($\mathcal{HL}(@)$) with accomodations made for
 the first order aspects of {\it FHTL} adapted from \citet*{hansen2007tableau}.
-While \citet*{bolander} en route to completeness proves termination
+While \citet*{bolander} proves termination
 for Blackburn's tableau system, we cannot do that for
 {\it FHTL}, since a terminating tableau system would be
 equivalent to a general decision procedure for first-order predicate logic.
@@ -750,8 +752,14 @@ We will however intoduce restrictions on the quantifier and term rules
 in the next section which will lead to terminating tableau constructions
 at the cost of general completeness,
 which will be no real loss since the purpose of our
-revised terminating tableau system is for finite model checking.  
+revised tableau system is for finite model checking.  
 
+\begin{remark}
+  From here on we normalize formulae such that
+  a negation symbol only occurs within the scope of the satisfaction operator,
+  that is we will always write $@_s \neg \phi$ and never $\neg @_s \phi$
+  from now on, even though the two are semantically equivalent.
+\end{remark}
 
 \begin{definition}[{\bf Closed and open}]
   If a tableau branch contains a formula
@@ -763,32 +771,47 @@ revised terminating tableau system is for finite model checking.
 \end{definition}
 
 A closed tableau is a proof of the unsatisfiability of the tableau's root formula, i.e.
-there is no model or assignment of variables in which it holds.  The question of when a tableau
-indicates satisfiability of the root formula leads us to our next definition.
+there is no model or assignment of variables in which it holds.
+Thus a tableau proof of an {\it FHTL} sentence $\phi$ is a
+closed tableau with the root $@_s \neg \phi$ for some nominal
+$s$ not occuring in $\phi$.
+
+\begin{definition}[{\bf Accessibility Formula}]
+  A formula occurence in a tableau is called an accessibility
+  formula if it is of the form $@_a F b$ or $@_a P b$
+  and is the (first) conclusion of an application of the
+  rule $F$ or $P$ respectively.
+\end{definition}
 
 \begin{definition}[{\bf Quasi-subformula}]
   A formula $\phi$ is a {\it quasi-subformula } of a
   formula $\psi$ if one of the the following is the case:
   \begin{enumerate}
   \item
-    $\phi$ is a subformula of $\psi$ modulo
-     renaming of free variables and substitution
-    of free variables in $\phi$ for grounded terms.
+    $\phi$ is a subformula of $\psi$ modulo substitution
+    of free variables in $\phi$ for parameters, and full
+    or partial substitution of a term with an equivalent term.
   \item
     $\phi$ is of the form $\neg \chi$ where $\chi$
-    is a subformula of $\psi$ modulo renaming
-    of free variables in $\chi$ for grounded terms.
+    is a subformula of $\psi$ modulo substitution of free
+    variables in $\chi$ for parameters,  and full
+    or partial substitution of a term with an equivalent term.
   \end{enumerate}
-  Altering the definition to allow grounded terms being substituted
-  for free variables ensures compatibility of the following proofs
-  with the quantifier and term rules.  We say a formula $@_s \phi$
+  Altering the definition to allow parameters being substituted
+  for free variables, and full or partial substitution of any term with an
+  equivalent term ensures compatibility of the following proofs
+  with the quantifier rules, term rules, and equality rules.  We say a formula $@_s \phi$
   on a {\it FHTL} tableau branch $\Theta$ is a {\it root subformula}
   if $\phi$ is a quasi subformula of the root formula of the tableau.  
 \end{definition}
 
+\begin{remark}
+  If $@_s \phi$ occurs on a branch $\Theta$ we may write $@_s \phi \in \Theta$.
+\end{remark}
 
 
-\begin{lemma}[{\bf Subformula Property}]
+
+\begin{lemma}[{\bf Root Subformula Property}]
   \label{subformula}
   If a formula $@_s \phi$ occurs in a {\it FHTL} tableau where
   $\phi$ is not of the form $a$, $F a$, or $P a$ for $a$ a nominal,
@@ -799,7 +822,10 @@ indicates satisfiability of the root formula leads us to our next definition.
 \end{lemma}
 
 \begin{proof}
-  This is verified by checking the tableau rules.
+  This is verified by checking the tableau rules with
+  attention to the fact that if the conclusion of a rule is
+  of the form $@_s \neg \psi$ then its premise is of the
+  form $@_s \neg \phi$. 
   \iffalse
   We observe the propositional, quantifier, and $@$ rules, along with
   {\bf (:fix 1)}, {\bf (:fix 2)}, and {\bf (:fix 4)} can only take
@@ -840,7 +866,23 @@ indicates satisfiability of the root formula leads us to our next definition.
 \end{definition}
 
 For instance, the occurence of a nominal $c$ is equational in the formula
-$@_a c \lor (\exists x) \psi$ but not in the formula $@_c (\exists x) \psi$.
+$@_a (c \lor (\exists x) \psi)$ but not in the formula $@_c (\exists x) \psi$.
+
+\begin{definition}[$N_{\Theta}$]
+  The set of nominals which occur on a branch $\Theta$
+  is written $N_{\Theta}$
+\end{definition}
+
+
+\begin{definition}[$\sim_{\Theta}$]
+  Where $\Theta$ is a {\it FHTL} tableau branch, 
+  define a binary relation $\sim_{\Theta}$
+  on $N_{\Theta}$ by $a \sim_{\Theta} b$ if and only if
+  $@_a b$ occurs on $\Theta$.
+  Let $\sim_{\Theta}^*$ be reflexive, transitive,
+  and symmetric closure of $\sim_{\Theta}$.
+\end{definition}
+
 
 \begin{theorem}
   \label{nomeq}
@@ -877,11 +919,6 @@ $@_a c \lor (\exists x) \psi$ but not in the formula $@_c (\exists x) \psi$.
   tableau rules, in some cases making use of \ref{subformula}.
 \end{proof}
 
-\begin{definition}[$N_{\Theta}$]
-  The set of nominals which occur on $\Theta$
-  is written $N_{\Theta}$
-\end{definition}
-
 
 \begin{definition}[$\subseteq_{\Theta}$]
   \label{included}
@@ -893,15 +930,6 @@ $@_a c \lor (\exists x) \psi$ but not in the formula $@_c (\exists x) \psi$.
   and the first occurence of $b$ on $\Theta$ is
   before the first occurence of $a$ on $\Theta$, then
   we write $a \subseteq_{\Theta} b$.
-\end{definition}
-
-\begin{definition}[$\sim_{\Theta}$]
-  Where $\Theta$ is a {\it FHTL} tableau branch, 
-  define a binary relation $\sim_{\Theta}$
-  on $N_{\Theta}$ by $a \sim_{\Theta} b$ if and only if
-  $@_a b$ occurs on $\Theta$.
-  Let $\sim_{\Theta}^*$ be reflexive, transitive,
-  and symmetric closure of $\sim_{\Theta}$.
 \end{definition}
 
 \begin{definition}[$W, \approx$]
@@ -955,6 +983,16 @@ defined by $\overline{R} [a] [c]$ if and only if $R a c$.
 $(W, \overline{R})$ are a modal frame, the first step
 towards constructing a model
 of an open tableau branch $\Theta$.
+
+\subsection{First-Order Components for Completeness}
+
+Completeness for a tableau system is demonstrated by
+giving a method for constructing a model for an open
+branch such that it satisfies every formula on the branch.
+Taking our cue from \citet{hansen2007tableau} and making
+accomodations for the tableau rules and and structure we adapted
+from \citet{bolander}, we construct the first-order components of
+our model.
 Here we define the analogues of
 $D_{[w]}, I_{[w]}$ for $[w] \in W/_{\approx}$ and $I_{\textit{nom}}$.
 To start we let $\mathcal{D}$ be set defined by:
@@ -978,8 +1016,9 @@ And naturally for interpretation of nominals, for $w \in W$ define $I_{\textit{n
 Before finally demonstrating that this model $\mathfrak{M}$ realizes every formula on
 the tableau branch from which it was constructed we need the following lemma.
 \begin{lemma}
-  If $t$ is a term of the extended language that contains no variables and $i$
-  is a nominal then we have $\llbracket t \rrbracket_{[i]}^{\mathfrak{M},g} = \overline{i:t}$
+  \label{terms}
+  If $t$ is a closed term of the extended language and $i$
+  is a nominal then we have $I_{[i]}( t) = \overline{i:t}$
   for all variable assignments $g$ in our model $\mathfrak{M}$.    
 \end{lemma}
 
@@ -987,19 +1026,22 @@ the tableau branch from which it was constructed we need the following lemma.
   The proof is by induction on the construction of $t$.
   By our assumption $t$ cannot a first-order variable,
   and if $t$ is a constant or a parameter then 
-  $$\llbracket t \rrbracket_{[i]}^{\mathfrak{M},g} = \llbracket t \rrbracket_{[i]}^{\mathfrak{M}} I_{[i]}(t) = \overline{i : t}$$
+  $$ I_{[i]}(t) = \overline{i : t}$$
   by definition.
   Suppose alternatively $t$ is of the form $u: s$
   for $u \in W$, since $t$ contains no variables
   neither does $s$ and consequently:
-  $$\llbracket u:s \rrbracket_{[i]}^{\mathfrak{M},g} = \llbracket s \rrbracket_{[u]}^{\mathfrak{M},g} \stackrel{*}{=} \overline{u : s} \stackrel{\textbf{(:3)}}{=}  \overline{i : u : s}$$
+  $$I_{[i]}( u:s) = I_{[u]}(s) \stackrel{*}{=} \overline{u : s} \stackrel{\textbf{(:3)}}{=}  \overline{i : u : s}$$
   Where $*$ follows from the inductive hypothesis
   and {\bf (:3)} from {\bf (:3)}.
   Similarly for the case involving functional symbols. 
 \end{proof}
 
+Lemma \ref{terms} is made use of in the
+cases of formulae which openly depend on terms in the completeness proof.
 
-\begin{lemma}
+
+\begin{theorem}[{\bf Completeness of the {\it FHTL} Tableau Method }]
   Assuming the branch $\Theta$ is open,
   for any formula $@_a \phi$
   which contains only nominals from $W$,
@@ -1009,7 +1051,7 @@ the tableau branch from which it was constructed we need the following lemma.
     &@_a \phi \in \Theta  &&  \Longrightarrow \mathfrak{M}, [a] \vDash_g \phi \text{ for some (all) variable assignments }g\\
     &@_a \neg \phi \in \Theta  &&  \Longrightarrow \mathfrak{M}, [a] \not \vDash_g \phi \text{ for some (all) variable assignments }g\\
   \end{alignat*}
-\end{lemma}
+\end{theorem}
 
 \begin{proof}
   This is demonstrated by induction on the structure of the formula.
@@ -1083,7 +1125,7 @@ the tableau branch from which it was constructed we need the following lemma.
     of $W$ and $\approx$ we have $\overline{R} [a] [d]$.   
   \end{itemize}
 
-  Assume $@_a \neg F \psi \in \Theta$, we need to show
+  Now assume $@_a \neg F \psi \in \Theta$, we need to show
   $\mathfrak{M}, [a] \not \vDash_g F \psi$ does not hold
   for any variable assignment $g$, i.e. for any $[c] \in W /_{\approx}$
   where $\overline{R} [a] [c]$ that $\mathfrak{M}, [c] \not \vDash_g \psi$
@@ -1106,7 +1148,7 @@ the tableau branch from which it was constructed we need the following lemma.
 
 
 \section{{\it FHTL} Model Checking with Finite Tableaux}
-For our task of AMR inference, we are not concered with the determining the general satisfiability or
+For our task of AMR inference, we are not always concered with the determining the general satisfiability or
 validity of an AMR formula translated into {\it FHTL}, but
 rather whether it holds in a model consistent with
 an established set of {\it FTHL} translations of AMR sentences.
@@ -1115,7 +1157,7 @@ number of AMR sentences only a finite number of times (nominals),
 entities (terms of the extended language),
 and relationships between entities (function symbols and relation symbols)
 can be referenced. 
-In particular, we have a case of a local model-checking problem
+In particular, we have an instance of a local model-checking problem
 where given formula $\phi$, a finite {\it FHTL} model structure $\mathfrak{M}$, a time $t$
 in $\mathfrak{M}$, and a variable assignment $g$, we need to determine
 whether $\mathfrak{M}, t \vDash_g \phi$ \citep{muller1999model}.  
@@ -1133,7 +1175,8 @@ and makes use of the idea of quantifier depth from \citet{fitting-tab}.
 \subsection{Restricted rules}
 
 \begin{figure*}[!h]
-  \begin{adjustbox}{varwidth=\linewidth,scale=1.0}
+  
+  \begin{adjustbox}{varwidth=\linewidth,scale=0.7}
     %% \begin{framed}
     \centering
     
@@ -1221,6 +1264,17 @@ and makes use of the idea of quantifier depth from \citet{fitting-tab}.
 \end{adjustbox}
 \end{figure*}
 
+\begin{definition}[{\bf Saturation}]
+  A tableau branch is {\it saturated}
+  if there are no rules that can be applied to the branch in a way that
+  satisfies their constraints or that avoid
+  adding duplicate formulae to the branch.
+  If every branch of the tableau
+  is saturated we say the tableau is saturated.
+\end{definition}
+
+
+
 We will show later these new restrictions on these rules
 ensures that eventually any branch will be saturated,
 since the amount of times any of the term rules can be applied
@@ -1238,7 +1292,7 @@ where $Q$ is a positive natural number:
       \centering
       \begin{prooftree}
         \AxiomC{$@_s \neg (\exists x) \phi$}
-        \RightLabel{\bf ($\neg \exists$)\footnote{$p$ is any parameter and the premise can produce only $Q$ distinct conclusions.}}
+        \RightLabel{\bf ($\neg \exists$)\footnote{$p$ is any parameter on the branch and the premise can produce only $Q$ distinct conclusions.}}
         \UnaryInfC{$@_s \neg \phi[s:p / x]$} 
       \end{prooftree}
     \end{mdframed}
@@ -1262,15 +1316,6 @@ where $Q$ is a positive natural number:
 \subsection{Systematic tableau construction}
 
 
-\begin{definition}[{\bf Saturation}]
-  A tableau branch is {\it saturated}
-  if there are no rules can be applied to the branch in a way that
-  satisfies their constraints or that avoid
-  adding duplicate formulae to the branch.
-  If every branch of the tableau
-  is saturated we say the tableau is saturated.
-\end{definition}
-
 \begin{definition}[$\prec_{\Theta}$]
   \label{prec}
   Where $\Theta$ is a tableau branch in
@@ -1280,8 +1325,6 @@ where $Q$ is a positive natural number:
   to a premise $@_s \phi$, we
   say $a$ is {\it generated} by $s$
   on $\Theta$ and write $s \prec_{\Theta} a$.
-  We write $\prec_{\Theta}^*$ to denote the reflexive and transitive
-  closure of $\prec_{\Theta}$.  
 \end{definition}
 
 \begin{lemma}
@@ -1304,10 +1347,10 @@ where $Q$ is a positive natural number:
     $\prec_{\Theta}$ has a least element and each tree in $G$ is wellfounded.
   \item $G$ {\it is a disjoint union of a set of trees}
 
-    This follows from well-foundedness and the
+    This follows from well-foundedness, the
     fact every nominal in $N_{\Theta}$
     can be generated by at most one other nominal, 
-    and every nominal in $N_{\Theta}$
+    and that every nominal in $N_{\Theta}$
     must have one of the finitely many nominals in the
     root formula as an ancestor.
   \item{\it The set of trees is finite}
@@ -1347,8 +1390,8 @@ where $Q$ is a positive natural number:
 \begin{remark}
   In the restricted rules, a term can have no nominal among its
   prefixes more than once.  Consequently where $n$ is the number of
-  nominals on the branch and $k$ is the number of  prefix strings a term can have
-  ($k \leq n$) the number of possible prefixed versions of a term are
+  nominals on the branch and $k (\leq n)$ is the length of a term's prefix string,
+  the number of possible prefixed versions of a term are
   $$\sum_{k = 1}^n \frac{n!}{(n - k)!}$$
 \end{remark}
 
@@ -1371,8 +1414,8 @@ where $Q$ is a positive natural number:
   there are multiple partial substitutions for any formula,
   there are only finitely many partial substitutions possible.
   For {\bf (ref)} and the term rules, we have at worst cases like {\bf (:3)}
-  and {\bf (ref)} which depend on the number of nominals and terms on the branch
-  for the number of possible applications before a redunant application.
+  and {\bf (ref)} which depend on both the number of nominals and the number of terms on the branch
+  for the number of possible applications before saturation.
   There are only finitely many nominals and terms on the branch at any given time,
   and by our remark, there are finitely many possible prefix strings for a given term.
   Thus there are only finitely many possible applications of {\bf (ref)} to the branch.
@@ -1405,7 +1448,7 @@ where $Q$ is a positive natural number:
 \fi
 
 \begin{definition}[{\it Tableau construction algorithm}]
-  Let $@a_a \phi$ be the formula whose validity (or failing that, local satisfiability)
+  Let $@a_a \phi$ be the formula whose local satisfiability (possibly validity)
   we are deciding.
   We inductively define a sequence of finite tableaux
   $$\mathcal{T}_0, \mathcal{T}_1, \mathcal{T}_2, \ldots$$
@@ -1414,13 +1457,13 @@ where $Q$ is a positive natural number:
   tableau consisting of the formula $@_a \neg \phi$.
   Assuming the finite tableau $\mathcal{T}_n$ is defined,
   apply, where possible according to its restrictions,
-  an arbitrary model checking {\it FHTL} tableau rule with
+  an arbitrary model checking tableau rule with
   the following restrictions.
   \begin{itemize}
   \item {\bf Saturation}
 
-    Do not apply a rule to a premise if the resulting
-    conclusion is a formula already on the branch.
+    Do not apply a rule to a premise if all possible
+    conclusions already occur on the branch.
   \item {\bf (Loop check)}
 
     The rule {\bf ($F$)} is not applied to a formula occurence $@_a F \phi$
@@ -1436,11 +1479,11 @@ from extending the tableau indefinitely with redundant
 formulae and forces the algorithm to use every applicable
 rule the maximum possible amount of times,
 i.e. this algorithm is ``fair'' \citep{fitting-modal}.
-The loop check condition is in the same spirit,
+The loop check condition is designed in the same spirit,
 preventing the algorithm from introducing nominals
 to the branch which would be redundant in their sharing
 identical information with some ancestor nominal already on the branch.
-Now we can demonstrate the algorithm always terminates.  
+Now we demonstrate the algorithm always terminates.  
 
 \begin{theorem}
   \label{term}
@@ -1449,7 +1492,7 @@ Now we can demonstrate the algorithm always terminates.
 
 \begin{proof}
   Suppose by contradiction the algorithm does not terminate.
-  Then the tableau is infinite branch $\Theta$.
+  Then the tableau is an infinite branch $\Theta$.
   By lemma \ref{wellfounded} the graph $(N_{\Theta}, \prec_{\Theta})$
   is a disjoint union of a finite set of finitely branching trees.
   Thus it has some inifinite branch
@@ -1462,10 +1505,9 @@ Now we can demonstrate the algorithm always terminates.
   but not including the first formula where the nominal $a_{i + 1}$
   occurs.  Thus one of {\bf ($F$)} or {\bf ($P$)} was applied
   to a formula in $\Theta_i$ which generated $a_{i + 1}$.
-  Let $\Gamma_i$ be the set of all $@_{a_i} \phi \in \Theta_i$
-  for $\phi$ a root subformula and
-  let $\Delta_i$ be the set of all $@_{a_i} \neg \phi \in \Theta_i$
-  for $\phi$ a root subformula.
+  Let $\Gamma_i$ be the set of all formulae which contain any root subformulae $\phi$ such that $@_{a_i} \phi \in \Theta_i$
+  and
+  let $\Delta_i$ be the set of all formulae which contain any root subformulae $\phi$ such that  $@_{a_i} \neg \phi \in \Theta_i$.
   Since there can only be finitely many sets of root subformulae,
   there are nominals in the infinite chain $a_j, a_k$ where
   $j < k$ and $\Gamma_j = \Gamma_k$ and $\Delta_j = \Delta_k$.
@@ -1491,19 +1533,19 @@ Now we can demonstrate the algorithm always terminates.
 \subsection{Node Annotation}
 
 The approach involves annotating each node of an open
-branch with the variable assignments in the model which witness the
-formula at the node, building inductively from the terminal nodes.
+branch with the variable assignments in the model which satisfy the
+sentence at the node, building inductively from the terminal nodes.
 If the root formula of the tableau with at least one open branch
 can be annotated with non-empty set of
 variable assignments, then it is satisfiable in the model.
-If a tableau is closed then the root formula $@_s \phi$ is unsatisfiable.
+If a tableau is closed then the root sentence $@_s \phi$ is unsatisfiable.
 As a result if the root formula is of the form $@_s \neg \psi$
 then this constitutes a proof of the validity of $@_s \psi$ by contradiction.
 We now view each node in the tableau graph as a pair $( @_s \phi , \mathcal{V} )$, 
 of the formula at the node and the set $\mathcal{V}$ of variable assignments
 in our model $\mathfrak{M}$ which
 witness the formula.  We define an annotation function $\textit{ann}(@_s \phi) = \mathcal{V}$  
-beginning with terminal nodes:
+generally as:
 $$\textit{ann}(@_s \phi) = \{g \mid \mathfrak{M}, I_{\textit{nom}} (s) \vDash_g \phi\}$$
 If we have a branch that we know to be closed from the tableau construction
 (or discover it is closed during model checking as we will see) and $@_t \psi$
@@ -1527,14 +1569,14 @@ conclusions and their premises.
   and {\bf (:func)}, since they only involve closed terms,
   and are verified by checking definitions in all other cases.
 \item {\bf @ rules:}
-  For $P / F--bridge$, and $P / F--trans$ all variable assignments
+  For {\bf ($P / F$--bridge)}, and {\bf ($P / F$--trans)} all variable assignments
   trivially satisfy both the conclusions and premises.
   For {\bf (nom)}, since by the first premise
   $$I_{\textit{nom}}(i) = I_{\textit{nom}}(j)$$
-  the variable assignments that witness the conclusion
-  witness the second premise
+  the variable assignments that satisfy the conclusion
+  satisfy the second premise
   (the first premise being a nominal equivalence
-  is trivally witnessed by all variable assignments).
+  is trivally satisfied by all variable assignments).
   That the premise and conclusion of both {\bf ($@$)} and {\bf ($\neg @$)}
   are satisfied by the same variable assignments are verified
   by checking their satisfiability definitions.
@@ -1542,10 +1584,10 @@ conclusions and their premises.
   The only rule to check is {\bf (sub)},
   from which it follows immediately that the
   second premise is satisfied by
-  the variable assignments which satisfy the
-  conclusion and satisfy the constraint
+  the variable assignments which satisfy both the
+  conclusion and the constraint
   given by the first premise,
-  without loss of generality that
+  namely that
   $\overline{j:t} = \overline{k:s}$.  
 \item {\bf Quantifier rules:}
   For {\bf ($\exists$)}, we let $C$ be
@@ -1555,7 +1597,7 @@ conclusions and their premises.
   we see from the semantics of $\exists$ that $P$, the set of variable assignments which satisfies
   the premise can be defined as:
   $$P = \{ g \mid g \in C \text{ such that there is an }x\text{-variant } g' \text{ of }g  \text{ at } s \text{ where } \mathfrak{M},s \vDash_{g'} \phi \}$$
-  Similarly For {\bf ($\neg \exists$)}
+  Similarly for {\bf ($\neg \exists$)}
   let $C$ be
   the set of variable assignments which satisfy
   the conclusion.  Without loss of generality,
@@ -1596,19 +1638,19 @@ conclusions and their premises.
 
 \begin{proof}
 
-  We give an inductive argument, where the base cases are formulae without free variables.
+  We give an inductive argument, where the base cases are closed terms of the extended language.
   First we consider closed terms.  Since any model checking tableau
   is finite, it has only
   finitely many function symbols, constants, and parameters.
   Since parameters are not free variables but stand in for them,
-  we will deal with them as follows:  Recalling every parameter is
+  we will handle them as follows:  Recalling every parameter is
   of the form $j: \ldots :i:p$ with a string of at least one distinct prefixes
-  (without loss of generality letting $i$ be the immediate prefix):
+  ($i$ is called the {\it immediate prefix} in the example):
   \begin{enumerate}
   \item
     Proceeding with annotation as normal,
     ignore any parameter until reaching the lowest equality or relation statement where it
-    appear in the conclusion, then solve for the values in $D_{I_{\textit{nom}}(i)}$
+    appears in the conclusion, then solve for the values in $D_{I_{\textit{nom}}(i)}$
     for which the parameters would satisfy the formula.
     Clearly this process terminates since for any nominal $i$,
     $D_{I_{\textit{nom}}(i)}$ is finite.

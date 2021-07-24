@@ -1009,7 +1009,7 @@ the tableau branch from which it was constructed we need the following lemma.
 \end{proof}
 
 
-
+\section{{\it FHTL} Model Checking with Finite Tableaux}
 For our task of AMR inference, we are not concered with the determining the general satisfiability or
 validity of an AMR formula translated into {\it FHTL}, but
 rather whether it holds in a model consistent with
@@ -1799,7 +1799,10 @@ where $c$ is a rigid designator (for us a constant) denoting
 (for us a unary function symbol) denoting {\it chief architect}.
 Intuitively $E$ is existential quantification over nominals
 (and $\neg E \neg \equiv A$ is universal quantification over nominals),
-i.e. $@_s E \phi$ if there is some nominal $j$ such that $@_j \phi$.  
+i.e. $@_s E \phi$ if there is some nominal $j$ such that $@_j \phi$.
+Quantification over nominals gives us an entry into handling aspect
+in addition to tense.  For instance, again using the  
+
 Main points, at the cost of undecidability with adding $\downarrow$
 some additional things can be done,
 and at the cost of the integration of generalized quantifiers you can

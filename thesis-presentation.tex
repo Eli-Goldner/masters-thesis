@@ -1,0 +1,105 @@
+\documentclass[usenames,dvipsnames,pdf]{beamer}
+
+\usepackage{textcomp}
+\usepackage{pifont}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+\usepackage{amstext}
+\usepackage{amsmath}
+\usepackage{fancyhdr}
+\usepackage{amsthm}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{multicol}
+% \usepackage{tikz}
+\usepackage{mathtools}
+\usepackage{scalerel,stackengine}
+\usepackage[all]{xy}
+% \usetikzlibrary{automata, positioning, shapes, arrows}
+% \usepackage[dvipsnames]{xcolor}
+
+\usetheme{CambridgeUS}
+
+%\useoutertheme{miniframes} % Alternatively: miniframes, infolines, split
+%\useinnertheme{circles}
+
+\definecolor{UBCblue}{rgb}{0.04706, 0.13725, 0.26667} % UBC Blue (primary)
+
+% \usecolortheme[named=UBCblue]{structure}
+% \usecolortheme[named=RoyalBlue]{structure}
+\usecolortheme{spruce}
+% \usecolortheme{beaver}
+%\setbeamercolor{spruce}{fg=cyan!90!black}
+
+\setbeamertemplate{itemize item}{\color{teal}$\blacktriangleright$}
+\setbeamertemplate{itemize subitem}{\color{teal}$\blacktriangleright$}
+
+
+% \newcommand{\newState}[4]{\node[state,#3](#1)[#4]{#2};}
+% \newcommand{\newTransition}[4]{\path[->] (#1) edge [#4] node {#3} (#2);} 
+
+\def\apeqA{\SavedStyle\sim}
+\def\apeq{\setstackgap{L}{\dimexpr.5pt+1.5\LMpt}\ensurestackMath{%
+  \ThisStyle{\mathrel{\Centerstack{{\apeqA} {\apeqA}}}}}}
+
+\def\dis{\displaystyle}
+
+\def\QQ{\mathbb Q}
+\def\ZZ{\mathbb Z}
+\def\RR{\mathbb R}
+\def\CC{\mathbb C}
+\def\FF{\mathbb F}
+\def\NN{\mathbb N}
+\def\AA{\mathbb A}
+\def\II{\mathbb I}
+
+\def\Cc{\mathcal C}
+\def\Dd{\mathcal D}
+\def\Pp{\mathcal P}
+
+\def\Af{\mathfrak A}
+\def\Bf{\mathfrak B}
+\def\Cf{\mathfrak C}
+\def\Df{\mathfrak D}
+\def\Ef{\mathfrak E}
+\def\Ff{\mathfrak F}
+\def\Gf{\mathfrak G}
+\def\Hf{\mathfrak H}
+  
+% define 2x2 matrix:
+\newcommand\twodmatrix[4]{ \ensuremath{ \left( 
+	\begin{array}{cc}
+		#1 & #2  \\
+		#3 & #4 
+	\end{array}  
+	\right) } }
+  
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\mode<presentation>{}
+%% preamble
+\title{Formalizing AMR Inference via Hybrid Logic Tableaux}
+\subtitle{CL Masters Thesis Defense}
+\author{Eli Goldner}
+\begin{document}
+	%% title frame
+	\begin{frame}
+		\titlepage
+	\end{frame}
+
+
+        \section{Overview}
+
+        
+        
+        \section{AMR Extensions}
+
+        \section{{\it FHTL}}
+
+        \section{Tableaux}
+
+        \section{AMR to {\it FHTL}}
+
+        \section{Xonclusion}
+      \end{document}

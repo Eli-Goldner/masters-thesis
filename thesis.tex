@@ -286,6 +286,18 @@ consistent with it, usually possible states of affairs,
 in particular we will use them to describe states of affairs at
 different points in time.  
 
+\par
+For propositional hybrid logic,
+we have a set of propositional symbols
+$\textsf{PROP} = \{ \textsf{p}, \textsf{q}, \textsf{r}, \ldots \}$,
+modalities $\textsf{MOD} = \{ \textsf{m}, \textsf{m'}, \textsf{m''}, \ldots \}$,
+and {\it nominals} $\textsf{NOM} = \{ i, j, k, \ldots \}$,
+all nonempty and disjoint from each other.
+Nominals name states of a model of the logic, usually these states are possible worlds.
+The basic hybrid language over \textsf{PROP}, \textsf{MOD}, and \textsf{NOM}
+is given by the grammar:
+$$\phi ::= i \mid \textsf{p} \mid top \mid \bot \mid \neg \psi \mid \psi_1 \land \psi_2 \mid \psi_1 \lor \psi_2 \mid \psi_1 \to \psi_2 \mid \langle \textsc{M} \rangle \psi  \mid [\textsc{M}] \psi \mid @_i \phi$$
+
 \subsubsection{First-order Hybrid Logic}
 
 First-order modal logic (or quantified modal logic / {\it QML}) extends first-order predicate logic

@@ -289,15 +289,27 @@ different points in time.
 \par
 For propositional hybrid logic,
 we have a set of propositional symbols
-$\textsf{PROP} = \{ \textsf{p}, \textsf{q}, \textsf{r}, \ldots \}$,
-modalities $\textsf{MOD} = \{ \textsf{m}, \textsf{m'}, \textsf{m''}, \ldots \}$,
+$\textsf{PROP} = \{ p, q, r, \ldots \}$,
+modalities $\textsf{MOD} = \{ m, m', m'', \ldots \}$,
 and {\it nominals} $\textsf{NOM} = \{ i, j, k, \ldots \}$,
 all nonempty and disjoint from each other.
 Nominals name states of a model of the logic, usually these states are possible worlds.
 The basic hybrid language over \textsf{PROP}, \textsf{MOD}, and \textsf{NOM}
 is given by the grammar:
-$$\phi ::= i \mid \textsf{p} \mid top \mid \bot \mid \neg \psi \mid \psi_1 \land \psi_2 \mid \psi_1 \lor \psi_2 \mid \psi_1 \to \psi_2 \mid \langle \textsc{M} \rangle \psi  \mid [\textsc{M}] \psi \mid @_i \phi$$
+$$\phi ::= i \mid p \mid \top \mid \bot \mid \neg \psi \mid \psi_1 \land \psi_2 \mid \psi_1 \lor \psi_2 \mid \psi_1 \to \psi_2 \mid \langle \textsc{M} \rangle \psi  \mid [\textsc{M}] \psi \mid @_i \phi$$
+Where we have only one modality $m$ we write $\lozenge$ and $\Box$
+for $\langle m \rangle$ and $[m]$.
+For instance, where the propositional symbol $r$ denotes {\it Rabia owns a car},
+the following
+are (equivalent) theorems of hybrid logic:
+\begin{itemize}
+\item {\it It is not possible for Rabia to own a car and for Rabia not to own a car.}
 
+  $$\neg \lozenge (r \land \neg r)$$
+\item {\it Necessarily, Rabia owns a car or does not own a car.}
+
+  $$\Box(r \lor \neg r)$$
+\end{itemize}
 \subsubsection{First-order Hybrid Logic}
 
 First-order modal logic (or quantified modal logic / {\it QML}) extends first-order predicate logic
@@ -326,8 +338,9 @@ As can be inferred from the name,
 The roots of hyrbid logic, and hybrid tense logic in particular,
 range back to the philosopher Arthur N. Prior's work in the 1960s \citep{prior2003papers}.
 We take our treatment of basic hybrid tense logic {\it BHTL} from \citet*{blackburn2012indexical},
-which roughly can be seen as renaming $\lozenge$ and $\Box$ to $F$ and $G$ in basic hybrid logic,
-and adding their duals under the accessibility relation $P$ and $H$, sometimes written 
+which roughly can be seen as renaming $\lozenge$ and $\Box$ to $F$ and $G$ in basic hybrid logic (the modality for the future),
+and adding their duals under the accessibility relation $P$ and $H$
+(the modality for the past), sometimes written 
 $\lozenge^{-1}$ and $\Box^{-1}$
 For intuition, if we have $@_i F \phi$ for some time $i$, 
 then we have that $\phi$ holds at some time in the future from the perspective of $i$.
@@ -339,18 +352,34 @@ of {\it BHTL} notionally models time, there additional properties of $R$ to cons
 proving soundness and completeness for the language.
 This is accomplished in \citet*{blackburn2012indexical},
 but in this paper we avoid these considerations and make no
-assumptions about the model's accessibility relation. 
+assumptions about the model's accessibility relation.
+Basic hybrid tense logic can be used to model tense
+at the sentential and discourse leves.
+For the sentential level, where again $r$ denotes {\it Rabia owns a car}
+\begin{itemize}
+\item {\it That Rabia owns a car, implies that Rabia will own a car.}
 
+  $$r \to F(r)$$
+  (This is a theorem only if we make certain assumptions about time.) 
+\end{itemize}
+For the discourse level, consider the sentences
+{\it John entered the room. It was dark. He sat down.}
+We can represent them as:
+$$P(i \land \textit{john-enter-show}) \land P(j \land \textit{room-is-dark}) \land P(k \land \textit{john-sits-down}) \land @_k Pi$$
+The event of John entering the room is associated with the state $i$,
+and the room being dark is associated with the state $j$.  
+We have $@_i j$  to indicate that they occur at the same time,
+$@_k Pi$ to indicate that they happened in the past of the
+state $k$ associated with John sitting down.  
 \section{First-order Hybrid Tense Logic}
 \label{fhtl}
 Here we give a modification of Hansen's First-order Hybrid Logic which
 describes tense instead of modality while retaining {\it FHL}'s varying domain
 semantics and actualist quantification.
 \subsection{Syntax of {\it FHTL}}
-The syntax of {\it FHTL} is identical to {\it FHL} as given in \citet*{hansen2007tableau} except
-uses of $\downarrow$ as in $\downarrow w . \phi$.
-$\Box$ and $\lozenge$ are replaced by their semantic equivalents
-$F$ and $G$ and their temporal duals $P$ and $H$ are added.
+The syntax of {\it FHTL} is identical to {\it FHL} as given in \citet*{hansen2007tableau},
+except $\Box$ and $\lozenge$ are replaced by their semantic equivalents
+$F$ and $G$, and their dual temporal modalities $P$ and $H$ are added.
 The {\it FHTL} language contains the following (countably infinite) sets:
 a set of first-order
 variables \textsf{FVAR}, a

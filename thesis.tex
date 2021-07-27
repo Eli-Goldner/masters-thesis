@@ -365,7 +365,7 @@ For the sentential level, where again $r$ denotes {\it Rabia owns a car}
 For the discourse level, consider the sentences
 {\it John entered the room. It was dark. He sat down.}
 We can represent them as:
-$$P(i \land \textit{john-enter-show}) \land P(j \land \textit{room-is-dark}) \land P(k \land \textit{john-sits-down}) \land @_k Pi$$
+$$P(i \land \textit{john-enter-room}) \land P(j \land \textit{room-is-dark}) \land P(k \land \textit{john-sits-down}) \land @_k Pi$$
 The event of John entering the room is associated with the state $i$,
 and the room being dark is associated with the state $j$.  
 We have $@_i j$  to indicate that they occur at the same time,
@@ -1772,7 +1772,6 @@ is attached to the concept at the \verb|scope|'s \verb|pred| node, and integrate
 translation to achieve an interpretation in {\it FHTL} instead of first-order predicate logic.
 
 \subsection{Examples}
-\underline{Easier example:}
 \enumsentence{
   \label{computer}
   a. Every computer will be located at a desk.
@@ -1787,11 +1786,11 @@ translation to achieve an interpretation in {\it FHTL} instead of first-order pr
     \hspace*{1.0cm}:ARG0 d\\
     \hspace*{1.0cm}:ARG1 c)}
   \\
-  c. $@_{\textit{now}} \forall y [ \text{desk}(y) \to \exists[\text{computer}(x) \land F \text{be-located-at-91}(x, y)]]$
+  c. $@_{\textit{now}} (\forall y) [\text{desk}(y) \to (\exists x) [\text{computer}(x) \land F (\text{be-located-at-91}(x, y))]]$
   \\
-  d. Also acceptable $@_{\textit{now}} F \forall y [ \text{desk}(y) \to \exists[\text{computer}(x) \land  \text{be-located-at-91}(x, y)]]$
+  d. Also acceptable: \\
+  $@_{\textit{now}} F ((\forall y) [\text{desk}(y) \to (\exists x) [\text{computer}(x) \land  \text{be-located-at-91}(x, y)]])$
 }
-\underline{Harder examples:}
 \enumsentence{
   a. Carl filled out the forms and everyone will submit them tomorrow.
   \\
@@ -1816,47 +1815,11 @@ translation to achieve an interpretation in {\it FHTL} instead of first-order pr
   \\
   c. Technically correct:
   \\
-  $@_{\textit{now}} (\exists x) [\texttt{form}(x) \land P (\texttt{fill-out-03}(\texttt{Carl}, x))] \land @_{\textit{now}} (\exists x) [\texttt{form}(x) \land \forall y [\texttt{person}(y) \to F (\texttt{submit-01}(y,) x)]]$
+  $@_{\textit{now}} (\exists x) [\texttt{form}(x) \land P (\texttt{fill-out-03}(\texttt{Carl}, x))) \land @_{\textit{now}} (\exists x) [\texttt{form}(x) \land (\forall y) [\texttt{person}(y) \to F (\texttt{submit-01}(y, x))]]$
   \\
-  \iffalse
-  d. Correct wrt plurality:
-  \\
-  $@_{\textit{now}} \forall x [\texttt{form}(x) \land P (\texttt{fill-out-03}(\texttt{Carl}, x))] \land @_{\textit{now}} \forall x [\texttt{form}(x) \land \forall y [\texttt{person}(y) \to F (\texttt{submit-01}(y, x))]]$
-  \\
-  \fi
   d. Correct with regard to reentrance:
   \\
-  $@_{\textit{now}} (\exists x) [\texttt{form}(x) \land P (\texttt{fill-out-03}(\texttt{Carl}, x)) \land  \forall y [\texttt{person}(y) \to F (\texttt{submit-01}(y, x))]]$
-  \\
-}
-
-The difficulty of the following is due to requiring
-inference of absent arguments.  
-\enumsentence{
-  a. It was impossible not to notice the car.
-  \\
-  b.
-  \\
-  \small\texttt{(s / scope\\
-    \hspace*{1.0cm}:pred (p / possible-01\\
-    \hspace*{1.5cm}:ARG0 (n / notice-01  :ongoing - :complete + :time (b / before :op1 (n2 / now))\\
-    \hspace*{2.0cm}:polarity (n3 / not)\\
-    \hspace*{2.0cm}:ARG1 (c / car)\\
-    \hspace*{1.5cm}:polarity (n4 / not))\\
-    \hspace*{1.0cm}:ARG0 n4\\
-    \hspace*{1.0cm}:ARG1 p))}
-  \\
-  c. Incorrect, since \texttt{notice-01} is a two-place predicate:
-  \\
-  $@_{\textit{now}} \neg \texttt{possible-01}( (\exists x) [\texttt{car}(x) \land \neg P (\texttt{notice-01}(x))])$
-  \\
-  d. Correct:
-  \\
-  $@_{\textit{now}} \neg \texttt{possible-01} ( (\exists x) [\texttt{car}(x) \land \neg \forall y [ \texttt{person}(y) \to P (\texttt{notice-01}(x, y))]])$
-  \\
-  e. Alternative, the particular car as a constant:
-  \\
-  $@_{\textit{now}} \neg \texttt{possible-01}( \neg \forall x [ \texttt{person}(y) \to P( \texttt{notice-01}(\texttt{car}, y))]])$
+  $@_{\textit{now}} (\exists x) [\texttt{form}(x) \land P (\texttt{fill-out-03}(\texttt{Carl}, x)) \land  (\forall y) [\texttt{person}(y) \to F (\texttt{submit-01}(y, x))]]$
   \\
 }
 
@@ -1997,12 +1960,14 @@ and we do not provide them.
     \If{PropMod == \texttt{not}}{
       \Return $\lambda p . \lambda k . \neg p (k)$
     }
+    \iffalse
     \tcc{Given the new sematics of $F / \lozenge$}
     \tcc{we adopt the na{\" i}ve way of treating \texttt{possible-01}}
     \tcc{as a relation symbol.}
     \If{PropMod == \texttt{possible-01}}{
       \Return $\lambda p . \lambda k . \textsf{possible-01}( p (k))$
     }
+    \fi
   }
   \caption{Supporting definitions.}
 \end{algorithm}

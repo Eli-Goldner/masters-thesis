@@ -12,6 +12,8 @@
 \usepackage{graphicx}
 \usepackage{multicol}
 % \usepackage{tikz}
+\usepackage{bussproofs}
+\usepackage[tableaux]{prooftrees}
 \usepackage{mathtools}
 \usepackage{scalerel,stackengine}
 \usepackage[all]{xy}
@@ -37,7 +39,7 @@
 
 % \newcommand{\newState}[4]{\node[state,#3](#1)[#4]{#2};}
 % \newcommand{\newTransition}[4]{\path[->] (#1) edge [#4] node {#3} (#2);} 
-
+\renewcommand*\linenumberstyle[1]{(#1)}
 \def\apeqA{\SavedStyle\sim}
 \def\apeq{\setstackgap{L}{\dimexpr.5pt+1.5\LMpt}\ensurestackMath{%
   \ThisStyle{\mathrel{\Centerstack{{\apeqA} {\apeqA}}}}}}
@@ -99,6 +101,34 @@
 
         \section{Tableaux}
 
+        \begin{frame}{Closed Branch}
+          \begin{tableau}
+            {
+              line no sep= 2cm,
+              for tree={s sep'=10mm},
+              close with=$\bot$ %use pre-defined absurdity sign
+            }
+            [((P \land Q) \to R)
+              [\neg(P \to (Q \to R))
+                [P
+                  [\neg(Q \to R)
+                    [Q
+                      [\neg R
+                        [\neg(P \land Q)
+                          [\neg P, close]
+                          [\neg Q, close]
+                        ]
+                        [R, close
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          \end{tableau}
+        \end{frame}
+        
         \section{AMR to {\it FHTL}}
 
         \section{Xonclusion}

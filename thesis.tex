@@ -609,7 +609,7 @@ first-order variables or state variables.
       
       \begin{prooftree}
         \AxiomC{$@_s \neg (\exists x) \phi$}
-        \RightLabel{\bf ($\neg \exists$)\footnote{$p$ is any ground term or parameter which exists at $s$.}}
+        \RightLabel{\bf ($\neg \exists$)\footnote{$p$ is any parameter which exists at $s$.}}
         \UnaryInfC{$@_s \neg \phi[t / x]$} 
       \end{prooftree}
     \end{multicols}
@@ -1333,7 +1333,7 @@ where $Q$ is a positive natural number:
       \centering
       \begin{prooftree}
         \AxiomC{$@_s \neg (\exists x) \phi$}
-        \RightLabel{\bf ($\neg \exists$)\footnote{$p$ is any parameter on the branch and the premise can produce only $Q$ distinct conclusions.}}
+        \RightLabel{\bf ($\neg \exists$)\footnote{$p$ is any parameter on the branch (or any parameter in general if there are none on the branch yet), and the premise can produce only $Q$ distinct conclusions.}}
         \UnaryInfC{$@_s \neg \phi[s:p / x]$} 
       \end{prooftree}
     \end{mdframed}

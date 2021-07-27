@@ -114,14 +114,42 @@
                     ]
                   ]
                   [@_s \neg (\exists z) {[s_1 = y]}
-                    [@_s \neg {[s_1 = s_1]} , close]
+                    [@_s \neg {[s_1 = s_1]} 
+                      [@_s  {[s_1 = s_1]} , close]
+                    ]
                   ]
                 ]
               ]
             ]
           \end{tableau}
         \end{frame}
-        
+
+
+        \begin{frame}{Model Checking Example}
+          \begin{itemize}
+          \item {\it Every computer will be located at a desk.}
+          \item AMR with quantification and tense:
+
+            \small\texttt{(s / scope\\
+              \hspace*{1.0cm}:pred (b / be-located-at-91 :ongoing -
+              \hspace*{6.155cm}:complete +
+              \hspace*{6.155cm}:time (a / after
+              \hspace*{8.0cm}:op1 (n / now))\\
+              \hspace*{1.5cm}:ARG0 (c / computer)\\
+              \hspace*{1.5cm}:ARG1 (d / desk\\
+              \hspace*{2.0cm}:quant (e / every)))\\
+              \hspace*{1.0cm}:ARG0 d\\
+              \hspace*{1.0cm}:ARG1 c)}
+            
+          \item {\it FHTL} translation:
+            
+            $@_{\textit{now}} (\forall y) [\text{desk}(y) \to (\exists x) [\text{computer}(x) \land F (\text{be-located-at-91}(x, y))]]$
+          \end{itemize}         
+        \end{frame}
+
+        \begin{frame}{Model Checking Example}
+          Let's define a really really small model $(T, \mathcal{R}, (D_t)_{_{t \in T}}, I_{nom}, (I_t)_{t \in T})$:
+        \end{frame}
         \section{AMR to {\it FHTL}}
 
         \section{Conclusion}

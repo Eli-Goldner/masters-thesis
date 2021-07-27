@@ -101,27 +101,20 @@
 
         \section{Tableaux}
 
-        \begin{frame}{Closed Branch}
+        \begin{frame}{{\it FHTL} Tableau Example} 
           \begin{tableau}
-            {
-              line no sep= 2cm,
-              for tree={s sep'=10mm},
-              close with=$\bot$ %use pre-defined absurdity sign
-            }
-            [((P \land Q) \to R)
-              [\neg(P \to (Q \to R))
-                [P
-                  [\neg(Q \to R)
-                    [Q
-                      [\neg R
-                        [\neg(P \land Q)
-                          [\neg P, close]
-                          [\neg Q, close]
-                        ]
-                        [R, close
-                        ]
+            [{[f(a,b) = f(b,a)]}
+              [@_s (\exists x) {[P((\exists y) {[f(x,y) = f(y,x)]})  \lor \neg (\exists z) {[x = z]}]}
+                [@_s P((\exists y) {[f( s_1,y) = f(y, s_1)]})  \lor \neg (\exists z) {[s_1 = z]}
+                  [@_s P( (\exists y) {[ f( s_1,y) = f(y, s_1) ]} )
+                    [@_s P t
+                      [@_t (\exists y) {[ f( s_1,y) = f(y, s_1) ]}
+                        [\ldots]
                       ]
                     ]
+                  ]
+                  [@_s \neg (\exists z) {[s_1 = y]}
+                    [@_s \neg {[s_1 = s_1]} , close]
                   ]
                 ]
               ]
@@ -131,5 +124,5 @@
         
         \section{AMR to {\it FHTL}}
 
-        \section{Xonclusion}
+        \section{Conclusion}
       \end{document}

@@ -296,7 +296,7 @@ all nonempty and disjoint from each other.
 Nominals name states of a model of the logic, usually these states are possible worlds.
 The basic hybrid language over \textsf{PROP}, \textsf{MOD}, and \textsf{NOM}
 is given by the grammar:
-$$\phi ::= i \mid p \mid \top \mid \bot \mid \neg \psi \mid \psi_1 \land \psi_2 \mid \psi_1 \lor \psi_2 \mid \psi_1 \to \psi_2 \mid \langle \textsc{M} \rangle \psi  \mid [\textsc{M}] \psi \mid @_i \phi$$
+$$\phi ::= i \mid p \mid \neg \psi \mid (\psi_1 \land \psi_2) \mid (\psi_1 \lor \psi_2) \mid (\psi_1 \to \psi_2) \mid \langle \textsc{M} \rangle \psi  \mid [\textsc{M}] \psi \mid @_i \phi$$
 Where we have only one modality $m$ we write $\lozenge$ and $\Box$
 for $\langle m \rangle$ and $[m]$.
 For instance, where the propositional symbol $r$ denotes {\it Rabia owns a car},
@@ -362,9 +362,9 @@ Basic hybrid tense logic can be used to model tense
 at the sentential and discourse leves.
 For the sentential level, where again $r$ denotes {\it Rabia owns a car}
 \begin{itemize}
-\item {\it That Rabia owns a car, implies that Rabia will own a car.}
+\item {\it That Rabia owns a car now, implies that Rabia will own a car.}
 
-  $$r \to F(r)$$
+  $$@_n (r \to F(r))$$
   (This is a theorem only if we make certain assumptions about time.) 
 \end{itemize}
 For the discourse level, consider the sentences

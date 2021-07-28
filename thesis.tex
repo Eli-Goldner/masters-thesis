@@ -166,7 +166,7 @@
 \section{Introduction}
 
 
-AMR's reductive approach to semantic representation enjoys a
+AMR's reductionist approach to semantic representation enjoys a
 duly earned popularity in the increasingly data driven environment
 of post-2000s NLP and CL.  Its ablation of fine-grained semantic
 and syntactic features makes AMR a highly competitive choice
@@ -312,7 +312,7 @@ are (equivalent) theorems of hybrid logic:
 \end{itemize}
 We can use nominals to add the notion of time to these sentences, for instance where
 $i$ denotes the world at 2015 and $j$ denotes the world at 2021, if we want
-to indicate that rabia owned a car in 2015, and that whatever was the case
+to indicate that Rabia owned a car in 2015, and that whatever was the case
 at 2015 is possible in 2021, we can write:
 $@_i r \land @_j \lozenge i$
 \subsubsection{First-order Hybrid Logic}
@@ -370,7 +370,7 @@ For the sentential level, where again $r$ denotes {\it Rabia owns a car}
 For the discourse level, consider the sentences
 {\it John entered the room. It was dark. He sat down.}
 We can represent them as:
-$$P(i \land \textit{john-enter-room}) \land P(j \land \textit{room-is-dark}) \land P(k \land \textit{john-sits-down}) \land @_k Pi$$
+$$P(i \land \textit{john-enter-room}) \land P(j \land \textit{room-is-dark}) \land @_i j \land P(k \land \textit{john-sits-down}) \land @_k Pi$$
 The event of John entering the room is associated with the state $i$,
 and the room being dark is associated with the state $j$.  
 We have $@_i j$  to indicate that they occur at the same time,

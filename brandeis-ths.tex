@@ -1,0 +1,2118 @@
+% 
+% File acl2019.tex
+%
+%% Based on the style files for ACL 2018, NAACL 2018/19, which were
+%% Based on the style files for ACL-2015, with some improvements
+%%  taken from the NAACL-2016 style
+%% Based on the style files for ACL-2014, which were, in turn,
+%% based on ACL-2013, ACL-2012, ACL-2011, ACL-2010, ACL-IJCNLP-2009,
+%% EACL-2009, IJCNLP-2008...
+%% Based on the style files for EACL 2006 by 
+%%e.agirre@ehu.es or Sergi.Balari@uab.es
+%% and that of ACL 08 by Joakim Nivre and Noah Smith
+
+
+\documentclass[red]{brandeis-thesis}
+\usepackage[utf8]{inputenc}
+
+
+
+
+\title{LaTeXing Your Thesis}
+\author{Eli Goldner}
+\graduationmonth{August}
+\graduationyear{2021}
+\program{Computational Linguistics}
+\advisor{James Pustejovsky}
+\degreetype{Masters}
+%\documentclass[9pt,halfline,a4paper]{ouparticle}
+%\documentclass[9pt,a4paper]{ouparticle}
+%%\usepackage[hyperref]{acl2021}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+\usepackage{times}
+\usepackage{latexsym}
+\usepackage{lingstyle}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{bussproofs}
+\usepackage{multicol}
+%%\usepackage{prftree.sty} 
+\usepackage{natbib}
+\usepackage{cite}
+\usepackage{float}
+%%\usepackage{stfloats}
+%%\usepackage{turnstile}
+\usepackage{rotating}
+\usepackage{subcaption}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+\usepackage{framed}
+\usepackage{mdframed}
+\usepackage{stmaryrd}
+\usepackage{xcolor}
+\usepackage[ruled,vlined]{algorithm2e}
+
+
+\newcommand\mycommfont[1]{\footnotesize\ttfamily\textcolor{blue}{#1}}
+\SetCommentSty{mycommfont}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{prop}{Proposition}
+\newtheorem{corollary}{Corollary}
+
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[section]
+
+\DeclareMathSymbol{:}{\mathord}{operators}{"3A}
+\renewcommand{\phi}{\varphi}
+%%\newenvironment{proof}{\paragraph{Proof:}}{\hfill$\square$}
+
+\usetikzlibrary{arrows,positioning,shapes} 
+\tikzset{
+    %Define standard arrow tip
+    >=stealth',
+    %Define style for boxes
+    amrnode/.style={
+             ellipse,
+             draw=black, very thick,
+             font=\small},
+    scopenode/.style={
+             ellipse,
+             draw=red, very thick, dashed,
+             text=red,
+             font=\small},
+    % Define arrow style
+    amrarrow/.style={
+            ->,
+            thick,
+            font=\small},
+    scopearrow/.style={
+              ->,
+              red,
+              thick,
+              dashed,
+              font=\small}
+}
+
+ \def\drs#1#2{\begin{tabular}{|l|}\hline #1 \\ \hline \\
+                [-8pt] #2\\[-8pt] \\ \hline \end{tabular} }
+
+ \def\ddrs#1{\begin{tabular}{||c||}\hline \\
+                [-8pt] #1\\[-8pt] \\ \hline \end{tabular} }
+
+ \def\topdrs#1#2{\begin{tabular}{|l|}\hline #1 \\ \hline \\
+                [-8pt] #2 \\[-8pt] \\ \hline \end{tabular} }
+
+ %%\def\proof#1#2#3#4{\drs{#1}{#2} \ $\vdash$ \ \drs{#3}{#4}}
+ \def\modimp#1#2#3#4{\mbox{\drs{#1}{#2} \ $\Box$ \ \drs{#3}{#4}}}
+ \def\imp#1#2#3#4{\drs{#1}{#2} \ $\Rightarrow$ \ \drs{#3}{#4}}
+ \def\dis#1#2#3#4{\mbox{\drs{#1}{#2} \ $\vee$ \ \drs{#3}{#4}}}
+ \def\int#1#2{\mbox{$^{\wedge}$ \ \drs{#1}{#2}}}
+ %%\def\pos#1#2{\mbox{$\lozenge$ \ \drs{#1}{#2}}}
+ %%\def\nec#1#2{\mbox{$\Box$ \ \drs{#1}{#2}}}
+ \def\nega#1#2{\mbox{$\neg$ \ \drs{#1}{#2}}}
+ \def\pred#1#2#3{\mbox{#1\ :\drs{#2}{#3}}}
+
+
+\usepackage{url} 
+
+\usepackage[acronym]{glossaries} % 'nomain' to disable automatic generation of "glossary" section 
+\glsdisablehyper % disable hyperlink to non-existing glossary section 
+%\aclfinalcopy % Uncomment this line for the final submission
+%\def\aclpaperid{***} %  Enter the acl Paper ID here
+
+%\setlength\titlebox{5cm}
+% You can expand the titlebox if you need extra space
+% to show all the authors. Please do not make the titlebox
+% smaller than 5cm (the original size); we will check this
+% in the camera-ready version and ask you to change it back.
+
+\newcommand\BibTeX{B\textsc{ib}\TeX}
+
+\makeatletter
+\newcommand\footnoteref[1]{\protected@xdef\@thefnmark{\ref{#1}}\@footnotemark}
+\makeatother
+
+ 
+\begin{document}
+\maketitlepage
+\makecopyright
+
+\begin{thesis-abstract}
+  AMR and its extensions have become popular in semantic representation due
+  to their ease of annotation by non-experts, attention to the predicative core of sentences,
+  and abstraction away from syntactic matter.
+  An area where AMR and its extensions warrant improvement is formalization
+  and suitability for inference, where it is lacking compared to
+  other semantic representations, such as
+  description logics, episodic logic, and discourse representation theory.
+  This thesis presents a formalization of inference over a merging of
+  \citeauthor{donatelli-etal-2018-annotation}'s \citeyearpar{donatelli-etal-2018-annotation} AMR extension for tense and aspect
+  and with \citeauthor{pustejovsky-etal-2019-modeling}'s \citeyearpar{pustejovsky-etal-2019-modeling} AMR extension for quantification and scope.
+  Inference is modeled with a merging of \citeauthor{hansen2007tableau}'s
+  \citeyearpar{hansen2007tableau} tableau method for
+  first-order hybrid logic with varying domain semantics 
+  ({\it FHL}) and \citeauthor{blackburn2012indexical}'s \citeyearpar{blackburn2012indexical}
+  tableau method for basic hybrid tense logic ({\it BHTL}).
+  We motivate the merging of these AMR variants,
+  present their interpretation and inference in the combination of {\it FHL}
+  and {\it BHTL}, which we will call first-order hybrid tense logic ({\it FHTL}),
+  and demonstrate the soundness and completeness of {\it FHTL}'s general tableau method,
+  and its decidability for finite model checking.   
+\end{thesis-abstract}
+
+\doublespacing
+\tableofcontents
+
+\section{Introduction}
+
+
+AMR's reductionist approach to semantic representation enjoys a
+duly earned popularity in the increasingly data driven environment
+of post-2000s NLP and CL.  Its ablation of fine-grained semantic
+and syntactic features makes AMR a highly competitive choice
+for the development of annotated corpora and as a target representation
+for statistically driven parsing techniques.
+It is exactly the aspects of AMR that are so valued that cause it
+to fall very short in an area where most semantic representations
+have felt some obgligation to succeed, namely intepretation and inference.    
+That AMR has made this compromise is no oversight, but an informed design choice.
+Version 1.2 of the AMR specication states that by default an AMR does not indicate how
+it should be processed \citep{banarescu2012abstract}. 
+Indeed, besides
+concepts that can be interpreted as propositional connectives like
+\verb|:and|, \verb|:or|, and \verb|:cond|, there is little that can
+be directly inferred from a basic AMR besides possibly
+lexical inference on the concepts and relations.
+Performing lexical inference directly would require
+at least extensive hand authoring of relationships between PropBank frames,
+and in general is beyond the scope of this paper.
+\par
+Finding ways to support inference for AMR is no trivial
+curiousity.  For machine-based natural language understanding,
+it is arguable that a semantic representation needs to deeply reflect natural language at the expressive level
+while supporting complex reasoning and capturing certain aspects of knowledge \citep{KK_Schubert2015}.
+Furthermore, inferential methods are critical to being able to guarantee, verify, and discover properties of software systems.
+One relevant application is discovering and resolving bias in NLP systems \citep{gordon-13}.
+AMR extensions ameliorate the issue of expressivity by integrating more semantic information
+into an AMR while still retaining its minimal and predicative structure.
+\citet{pustejovsky-etal-2019-modeling} makes direct inference on AMR
+significantly
+easier by providing an unambiguous way to interpret an AMR
+that makes use of quantification, negation, or modality,
+while retaining the predicative core of AMR.
+\citet{donatelli-etal-2018-annotation}
+extends AMR with a treatment of tense and aspect
+which allows for direct inference involving temporal information.
+We will show that integrating these two AMR extensions allows for interpretation
+into a highly expressive logic we call first-order hybrid tense logic {\it FHTL},
+which merges hybrid logic equipped with first order features
+like (actualist) quantification \citep{hansen2007tableau},
+and hybrid logic equipped for reasoning about time and tense
+\citep{blackburn2012indexical}.  We present a sound and complete
+tableau-based proof procedure for {\it FTHL} sentences.
+The tableau method is a well known approach to theorem proving
+that has been adapted to many logics, it works by extracting a tree
+from a sentence in a logic, where the nodes consist of root subformulae
+or supporting formulae to be proved or refuted.
+We also provide a modified version of this tableau method,
+which we use to check the satisfiability of translated extended AMR sentences
+in a finite model, and a method for translating an extended AMR
+into a {\it FHTL} formula. 
+
+
+\section{Related Work}
+
+
+\subsection{Semantic Features in AMR and Possbility of Inference}
+
+%% Reference UMR?
+
+In recent years there have been more efforts towards
+extension and interpretation of AMR in ways more suitable to
+direct inference.  
+\citet{bos-2016-squib} provides a means of translating
+standard AMR to first-order predicate logic with negation,
+and that an AMR  without recurrent variables
+under this translation is in the decidable two-variable fragment of first-order predicate logic.
+\citep{donatelli-etal-2018-annotation} extends sentential AMR to incorporate a coarse grained
+treatment of tense and aspect, both of which affords inference,
+and in a very rich way in the case of aspect, as we will discuss at the end. 
+\citet{ogorman-etal-2018-amr} describes a multi-sentential treatment of AMR
+with a corpora of examples, for handing document level semantics in addition
+to AMR's current sentential semantics. This has possible implications for 
+document-level and discourse-level inference in AMR, {\`a} la discourse representation theory.
+\citet{pustejovsky-etal-2019-modeling} and its extension of AMR with quantification, scope, negation,
+and modality, is effectively a royal road to interpretation of AMR into first-order logic
+or related variants, and we will frequent use of it in section \ref{interp}. 
+\citep{lai-etal-2020-continuation} provides a continuation-based semantics
+for translating AMR into first-order
+predicate logic in a way that preserves projective phenomena.
+While this influenced our interpretation approach and its translation
+method is much more elegant than ours, we elected not to use it since  
+it uses a Neo-Davidsonian representation for the target first-order predicate logic semantics,
+which as we will is more expensive to handle via tableau-based reasoning since
+it guarantees that there is at least one quantifier in the interpretation for every relation symbol.  
+\iffalse
+Separating argument structure in AMR from logical structure, enables
+translation from AMR to DRT \citep{bos-2020-separating}
+\fi
+Finally, \citet{bonial-etal-2020-dialogue} provides an AMR extension
+designed for faciliatating natural language understanding in dialogue
+systems integrating both tense and aspect and a speech act inventory,
+which conveys the illocutionary force of a statement accompanying the content.
+This is another extension that affords the possbility of discourse level inference
+in addition to sentential inference, which while offering rich conclusions will
+require more a sophisticated semantics sensitive to context. 
+
+\subsection{Hybrid Logic and Its Extensions}
+
+Hybrid logic is an extension of the propositional modal logic $K$
+($K$ has no conditions on the modal frame of its underlying models)
+allowing for explicit reference to modal states/worlds through a prefix notation.
+Where ordinary modal logic writes $\lozenge p$ to indicate that there is some
+world where $p$ holds at some world accessible from that world,
+hybrid logic by default writes one of
+$a \lozenge p$, $a :\lozenge p$, or $@_a \lozenge p$
+(we use the latter notation from here on),
+to indicate $p$ holds at some world accessible
+from $a$ specifically.
+$a$ in this notation is a {\it nominal},
+which uniquely names a world in the underlying model.
+A {\it world} in a modal or hybrid model for us
+is essentially just a maximal set of sentences in the language,
+that is for any proposition $p$ and nominal $a$ we have either
+$@_a p$ or $@_a \neg p$.  Worlds are used to model any notion
+consistent with it, usually possible states of affairs,
+in particular we will use them to describe states of affairs at
+different points in time.  
+
+\par
+For propositional hybrid logic,
+we have a set of propositional symbols
+$\textsf{PROP} = \{ p, q, r, \ldots \}$,
+modalities $\textsf{MOD} = \{ m, m', m'', \ldots \}$,
+and {\it nominals} $\textsf{NOM} = \{ i, j, k, \ldots \}$,
+all nonempty and disjoint from each other.
+Nominals name states of a model of the logic, usually these states are possible worlds.
+The basic hybrid language over \textsf{PROP}, \textsf{MOD}, and \textsf{NOM}
+is given by the grammar:
+$$\phi ::= i \mid p \mid \neg \psi \mid (\psi_1 \land \psi_2) \mid (\psi_1 \lor \psi_2) \mid (\psi_1 \to \psi_2) \mid \langle \textsc{M} \rangle \psi  \mid [\textsc{M}] \psi \mid @_i \phi$$
+Where we have only one modality $m$ we write $\lozenge$ and $\Box$
+for $\langle m \rangle$ and $[m]$.
+For instance, where the propositional symbol $r$ denotes {\it Rabia owns a car},
+the following
+are (equivalent) theorems of hybrid logic:
+\begin{itemize}
+\item {\it It is not possible for Rabia to own a car and for Rabia not to own a car.}
+
+  $$\neg \lozenge (r \land \neg r)$$
+\item {\it Necessarily, Rabia owns a car or does not own a car.}
+
+  $$\Box(r \lor \neg r)$$
+\end{itemize}
+We can use nominals to add the notion of time to these sentences, for instance where
+$i$ denotes the world at 2015 and $j$ denotes the world at 2021, if we want
+to indicate that Rabia owned a car in 2015, and that whatever was the case
+at 2015 is possible in 2021, we can write:
+$@_i r \land @_j \lozenge i$
+\subsubsection{First-order Hybrid Logic}
+
+First-order modal logic (or quantified modal logic / {\it QML}) extends first-order predicate logic
+in a way analogous to how propositional modal logic extends first order
+propositional logic.
+An introduction to both QML and propositional modal logic can be found in
+\citet*{fitting-modal}.  As before, a tableau method is a proof procedure for
+some first-order language (and a decision procedure for a propositional language), and it is the
+most widely used proof procedure for modal logics \citep{girle2014modal}.
+In a sense, hybrid logic simply makes explicit through the satisfaction operator what is implicit in modal logic, and indeed, in modal tableau prefixes play an explicit role.  As a result the tableau method generalizes
+to hybrid logics very well.  \citet*{quantified} provides the first tableau method for a first-order extension of hyrbid logic.  Quantified hybrid logic {\it QHL} as defined in \citet*{quantified} unfortunately
+for us, uses constant-domain semantics and possibilist quantification
+(where quantifiers range over all the collective domain of all worlds/times),
+making it inconvenient for modeling quantification and reference in natural language.
+Furthermore it omits non-unary function symbols, which are a necessity for modeling
+AMR concepts as \texttt{have-rel-role} in first-order language.
+\citet*{hansen2007tableau} remedies this by developing a semantics and tableau method for first-order hybrid logic {\it FHL},
+a variant of {\it QHL} using varying-domain semantics and actualist quantification
+(quantifiers only range over entities at the time of reference).
+As can be inferred from the name,
+{\it FHL} is the core component of our development of {\it FHTL} in section \ref{fhtl}.     
+
+
+\subsubsection{Basic Hybrid Tense Logic}
+
+The roots of hyrbid logic, and hybrid tense logic in particular,
+range back to the philosopher Arthur N. Prior's work in the 1960s \citep{prior2003papers}.
+We take our treatment of basic hybrid tense logic {\it BHTL} from \citet*{blackburn2012indexical},
+which roughly can be seen as renaming $\lozenge$ and $\Box$ to $F$ and $G$ in basic hybrid logic (the modality for the future),
+and adding their duals under the accessibility relation $P$ and $H$
+(the modality for the past), sometimes written 
+$\lozenge^{-1}$ and $\Box^{-1}$
+For intuition, if we have $@_i F \phi$ for some time $i$, 
+then we have that $\phi$ holds at some time in the future from the perspective of $i$.
+If we have $@_i G \phi$, then $\phi$ holds at every world in the future from the perspective of
+$i$.  Similarly for $@_i P \phi$ and $@_i H \phi$, except both statements refer to the past from
+the perspective of $i$.  Now that the accessibility relation $R$ of an interpretation
+of {\it BHTL} notionally models time, there additional properties of $R$ to consider
+(such as it being a strict partial order) when
+proving soundness and completeness for the language.
+This is accomplished in \citet*{blackburn2012indexical},
+but in this paper we avoid these considerations and make no
+assumptions about the model's accessibility relation.
+Basic hybrid tense logic can be used to model tense
+at the sentential and discourse leves.
+For the sentential level, where again $r$ denotes {\it Rabia owns a car}
+\begin{itemize}
+\item {\it That Rabia owns a car now, implies that Rabia will own a car.}
+
+  $$@_n (r \to F(r))$$
+  (This is a theorem only if we make certain assumptions about time.) 
+\end{itemize}
+For the discourse level, consider the sentences
+{\it John entered the room. It was dark. He sat down.}
+We can represent them as:
+$$P(i \land \textit{john-enter-room}) \land P(j \land \textit{room-is-dark}) \land @_i j \land P(k \land \textit{john-sits-down}) \land @_k Pi$$
+The event of John entering the room is associated with the state $i$,
+and the room being dark is associated with the state $j$.  
+We have $@_i j$  to indicate that they occur at the same time,
+$@_k Pi$ to indicate that they happened in the past of the
+state $k$ associated with John sitting down.  
+\section{First-order Hybrid Tense Logic}
+\label{fhtl}
+Here we give a modification of Hansen's First-order Hybrid Logic which
+describes tense instead of modality while retaining {\it FHL}'s varying domain
+semantics and actualist quantification.
+\subsection{Syntax of {\it FHTL}}
+The syntax of {\it FHTL} is identical to {\it FHL} as given in \citet*{hansen2007tableau},
+except $\Box$ and $\lozenge$ are replaced by their semantic equivalents
+$F$ and $G$, and their dual temporal modalities $P$ and $H$ are added.
+The {\it FHTL} language contains the following (countably infinite) sets:
+a set of first-order
+variables \textsf{FVAR}, a
+a set of constants \textsf{CON},
+a set of relation symbols \textsf{RSYM},
+a set of function symbols \textsf{FSYM},
+a set of nominals \textsf{NOM},
+a set of state variables \textsf{SVAR}.
+\begin{definition}[{\it FHTL}--terms]
+Terms in {\it FHTL} are generated by the following grammar:
+$$t ::= x \mid c \mid u:t \mid f(t_1,\ldots,t_n)$$
+Where $x \in \textsf{FVAR}$, $c \in \textsf{CON}$, $u \in \textsf{NOM} \cup \textsf{SVAR}$, and
+$f$ is an $n$--ary function symbol in $\textsf{FSYM}$. 
+\end{definition}
+
+\begin{definition}[{\it FHTL}--formulae]
+{\it FHTL}--formulae are generated from the atomic formulae according to the
+following rules:
+$$\phi ::= R(t_1, \ldots, t_n) \mid t_1 = t_2 \mid u \mid \neg \psi \mid \psi_1 \lor \psi_2 \mid (\exists x) \psi \mid F \psi \mid P \psi \mid @_n \psi $$
+Where $R \in \textsf{RSYM}$, $t_1,\ldots,t_n$ are {\it FHTL} terms, $u \in \textsf{NOM} \cup \textsf{SVAR}$, and $x \in \textsf{FVAR}$.
+We omit definitions for $\land$, $\to$, $H$, $G$, and $\forall$ for the sake of simplicity (and space), since
+they can be defined in terms of the other rules.
+\end{definition}
+
+For example, we can represent the following tense and
+quantification sensitive natural language sentences as follows:
+\begin{itemize}
+\item {\it There currently is a person who will be president.}
+
+  $$@_{\textit{now}} (\exists x) F(\textit{President}(x))$$ 
+\item {\it For every person, they have a parent who existed before them.}
+
+  $$(\forall x) (\textit{Person}(x) \to P((\exists x) \textit{Parent}(x,y)))$$
+\end{itemize}
+
+\subsection{Semantics of {\it FHTL}}
+Since we want the domain of quantification to be indexed
+over the collection of nominals/times, we look to
+\citeauthor{fitting-modal}'s \citeyearpar{fitting-modal}
+treatment of first-order modal logic with varying domain semantics
+and use it to alter the {\it FHL} model definition
+to the following:
+$$(T, \mathcal{R}, (D_t)_{_{t \in T}}, I_{nom}, (I_t)_{t \in T})$$
+Thus with varying domain semantics a {\it FHTL}
+model is identical to the definition for a {\it FHL} model in that:
+\begin{itemize}
+  \item
+    $(T,R)$ is a modal frame.
+  \item
+    $I_{nom}$ is a function assigning members of $T$ to nominals.
+\end{itemize}
+
+The differences manifest with regard to the model and
+interpretation.  Namely, where $D = \cup_{t \in T} D_t$,
+$(D, I_t)$ is a first-order model where:
+\begin{itemize}
+\item
+  $I_t (q) \in D$ where $q$ is a unary function symbol\footnote{We use these for non-rigid designation and constants for rigid designation, e.g. roles versus names.}.
+\item
+  $I_t (R) \in D^k$ where $R$ is a $k$-ary relation symbol.
+\end{itemize}
+
+If we were using constant domain semantics we would require $I_t (c) = I_{t'} (c)$ for
+any constant $c$ and any times $t,t' \in T$.
+But we do not require this since the interpretation of the
+constant need not exist at both times.  This permits us to distinguish
+between the domain of a frame (everything that exists in the ``history'' of the model)
+and the domain of a time,
+in a way that prevents any first-order variable $x$ from failing to refer
+at a given time, even if it has no interpretation at that time.
+Intuitively this permits {\it FHTL} to handle interpretation of entities
+in natural language utterances, which while reasonable to refer to,
+do not exist at a current time, e.g. 19th century US presidents and unknown future US presidents.
+
+
+\smallskip
+
+Free variables are handled similarly as in {\it FHL}.
+Where again $D = \cup_{t \in T} D_t $, a {\it FHTL} assignment is a function:
+$$g : \textsf{SVAR} \cup \textsf{FVAR} \to T \cup D $$
+Where state variables are sent to times/worlds and
+first-order variables are sent to $D$, the domain
+of the frame.
+Thus given a model and a variable assignment $g$,
+the interpretation a term $t$ denoted by $\overline{t}$
+is defined by:
+\begin{itemize}
+\item
+  $\overline{x} = g(x)$ for $x$ a variable and any $t \in T$.
+\item
+  $\overline{c} = I_t (c)$ for $c$ a constant and some $t \in T$.
+\item
+  $\overline{f(t_1,...,t_n)} = I_w(f)(\overline{t_1},...,\overline{t_n})$
+  for $f$ an $n$-ary function symbol, $t_1, \ldots, t_n$ terms, and $w \in T$. 
+\item
+  $\overline{i:t} = I_w (i:t) = I_{I_{\textit{nom}}(i)} (t)$ for $t$ a term, $i$ a nominal, and $w \in T$. 
+\item
+  $\overline{u:t} = I_w (u:t) = I_{g(u)} (t)$ for $t$ a term, $u$ a state variable, $w \in T$.
+\end{itemize}
+
+Finally we say an assignment $g'$ is an $x$-variant of $g$ if $g'$
+and $g$ agree on all variables except possiblly $x$.
+In particular, we say $g'$ is an $x$-variant of $g$ at a time $t$, if $g'$
+and $g$ on all variables except possiblly $x$ and $g'(x) \in D_t$.
+Finally, given a model $\mathfrak{M}$, a variable assignment $g$,
+and a state $s$, we have the inductive definition of
+$\mathfrak{M}, s \vDash_g \phi$ as:
+
+\begin{alignat*}{2}
+  &\mathfrak{M}, s \vDash_g R(t_1, \dotsc , t_n )  && \Longleftrightarrow \langle \overline{t_1}, \dotsc , \overline{t_n} \rangle \in I_s (R)  \\
+  &\mathfrak{M},  s \vDash_g t_i = t_j  && \Longleftrightarrow \overline{t_i} = \overline{t_j}  \\
+  &\mathfrak{M},  s \vDash_g n && \Longleftrightarrow I_{nom} (n) = s, \text{for }n\text{ a nominal}  \\
+  & \mathfrak{M},  s \vDash_g w && \Longleftrightarrow g(w) = s, \text{for }w\text{ a state variable}  \\
+  & \mathfrak{M},  s \vDash_g \neg \phi && \Longleftrightarrow  \mathfrak{M},  s \not\vDash_g \phi \\
+  & \mathfrak{M},  s \vDash_g \phi \lor \psi && \Longleftrightarrow  \mathfrak{M},  s \vDash_g \phi \text{ or } \mathfrak{M},  s \vDash_g \psi \\
+  & \mathfrak{M},  s \vDash_g (\exists x) \phi && \Longleftrightarrow \mathfrak{M}, s \vDash_{g'} \phi \text{ for some } x\text{-variant }g'\text{ of } g \text{ at } s \\
+  & \mathfrak{M},  s \vDash_g F \phi && \Longleftrightarrow \mathfrak{M},  t \vDash_g \phi \text{ for some } t \in T \text{ such that } \mathcal{R}st \\
+  & \mathfrak{M},  s \vDash_g P \phi && \Longleftrightarrow \mathfrak{M},  t \vDash_g \phi \text{ for some } t \in T \text{ such that } \mathcal{R}ts \\
+  & \mathfrak{M},  s \vDash_g @_n \phi && \Longleftrightarrow \mathfrak{M},  I_{nom}(n) \vDash_g \phi \text{ for } n \text{ a nominal } \\
+  & \mathfrak{M},  s \vDash_g @_w \phi && \Longleftrightarrow \mathfrak{M},  g(w) \vDash_g \phi \text{ for } w \text{ a state variable }
+  %%\caption{$AT_x$}
+\end{alignat*}
+
+As usual, a formula is satisfiable if there is some model/interpretation which makes the formula true,
+and a formula is valid if every model/interpretation which makes the formula true.
+We also note that if $\psi$ is a sentence (a formula with no free variables, also called a closed formula), then
+whether $\mathfrak{M}, s \vDash_g \phi$ does not depend on the variable assignment $g$.
+\subsection{The Tableau Calculus}
+
+
+\iffalse
+
+\begin{prooftree}
+  \AxiomC{$@_t s$}
+  \RightLabel{$[\textsf{Sym}]$}
+  \UnaryInfC{$@_s t$}
+\end{prooftree}
+
+\fi
+
+When working with the tableau calculus, following \citet*{fitting-modal} we assume for each nominal
+or state variable $s$,
+there is a countably infinite list of parameters \textsf{PAR}, where parameters are free variables
+which are never quantified over, arranged in such a way that different
+nominals/state variables
+never share the same parameter.  We write $s:p$ to indicate
+a parameter is associated with a nominal/state variable $s$,
+just as we do with terms.  The {\it extended language} is the language obtained by
+adding \textsf{PAR} to the standard {\it FHTL} language.  In the tableau rules,
+a term in the extended language is called a closed term if it contains no
+first-order variables or state variables.
+
+
+%%\begin{adjustbox}{max size={\textwidth}{\textheight}, nofloat = figure}
+\begin{figure*}[!h]
+  \centering
+  \begin{adjustbox}{varwidth=1.1\linewidth,scale=1.0}
+    %% \begin{framed}
+    \centering
+    \begin{mdframed}
+    \centering
+
+    \underline{\bf Propositional rules:}
+    
+    \begin{multicols}{3}
+      \begin{prooftree}
+        \AxiomC{$@_s (\phi \lor \psi)$}
+        \RightLabel{\bf ($\lor$)}
+        \UnaryInfC{$@_s \phi \mid @_s \psi$} 
+      \end{prooftree}
+      
+      
+      \begin{prooftree}
+        \AxiomC{$@_s \neg (\phi \lor \psi)$}
+        \RightLabel{\bf ($\neg \lor$)}
+        \UnaryInfC{$@_s \neg \phi$}
+        \noLine
+        \UnaryInfC{$@_s \neg \psi$}
+      \end{prooftree}
+      
+      
+      \begin{prooftree}
+        \AxiomC{$ @_s \neg \neg \phi$}
+        \RightLabel{\bf ($\neg \neg$)}
+        \UnaryInfC{$@_s \phi$}
+      \end{prooftree}
+      
+    \end{multicols}
+
+    \underline{\bf Modal rules:}
+
+    %% \begin{multicols}{2}
+    \begin{multicols}{4}
+      \begin{prooftree}
+        \AxiomC{$@_s F \phi$}
+        \RightLabel{\bf ($F$)\footnote{\label{intro}The nominal $a$ is new to the branch.}\footnote{\label{nom}The formula $\phi$ is not a nominal.}}
+        \UnaryInfC{$@_s F a$}
+        \noLine
+        \UnaryInfC{$@_a \phi$}
+      \end{prooftree}
+      
+      \begin{prooftree}
+        \AxiomC{$@_s P \phi$}
+        \RightLabel{\bf ($P$)\footnoteref{intro}\footnoteref{nom}}
+        \UnaryInfC{$@_s P a$}
+        \noLine
+        \UnaryInfC{$@_a \phi$}
+      \end{prooftree}
+      
+    %%\end{multicols}
+  
+    
+    %%\begin{multicols}{2}
+      \begin{prooftree}
+        \AxiomC{$@_s \neg P \phi$}
+        \AxiomC{$@_s P t$}
+        \RightLabel{\bf ($\neg P$)}
+        \BinaryInfC{$@_t \neg \phi$} 
+      \end{prooftree}
+      
+      \begin{prooftree}
+        \AxiomC{$@_s \neg F \phi$}
+        \AxiomC{$@_s F t$}
+        \RightLabel{\bf ($\neg F$)}
+        \BinaryInfC{$@_t \neg \phi$}
+      \end{prooftree}
+    \end{multicols}
+
+    
+    \underline{\bf Quantifier rules:}
+    
+    \begin{multicols}{2}
+      \begin{prooftree}
+        \AxiomC{$@_s (\exists x) \phi$}
+        \RightLabel{\bf ($\exists$)\footnote{$s : p$ is new to the branch.}}
+        \UnaryInfC{$@_s \phi[s:p / x]$} 
+      \end{prooftree}
+      
+      \begin{prooftree}
+        \AxiomC{$@_s \neg (\exists x) \phi$}
+        \RightLabel{\bf ($\neg \exists$)\footnote{$p$ is any parameter which exists at $s$.}}
+        \UnaryInfC{$@_s \neg \phi[t / x]$} 
+      \end{prooftree}
+    \end{multicols}
+
+   \underline{\bf @ rules:}
+    
+    \begin{multicols}{2}
+    %\begin{multicols}{4}
+      \begin{prooftree}
+        \AxiomC{$@_s @_t \phi$}
+        \RightLabel{\bf ($@$)}
+        \UnaryInfC{$@_t \phi$} 
+      \end{prooftree}
+      
+      \begin{prooftree}
+        \AxiomC{$@_s \neg @_t \phi$}
+        \RightLabel{\bf ($\neg @$)}
+        \UnaryInfC{$@_t \neg \phi$} 
+      \end{prooftree}
+      
+    \end{multicols}
+    
+    
+    \begin{multicols}{2}
+      \begin{prooftree}
+        \AxiomC{$@_s t$}
+        \AxiomC{$@_s \phi$}
+        \RightLabel{\bf (nom)}
+        \BinaryInfC{$@_t \phi$} 
+      \end{prooftree}
+      
+      \begin{prooftree}
+        % \AxiomC{$[i\text{ on the branch}]$}
+        \AxiomC{[$i$ on the branch]}
+        \RightLabel{\bf (nom ref)}
+        \UnaryInfC{$@_i i$} 
+      \end{prooftree}
+      
+    \end{multicols}
+    
+    \begin{multicols}{2}
+    %\begin{multicols}{4}
+      \begin{prooftree}
+        \AxiomC{$@_s P t$}
+        \RightLabel{\bf ($P\textbf{--trans}$)}
+        \UnaryInfC{$@_t F s$} 
+      \end{prooftree}
+      
+      \begin{prooftree}
+        \AxiomC{$@_s F t$}
+        \RightLabel{\bf ($F\textbf{--trans}$)}
+        \UnaryInfC{$@_t P s$}  
+      \end{prooftree}
+    \end{multicols}
+    
+    \begin{multicols}{2}
+      \begin{prooftree}
+        \AxiomC{$@_s P t$}
+        \AxiomC{$@_t u$}
+        \RightLabel{\bf ($P\textbf{--bridge}$)}
+        \BinaryInfC{$@_s P u$} 
+      \end{prooftree}
+      
+      \begin{prooftree}
+        \AxiomC{$@_s F t$}
+        \AxiomC{$@_t u$}
+        \RightLabel{\bf ($F\textbf{--bridge}$)}
+        \BinaryInfC{$@_s F u$}  
+      \end{prooftree}
+    \end{multicols}
+ 
+  \end{mdframed}
+\end{adjustbox}
+\end{figure*}
+
+\begin{figure*}[!h]
+  \centering
+  \begin{adjustbox}{varwidth=1.1\linewidth,scale=1.0}
+    %% \begin{framed}
+    \centering
+    \begin{mdframed}
+    \centering
+
+    \underline{\bf Equality rules:}
+
+
+    \begin{multicols}{2}
+      \begin{prooftree}
+        \AxiomC{}
+        \RightLabel{\bf (ref)\footnote{\label{1stclosed}Where $t$ is a closed term.}}
+        \UnaryInfC{$@_i j:t = j:t$} 
+      \end{prooftree}
+      
+      
+      \begin{prooftree}
+        \AxiomC{$@_i j:t = k:s$}
+        \AxiomC{$@_i \phi$}
+        \RightLabel{\bf (sub)\footnote{\label{subst}$\phi[j:t // k:s]$ is $\phi$ where some occurences of $j:t$ have been replaced by $k:s$.}}
+        \BinaryInfC{$@_i \phi[j:t // k:s]$} 
+      \end{prooftree}
+    \end{multicols}
+
+    
+    \underline{\bf {\it FHTL} term rules:}
+    
+    \begin{multicols}{3}
+      \begin{prooftree}
+        \AxiomC{$@_i k_1 : t = k_2 : s$}
+        \RightLabel{\bf (:1)}
+        \UnaryInfC{$@_i k_1 : t = k_2 : s$}
+      \end{prooftree}
+      
+      \begin{prooftree}
+        \AxiomC{$@_i j$}
+        \RightLabel{\bf (:2)\footnoteref{1stclosed}}
+        \UnaryInfC{$@_k i: t = j : t$}
+      \end{prooftree}
+      
+      \begin{prooftree}
+        \AxiomC{}
+        \RightLabel{\bf (:3)\footnoteref{1stclosed}}
+        \UnaryInfC{$@_i k :j: t = j : t$}
+      \end{prooftree}
+    \end{multicols}
+
+    %%\begin{multicols}{2}
+    \begin{multicols}{4}
+      \begin{prooftree}
+        \AxiomC{$@_i R(t_1,...,t_n)$}
+        \RightLabel{\bf (:fix 1)}
+        \UnaryInfC{$@_i R(i:t_1,...,i:t_n)$}
+      \end{prooftree}
+      
+      \begin{prooftree}
+        \AxiomC{$@_i \neg R(t_1,...,t_n)$}
+        \RightLabel{\bf (:fix 2)}
+        \UnaryInfC{$@_i \neg R(i:t_1,...,i:t_n)$}
+      \end{prooftree}
+    %%\end{multicols}
+    
+    %%\begin{multicols}{2}  
+      \begin{prooftree}
+        \AxiomC{$@_i t = s$}
+        \RightLabel{\bf (:fix 3)}
+        \UnaryInfC{$@_i i : t = i : s$}
+      \end{prooftree}
+      
+      \begin{prooftree}
+        \AxiomC{$@_i \neg t = s$}
+        \RightLabel{\bf (:fix 4)}
+        \UnaryInfC{$@_i \neg i : t = i : s$}
+      \end{prooftree}
+    \end{multicols}
+    
+    \begin{prooftree}
+      \AxiomC{}
+      \RightLabel{\bf (:func)\footnote{$f$ is an $n$--ary function symbol and $t_1,...,t_n$ are closed terms.}}
+      \UnaryInfC{$@_i f(t_1,..., t_n) = f(i:t_1,..., i:t_n)$}
+    \end{prooftree}
+    
+  \end{mdframed}
+\end{adjustbox}
+\end{figure*}
+
+
+\subsection{Soundness and completeness}
+
+The proof of soundness for {\it FHTL} follows from the
+soundness of {\it FHL} established in \citet*{hansen2007tableau},
+with additions for the rules {\bf ($P$)}, {\bf ($\neg P$)}, {\bf ($P$)--bridge},
+and {\bf ($P / F$)--trans}, the soundness of which is easy to demonstrate.
+The proof of completeness is essentially the same as the one given in
+\citet*{bolander} for Blackburn's tableau system for standard
+hybrid logic ($\mathcal{HL}(@)$) with accomodations made for
+the first order aspects of {\it FHTL} adapted from \citet*{hansen2007tableau}.
+While \citet*{bolander} proves termination
+for Blackburn's tableau system, we cannot do that for
+{\it FHTL}, since a terminating tableau system would be
+equivalent to a general decision procedure for first-order predicate logic.
+We will however intoduce restrictions on the quantifier and term rules
+in the next section which will lead to terminating tableau constructions
+at the cost of general completeness,
+which will be no real loss since the purpose of our
+revised tableau system is for finite model checking.  
+
+\begin{remark}
+  From here on we normalize formulae such that
+  a negation symbol only occurs within the scope of the satisfaction operator,
+  that is we will always write $@_s \neg \phi$ and never $\neg @_s \phi$
+  from now on, even though the two are semantically equivalent.
+\end{remark}
+
+\begin{definition}[{\bf Closed and open}]
+  If a tableau branch contains a formula
+  $@_s \phi$ and its negation $@_s \neg \phi$
+  we say the branch is {\it closed}.
+  If every branch of the tableau is closed we
+  say the tableau itself is closed.  If a
+  tableau or branch is not closed we say it is {\it open}.
+\end{definition}
+
+A closed tableau is a proof of the unsatisfiability of the tableau's root formula, i.e.
+there is no model or assignment of variables in which it holds.
+Thus a tableau proof of an {\it FHTL} sentence $\phi$ is a
+closed tableau with the root $@_s \neg \phi$ for some nominal
+$s$ not occuring in $\phi$.
+
+\begin{definition}[{\bf Accessibility Formula}]
+  A formula occurence in a tableau is called an accessibility
+  formula if it is of the form $@_a F b$ or $@_a P b$
+  and is the (first) conclusion of an application of the
+  rule $F$ or $P$ respectively.
+\end{definition}
+
+\begin{definition}[{\bf Quasi-subformula}]
+  A formula $\phi$ is a {\it quasi-subformula } of a
+  formula $\psi$ if one of the the following is the case:
+  \begin{enumerate}
+  \item
+    $\phi$ is a subformula of $\psi$ modulo substitution
+    of free variables in $\phi$ for parameters, and full
+    or partial substitution of a term with an equivalent term.
+  \item
+    $\phi$ is of the form $\neg \chi$ where $\chi$
+    is a subformula of $\psi$ modulo substitution of free
+    variables in $\chi$ for parameters,  and full
+    or partial substitution of a term with an equivalent term.
+  \end{enumerate}
+  Altering the definition to allow parameters being substituted
+  for free variables, and full or partial substitution of any term with an
+  equivalent term ensures compatibility of the following proofs
+  with the quantifier rules, term rules, and equality rules.  We say a formula $@_s \phi$
+  on a {\it FHTL} tableau branch $\Theta$ is a {\it root subformula}
+  if $\phi$ is a quasi subformula of the root formula of the tableau.  
+\end{definition}
+
+\begin{remark}
+  If $@_s \phi$ occurs on a branch $\Theta$ we may write $@_s \phi \in \Theta$.
+\end{remark}
+
+
+
+\begin{lemma}[{\bf Root Subformula Property}]
+  \label{subformula}
+  If a formula $@_s \phi$ occurs in a {\it FHTL} tableau where
+  $\phi$ is not of the form $a$, $F a$, or $P a$ for $a$ a nominal,
+  or $u = t$ for optionally prefixed closed terms $t$ and $u$,
+  then $\phi$ is a (positively occuring) root subformula. 
+  If $@_s \neg \phi$ occurs in a {\it FHTL} tableau then $\phi$ is a
+  root subformula, but we say it is negatively occuring.
+\end{lemma}
+
+\begin{proof}
+  This is verified by checking the tableau rules with
+  attention to the fact that if the conclusion of a rule is
+  of the form $@_s \neg \psi$ then its premise is of the
+  form $@_s \neg \phi$. 
+  \iffalse
+  We observe the propositional, quantifier, and $@$ rules, along with
+  {\bf (:fix 1)}, {\bf (:fix 2)}, and {\bf (:fix 4)} can only take
+  root-subformulae as premises and yield root-subformulae as conclusions.
+  Definitionally {\bf (ref)}, {\bf (:3)}, and {\bf (:func)}
+  generate only term equality formulae
+  and {\bf (nom  ref)} generates only nominal equality formulae.
+  Whether the premise of {\bf (:2)} is a nominal equality or root-subformula,
+  the conclusion is a term equality.  {\bf (:1)} and {\bf (:fix 3)} both preserve
+  the ``type'' of their premise, since {\bf (:1)}'s conclusion only changes the nominal
+  prefix and if {\bf (:fix 3)}'s premise is a root-subformula then its
+  conclusion with its changed terms
+  is still a quasi-subformula of the premise by definition.
+  \bigskip
+  This leaves us with {\bf ($F/P$}), {\bf ($\neg F / \neg P$)},
+  {\bf ($F/P$--bridge)}, {\bf (sub)}, and {\bf (nom)}.
+  The premise of {\bf ($F/P$}) must be either an accessibility formula or a root subformula,
+  in the first case the second conclusion is a nominal equality,
+  and in the second case the second conclusion is a root subformula,
+  in either case the first conclusion is an accessibility formula.
+  In the case of {\bf ($\neg F / \neg P$)}, the first premise can only be
+  a root subformula since there's no way to introduce a negation,
+  as a result the conclusion must be a root subformula.
+  In the case of {\bf ($F/P$--bridge)}, the second premise is
+  either an accessibility formula or a root subformula, and since
+  the definition of quasi-subformula allows for substitution of (equivalent) nominals,
+  the conclusion is the same kind of formula as the second premise.  
+  Likewise {\bf (sub)}'s conclusion will be of the same type as its second premise
+  since the definition of quasi-subformula allows for substitution of (equivalent) terms.  
+  And finally {\bf (nom)}'s conclusion will be of the same type as its second premise
+  since the definition of quasi-subformula allows for change of prefix nominals.
+  \fi
+\end{proof}
+
+\begin{definition}
+  An occurence of a nominal in a formula is {\it equational} if
+  the occurence is a formula (i.e. not part of a satisfaction operator).
+\end{definition}
+
+For instance, the occurence of a nominal $c$ is equational in the formula
+$@_a (c \lor (\exists x) \psi)$ but not in the formula $@_c (\exists x) \psi$.
+
+\begin{definition}[$N_{\Theta}$]
+  The set of nominals which occur on a branch $\Theta$
+  is written $N_{\Theta}$
+\end{definition}
+
+
+\begin{definition}[$\sim_{\Theta}$]
+  Where $\Theta$ is a {\it FHTL} tableau branch, 
+  define a binary relation $\sim_{\Theta}$
+  on $N_{\Theta}$ by $a \sim_{\Theta} b$ if and only if
+  $@_a b$ occurs on $\Theta$.
+  Let $\sim_{\Theta}^*$ be reflexive, transitive,
+  and symmetric closure of $\sim_{\Theta}$.
+\end{definition}
+
+
+\begin{theorem}
+  \label{nomeq}
+  Where $@_a b$ occurs on a branch $\Theta$, if the nominals
+  $a$ and $b$ are distinct, then each has the property that
+  it is identical to, or related by $\sim_{\Theta}$ to,
+  a nominal with a positive and equational occurence in
+  the root subformula.
+\end{theorem}
+
+\begin{proof}
+  This is verified by checking each rule, in some cases making use of
+  \ref{subformula}.  {\bf (nom ref)} might initially appear to be a problem,
+  since we are permitted to apply it for any nominal on the branch,
+  but the nominals in its conclusions are not distinct.
+  For $F$ and $P$ we make use of the restriction that they cannot be
+  applied to premises of the form $@_a (F / P) \phi$ where $\phi$ is a
+  nominal.  
+\end{proof}
+  
+\begin{theorem}
+  \label{sim}
+  Let $@_a F b$ be a formula occurence on a branch $\Theta$
+  of a tableau.  Either there is a positively occuring
+  subformula $F b'$ of the root formula
+  such that $b \sim_{\Theta}^* b'$
+  or there is an accessibility formula occurence
+  $@_{a'} F b'$ such that $a \sim_{\Theta}^* a'$ and $b \sim_{\Theta}^* b'$.
+  Similarly for a formula occurence $@_a P b$. 
+\end{theorem}
+
+\begin{proof}
+  This is verified by checking each of the
+  tableau rules, in some cases making use of \ref{subformula}.
+\end{proof}
+
+
+\begin{definition}[$\subseteq_{\Theta}$]
+  \label{included}
+  Where $a$ and $b$ are nominals occuring on an {\it FHTL} tableau branch
+  $\Theta$, $a$ is {\it included} in $b$ with respect to $\Theta$
+  if for any root subformula $\phi$, if $@_a \phi$ occurs on $\Theta$
+  then $@_b \phi$ also occurs on $\Theta$, similarly for their negations.
+  If $a$  is included in $b$ with respect to $\Theta$,
+  and the first occurence of $b$ on $\Theta$ is
+  before the first occurence of $a$ on $\Theta$, then
+  we write $a \subseteq_{\Theta} b$.
+\end{definition}
+
+\begin{definition}[$W, \approx$]
+  Let $W$ be the subset of
+  $N_{\Theta}$ containing any nominal
+  $a$ with the property that there
+  is no nominal $b$ such that
+  $a \subseteq_{\Theta} b$.
+  Let $\approx$ be the restriction of $\sim_{\Theta}$ 
+  to $W$.
+\end{definition}
+
+We can see that $W$ contains every nominal in the root formula,
+and since any branch $\Theta$ is closed under {\bf (nom ref)} and
+{\bf (nom)} we have that $\sim_{\Theta}$ and $\approx$ are equivalence relations.
+For a nominal $a$ in $W$ we write $[a]$ to denote the equivalence class of $a$
+and $W /_{\approx}$ to denote the set of equivalence classes.  
+
+\begin{definition}
+  \label{rel}
+  Let $R$ be the binary relation defined on $W$
+  defined by $R a c$ if and only if there are nominals
+  $a' \approx a$ and $c' \approx c$ satisfying one of the
+  following conditions:
+  \begin{enumerate}
+  \item
+
+    The formula $@_{a'} F c'$ or $@_{a'} P c'$
+    occurs at $\Theta$ and was introduced to the
+    branch
+    by $F$ or $P$ respectively.
+  \item
+
+    There is a nominal $d \in N_{\Theta}$
+    such that the formula $@_{a'} F d$ or $@_{a'} P d$
+    was introduced to the branch by
+    $F$ or $P$ respectively 
+    and $d \subseteq_{\Theta} c'$
+  \item
+    The formula $@_{a'} F c'$ or $@_{a'} P c'$
+    occurs at $\Theta$ and $a'$ or $c'$
+    occurs in the root formula.
+  \end{enumerate}
+\end{definition}
+
+Note that the nominal $d$ in the second item is not an element of $W$
+and that the accessibility relation $R$ is compatible with $\approx$.
+We define $\overline{R}$ as the binary relation on $W /_{\approx}$
+defined by $\overline{R} [a] [c]$ if and only if $R a c$.
+\par
+$(W, \overline{R})$ are a modal frame, the first step
+towards constructing a model
+of an open tableau branch $\Theta$.
+
+\subsection{First-Order Components for Completeness}
+
+Completeness for a tableau system is demonstrated by
+giving a method for constructing a model for an open
+branch such that it satisfies every formula on the branch.
+Taking our cue from \citet{hansen2007tableau} and making
+accomodations for the tableau rules and and structure we adapted
+from \citet{bolander}, we construct the first-order components of
+our model.
+Here we define the analogues of
+$D_{[w]}, I_{[w]}$ for $[w] \in W/_{\approx}$ and $I_{\textit{nom}}$.
+To start we let $\mathcal{D}$ be set defined by:
+$$\mathcal{D} = \{ i : t \mid \text{for some } i \in W \text{ and some closed term of the extended language } t\}$$
+Further we define a relation $\equiv$ on $D$ by:
+$i : t \equiv j : s \Longleftrightarrow @_k i : t \equiv j : s \in \Theta \text{ for some } k \in W$
+From the tableau rules {\bf (ref)}, {\bf (sub)}, and {\bf (:1)}, we observe $\equiv$ is an equivalence
+relation on $\mathcal{D}$.
+From here we define the domain $D$ of the model as $\mathcal{D} /_{\equiv}$,
+with the elements written as $\overline{i : t}$, for all $[w] \in W /_{\approx}$
+define:
+$$D_{[w]} = \{ \overline{j : p} \mid j \in [w] \text{ and } p \text{ a parameter}\}$$
+For $a$ a constant or parameter and $[w] \in W/_{\approx}$
+we define $I_{[w]}(a) = \overline{w : a}$ which is well defined by {\bf (:2)}.
+For an $n$-ary relation symbol $R$ and $[w] \in W/_{\approx}$ define $I_{[w]} (R)$ by:
+$$I_{[w]} (R)(\overline{i_1 : t_1}, ... , \overline{i_n : t_n}) \Longleftrightarrow @_w R(i_1 : t_1, ... , i_n : t_n) \in \Theta$$
+for all $\overline{i_1 : t_1}, ... , \overline{i_n : t_n} \in D$.
+The interpretation is similar for $n$-ary function symbols.
+And naturally for interpretation of nominals, for $w \in W$ define $I_{\textit{nom}}(w) = [w]$.
+\par
+Before finally demonstrating that this model $\mathfrak{M}$ realizes every formula on
+the tableau branch from which it was constructed we need the following lemma.
+\begin{lemma}
+  \label{terms}
+  If $t$ is a closed term of the extended language and $i$
+  is a nominal then we have $I_{[i]}( t) = \overline{i:t}$
+  for all variable assignments $g$ in our model $\mathfrak{M}$.    
+\end{lemma}
+
+\begin{proof}
+  The proof is by induction on the construction of $t$.
+  By our assumption $t$ cannot a first-order variable,
+  and if $t$ is a constant or a parameter then 
+  $$ I_{[i]}(t) = \overline{i : t}$$
+  by definition.
+  Suppose alternatively $t$ is of the form $u: s$
+  for $u \in W$, since $t$ contains no variables
+  neither does $s$ and consequently:
+  $$I_{[i]}( u:s) = I_{[u]}(s) \stackrel{*}{=} \overline{u : s} \stackrel{\textbf{(:3)}}{=}  \overline{i : u : s}$$
+  Where $*$ follows from the inductive hypothesis
+  and {\bf (:3)} from {\bf (:3)}.
+  Similarly for the case involving functional symbols. 
+\end{proof}
+
+Lemma \ref{terms} is made use of in the
+cases of formulae which openly depend on terms in the completeness proof.
+
+
+\begin{theorem}[{\bf Completeness of the {\it FHTL} Tableau Method }]
+  Assuming the branch $\Theta$ is open,
+  for any formula $@_a \phi$
+  which contains only nominals from $W$,
+  the following two statements hold:
+
+  \begin{alignat*}{2}
+    &@_a \phi \in \Theta  &&  \Longrightarrow \mathfrak{M}, [a] \vDash_g \phi \text{ for some (all) variable assignments }g\\
+    &@_a \neg \phi \in \Theta  &&  \Longrightarrow \mathfrak{M}, [a] \not \vDash_g \phi \text{ for some (all) variable assignments }g\\
+  \end{alignat*}
+\end{theorem}
+
+\begin{proof}
+  This is demonstrated by induction on the structure of the formula.
+  We present the most difficult case, namely where $\phi$ is of the
+  form $F \psi$.
+  \par
+  Assume $@_a F \psi \in \Theta$.  Then we need to show that there is an
+  equivalence class $[c] \in W /_{\approx}$ such that
+  $R [a] [c]$ and $\mathfrak{M}, [c] \vDash_g \psi$ for some
+  variable assignments $g$.
+  We have two cases based on the question of whether
+  or not $\psi$ is a nominal.  In the case where
+  \begin{itemize}
+  \item {\it $\psi$ a nominal}
+    Suppose $\psi$ is some nominal $b$, we only need prove
+    $\overline{R} [a] [b]$. By theorem \ref{sim} there is either a root
+    nominal $b'$ such that $b' \sim_{\Theta} b$  or there is
+    an accessibility formula $@_{a'} F b' \in \Theta$
+    such that $a' \sim_{\Theta} a$ and $b' \sim_{\Theta} b$.
+    In the first case then we have $@_a F b' \in \Theta$
+    and $b' in W$ so $\overline{R} [a] [b']$ and since
+    $b' \approx b$ (since both are in $W$) we have $[b'] = [b]$ and we are done.
+    In the second case, there are four subcases
+    depending on whether or not $a'$ and $a$ are equal
+    and $b'$ and $b$ are equal:
+    \begin{itemize}
+    \item $a' = a$ and $b' = b$:
+      
+      Then we have $\overline{R} [a] [b]$ and are done.
+    \item $a' = a$ and $b' \neq b$:
+
+      By \ref{nomeq} there is a nominal $c$
+      occuring in the root formula such that $b' \sim_{\Theta} c$.
+      But then $@_a F c \in \Theta$ and $c \in W$ so
+      $\overline{R} [a] [c]$, and by the definition of
+      $\approx$ we have $[c] = [b]$ and are done.
+      
+    \item $a' \neq a$ and $b' = b$:
+
+      By \ref{nomeq} there is a nominal $c$
+      occuring in the root formula such that $a' \sim_{\Theta} c$.
+      But then $@_c F b \in \Theta$ and $c \in W$ so
+      $\overline{R} [c] [b]$, and by the definition of
+      $\approx$ we have $[c] = [a]$ and are done.
+      
+    \item $a' \neq a$ and $b' \neq b$:
+
+      By \ref{nomeq} there are nominals $c$ and $d$ 
+      occuring in the root formula such that $a' \sim_{\Theta} c$
+      and $b' \sim_{\Theta} d$.  But then also $@_c F d \in \Theta$,
+      and $c,d \in W$ so $\overline{R} [c] [d]$ and by definition
+      of $\approx$ we have $[c] = [a]$ and $[d] = [b]$ and are done.
+    \end{itemize}
+  \item {\it $\psi$ not a nominal}
+    Since $a \in W$ the application of {\bf ($F$)}
+    to $@_a \psi$ is not blocked by the loop-check condition
+    of the tableau construction algorithm.
+    From the rule {\bf ($F$)}, 
+    there are formulae $@_a F c , @_c \psi \in \Theta$
+    where the nominal $c$ is new to the branch.
+    If $c \in W$ then $\overline{R} [a] [c]$
+    and by induction $\mathfrak{M}, [c] \vDash_g \psi$
+    for some variable assignments $g$.
+    If $c \not\in W$ then by the definition of $W$
+    there is a nominal $d$ where $c \subseteq_{\Theta} d$.
+    Without loss of generality assume there is no nominal $e$
+    such that $d \subseteq_{\Theta} e$, this implies $d \in W$.
+    Additionally by \ref{subformula} $\psi$ is a root subformula
+    and we have $@_d \psi \in \Theta$.  By induction we have
+    $\mathfrak{M}, [d] \vDash_g \phi$, and by the definition
+    of $W$ and $\approx$ we have $\overline{R} [a] [d]$.   
+  \end{itemize}
+
+  Now assume $@_a \neg F \psi \in \Theta$, we need to show
+  $\mathfrak{M}, [a] \not \vDash_g F \psi$ does not hold
+  for any variable assignment $g$, i.e. for any $[c] \in W /_{\approx}$
+  where $\overline{R} [a] [c]$ that $\mathfrak{M}, [c] \not \vDash_g \psi$
+  for any variable assignment $g$.  From $\overline{R} [a] [c]$
+  we have that there are nominals $a' \approx a$ 
+  and $c' \approx c$ satisfying one of the three conditions of $R$ in
+  definition \ref{rel}.  In the first and third conditions of the definition
+  we have $@_{a'} F c' \in \Theta$ and as a result $@_a F c \in \Theta$
+  and in turn by {\bf ($\neg F$)} $@_c \neg \psi \in \Theta$.
+  By induction we have $\mathfrak{M}, [c] \not \vDash_g \psi$ for every variable assignment
+  $g$.  In the second condition of $R$ in definition \ref{rel} there is a nominal
+  $d \in N_{\Theta}$ such that $@_{a'} F d \in \Theta$ and
+  $d \subseteq_{\Theta} c'$, consequently $@_a F d \in \Theta$ and
+  by {\bf ($\neg F$)} $@_d \neg \psi \in \Theta$.
+  But by lemma \ref{subformula} $\psi$ is a root subformula,
+  and since $d \subseteq_{\Theta} c'$ we have $@_{c'} \neg \psi \in \Theta$.
+  By induction we have $\mathfrak{M}, [c'] \not \vDash_g \psi$ for every variable assignment
+  $g$ and by the definition of $\approx$ also $[c'] = [c]$.
+\end{proof}
+
+
+\section{{\it FHTL} Model Checking with Finite Tableaux}
+For our task of AMR inference, we are not always concered with the determining the general satisfiability or
+validity of an AMR formula translated into {\it FHTL}, but
+rather whether it holds in a model consistent with
+an established set of {\it FTHL} translations of AMR sentences.
+\par
+This is because reasoning about AMR sentences
+(or eventually even about AMR representing discourses or documents)
+takes place in a particular context or a general kind of context.
+These contexts are described in logic by models,
+and where they are determined by some finite set of
+AMR sentences, these models will necessarily be finite, since across any finite
+number of AMR sentences only a finite number of times (nominals),
+entities (terms of the extended language),
+and relationships between entities (function symbols and relation symbols)
+can be referenced.  It is possible for some contexts to require non-finite models,
+or for some model conditions to be so general as to require
+automated theorem proving techniques for assessing a sentence rather
+than automated model checking, but these issues are beyond the scope of this paper.    
+\par
+For {\it FHTL} sentences and finite models, we have an instance of a local model-checking problem
+where given formula $\phi$, a finite {\it FHTL} model structure $\mathfrak{M}$, a time $t$
+in $\mathfrak{M}$, and a variable assignment $g$, we need to determine
+whether $\mathfrak{M}, t \vDash_g \phi$ \citep{muller1999model}.  
+\par
+
+Here we develop a restriction of our method for tableau construction, which
+ensures termination of tableau construction (i.e. all resulting tableaux are finite)
+at the cost of completeness.  This is actually an easy compromise for us to make.
+Model checking via tableau does not benefit from
+the completeness of a tableau method, since we are not trying to demonstrate a sentence's validity or
+unsatisfiability,  but are interested only whether it holds in the relevant model.
+Tableau termination however is critical to decidability,
+and since we are assuming finite models, our approach had better be decidable!
+Our approach to using
+terminating tableaux as a means of model checking for {\it FHTL}
+based on the approach in \citet{bohn1998first},
+and makes use of the idea of quantifier depth from \citet{fitting-tab}. 
+
+\subsection{Restricted rules}
+
+\begin{figure*}[!h]
+  
+  \begin{adjustbox}{varwidth=\linewidth,scale=0.7}
+    %% \begin{framed}
+    \centering
+    
+    \begin{mdframed}
+    \centering
+    
+    \underline{\bf Equality rules:}
+
+
+    \begin{multicols}{2}
+      \begin{prooftree}
+        \AxiomC{[$i$ and $j$ on the branch.]}
+        \RightLabel{\bf (ref)\footnote{\label{closed}$t$ is a closed term on the branch, $j$ not among its prefixes.}}
+        \UnaryInfC{$@_i j:t = j:t$} 
+      \end{prooftree}
+      
+      
+      \begin{prooftree}
+        \AxiomC{$@_i j:t = k:s$}
+        \AxiomC{$@_i \phi$}
+        \RightLabel{\bf (sub)\footnote{\label{subst}$\phi[j:t // k:s]$ is $\phi$ where some occurences of $j:t$ have been replaced by $k:s$.}}
+        \BinaryInfC{$@_i \phi[j:t // k:s]$} 
+      \end{prooftree}
+    \end{multicols}
+    
+    
+    \underline{\bf {\it FHTL} term rules:}
+    
+    \begin{multicols}{3}
+      \begin{prooftree}
+        \AxiomC{$@_i j_1 : t = j_2 : s$}
+        \RightLabel{\bf (:1)\footnote{\label{k}$k$ on the branch.}}
+        \UnaryInfC{$@_k j_1 : t = j_2 : s$}
+      \end{prooftree}
+      
+      \begin{prooftree}
+        \AxiomC{$@_i j$}
+        \RightLabel{\bf (:2)\footnoteref{k}\footnote{\label{t}$t$ is a closed term on the branch, and $i$, $j$ are distinct nominals on the branch, not among the prefixes of $t$.}}
+        \UnaryInfC{$@_k i: t = j : t$}
+      \end{prooftree}
+      
+      \begin{prooftree}
+        \AxiomC{}
+        \RightLabel{\bf (:3)\footnoteref{k}\footnoteref{t}}
+        \UnaryInfC{$@_k j :i: t = i : t$}
+      \end{prooftree}
+    \end{multicols}
+
+    \begin{multicols}{2}
+    %%\begin{multicols}{4}
+      \begin{prooftree}
+        \AxiomC{$@_i R(t_1,...,t_n)$}
+        \RightLabel{\bf (:fix 1)\footnote{\label{r} $i$ is not among the prefixes of the terms in the conclusion.}}
+        \UnaryInfC{$@_i R(i:t_1,...,i:t_n)$}
+      \end{prooftree}
+      
+      \begin{prooftree}
+        \AxiomC{$@_i \neg R(t_1,...,t_n)$}
+        \RightLabel{\bf (:fix 2)\footnoteref{r}}
+        \UnaryInfC{$@_i \neg R(i:t_1,...,i:t_n)$}
+      \end{prooftree}
+    \end{multicols}
+    
+    \begin{multicols}{2}  
+      \begin{prooftree}
+        \AxiomC{$@_i t = s$}
+        \RightLabel{\bf (:fix 3)\footnoteref{r}}
+        \UnaryInfC{$@_i i : t = i : s$}
+      \end{prooftree}
+      
+      \begin{prooftree}
+        \AxiomC{$@_i \neg t = s$}
+        \RightLabel{\bf (:fix 4)\footnoteref{r}}
+        \UnaryInfC{$@_i \neg i : t = i : s$}
+      \end{prooftree}
+    \end{multicols}
+    
+    \begin{prooftree}
+      \AxiomC{[$i$ and one of the two function terms on the branch]}
+      \RightLabel{\bf (:func)\footnote{$f$ is an $n$--ary function symbol and $t_1,...,t_n$ are closed terms with $i$ not among their prefixes.}}
+      \UnaryInfC{$@_i f(t_1,..., t_n) = f(i:t_1,..., i:t_n)$}
+    \end{prooftree}
+    
+  \end{mdframed}
+\end{adjustbox}
+\end{figure*}
+
+\begin{definition}[{\bf Saturation}]
+  A tableau branch is {\it saturated}
+  if there are no rules that can be applied to the branch in a way that
+  satisfies their constraints or that avoid
+  adding duplicate formulae to the branch.
+  If every branch of the tableau
+  is saturated we say the tableau is saturated.
+\end{definition}
+
+
+
+We will show later these new restrictions on these rules
+ensures that eventually any branch will be saturated,
+since the amount of times any of the term rules can be applied
+depends on the number of nominals and terms on the branch.
+We add the further restriction for universal quantification rules
+(just {\bf ($\neg \exists$)} in our tableau method)
+where $Q$ is a positive natural number: 
+
+\begin{figure*}[!h]
+  \begin{adjustbox}{varwidth=\linewidth,scale=1.0}
+    %% \begin{framed}
+    \centering
+    
+    \begin{mdframed}
+      \centering
+      \begin{prooftree}
+        \AxiomC{$@_s \neg (\exists x) \phi$}
+        \RightLabel{\bf ($\neg \exists$)\footnote{$p$ is any parameter on the branch (or any parameter in general if there are none on the branch yet), and the premise can produce only $Q$ distinct conclusions.}}
+        \UnaryInfC{$@_s \neg \phi[s:p / x]$} 
+      \end{prooftree}
+    \end{mdframed}
+  \end{adjustbox}
+  \end{figure*}
+
+  In first-order tableau systems universal rules are the main culprit for
+  non-termination.  Since proofs are finite objects, any tableau proof
+  for a formula involving universal quantification will close
+  for some quantifier depth $Q$, the trouble being there is no general way
+  to anticipate the value of $Q$ as that would constitute a decision procedure
+  for first-order logic. The main function of a universal rule
+  in a tableau proof is to close the branch, so selecting a particular
+  quantifier depth is a way of giving a branch every reasonable chance
+  to close where it has a possible application of a universal rule.
+  While for model checking we actually will not need branches to close
+  so long as they terminate, closed branches are helpful since
+  we automatically do not have to check them for satisfiability.  
+
+
+\subsection{Systematic tableau construction}
+
+
+\begin{definition}[$\prec_{\Theta}$]
+  \label{prec}
+  Where $\Theta$ is a tableau branch in
+  the {\it FHTL} calculus, if a nominal $a$
+  is introduced to the branch by application of
+  of $F$ or $P$
+  to a premise $@_s \phi$, we
+  say $a$ is {\it generated} by $s$
+  on $\Theta$ and write $s \prec_{\Theta} a$.
+\end{definition}
+
+\begin{lemma}
+  \label{wellfounded}
+  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
+  the graph $G = (N_{\Theta}, \prec_{\Theta})$
+  is the disjoint union of a finite set of well-founded and finitely
+  branching trees.
+\end{lemma}
+
+\begin{proof}
+  Each aspect is proved below:
+  \begin{itemize}
+  \item {\it Wellfoundedness of trees in }$G$
+    
+    We have that if $a \prec_{\Theta} b$
+    then the first occurence of $a$
+    on $\Theta$ is before the first occurence
+    of $b$, thus by induction any subset of $N_{\Theta}$ under the relation
+    $\prec_{\Theta}$ has a least element and each tree in $G$ is wellfounded.
+  \item $G$ {\it is a disjoint union of a set of trees}
+
+    This follows from well-foundedness, the
+    fact every nominal in $N_{\Theta}$
+    can be generated by at most one other nominal, 
+    and that every nominal in $N_{\Theta}$
+    must have one of the finitely many nominals in the
+    root formula as an ancestor.
+  \item{\it The set of trees is finite}
+
+    If a nominal $c$ occurs on a branch but not in the
+    root formula then there is some nominal $a$ which
+    generated $c$, as a result $c$ cannot be the root of a
+    tree, and since there are only finitely many nominals
+    in a root formula there can only be finitely many trees.
+  \item {\it Each tree finitely branching}
+    
+    We show some tree $\mathcal{T}$ is finitely branching by showing that
+    given a nominal $a$, there can only be finitely
+    many distinct nominals $b$ such that
+    $a \prec_{\Theta} b$.
+    Each nominal $b$
+    such that
+    $a \prec_{\Theta} b$
+    is generated by applying one of 
+    $F$, $P$ to
+    a premise of the form
+    $@_a F \phi$ or $@_a P \phi$
+    respectively, where by
+    our restrictions $\phi$
+    is not a nominal.
+    Since there can only be finitely
+    many root subformulae of the form
+    of one of the the possible premises,
+    where $a$ is the prefix nominal in each case,
+    only finitely many new nominals have been generated
+    from $a$.  Thus $\mathcal{T}$ is finitely branching.
+    
+  \end{itemize}
+\end{proof}
+
+
+\begin{remark}
+  In the restricted rules, a term can have no nominal among its
+  prefixes more than once.  Consequently where $n$ is the number of
+  nominals on the branch and $k (\leq n)$ is the length of a term's prefix string,
+  the number of possible prefixed versions of a term are
+  $$\sum_{k = 1}^n \frac{n!}{(n - k)!}$$
+\end{remark}
+
+
+\begin{lemma}
+  \label{saturation}
+  Using the restricted rules, minus any rules
+  which generate new nominals on a branch ($F$ and $P$),
+  any {\it FHTL} tableau branch $\Theta$
+  saturates within a finite number of steps.
+\end{lemma}
+
+\begin{proof}
+  The propositional rules, {\bf ($\neg F / P$)}, {\bf ($\exists$)}
+  and the @ rules, have only finitely many possible applications
+  before they can no longer be applied on $\Theta$.
+  With the quantifier depth restriction {\bf ($\neg\exists$)}
+  can only be applied a finite number of times,
+  and while {\bf (sub)} can generate multiple conclusions since
+  there are multiple partial substitutions for any formula,
+  there are only finitely many partial substitutions possible.
+  For {\bf (ref)} and the term rules, we have at worst cases like {\bf (:3)}
+  and {\bf (ref)} which depend on both the number of nominals and the number of terms on the branch
+  for the number of possible applications before saturation.
+  There are only finitely many nominals and terms on the branch at any given time,
+  and by our remark, there are finitely many possible prefix strings for a given term.
+  Thus there are only finitely many possible applications of {\bf (ref)} to the branch.
+\end{proof}
+
+\iffalse
+\begin{lemma}
+  \label{inf}
+  Where $\Theta$ is a tableau branch in the {\it FHTL} calculus,
+  $\Theta$ is infinite if and only if there exists an infinite
+  chain of nominals and state variables
+  $a_1 \prec_{\Theta} a_2 \prec_{\Theta} \dotsc \prec_{\Theta} a_n \prec_{\Theta} \dotsc $
+\end{lemma}
+  
+\begin{proof}
+  Since the structure of the formulae and tableau rules are not involved
+  in the proof from \citet*{bolander} holds here as well.
+  
+  
+  \iffalse
+  The 'if' direction follows from the observation that the
+  talbeau rules can only generate a finite tableau while not
+  generating additional nominals, since our conventions
+  ensure that all formulae occuring $\Theta$ are distinct.
+  For the other direction, first we demonstrate
+  $N_{\Theta}$ is infinite.  Suppose by contradiction
+  $N_{\Theta}$ is finite
+  \fi
+\end{proof}
+\fi
+
+\begin{definition}[{\it Tableau construction algorithm}]
+  Let $@a_a \phi$ be the formula whose local satisfiability (possibly validity)
+  we are deciding.
+  We inductively define a sequence of finite tableaux
+  $$\mathcal{T}_0, \mathcal{T}_1, \mathcal{T}_2, \ldots$$
+  where each element of the sequence is embedded in all
+  of its successors.  We let $\mathcal{T}_0$ be the finite
+  tableau consisting of the formula $@_a \neg \phi$.
+  Assuming the finite tableau $\mathcal{T}_n$ is defined,
+  apply, where possible according to its restrictions,
+  an arbitrary model checking tableau rule with
+  the following restrictions.
+  \begin{itemize}
+  \item {\bf Saturation}
+
+    Do not apply a rule to a premise if all possible
+    conclusions already occur on the branch.
+  \item {\bf (Loop check)}
+
+    The rule {\bf ($F$)} is not applied to a formula occurence $@_a F \phi$
+    at a branch $\Theta$ if there is a nominal $b$ such that
+    $a \subseteq_{\Theta} b$,
+    and simlarly for the rule {\bf ($P$)}.
+  \end{itemize}
+  Let $\mathcal{T}_{n + 1}$ be the resulting tableau.
+\end{definition}
+
+The saturation conditions prevent the algorithm
+from extending the tableau indefinitely with redundant
+formulae and forces the algorithm to use every applicable
+rule the maximum possible amount of times,
+i.e. this algorithm is ``fair'' \citep{fitting-modal}.
+The loop check condition is designed in the same spirit,
+preventing the algorithm from introducing nominals
+to the branch which would be redundant in their sharing
+identical information with some ancestor nominal already on the branch.
+Now we demonstrate the algorithm always terminates.  
+
+\begin{theorem}
+  \label{term}
+  The systematic tableau construction algorithm terminates.
+\end{theorem}
+
+\begin{proof}
+  Suppose by contradiction the algorithm does not terminate.
+  Then the tableau is an infinite branch $\Theta$.
+  By lemma \ref{wellfounded} the graph $(N_{\Theta}, \prec_{\Theta})$
+  is a disjoint union of a finite set of finitely branching trees.
+  Thus it has some inifinite branch
+  $$a_1 \prec_{\Theta} a_2 \prec_{\Theta} \ldots \prec_{\Theta} a_i \prec_{\Theta} \ldots $$
+  otherwise by lemmas \ref{subformula} and \ref{saturation}
+  there would only be finitely many formulae on the branch,
+  contradicting that it is infinite.
+  For each $i$ in the indices of this infinite chain of nominals,
+  let $\Theta_i$ denote the initial segment of $\Theta$ up to
+  but not including the first formula where the nominal $a_{i + 1}$
+  occurs.  Thus one of {\bf ($F$)} or {\bf ($P$)} was applied
+  to a formula in $\Theta_i$ which generated $a_{i + 1}$.
+  Let $\Gamma_i$ be the set of all formulae which contain any root subformulae $\phi$ such that $@_{a_i} \phi \in \Theta_i$
+  and
+  let $\Delta_i$ be the set of all formulae which contain any root subformulae $\phi$ such that  $@_{a_i} \neg \phi \in \Theta_i$.
+  Since there can only be finitely many sets of root subformulae,
+  there are nominals in the infinite chain $a_j, a_k$ where
+  $j < k$ and $\Gamma_j = \Gamma_k$ and $\Delta_j = \Delta_k$.
+  Since $j < k$ the first occurence of $a_j$ on $\Theta_k$ must be before
+  the first occurence of $a_k$ on $\Theta_k$.  Additionally
+  for any root subformula $\phi$, if $@_{a_k} \phi \in \Theta_k$
+  then $\phi \in \Gamma_k$ and consequently $\phi \in \Gamma_j$,
+  but then $@_{a_j} \phi \in \Theta_j$ which is an initial segment
+  of $\Theta_k$.  Thus by definition \ref{included}
+  $a_k$ is included in $a_j$ with respect to $\Theta_k$, and
+  since the first occurence of $a_j$ is before the first occurence
+  of $a_k$ we have $a_k \subseteq_{\Theta} a_j$.  But this contradicts that
+  {\bf ($F$)} or {\bf ($P$)} was applied on $\Theta_k$
+  resulting in the first formula containing an occurence
+  of the nominal $a_{k + 1}$ since $a_k \subseteq_{\Theta} a_j$ would
+  result in the loop check condition blocking the application.
+  Thus the algorithm terminates.
+  
+\end{proof}
+
+
+
+\subsection{Node Annotation}
+
+The approach involves annotating each node of an open
+branch with the variable assignments in the model which satisfy the
+sentence at the node, building inductively from the terminal nodes.
+If the root formula of the tableau with at least one open branch
+can be annotated with non-empty set of
+variable assignments, then it is satisfiable in the model.
+If a tableau is closed then the root sentence $@_s \phi$ is unsatisfiable.
+As a result if the root formula is of the form $@_s \neg \psi$
+then this constitutes a proof of the validity of $@_s \psi$ by contradiction.
+We now view each node in the tableau graph as a pair $( @_s \phi , \mathcal{V} )$, 
+of the formula at the node and the set $\mathcal{V}$ of variable assignments
+in our model $\mathfrak{M}$ which
+witness the formula.  We define an annotation function $\textit{ann}(@_s \phi) = \mathcal{V}$  
+generally as:
+$$\textit{ann}(@_s \phi) = \{g \mid \mathfrak{M}, I_{\textit{nom}} (s) \vDash_g \phi\}$$
+If we have a branch that we know to be closed from the tableau construction
+(or discover it is closed during model checking as we will see) and $@_t \psi$
+is the root of that branch, we define:
+$$\textit{ann}(@_t \psi) = \emptyset$$
+For this reason during the annotation process we need not check
+formulae of the form $@_i j$ or $@_i (F / P) j$, or nodes not involving free variables
+since their truth or falsehood is independent of variable assignments.  
+Terminal nodes will necessarily not contain quantifiers, double negation,
+nested prefix/satisfaction operators, or logical connectives,
+as a result they will consist only of equality or relation statements
+over extended terms possibly involving free variables.
+Now we can begin describing the dependency relationships between tableau rule
+conclusions and their premises.  
+\begin{itemize}
+\item {\bf Term rules:}
+  In all cases we can see that for every rule with a
+  premise the same variable assignments which satisfy the
+  conclusion satisfies the premise.
+  This is immediate for {\bf (:2)}, {\bf (:3)},
+  and {\bf (:func)}, since they only involve closed terms,
+  and are verified by checking definitions in all other cases.
+\item {\bf @ rules:}
+  For {\bf ($P / F$--bridge)}, and {\bf ($P / F$--trans)} all variable assignments
+  trivially satisfy both the conclusions and premises.
+  For {\bf (nom)}, since by the first premise
+  $$I_{\textit{nom}}(i) = I_{\textit{nom}}(j)$$
+  the variable assignments that satisfy the conclusion
+  satisfy the second premise
+  (the first premise being a nominal equivalence
+  is trivally satisfied by all variable assignments).
+  That the premise and conclusion of both {\bf ($@$)} and {\bf ($\neg @$)}
+  are satisfied by the same variable assignments are verified
+  by checking their satisfiability definitions.
+\item {\bf Equality rules:}
+  The only rule to check is {\bf (sub)},
+  from which it follows immediately that the
+  second premise is satisfied by
+  the variable assignments which satisfy both the
+  conclusion and the constraint
+  given by the first premise,
+  namely that
+  $\overline{j:t} = \overline{k:s}$.  
+\item {\bf Quantifier rules:}
+  For {\bf ($\exists$)}, we let $C$ be
+  set of variable assignments which satisfy
+  the conclusion.  Without loss of generality,
+  where the premise is $@_s (\exists x) \phi$,
+  we see from the semantics of $\exists$ that $P$, the set of variable assignments which satisfies
+  the premise can be defined as:
+  $$P = \{ g \mid g \in C \text{ such that there is an }x\text{-variant } g' \text{ of }g  \text{ at } s \text{ where } \mathfrak{M},s \vDash_{g'} \phi \}$$
+  Similarly for {\bf ($\neg \exists$)}
+  let $C$ be
+  the set of variable assignments which satisfy
+  the conclusion.  Without loss of generality,
+  where the premise is $@_s \neg (\exists x) \phi$,
+  we see from the semantics of $\neg \exists$ that $P$, the set of variable assignments which satisfies
+  the premise can be defined as:
+  $$P = \{ g \mid g \in C \text{ such that for every }x\text{-variant } g' \text{ of }g  \text{ at } s \text{ we have } \mathfrak{M},s \vDash_{g'} \neg \phi \}$$
+  
+\item {\bf Modal rules:}
+  For $F$ and $P$, that the the premise and the
+  second conclusion are satisfied by the same variable assignments
+  follows from checking the definitions.
+  Similarly for the first premise and the 
+  conclusion of $\neg P$ and $\neg F$.
+\item {\bf Propositional rules:}
+  For {\bf ($\lor$)} given the semantics of the premise,
+  the union of the sets of variable assignments satisfying each of the
+  conclusions satisfies the premise.
+  Similarly for {\bf ($\neg \lor$)}, except we take the intersection of the
+  variable assignment sets.
+  That the premise and conclusion of {\bf $(\neg \neg)$} are satisfied
+  by the same set of variable assignments follows from checking
+  the semantics.
+\end{itemize}
+
+\begin{remark}
+  \label{finite-vars}
+  We note that
+  any annotation of variable assignments for a node will
+  be finite since any formula will have only finitely many variables,
+  and the model's domain itself is finite.  
+\end{remark}
+
+\begin{lemma}
+  \label{dec}
+  Node annotation for a model checking tableau over a finite model is decidable.
+\end{lemma}
+
+\begin{proof}
+
+  We give an inductive argument, where the base cases are closed terms of the extended language.
+  First we consider closed terms.  Since any model checking tableau
+  is finite, it has only
+  finitely many function symbols, constants, and parameters.
+  Since parameters are not free variables but stand in for them,
+  we will handle them as follows:  Recalling every parameter is
+  of the form $j: \ldots :i:p$ with a string of at least one distinct prefixes
+  ($i$ is called the {\it immediate prefix} in the example):
+  \begin{enumerate}
+  \item
+    Proceeding with annotation as normal,
+    ignore any parameter until reaching the lowest equality or relation statement where it
+    appears in the conclusion, then solve for the values in $D_{I_{\textit{nom}}(i)}$
+    for which the parameters would satisfy the formula.
+    Clearly this process terminates since for any nominal $i$,
+    $D_{I_{\textit{nom}}(i)}$ is finite.
+  \item
+    From here on, we treat the sets of parameters which
+    satisfy a formula as we would the set of variable assignments which
+    would satisfy a formula with the exception of quantifier rules
+    which we will cover later.  In particular, for a case of {\bf ($\lor$)}
+    as in $@_s (\phi[i:p] \lor \psi[i:p])$ we take the union of the parameter
+    sets for $@_s \phi[i:p]$ and $@_s \psi[i:p]$, similary taking the intersection
+    in the case of {\bf ($\neg \lor$)}
+  \end{enumerate}
+  The proof of termination for computing these parameter annotations for each node
+  is essentially the same as the proof of termination for variable assignment annotations,
+  so without loss of generality we omit the former and proceed with the latter. 
+  The model has only finitely many worlds/times and a
+  finite domain for each world/time, consequently computing the value of
+  a closed term is guaranteed to terminate and the annotation consists of
+  every possible variable assignment
+  (any implementation of this process would represent the totallity of variable
+  assignments via a flag which would consume only
+  constant space, similarly for parameter annotations until we solve for them).  
+  Similarly, computating annotations for relation and equality statements over
+  closed terms terminates.  Since the @ rules, modal rules, and
+  {\bf ($\neg \neg$)}
+  do not involve any operations on the set of variable assignments
+  satisfying the conclusions, by induction these node annotations terminate.
+  Assume by induction computing the annotations for the conclusions of {\bf ($\lor$)} and {\bf ($\neg \lor$)}
+  terminates.  Recalling \ref{finite-vars}, we
+  see that {\bf ($\lor$)} and {\bf ($\neg \lor$)}
+  involve only union and intersection of finite sets respectively.
+  For {\bf (sub)} by we assume by induction that computing the annotations
+  for the first premise and the conclusion terminates, since they are finite,
+  computing their intersection terminates and we have the annotation for the second
+  premise. 
+  Finally assume by induction that computing the annotations for the conclusions of  
+  {\bf ($\exists$)} and {\bf ($\neg \exists$)} terminates.
+  For {\bf ($\exists$)}, assuming without loss of generality the
+  premise is of the form $@_s (\exists x) \phi$, recalling \ref{finite-vars} again, 
+  we check each variable assignment from a finite set whether it has 
+  an $x$-variant at $s$ that satisfies the premise stripped of its quantifier.
+  But since we have parameter annotations,
+  it suffices to check if the conclusion's parameter annotation is non-empty,
+  since that ensures for any variable assignment an appropriate $x$-variant could be constructed.
+  As a result if the parameter annotation is non-empty then the variable assignment annotation
+  for the premise is the same as for the conclusion, clearly this step of the process terminates.
+  Similarly for {\bf ($\neg \exists$)}, in determining whether the variable assignments in
+  the annotation for the conclusion satisfy the premise, it suffices the annotation for the
+  relevant parameter, say $i:p$ is the same size as $D_{I_{\textit{nom}}(i)}$.
+  If they are the same size then the variable assignments
+  annotation for the premise is the same as for the conclusion,
+  and since $D_{I_{\textit{nom}}(i)}$ is finite clearly this terminates.
+\end{proof}
+
+\begin{theorem}
+  Finite model checking for {\it FHTL} via restricted tableau is decidable.
+\end{theorem}
+
+\begin{proof}
+  This follows immediately from theorem \ref{term} and lemma \ref{dec}.
+\end{proof}
+
+\section{AMR Interpretation in {\it FHTL}}
+\label{interp}
+In this section we present an approach for translating
+AMR annotated for quantification and scope along with tense and aspect into {\it FHTL}.
+In this work we do not make use of aspect but we discuss a possibility of
+how to handle it later.  Where
+AMR interpretations given in \citet{lai-etal-2020-continuation} and \citet{bos-2016-squib}
+translate AMR into first-order predicate logic via a direct and stateless transformation on the
+AMR, we elected to demonstrate a stateful approach using pseudocode,
+since it is clearer how to extract time and tense information this way,
+and how to implement this approach, which we hope to do soon.  
+The core of our interpretation process is taken from \citet{pustejovsky-etal-2019-modeling},
+since the \verb|scope| node dictates order and and application of the interpretation of
+the subgraphs in the AMR.  We assume the AMR's temporal information
+is attached to the concept at the \verb|scope|'s \verb|pred| node, and integrate that into the
+translation to achieve an interpretation in {\it FHTL} instead of first-order predicate logic.
+
+\subsection{Examples}
+\enumsentence{
+  \label{computer}
+  a. Every computer will be located at a desk.
+  \\
+  b.
+  \\
+  \small\texttt{(s / scope\\
+    \hspace*{1.0cm}:pred (b / be-located-at-91 :ongoing - :complete + :time (a / after :op1 (n / now))\\
+    \hspace*{1.5cm}:ARG0 (c / computer)\\
+    \hspace*{1.5cm}:ARG1 (d / desk\\
+    \hspace*{2.0cm}:quant (e / every)))\\
+    \hspace*{1.0cm}:ARG0 d\\
+    \hspace*{1.0cm}:ARG1 c)}
+  \\
+  c. $@_{\textit{now}} (\forall y) [\text{desk}(y) \to (\exists x) [\text{computer}(x) \land F (\text{be-located-at-91}(x, y))]]$
+  \\
+  d. Also acceptable but with a subtle difference {\it It will be the case that every computer will be located at a desk}: \\
+  $@_{\textit{now}} F ((\forall y) [\text{desk}(y) \to (\exists x) [\text{computer}(x) \land  \text{be-located-at-91}(x, y)]])$
+}
+\enumsentence{
+  a. Carl filled out the forms and everyone will submit them tomorrow.
+  \\
+  b.
+  \\
+  \scriptsize\texttt{(a / and\\
+    \hspace*{0.5cm}:op1 (s / scope\\
+    \hspace*{1.0cm}:pred (f / fill-out-03 :ongoing - :complete + :time (b / before :op1 (n / now))\\
+    \hspace*{1.5cm}:ARG0 (p / person\\
+    \hspace*{2.0cm}:name (n2 / name\\
+    \hspace*{2.5cm}:op "Carl"))\\
+    \hspace*{1.5cm}:ARG1 (f2 / form))\\
+    \hspace*{1.0cm}:ARG0 p\\
+    \hspace*{1.0cm}:ARG1 f2)\\
+    \hspace*{0.5cm}:op2 (s2 / scope\\
+    \hspace*{1.0cm}:pred (m / submit-01  :ongoing - :complete + :time (a2 / after :op1 n)\\
+    \hspace*{1.5cm}:ARG0 (p2 / person\\
+    \hspace*{2.0cm}:mod (a3 / all))\\
+    \hspace*{1.5cm}:ARG1 f2)\\
+    \hspace*{1.0cm}:ARG0 f2\\
+    \hspace*{1.0cm}:ARG1 p2))}
+  \\
+  c. Technically correct:
+  \\
+  $@_{\textit{now}} (\exists x) [\texttt{form}(x) \land P (\texttt{fill-out-03}(\texttt{Carl}, x))) \land @_{\textit{now}} (\exists x) [\texttt{form}(x) \land (\forall y) [\texttt{person}(y) \to F (\texttt{submit-01}(y, x))]]$
+  \\
+  d. Correct with regard to reentrance:
+  \\
+  $@_{\textit{now}} (\exists x) [\texttt{form}(x) \land P (\texttt{fill-out-03}(\texttt{Carl}, x)) \land  (\forall y) [\texttt{person}(y) \to F (\texttt{submit-01}(y, x))]]$
+  \\
+}
+
+\subsection{Extraction Steps}
+\label{extract}
+With the chosen annotation, the root node
+can consist of either a logical connective
+(\texttt{and}, \texttt{or}, or \texttt{cond}) linking two
+or more AMR graphs, or a \texttt{scope} node with its following
+predicate and arguments.  In the former case we interpret the arguments
+and join them together via the meaning of the connective, e.g. for:
+\enumsentence{
+  \scriptsize\texttt{(o / or\\
+    \hspace*{0.5cm}:op1 (...)\\
+    \hspace*{0.5cm}:op2 (...)\\
+    \hspace*{0.5cm}:op3 (...))}
+  \\
+}
+The meaning in {\it FHTL} is $\llbracket \verb|:op1| \rrbracket \lor \llbracket \verb|:op2| \rrbracket \lor \llbracket \verb|:op3| \rrbracket$
+In the case where the root node of the AMR is \verb|scope|, the order of interpretation is specified.  For instance in \ref{computer},
+the order of interpretation is $\llbracket \verb|ARG0| \rrbracket(\llbracket \texttt{ARG1} \rrbracket (\llbracket \texttt{pred} \rrbracket))$.
+Finally, we have that the meaning of every AMR with a \texttt{scope} root will be prefixed by a satisfaction operator with a nominal
+indicating the time of reference provided in the \texttt{:time} relation (if that time is ``\texttt{now}'' then we let the nominal indicate the document creation time
+where available).  
+\subsection{General Extraction Algorithm}
+
+\begin{adjustbox}{varwidth=1.1\linewidth,scale=0.8}
+    %% \begin{framed}
+    \centering
+\begin{algorithm}[H]
+  \SetAlgoLined
+  \SetKwInput{KwInput}{Input}                % Set the Input
+  \SetKwInput{KwOutput}{Output}              % set the Output
+  \DontPrintSemicolon
+
+  \KwInput{AMR sentence}
+  \KwOutput{{\it FHTL} formula}
+
+  % Set Function Names
+  \SetKwFunction{FApply}{Apply}
+  \SetKwFunction{FInterpretEntry}{InterpretEntry}
+  \SetKwFunction{FInterpretClause}{InterpretClause}
+  \SetKwFunction{FInterpretPred}{InterpretPred}
+  \SetKwFunction{FInferArg}{InferArg}
+  \SetKwFunction{FRemoveSubgraph}{RemoveSubgraph}
+  \SetKwFunction{FTime}{Time}
+  \SetKwFunction{FTense}{Tense}
+  \SetKwFunction{FPred}{Pred}
+  \SetKwFunction{FReference}{Reference}
+  \SetKwFunction{FGetArgs}{GetArgs}
+  
+  \SetKwProg{Fn}{Def}{:}{}
+  \Fn{\FInterpretEntry{AMR}}{
+    root = Root(AMR)\;
+    now = current date/time\;
+    \If{root $\in \{ \texttt{and},\texttt{or}, \texttt{cond} \}$}{
+      connective = filter(root, $\{ \land, \lor, \to \}$)\;
+      clauses = []\;
+      \For{\texttt{op} $\in$ Children(root)}{
+        append(clauses, \FInterpretClause(\texttt{op}))\;
+      }
+      \Return $@_{\text{now}}$ join(connective, clauses)\;
+    }
+    \Return $@_{\text{now}}$ \FInterpretClause(root)\;
+  }
+  \;
+
+  \Fn{\FInterpretClause{AMR}}{
+    time = \FTime(AMR)\;
+    nominal = \FReference(time)\;
+    tense = \FTense(time)\;
+    %% pred = \FInferArg( \FPred(AMR))(tense)\;
+    pred = \FPred(AMR)(tense)\;
+    $\text{Arg}_0$, $\text{Arg}_1$ = \FGetArgs(AMR)\; 
+    \Return $@_{\text{nominal}}$ \FApply($\text{Arg}_0$, \FApply($\text{Arg}_0$, pred))\;
+  }
+  \;
+  
+ \caption{Basic transformation into {\it FHTL} clauses and connectives.}
+\end{algorithm}
+\end{adjustbox}
+
+   
+\texttt{InterpretEntry} and \texttt{InterpretClause} perform essentially
+what we discussed in \ref{extract}.
+We should note that in \texttt{InterpretClause}
+that the interpreted predicate takes the tense operator as an argument.
+We do not provide definitions for \texttt{Tense} and \texttt{Reference}
+since they are issues of checking nodes in the AMR graph.
+Similarly, \texttt{Pred} and \texttt{GetArgs},
+are issues of straightforward graph traversal and modifications
+to the standard interpretation processes which we will show later
+and we do not provide them.
+
+
+\begin{adjustbox}{varwidth=1.1\linewidth,scale=0.8}
+    %% \begin{framed}
+    \centering
+\begin{algorithm}[H]
+  \SetAlgoLined
+  \SetKwInput{KwInput}{Input}                % Set the Input
+  \SetKwInput{KwOutput}{Output}              % set the Output
+  \DontPrintSemicolon
+  \SetKwFunction{FApply}{Apply}
+  \SetKwFunction{FInterpretPred}{InterpretPred}
+  \SetKwFunction{FInterpPropMod}{InterpPropMod}
+  
+  \SetKwProg{Fn}{Def}{:}{}
+  
+  \Fn{\FApply{$\text{pred}_1$,$\text{pred}_2$}}{
+    \Return $\lambda \phi . \text{pred}_1 (\lambda \psi . \text{pred}_2 (\lambda \gamma . \phi (\psi (\gamma))))$
+  }
+  \;
+  
+  \Fn{\FInterpretPred{UnaryPred}}{
+    \tcc{Propositional modifiers are handled differently than predicates.}
+    \If{isPropMod(name(UnaryPred))}{
+      \Return InterpPropMod(UnaryPred)
+    }
+    \If{hasMods(UnaryPred)}{
+      mods = [name(UnaryPred)]\;
+      \For{mod $\in$ Children(UnaryPred)}{
+        append(mods, name(mod)($x$))\;
+      }
+      FinalPred = $\lambda x .$ join(mods, $\land$)\;
+    } \Else{
+      FinalPred = $\lambda  x . \text{name(UnaryPred)}(x)$\; 
+    }
+    \If{Quant(UnaryPred) == :all}{
+      \Return $\lambda k . \forall x [ \text{FinalPred} (x) \to k (x) ]$\; 
+    } \Else{
+      \Return $\lambda k . (\exists x) [ \text{FinalPred} (x) \land k (x) ]$\;
+    }
+  }
+  \;
+
+  \Fn{\FInterpPropMod{PropMod}}{
+    \If{PropMod == \texttt{not}}{
+      \Return $\lambda p . \lambda k . \neg p (k)$
+    }
+    \iffalse
+    \tcc{Given the new sematics of $F / \lozenge$}
+    \tcc{we adopt the na{\" i}ve way of treating \texttt{possible-01}}
+    \tcc{as a relation symbol.}
+    \If{PropMod == \texttt{possible-01}}{
+      \Return $\lambda p . \lambda k . \textsf{possible-01}( p (k))$
+    }
+    \fi
+  }
+  \caption{Supporting definitions.}
+\end{algorithm}
+\end{adjustbox}
+
+\texttt{Apply} is standard continuation based application of predicates \citep{van2010computational}.
+\texttt{InterpretPred} handles AMR concepts possibly with nested relations to other concepts, letting
+us extract $@_t (\forall x)((dog(x) \land friendly(x)) \to P (bark(x)))$
+from {\it Every friendly dog barked} rather than recursively obtaining a Neo-Davidsonian
+approach as in \citet{lai-etal-2020-continuation}.
+\texttt{InterpPropMod} handles AMR concepts which modify entire
+sentences/propositions such as negation and modality.    
+
+
+
+\section{Future Work}
+
+\subsection{$\downarrow$ and Quantification over Nominals}
+
+\citet{hansen2007tableau} includes treatment of two operators which we have
+omitted, namely $\downarrow$ and $E$.  $\downarrow$ binds
+a nominal to the point of evaluation, i.e.
+$@_a \downarrow w . \phi$, $\downarrow w . \phi$  is the case at $a$,
+if and only if $\phi$ is the case at $w$ ($@_w \phi$) when $a$ refers
+to $w$.  This feature allows to represent statements
+such as {\it Caroline is the current chief architect}
+via a formula of the form $\downarrow x . (c = @_x a)$
+where $c$ is a rigid designator (for us a constant) denoting
+{\it Caroline} and $a$ is a non-rigid designator
+(for us a unary function symbol) denoting {\it chief architect}
+\citep{quantified}.
+Intuitively $E$ is existential quantification over nominals
+(and $\neg E \neg \equiv A$ is universal quantification over nominals),
+i.e. $@_s E \phi$ if there is some nominal $j$ such that $@_j \phi$.
+Quantification over nominals gives us an entry into handling aspect
+in addition to tense.  For instance, the
+\texttt{:stable +} and \texttt{:stable -}
+aspects from \citet{donatelli-etal-2018-annotation}
+can be modeled via $A$ and $\downarrow$ respectively.
+The different modes of \texttt{:ongoing}
+ostensibly could be modeled with operators
+from computation tree logic such as \textsf{finally} and
+\textsf{until} \citep{may1996tableau}.
+\texttt{:habitual} is the most problematic case,
+since this would require generalized
+quantification over nominals, making inference
+and model checking very expensive if nothing else.
+
+\subsection{Implementing Theorem Proving and Model Checking}
+
+Now that we have a general approach for automated inference and
+model checking of first-order hybrid logic, there is the question of implementation.
+HTab \citep{htab} provides an implementation of $\mathcal{H}(@, \textsf{A})$,
+(propositional hybrid logic with quantification over nominals)
+which does not natively provide a way to reason with $P$
+or first-order quantification.  While it may
+be possible to extend HTab to accomodate these, it
+might be more productive to consider theorem provers
+for first-order modal logic utilizing tableau such as \textsf{leanTAP}  \citep{beckert1995leantap} and extending them to
+accomodate hybrid logic's satisfaction operator and the other aspects of {\it FHTL}.
+MDK-verifier \footnote{\url{http://www.cril.univ-artois.fr/~montmirail/mdk-verifier/}}
+is the only modal model checker we are aware of, and currently only
+works with propositional $K$.  
+
+\subsection{The Future of AMR and Parsing for Semantic Features}
+
+AMR parsing is an area which receives a great deal of attention,
+we are not aware however of many efforts in AMR parsing towards accomodating
+extensions with these semantic features which enable any kind of descriptive
+direct inference.  Indeed, whether any research in automated reasoning
+over AMR and its extensions is of practical relevance depends entirely on
+whether AMR parsers can accomplish this in a resource effective way.
+Determining where and to what extent AMR parsing for extensions
+is effective is a worthwhile pursuit for AMR researchers in general,
+whether or not they are concerned with the semantic descriptiveness
+of these extensions or their suitability for inference.  
+
+\iffalse
+\subsection{AMR Reentrancy and Non-Temoral Nominals}
+
+
+There are some difficulties with maintaining the usual notion of possible
+worlds being maximal with this idea, but there seems to be a direct sympathy between
+the predicative core of an AMR sentence and in general reentrancy of the nodes with the
+idea of a nominal as a ``point of view'' rather than the ``name'' of a world.
+Maybe things like epistemic logic could be helpful here.
+\fi
+
+
+\section{Conclusion}
+
+We have demonstrated how the core aspects of AMR along with extensions
+for scope, quantification, and tense, can be interpreted
+in first-order hybrid tense logic, and that {\it FHTL}
+affords reasoning for these translated AMR sentences,
+through its general tableau method which acts as a proof procedure for {\it FHTL} sentences
+and its terminating tableau method which acts as a model checker.
+We have discussed the possibility of handling aspect and what is required for it,
+and some possible strategies for developing an implementation of {\it FHTL}
+or another first-order hybrid logic variant.  There are further questions
+in these areas of exploration of both theoretical and pragmatic approaches
+to optimization of these techniques, as well as investigating how AMR
+parsing can become both robust and sensitive enough to realize the goals of this research.
+
+\bibliographystyle{acl_natbib}
+\bibliography{references}
+\end{document}

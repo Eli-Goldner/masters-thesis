@@ -11,6 +11,8 @@
 \usepackage{epsfig}
 \usepackage{graphicx}
 \usepackage{multicol}
+\usepackage{cite}
+\usepackage{natbib}
 % \usepackage{tikz}
 \usepackage{bussproofs}
 \usepackage[tableaux]{prooftrees}
@@ -169,13 +171,21 @@
             \end{itemize}
           \item
             Machine learning (by itself) does not lend itself well to this.
-          \item
-            Hybrid systems and explainable AI.
           \end{itemize}
         \end{frame}
 
         \begin{frame}{Approach}
-          
+          \begin{itemize}
+          \item
+            Combine two AMR extensions for richer interpretation:
+            \begin{itemize}
+            \item
+              Scope and quantification \citep{pustejovsky-etal-2019-modeling}
+            \item
+              Tense and aspect \citep{donatelli-etal-2018-annotation}
+            \end{itemize}
+            
+          \end{itemize}
         \end{frame}
         
         \section{AMR Extensions}
@@ -227,7 +237,7 @@
 
         \begin{frame}{Hybrid Logic Variants}
           \begin{itemize}
-            
+            \item
           \end{itemize}
         \end{frame}
 

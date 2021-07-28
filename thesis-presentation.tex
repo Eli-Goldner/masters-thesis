@@ -188,10 +188,47 @@
 
         \section{{\it FHTL}}
 
+        \begin{frame}{Modal Logic}
+          \begin{itemize}
+            \item
+          Propositional logic lets us form statements
+          like $p \land (q \lor \neg r)$.
+
+          \item
+          Modal propositional logic extends
+          propositional logic with an operator $\lozenge$,
+          read as ``possible''.  i.e. it is not possible that
+          $p$ and $\neg p$ are the case would be:
+          $$\neg \lozenge (p \land \neg p)$$
+        \item
+          (More) formal meaning of $\lozenge$:
+          There is a {\it possible world} where $p$ is true,
+          and this possible world is {\it accesible} from the current one.  
+        \item
+          The problem: the ``current world'' is an implicit notion dependent on context.  Is there something more expressive? 
+        \end{itemize}
+        \end{frame}
+        
         \begin{frame}{Hybrid Logic}
+          \begin{itemize}
+          \item
+            Idea: take propositional modal logic,
+            and add an operator $@$, that lets us know which world we're referring to.
+          \item
+            $p$ or $r$ is possible at world $i$: $@_i \lozenge (p \lor r)$
+          \item
+            In the above proposition $i$ is called a nominal since
+            it {\it names}/uniquely picks out some world.
+          \item
+            Everything true at the nominal $j$ is true at the nominal $i$
+            (they name the same world): $@_i j$
+          \end{itemize}
         \end{frame}
 
         \begin{frame}{Hybrid Logic Variants}
+          \begin{itemize}
+            
+          \end{itemize}
         \end{frame}
 
         \begin{frame}{First-Order Hybrid Tense Logic}
@@ -291,4 +328,10 @@
         \end{frame}
         
         \section{Conclusion}
+
+        \begin{frame}[allowframebreaks]
+          \frametitle{References}
+          \bibliographystyle{acl}
+          \bibliography{references}
+        \end{frame}
       \end{document}

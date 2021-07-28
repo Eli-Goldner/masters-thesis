@@ -14,6 +14,7 @@
 % \usepackage{tikz}
 \usepackage{bussproofs}
 \usepackage[tableaux]{prooftrees}
+\usepackage{qtree}
 \usepackage{mathtools}
 \usepackage{scalerel,stackengine}
 \usepackage[all]{xy}
@@ -78,6 +79,7 @@
   
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareMathSymbol{:}{\mathord}{operators}{"3A}
 
 \mode<presentation>{}
 %% preamble
@@ -93,12 +95,34 @@
 
         \section{Overview}
 
-        
+        \begin{frame}{Introduction}
+        \end{frame}
+
+        \begin{frame}{Motivation}
+        \end{frame}
+
+        \begin{frame}{Approach}
+        \end{frame}
         
         \section{AMR Extensions}
 
+        \begin{frame}{AMR with Tense and Aspect}
+        \end{frame}
+
+        \begin{frame}{AMR with Scope}
+        \end{frame}
+
         \section{{\it FHTL}}
 
+        \begin{frame}{Hybrid Logic}
+        \end{frame}
+
+        \begin{frame}{Hybrid Logic Variants}
+        \end{frame}
+
+        \begin{frame}{First-Order Hybrid Tense Logic}
+        \end{frame}
+        
         \section{Tableaux}
 
         \begin{frame}{{\it FHTL} Tableau Example} 
@@ -148,9 +172,43 @@
         \end{frame}
 
         \begin{frame}{Model Checking Example}
-          Let's define a really really small model $(T, \mathcal{R}, (D_t)_{_{t \in T}}, I_{nom}, (I_t)_{t \in T})$:
+          Define a small {\it FHTL} model $ \mathfrak{M} = (T, \mathcal{R}, (D_t)_{_{t \in T}}, I_{nom}, (I_t)_{t \in T})$ where:
+          $$T = \{ \textit{yesterday}, \textit{now}, \textit{tomorrow} \}$$
+          $$\mathcal{R} = \{ (\textit{yesterday}, \textit{now}), (\textit{now}, \textit{tomorrow}), (\textit{yesterday}, \textit{tomorrow})\}$$
+          $$I_{nom} = \{ (y, \textit{yesterday}), (n, \textit{now}), (t, \textit{tomorrow})\}$$
+          $$D_{\textit{yesterday}} = \{\textit{computer}_1, \textit{desk}_1\}$$
+          $$D_{\textit{now}} = \{\textit{computer}_1, \textit{computer}_2, \textit{desk}_1, \textit{desk}_2, \textit{desk}_3 \}$$
+          $$D_{\textit{tomorrow}} = \{\textit{computer}_1, \textit{computer}_2, \textit{desk}_1, \textit{desk}_2\}$$
+        
         \end{frame}
-        \section{AMR to {\it FHTL}}
 
+        \begin{frame}{Model Checking Example}
+          \Tree
+              [.{$@_n (\forall y) [\text{desk}(y) \to (\exists x) [\text{computer}(x) \land F (\text{located}(x, y))]]$\\
+                  $@_n \text{desk}(n:p_1) \to (\exists x) [\text{computer}(x) \land F (\text{located}(x, n:p_1))]$}
+                [.{$@_n \neg \text{desk}(n:p_1)$}
+                ]
+                [.{$@_n (\exists x) [\text{computer}(x) \land F (\text{located}(x, n:p_1))]$\\
+                    $@_n \text{computer}(n:p_2) \land F (\text{located}(n:p_2, n:p_1))$\\
+                    $@_n \text{computer}(n:p_2)$\\
+                    $@_n F (\text{located}(n:p_2, n:p_1))$\\
+                    $@_n F s$\\
+                    $@_s \text{located}(n:p_2, n:p_1)$}   
+               ]
+              ]
+              
+
+              Where we assign $s = t = \textit{tomorrow}$,
+              $n:p_2 = \textit{computer}_1$ and
+              $n:p_1 = \textit{desk}_2$, or
+              $n:p_2 = \textit{computer}_2$ and
+              $n:p_1 = \textit{desk}_1$
+              we see that $\mathfrak{M}$ satisfies the {\it FHTL} sentence.
+        \end{frame}
+
+          
+        
+        \section{AMR to {\it FHTL}}
+        
         \section{Conclusion}
       \end{document}

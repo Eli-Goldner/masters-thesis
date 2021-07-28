@@ -96,8 +96,60 @@
         \section{Overview}
 
         \begin{frame}{Introduction}
+          \begin{itemize}
+          \item Semantic representation:
+            \begin{itemize}
+            \item Capture meaning of natural language content.
+            \item Designed for manipulation via software.
+            \end{itemize}
+          \item Abstract Meaning Representation (AMR):
+            \begin{itemize}
+            \item Graph-based (DAG), nodes are {\it concepts}, edges are {\it relations}. 
+            \item Built on predicative core of a sentence.
+            \item Ignores syntactic differences between equivalent sentences.
+            \item PropBank framesets are used for concepts (entities, events, properties, states). 
+            \end{itemize}
+          \end{itemize}
         \end{frame}
 
+        \begin{frame}{Introduction}
+          (Basic) AMR is reductionistic.
+          This is awesome for:
+          \begin{itemize}
+          \item
+            Annotation (esp. by non-experts).
+          \item
+            Semantic parsing (smaller target space).  
+          \end{itemize}
+          This is not awesome for:
+          \begin{itemize}
+          \item
+            Representing and recovering fine-grained meaning.
+          \item
+            Automating reasoning/inference.
+          \end{itemize}
+        \end{frame}
+
+        \begin{frame}{Introduction}
+          \begin{itemize}
+          \item
+            The trade-off between ease of generation/use and expressivity/inferentiability is as old as computing\footnote{Possibly as old as cognition.}.
+          \item
+            AMR has made a choice that works well in data-driven NLP.
+          \item
+            However AMR can bridge this gap:
+            
+          \item
+            AMR already does this in a modular way with extensions.
+          \item
+            Some of these extensions give afford interpretation in first-order logic:
+            \begin{itemize}
+            \item Automated inference for logics is a rich area with lots of tools.
+            \item This is where we come in.
+            \end{itemize}
+          \end{itemize}
+        \end{frame}
+        
         \begin{frame}{Motivation}
         \end{frame}
 

@@ -310,6 +310,11 @@ are (equivalent) theorems of hybrid logic:
 
   $$\Box(r \lor \neg r)$$
 \end{itemize}
+We can use nominals to add the notion of time to these sentences, for instance where
+$i$ denotes the world at 2015 and $j$ denotes the world at 2021, if we want
+to indicate that rabia owned a car in 2015, and that whatever was the case
+at 2015 is possible in 2021, we can write:
+$@_i r \land @_j \lozenge i$
 \subsubsection{First-order Hybrid Logic}
 
 First-order modal logic (or quantified modal logic / {\it QML}) extends first-order predicate logic
@@ -403,6 +408,17 @@ Where $R \in \textsf{RSYM}$, $t_1,\ldots,t_n$ are {\it FHTL} terms, $u \in \text
 We omit definitions for $\land$, $\to$, $H$, $G$, and $\forall$ for the sake of simplicity (and space), since
 they can be defined in terms of the other rules.
 \end{definition}
+
+For example, we can represent the following tense and
+quantification sensitive natural language sentences as follows:
+\begin{itemize}
+\item {\it There currently is a person who will be president.}
+
+  $$@_{\textit{now}} (\exists x) F(\textit{President}(x))$$ 
+\item {\it For every person, they have a parent who existed before them.}
+
+  $$(\forall x) (\textit{Person}(x) \to P((\exists x) \textit{Parent}(x,y)))$$
+\end{itemize}
 
 \subsection{Semantics of {\it FHTL}}
 Since we want the domain of quantification to be indexed
@@ -1193,21 +1209,35 @@ For our task of AMR inference, we are not always concered with the determining t
 validity of an AMR formula translated into {\it FHTL}, but
 rather whether it holds in a model consistent with
 an established set of {\it FTHL} translations of AMR sentences.
-This model will necessarily be finite, since across any finite
+\par
+This is because reasoning about AMR sentences
+(or eventually even about AMR representing discourses or documents)
+takes place in a particular context or a general kind of context.
+These contexts are described in logic by models,
+and where they are determined by some finite set of
+AMR sentences, these models will necessarily be finite, since across any finite
 number of AMR sentences only a finite number of times (nominals),
 entities (terms of the extended language),
 and relationships between entities (function symbols and relation symbols)
-can be referenced. 
-In particular, we have an instance of a local model-checking problem
+can be referenced.  It is possible for some contexts to require non-finite models,
+or for some model conditions to be so general as to require
+automated theorem proving techniques for assessing a sentence rather
+than automated model checking, but these issues are beyond the scope of this paper.    
+\par
+For {\it FHTL} sentences and finite models, we have an instance of a local model-checking problem
 where given formula $\phi$, a finite {\it FHTL} model structure $\mathfrak{M}$, a time $t$
 in $\mathfrak{M}$, and a variable assignment $g$, we need to determine
 whether $\mathfrak{M}, t \vDash_g \phi$ \citep{muller1999model}.  
 \par
 
 Here we develop a restriction of our method for tableau construction, which
-ensures termination at the cost of completeness.  This compromise only has
-positive ramifications for model checking since it does not particularly benefit from
-completeness of a tableau method but termination is critical to decidability.
+ensures termination of tableau construction (i.e. all resulting tableaux are finite)
+at the cost of completeness.  This is actually an easy compromise for us to make.
+Model checking via tableau does not benefit from
+the completeness of a tableau method, since we are not trying to demonstrate a sentence's validity or
+unsatisfiability,  but are interested only whether it holds in the relevant model.
+Tableau termination however is critical to decidability,
+and since we are assuming finite models, our approach had better be decidable!
 Our approach to using
 terminating tableaux as a means of model checking for {\it FHTL}
 based on the approach in \citet{bohn1998first},

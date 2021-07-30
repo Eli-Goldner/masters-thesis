@@ -276,22 +276,33 @@
           \item Quantified hybrid logic:
             \begin{itemize}
             \item Hybrid logic with first-order quantifiers, relation, and function symbols.
-            \item At $n$ (now) there is a person who will be president:
-              $$@_n (\exists x)(\textit{Person}(x) \land F(\textit{President}(x)))$$
+            \item At $n$ (now) there is a person for whom it is possible to own a car:
+              $$@_n (\exists x)(\textit{Person}(x) \land (\exists y) (\textit{Car}(y) \land \lozenge \textit{Afford}(x,y)))$$
             \end{itemize}
           \end{itemize}
         \end{frame}
 
         \begin{frame}{Hybrid Logic Variants}
-          A problem!
+          A problem
+          $$@_n (\exists x)(\textit{Person}(x) \land (\exists y) (\textit{Car}(y) \land \lozenge \textit{Afford}(x,y)))$$
+          What's the domain of quantification?
           \begin{itemize}
-          \item Domain of quantification in 
-            $$@_n (\exists x)(\textit{Person}(x) \land F(\textit{President}(x)))$$
-            
+          \item
+            Option 1: The domain is the same at every world:
+            {\it There is someone (out of {\bf all} people) who can afford some car (out of all cars).}
+          \item
+            Option 2: Each world has a different domain:
+            {\it There is someone (out of everyone around {\bf now}) who can afford some car (out of all cars around now).}
           \end{itemize}
+          First option is called possibilist quantification, second is callled actualist.
+          We will use actualist quantification.
         \end{frame}
         
         \begin{frame}{First-Order Hybrid Tense Logic}
+          \begin{itemize}
+          \item Quantified hybrid logic, but with tense modalities $F$ and $P$ instead of $\lozenge$.
+          \item 
+          \end{itemize}
         \end{frame}
         
         \section{Tableaux}

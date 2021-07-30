@@ -414,7 +414,7 @@ quantification sensitive natural language sentences as follows:
 \begin{itemize}
 \item {\it There currently is a person who will be president.}
 
-  $$@_{\textit{now}} (\exists x) F(\textit{President}(x))$$ 
+  $$@_{\textit{now}} (\exists x) (\textit{Person}(x) \land F(\textit{President}(x)))$$ 
 \item {\it For every person, they have a parent who existed before them.}
 
   $$(\forall x) (\textit{Person}(x) \to P((\exists x) \textit{Parent}(x,y)))$$

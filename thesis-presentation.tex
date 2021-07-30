@@ -184,18 +184,49 @@
             \item
               Tense and aspect \citep{donatelli-etal-2018-annotation}
             \end{itemize}
-            
+          \item
+            Interpret these extended AMR into a logic that handles quantification and tense.
+          \item
+            Develop tableau methods for this logic:
+            \begin{itemize}
+            \item
+              General method for proving/disproving sentences in the logic.
+            \item
+              Restricted method for checking if sentence holds in some model.
+            \end{itemize}
           \end{itemize}
         \end{frame}
         
         \section{AMR Extensions}
 
+        \begin{frame}{AMR with Scope and Quantification}
+          \begin{itemize}
+          \item Disambiguates scope.
+          \item Annotates central predicate and its arguments.
+          \item Clearest path for AMR $\to$ standard first-order predicate logic. 
+          \end{itemize}
+        \end{frame}
+
         \begin{frame}{AMR with Tense and Aspect}
+          \begin{itemize}
+          \item Standard AMR structure.
+          \item Central predicate annotated for:
+            \begin{itemize}
+            \item Aspect.
+            \item Event time.
+            \item Reference time.
+            \end{itemize}
+          \end{itemize}
         \end{frame}
 
-        \begin{frame}{AMR with Scope}
+        \begin{frame}{Combined Extensions}
+          \begin{itemize}
+          \item Assume each AMR has information from both extensions.
+          \item Attach tense and aspect information to central predicate node.
+          \item Extract a tense-sensitive FOPL representation (details later).
+          \end{itemize}
         \end{frame}
-
+        
         \section{{\it FHTL}}
 
         \begin{frame}{Modal Logic}
@@ -228,7 +259,7 @@
             $p$ or $r$ is possible at world $i$: $@_i \lozenge (p \lor r)$
           \item
             In the above proposition $i$ is called a nominal since
-            it {\it names}/uniquely picks out some world.
+            it {\it names} some/is true at exactly one world.
           \item
             Everything true at the nominal $j$ is true at the nominal $i$
             (they name the same world): $@_i j$
@@ -237,10 +268,29 @@
 
         \begin{frame}{Hybrid Logic Variants}
           \begin{itemize}
-            \item
+          \item Hybrid tense logic:
+            \begin{itemize}
+            \item Two tense modalities: $\langle F \rangle$ and $\langle P \rangle$
+            \item World $j$ is in the past of world $i$: $@_i P j$
+            \end{itemize}
+          \item Quantified hybrid logic:
+            \begin{itemize}
+            \item Hybrid logic with first-order quantifiers, relation, and function symbols.
+            \item At $n$ (now) there is a person who will be president:
+              $$@_n (\exists x)(\textit{Person}(x) \land F(\textit{President}(x)))$$
+            \end{itemize}
           \end{itemize}
         \end{frame}
 
+        \begin{frame}{Hybrid Logic Variants}
+          A problem!
+          \begin{itemize}
+          \item Domain of quantification in 
+            $$@_n (\exists x)(\textit{Person}(x) \land F(\textit{President}(x)))$$
+            
+          \end{itemize}
+        \end{frame}
+        
         \begin{frame}{First-Order Hybrid Tense Logic}
         \end{frame}
         

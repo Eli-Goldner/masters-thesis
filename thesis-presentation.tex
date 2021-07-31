@@ -39,6 +39,7 @@
 \setbeamertemplate{itemize item}{\color{teal}$\blacktriangleright$}
 \setbeamertemplate{itemize subitem}{\color{teal}$\blacktriangleright$}
 
+\renewcommand{\phi}{\varphi}
 
 % \newcommand{\newState}[4]{\node[state,#3](#1)[#4]{#2};}
 % \newcommand{\newTransition}[4]{\path[->] (#1) edge [#4] node {#3} (#2);} 
@@ -330,10 +331,10 @@
 
         \begin{frame}{First-Order Hybrid Tense Logic}
           \begin{itemize}
-          \item Two main tasks for a sentence $s$:
+          \item Two main tasks for a sentence $@_s \phi$:
             \begin{itemize}
-            \item Theorem proving -- is $s$ true regardless of the model?
-            \item Model checking -- is $s$ true in some model $\mathfrak{M}$?
+            \item Theorem proving -- is $@_s \phi$ true regardless of the model?
+            \item Model checking -- is $@_s \phi$ true in a given model $\mathfrak{M}$?
             \end{itemize}
           \item For both we use versions of the tableau method.
           \end{itemize}    
@@ -428,7 +429,54 @@
           \end{tableau}
         \end{frame}
 
+        \begin{frame}{Tableau Proofs}
+          \begin{itemize}
+          \item
+            The {\it root formula} of a tableau is unsatisfiable
+            if every branch of the tableau closes.
+          \item
+            If we want to prove $@_s \phi$ then
+            we begin the tableau with $@_s \neg \phi$
+            (proof by contradiction).
+          \item
+            Need to show for tableau method
+            (or any proof system) that it is:
+            \begin{itemize}
+            \item
+              Sound -- if a tableau is closed then the root formula is unsatisfiable.
+            \item
+              Complete -- if a formula is unsatisfiable it has a closed tableau proof. 
+            \end{itemize}
+          \end{itemize}
+        \end{frame}
 
+        \begin{frame}{Tableau Proofs}
+          \begin{itemize}
+          \item
+            Soundness is demonstrated by checking the rules.
+          \item
+            Completeness is demonstated by contrapositive.
+            
+          \item
+            Open tableau branch $\to$ there is a model which satisfies the root.
+          \item
+            Construct the model out of equivalence classes of everything that shows up on the branch.
+          \end{itemize}
+        \end{frame}
+
+        \begin{frame}{Tableau for Model Checking}
+          \begin{itemize}
+          \item
+            So far the tableau method has been about general theorem proving.
+          \item
+            Problem: no tableau construction method guaranteed to terminate (if there was we'd have decidability of first-order logic).
+          \item
+            Most of the time however we are reasoning about an AMR/{\it FHTL} sentence in some local context.
+          \item
+            Revise tableau rules, trade completeness for termination.
+          \end{itemize}
+        \end{frame}
+        
         \begin{frame}{Model Checking Example}
           \begin{itemize}
           \item {\it Every computer will be located at a desk.}

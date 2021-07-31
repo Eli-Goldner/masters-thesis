@@ -342,6 +342,69 @@
         
         \section{Tableaux}
 
+        \begin{frame}{Tableau Method}
+          \begin{itemize}
+          \item
+            Tableau for a formula is a tree structure.
+          \item
+            A tableau caclulus for a logic breaks down and transforms formulae
+          \item
+            Rules of the calculus use semantics of connectives/quantifiers/modifiers.
+          \item
+            {\it FHTL} tableau based on {\it QHL} tableau modified for tense rules.
+          \end{itemize}
+        \end{frame}
+
+        \begin{frame}{Tableau Method}
+          \begin{itemize}
+          \item
+            A tableau branch is a subtree of the main tableau tree.
+          \item
+            A tableau {\it branches} for rules involving
+            disjunctions.
+          \item
+            A branch is {\it closed} if it contains both a formula
+            $@_s \phi$ and its negation $@_s \neg \phi$. Otherwise it is open.
+          \item
+            A branch is {\it saturated} if no rules of the calculus can be applied
+            without adding a redundant formula on the branch.  
+          \end{itemize}
+        \end{frame}
+
+        \begin{frame}{Tableau Example Rules}
+          \begin{multicols}{2}
+            \begin{prooftree}
+              \AxiomC{$@_s F \phi$}
+              \RightLabel{\bf ($F$)\footnote{\label{intro}The nominal $a$ is new to the branch.}\footnote{\label{nom}The formula $\phi$ is not a nominal.}}
+              \UnaryInfC{$@_s F a$}
+              \noLine
+              \UnaryInfC{$@_a \phi$}
+            \end{prooftree}
+
+            \begin{prooftree}
+              \AxiomC{$@_s (\exists x) \phi$}
+              \RightLabel{\bf ($\exists$)\footnote{$s : p$ is new to the branch.}}
+              \UnaryInfC{$@_s \phi[s:p / x]$} 
+            \end{prooftree}
+          \end{multicols}
+
+          \begin{multicols}{2}
+            \begin{prooftree}
+              \AxiomC{$@_s @_t \phi$}
+              \RightLabel{\bf ($@$)}
+              \UnaryInfC{$@_t \phi$} 
+            \end{prooftree}
+
+            \begin{prooftree}
+              \AxiomC{$@_i j:t = k:s$}
+              \AxiomC{$@_i \phi$}
+              \RightLabel{\bf (sub)\footnote{\label{subst}$\phi[j:t // k:s]$ is $\phi$ where some occurences of $j:t$ have been replaced by $k:s$.}}
+              \BinaryInfC{$@_i \phi[j:t // k:s]$} 
+            \end{prooftree}
+          \end{multicols}
+          
+        \end{frame}
+        
         \begin{frame}{{\it FHTL} Tableau Example} 
           \begin{tableau}
             [{[f(a,b) = f(b,a)]}

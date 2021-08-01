@@ -581,9 +581,31 @@
         \section{AMR to {\it FHTL}}
 
         \begin{frame}{Extraction}
+          In this new annotation time information is of the form:
+          
+          \texttt{:<aspect> <polarity> :time (<reference> :op1 (<event>))}
+          
+          \begin{itemize}
+          \item
+            \texttt{<event>} is some $t \in T$, so formula has the prefix $@_t \phi$
+          \item
+            \texttt{<reference>} (if present) is the tense, e.g. $@_t P \psi$
+          \item
+            We don't make use of aspect (right now).
+          \end{itemize}
+          
         \end{frame}
 
+        
         \begin{frame}{Interpretation}
+          Every AMR in this annotation is either of the
+          form (for a connective \texttt{or}, \texttt{and}, or \texttt{cond}):
+
+
+          \scriptsize\texttt{(<connective>\\
+            \hspace*{0.5cm}:op1 (...)\\
+            \hspace*{0.5cm}:op2 (...)\\
+            \hspace*{0.5cm}:op3 (...))}
         \end{frame}
         
         \section{Conclusion}

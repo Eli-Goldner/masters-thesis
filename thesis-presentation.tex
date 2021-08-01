@@ -161,7 +161,7 @@
           Short answer: Not really, and even if they could:
           \begin{itemize}
           \item
-            Statistically driven techniques are unecessarily expensive for formal inference.
+            Statistically driven techniques are unnecessarily expensive for formal inference.
           \item
             Increasing need for ability to guarantee/verify properties of software:
             \begin{itemize}
@@ -337,8 +337,7 @@
             \item Model checking -- is $@_s \phi$ true in a given model $\mathfrak{M}$?
             \end{itemize}
           \item For both we use versions of the tableau method.
-          \end{itemize}    
-          
+          \end{itemize}              
         \end{frame}
         
         \section{Tableaux}
@@ -403,7 +402,6 @@
               \BinaryInfC{$@_i \phi[j:t // k:s]$} 
             \end{prooftree}
           \end{multicols}
-          
         \end{frame}
         
         \begin{frame}{{\it FHTL} Tableau Example} 
@@ -464,7 +462,7 @@
           \end{itemize}
         \end{frame}
 
-        \begin{frame}{Tableau for Model Checking}
+        \begin{frame}{Tableaux for Model Checking}
           \begin{itemize}
           \item
             So far the tableau method has been about general theorem proving.
@@ -474,6 +472,50 @@
             Most of the time however we are reasoning about an AMR/{\it FHTL} sentence in some local context.
           \item
             Revise tableau rules, trade completeness for termination.
+          \end{itemize}
+        \end{frame}
+
+        \begin{frame}{Tableaux for Model Checking}
+          NB:  Terms in {\it FHTL} have nominal prefixes
+          since their value can depent on the world they are evaluated in,
+          i.e. $i:t$, $i:j:t$.
+          There are three things that prevent tableau construction from terminating: 
+          \begin{itemize}
+          \item
+            Universal tableau rules ($\neg \exists$, $\forall$) -- can generate an arbitrary number of conclusions.
+          \item
+            Term rules -- can keep adding prefixes to terms.
+          \item
+            Nominal rules -- generating redundant nominals (our complete rules take care of this). 
+          \end{itemize}
+        \end{frame}
+
+        \begin{frame}
+          \begin{itemize}
+          \item
+            Idea: give tableau a reasonable chance to close, but make sure it terminates.
+          \item
+            Fix some $q \in \NN^+$ and let universal rules generate at most $q$ conclusions.
+            (\citet*{fitting-tab} says $q = 1$ works surprisingly well.)
+          \item
+            Restrict term rules to depend on on nominals and terms already on the branch.
+            Prevent redundant prefixes (no $i:j:i:t$ etc.).
+          \end{itemize}
+        \end{frame}
+
+        \begin{frame}
+          Model checking procedure
+          \begin{itemize}
+          \item
+            Build tableau using restricted rules.
+          \item
+            Check tableau tree from leaves up, skipping closed branches.
+          \item
+            Every formula on the branch has a set of variable and parameter assignments which satisfy it in the model.
+          \item
+            Solve for a formula's set based on the sets of its conclusions.
+          \item
+            If the root formula is satisfied in the model by every variable assignment then it holds.
           \end{itemize}
         \end{frame}
         
@@ -549,6 +591,11 @@
         \begin{frame}[allowframebreaks]
           \frametitle{References}
           \bibliographystyle{acl}
+          \nocite{bolander2009terminating}
+          \nocite{bolander2007termination}
+          \nocite{hungar1995if}
+          \nocite{bhat1998tableau}
+          \nocite{areces2009tableaux}
           \bibliography{references}
         \end{frame}
       \end{document}

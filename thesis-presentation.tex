@@ -15,6 +15,7 @@
 \usepackage{natbib}
 % \usepackage{tikz}
 \usepackage{bussproofs}
+\usepackage{stmaryrd}
 \usepackage[tableaux]{prooftrees}
 \usepackage{qtree}
 \usepackage{mathtools}
@@ -521,7 +522,7 @@
         
         \begin{frame}{Model Checking Example}
           \begin{itemize}
-          \item {\it Every computer will be located at a desk.}
+          \item {\it Every desk will have a computer located there.}
           \item AMR with quantification and tense:
 
             \small\texttt{(s / scope\\
@@ -606,8 +607,60 @@
             \hspace*{0.5cm}:op1 (...)\\
             \hspace*{0.5cm}:op2 (...)\\
             \hspace*{0.5cm}:op3 (...))}
+          
+          Or
+
+          \scriptsize\texttt{(s / scope\\
+            \hspace*{1.0cm}:pred (...\\
+            \hspace*{1.5cm}:ARG0 (...)\\
+            \hspace*{1.5cm}:ARG1 (...))\\
+            \hspace*{1.0cm}:ARG0 <primary-scope>\\
+            \hspace*{1.0cm}:ARG1 <secondary-scope>)}
+  
         \end{frame}
-        
+
+        \begin{frame}{Interpretation Examples}
+          
+          \scriptsize\texttt{(o / or\\
+            \hspace*{0.5cm}:op1 (...)\\
+            \hspace*{0.5cm}:op2 (...)\\
+            \hspace*{0.5cm}:op3 (...))}
+          $$\llbracket \texttt{op1} \rrbracket \lor \llbracket \texttt{op2} \rrbracket \lor \llbracket \texttt{op3} \rrbracket$$
+
+          \scriptsize\texttt{(s / scope\\
+            \hspace*{1.0cm}:pred (...\\
+            \hspace*{1.5cm}:ARG0 (...)\\
+            \hspace*{1.5cm}:ARG1 (...))\\
+            \hspace*{1.0cm}:ARG0 <primary-scope>\\
+            \hspace*{1.0cm}:ARG1 <secondary-scope>)}
+          $$\llbracket \texttt{<primary-scope>} \rrbracket(\llbracket \texttt{<secondary-scope>} \rrbracket (\llbracket \texttt{pred} \rrbracket))$$  
+        \end{frame}
+
+        \begin{frame}{Interpretation Examples}
+          \small\texttt{(s / scope\\
+            \hspace*{1.0cm}:pred (b / be-located-at-91 :ongoing -
+            \hspace*{6.155cm}:complete +
+            \hspace*{6.155cm}:time (a / after
+            \hspace*{8.0cm}:op1 (n / now))\\
+            \hspace*{1.5cm}:ARG0 (c / computer)\\
+            \hspace*{1.5cm}:ARG1 (d / desk\\
+            \hspace*{2.0cm}:quant (e / every)))\\
+            \hspace*{1.0cm}:ARG0 d\\
+            \hspace*{1.0cm}:ARG1 c)}
+          
+          $@_{\textit{now}} (\forall y) [\text{desk}(y) \to (\exists x) [\text{computer}(x) \land F (\text{be-located-at-91}(x, y))]]$
+          
+        \end{frame}
+
+        \begin{frame}
+          \texttt{(c / computer)}
+          $$\lambda \phi ((\exists x) [\textit{Computer}(x) \land \phi(x)])$$
+          \texttt{(d / desk\\
+            \hspace*{1.0cm})}
+          $$\lambda \phi ((\forall x) [\textit{Desk}(x) \to \phi(x)])$$
+          
+          
+        \end{frame}
         \section{Conclusion}
 
         \begin{frame}[allowframebreaks]

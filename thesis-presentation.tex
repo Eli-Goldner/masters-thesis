@@ -497,7 +497,7 @@
             Idea: give tableau a reasonable chance to close, but make sure it terminates.
           \item
             Fix some $q \in \NN^+$ and let universal rules generate at most $q$ conclusions.
-            (\citet*{fitting-tab} says $q = 1$ works surprisingly well.)
+            (\citet*{fitting-tab} says $q = 1$ works surprisingly often.)
           \item
             Restrict term rules to depend on on nominals and terms already on the branch.
             Prevent redundant prefixes (no $i:j:i:t$ etc.).
@@ -682,7 +682,7 @@
           We'll just do the first application.
           \small$$\lambda \phi . (\lambda \phi' . (\exists c) (\textit{computer}(c) \land \phi'(c)))(\lambda \psi . (\lambda \psi' . \psi' (\lambda x . \lambda y . \textit{loc}(x,y)))(\lambda \gamma . \phi(\gamma(\psi))) \rhd_{\beta}$$
           \small$$\lambda \phi . (\lambda \phi' . (\exists c) (\textit{computer}(c) \land ((\lambda \psi' . \psi' (\lambda x . \lambda y . \textit{loc}(x,y)))(\lambda \gamma . \phi(\gamma(c))))) \rhd_{\beta}$$
-          \small$$\lambda \phi . (\lambda \phi' . (\exists c) (\textit{computer}(c) \land (\phi ( \lambda y . \textit{loc}(c,y)))) \rhd_{\beta}$$
+          \small$$\lambda \phi . (\lambda \phi' . (\exists c) (\textit{computer}(c) \land (\phi ( \lambda y . \textit{loc}(c,y))))$$
         \end{frame}
         
         \section{Conclusion}

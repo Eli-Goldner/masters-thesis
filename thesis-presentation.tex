@@ -647,21 +647,60 @@
             \hspace*{2.0cm}:quant (e / every)))\\
             \hspace*{1.0cm}:ARG0 d\\
             \hspace*{1.0cm}:ARG1 c)}
-          
-          $@_{\textit{now}} (\forall y) [\text{desk}(y) \to (\exists x) [\text{computer}(x) \land F (\text{be-located-at-91}(x, y))]]$
+
+          $$@_{\textit{now}} (\forall y) [\text{desk}(y) \to (\exists x) [\text{computer}(x) \land F (\text{be-located-at-91}(x, y))]]$$
           
         \end{frame}
 
         \begin{frame}
-          \texttt{(c / computer)}
-          $$\lambda \phi ((\exists x) [\textit{Computer}(x) \land \phi(x)])$$
-          \texttt{(d / desk\\
-            \hspace*{1.0cm})}
-          $$\lambda \phi ((\forall x) [\textit{Desk}(x) \to \phi(x)])$$
+
+          $$\llbracket \texttt{now} \rrbracket \rhd \textit{now}$$
+          $$\llbracket \texttt{after} \rrbracket \rhd F$$
           
+          \texttt{(c / computer)}
+          $$\lambda \phi . (\exists x) [\textit{Computer}(x) \land \phi(x)]$$
+          \texttt{(d / desk\\
+            \hspace*{1.0cm}:quant (e/ every))}
+          $$\lambda \phi . (\forall x) [\textit{Desk}(x) \to \phi(x)]$$
+          \small\texttt{(:pred (b / be-located-at-91 :ongoing -
+            \hspace*{5.155cm}:complete +
+            \hspace*{5.155cm}:time (a / after
+            \hspace*{7.0cm}:op1 (n / now))} 
           
         \end{frame}
+
+        \begin{frame}{Interpretation Example}
+          \small\texttt{(:pred (b / be-located-at-91 :ongoing -
+            \hspace*{5.155cm}:complete +
+            \hspace*{5.155cm}:time (a / after
+            \hspace*{7.0cm}:op1 (n / now))} 
+
+          $$\lambda \phi . \lambda x . \lambda y . \phi(\texttt{be-located-at-91}(x,y))$$
+        \end{frame}
+
+        \begin{frame}{Interpretation Example}
+          We'll just do the first application.
+          \small$$\lambda \phi . (\lambda \phi' . (\exists c) (\textit{computer}(c) \land \phi'(c)))(\lambda \psi . (\lambda \psi' . \psi' (\lambda x . \lambda y . \textit{loc}(x,y)))(\lambda \gamma . \phi(\gamma(\psi))) \rhd_{\beta}$$
+          \small$$\lambda \phi . (\lambda \phi' . (\exists c) (\textit{computer}(c) \land ((\lambda \psi' . \psi' (\lambda x . \lambda y . \textit{loc}(x,y)))(\lambda \gamma . \phi(\gamma(c))))) \rhd_{\beta}$$
+          \small$$\lambda \phi . (\lambda \phi' . (\exists c) (\textit{computer}(c) \land (\phi ( \lambda y . \textit{loc}(c,y)))) \rhd_{\beta}$$
+        \end{frame}
+        
         \section{Conclusion}
+
+        \begin{frame}{Conclusion}
+          \begin{itemize}
+          \item
+            We explored why AMR can benefit from formal inference.
+          \item
+            Described a combination of AMR extensions.
+          \item
+            Sketched a first-order hybrid logic variant with general proof procedure and model checking methods.
+          \item
+            Demonstrated how sentences are be handled by these methods.
+          \item
+            Showed how AMR sentences can be translated into {\it FHTL} 
+          \end{itemize}
+        \end{frame}
 
         \begin{frame}[allowframebreaks]
           \frametitle{References}

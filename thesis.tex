@@ -1960,11 +1960,12 @@ and we do not provide them.
   \SetKwProg{Fn}{Def}{:}{}
   
   \Fn{\FApply{$\text{pred}_1$,$\text{pred}_2$}}{
-    \Return $\lambda \phi . \text{pred}_1 (\lambda \psi . \text{pred}_2 (\lambda \gamma . \phi (\psi (\gamma))))$
+    \Return $\lambda \phi . \text{pred}_1 (\lambda \psi . \text{pred}_2 (\lambda \gamma . \phi (\gamma (\psi))))$
   }
   \;
   
   \Fn{\FInterpretPred{UnaryPred}}{
+    
     \tcc{Propositional modifiers are handled differently than predicates.}
     \If{isPropMod(name(UnaryPred))}{
       \Return InterpPropMod(UnaryPred)

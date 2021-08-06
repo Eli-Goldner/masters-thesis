@@ -104,28 +104,28 @@
           \item Semantic representation:
             \begin{itemize}
             \item Capture meaning of natural language content.
-            \item Designed for manipulation via software.
+            \item Designed for software to manipulate and interpret.
             \end{itemize}
           \item Abstract Meaning Representation (AMR):
             \begin{itemize}
             \item Graph-based (DAG), nodes are {\it concepts}, edges are {\it relations}. 
             \item Built on predicative core of a sentence.
-            \item Ignores syntactic differences between equivalent sentences.
-            \item PropBank framesets are used for concepts (entities, events, properties, states). 
+            \item Ignores syntactic and fine grained semantic differences between sentences.
+            \item Concepts annotated with PropBank framed (entities, events, properties, states). 
             \end{itemize}
           \end{itemize}
         \end{frame}
 
         \begin{frame}{Introduction}
-          (Basic) AMR is reductionistic.
-          This is awesome for:
+          (Core) AMR is reductionistic.
+          Useful for:
           \begin{itemize}
           \item
             Annotation (esp. by non-experts).
           \item
             Semantic parsing (smaller target space).  
           \end{itemize}
-          This is not awesome for:
+          Not useful for:
           \begin{itemize}
           \item
             Representing and recovering fine-grained meaning.
@@ -137,16 +137,11 @@
         \begin{frame}{Introduction}
           \begin{itemize}
           \item
-            The trade-off between ease of generation/use and rich expressivity/inferentiability is at least as old as computing.
+            AMR designers made a choice that works well in data-driven NLP.
           \item
-            AMR has made a choice that works well in data-driven NLP.
+            Modular AMR extensions.
           \item
-            However AMR can bridge this gap:
-            
-          \item
-            AMR already does this in a modular way with extensions.
-          \item
-            Some extensions afford interpretation in first-order logic:
+            Some extensions afford richer logical interpretation:
           \item
             Automated inference for logics is a rich area with lots of tools.
           \end{itemize}
@@ -167,8 +162,6 @@
             \item
               Bias in NLP.
             \end{itemize}
-          \item
-            Machine learning (by itself) does not lend itself well to this.
           \end{itemize}
         \end{frame}
 

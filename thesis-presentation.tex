@@ -146,11 +146,9 @@
           \item
             AMR already does this in a modular way with extensions.
           \item
-            Some of these extensions give afford interpretation in first-order logic:
-            \begin{itemize}
-            \item Automated inference for logics is a rich area with lots of tools.
-            \item This is where we come in.
-            \end{itemize}
+            Some extensions afford interpretation in first-order logic:
+          \item
+            Automated inference for logics is a rich area with lots of tools.
           \end{itemize}
         \end{frame}
         
@@ -158,8 +156,6 @@
 
           
           {\it ``Why do we need formal methods? Can't state-of-the-art language models do this already?''}
-
-          Short answer: Not really, and even if they could:
           \begin{itemize}
           \item
             Statistically driven techniques are unnecessarily expensive for formal inference.
@@ -215,7 +211,7 @@
           \item Central predicate annotated for:
             \begin{itemize}
             \item Aspect.
-            \item Event time.
+            \item Speech time.
             \item Reference time.
             \end{itemize}
           \end{itemize}
@@ -587,11 +583,11 @@
         \begin{frame}{Extraction}
           In this new annotation time information is of the form:
           
-          \texttt{:<aspect> <polarity> :time (<reference> :op1 (<event>))}
+          \texttt{:<aspect> <polarity> :time (<reference> :op1 (<speech>))}
           
           \begin{itemize}
           \item
-            \texttt{<event>} is some $t \in T$, so formula has the prefix $@_t \phi$
+            \texttt{<speech>} is some $t \in T$, so formula has the prefix $@_t \phi$
           \item
             \texttt{<reference>} (if present) is the tense, e.g. $@_t P \psi$
           \item
@@ -664,12 +660,7 @@
           $$\lambda \phi . (\exists x) [\textit{Computer}(x) \land \phi(x)]$$
           \texttt{(d / desk\\
             \hspace*{1.0cm}:quant (e/ every))}
-          $$\lambda \phi . (\forall x) [\textit{Desk}(x) \to \phi(x)]$$
-          \small\texttt{(:pred (b / be-located-at-91 :ongoing -
-            \hspace*{5.155cm}:complete +
-            \hspace*{5.155cm}:time (a / after
-            \hspace*{7.0cm}:op1 (n / now))} 
-          
+          $$\lambda \phi . (\forall x) [\textit{Desk}(x) \to \phi(x)]$$          
         \end{frame}
 
         \begin{frame}{Interpretation Example}

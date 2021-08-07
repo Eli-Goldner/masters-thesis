@@ -1053,30 +1053,29 @@ our model.
 Here we define the analogues of
 $D_{[w]}, I_{[w]}$ for $[w] \in W/_{\approx}$ and $I_{\textit{nom}}$.
 To start we let $\mathcal{D}$ be set defined by:
-$$\mathcal{D} = \{ i : t \mid \text{for some } i \in W \text{ and some closed term of the extended language } t\}$$
+$$\mathcal{D} = \{ i : t \mid \text{for } i \in W \text{ and } t \text{ a closed term of the extended language}\}$$
 Further we define a relation $\equiv$ on $D$ by:
-$i : t \equiv j : s \Longleftrightarrow @_k i : t \equiv j : s \in \Theta \text{ for some } k \in W$
+$i : t \equiv j : s \Longleftrightarrow @_k i : t = j : s \in \Theta \text{ for some } k \in W$
 From the tableau rules {\bf (ref)}, {\bf (sub)}, and {\bf (:1)}, we observe $\equiv$ is an equivalence
 relation on $\mathcal{D}$.
-From here we define the domain $D$ of the model as $\mathcal{D} /_{\equiv}$,
-with the elements written as $\overline{i : t}$, for all $[w] \in W /_{\approx}$
+From here we define the domain $D$ of the new model's frame as $\mathcal{D} /_{\equiv}$,
+with the elements written as $\overline{i : t}$.  For every $[w] \in W /_{\approx}$
 define:
 $$D_{[w]} = \{ \overline{j : p} \mid j \in [w] \text{ and } p \text{ a parameter}\}$$
-For $a$ a constant or parameter and $[w] \in W/_{\approx}$
-we define $I_{[w]}(a) = \overline{w : a}$ which is well defined by {\bf (:2)}.
+For $c$ a constant or parameter and $[w] \in W/_{\approx}$
+we define $I_{[w]}(c) = \overline{w : c}$ which is well defined by {\bf (:2)}.
 For an $n$-ary relation symbol $R$ and $[w] \in W/_{\approx}$ define $I_{[w]} (R)$ by:
 $$I_{[w]} (R)(\overline{i_1 : t_1}, ... , \overline{i_n : t_n}) \Longleftrightarrow @_w R(i_1 : t_1, ... , i_n : t_n) \in \Theta$$
 for all $\overline{i_1 : t_1}, ... , \overline{i_n : t_n} \in D$.
 The interpretation is similar for $n$-ary function symbols.
 And naturally for interpretation of nominals, for $w \in W$ define $I_{\textit{nom}}(w) = [w]$.
-\par
 Before finally demonstrating that this model $\mathfrak{M}$ realizes every formula on
 the tableau branch from which it was constructed we need the following lemma.
 \begin{lemma}
   \label{terms}
   If $t$ is a closed term of the extended language and $i$
-  is a nominal then we have $I_{[i]}( t) = \overline{i:t}$
-  for all variable assignments $g$ in our model $\mathfrak{M}$.    
+  is a nominal, we have $I_{[i]}( t) = \overline{i:t}$
+  for every variable assignment $g$ in our model $\mathfrak{M}$.    
 \end{lemma}
 
 \begin{proof}
@@ -1091,12 +1090,8 @@ the tableau branch from which it was constructed we need the following lemma.
   $$I_{[i]}( u:s) = I_{[u]}(s) \stackrel{*}{=} \overline{u : s} \stackrel{\textbf{(:3)}}{=}  \overline{i : u : s}$$
   Where $*$ follows from the inductive hypothesis
   and {\bf (:3)} from {\bf (:3)}.
-  Similarly for the case involving functional symbols. 
+  Similarly for the case of terms beginning with function symbols. 
 \end{proof}
-
-Lemma \ref{terms} is made use of in the
-cases of formulae which openly depend on terms in the completeness proof.
-
 
 \begin{theorem}[{\bf Completeness of the {\it FHTL} Tableau Method }]
   Assuming the branch $\Theta$ is open,
@@ -1111,13 +1106,14 @@ cases of formulae which openly depend on terms in the completeness proof.
 \end{theorem}
 
 \begin{proof}
-  This is demonstrated by induction on the structure of the formula.
+  This is demonstrated by induction on the structure of $\phi$.
   We present the most difficult case, namely where $\phi$ is of the
-  form $F \psi$.
+  form $F \psi$, lemma \ref{terms} is used in the
+  cases of formulae which directly depend on terms.
   \par
   Assume $@_a F \psi \in \Theta$.  Then we need to show that there is an
   equivalence class $[c] \in W /_{\approx}$ such that
-  $R [a] [c]$ and $\mathfrak{M}, [c] \vDash_g \psi$ for some
+  $\overline{R} [a] [c]$ and $\mathfrak{M}, [c] \vDash_g \psi$ for some
   variable assignments $g$.
   We have two cases based on the question of whether
   or not $\psi$ is a nominal.  In the case where
@@ -1129,7 +1125,7 @@ cases of formulae which openly depend on terms in the completeness proof.
     an accessibility formula $@_{a'} F b' \in \Theta$
     such that $a' \sim_{\Theta} a$ and $b' \sim_{\Theta} b$.
     In the first case then we have $@_a F b' \in \Theta$
-    and $b' in W$ so $\overline{R} [a] [b']$ and since
+    and $b' \in W$ so $\overline{R} [a] [b']$ and since
     $b' \approx b$ (since both are in $W$) we have $[b'] = [b]$ and we are done.
     In the second case, there are four subcases
     depending on whether or not $a'$ and $a$ are equal

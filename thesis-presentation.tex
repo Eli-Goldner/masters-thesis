@@ -100,32 +100,29 @@
         \section{Overview}
 
         \begin{frame}{Introduction}
+          Semantic representation:
           \begin{itemize}
-          \item Semantic representation:
-            \begin{itemize}
-            \item Capture meaning of natural language content.
-            \item Designed for software to manipulate and interpret.
-            \end{itemize}
-          \item Abstract Meaning Representation (AMR):
-            \begin{itemize}
-            \item Graph-based (DAG), nodes are {\it concepts}, edges are {\it relations}. 
-            \item Built on predicative core of a sentence.
-            \item Ignores syntactic and fine grained semantic differences between sentences.
-            \item Concepts annotated with PropBank framed (entities, events, properties, states). 
-            \end{itemize}
+          \item Capture meaning of natural language content.
+          \item Designed for software to manipulate and interpret.
+          \end{itemize}
+          Abstract Meaning Representation (AMR):
+          \begin{itemize}
+          \item Graph-based (DAG), nodes are {\it concepts}, edges are {\it relations}. 
+          \item Built on predicative core of a sentence.
+          \item Ignores syntactic and fine grained semantic differences between sentences.
           \end{itemize}
         \end{frame}
-
+        
         \begin{frame}{Introduction}
           (Core) AMR is reductionistic.
-          Useful for:
+          Optimal for:
           \begin{itemize}
           \item
             Annotation (esp. by non-experts).
           \item
             Semantic parsing (smaller target space).  
           \end{itemize}
-          Not useful for:
+          Not optimal for:
           \begin{itemize}
           \item
             Representing and recovering fine-grained meaning.
@@ -142,8 +139,6 @@
             Modular AMR extensions.
           \item
             Some extensions afford richer logical interpretation:
-          \item
-            Automated inference for logics is a rich area with lots of tools.
           \end{itemize}
         \end{frame}
         
@@ -228,26 +223,30 @@
 
           \item
           Modal propositional logic extends
-          propositional logic with an operator $\lozenge$,
-          read as ``possible''.  i.e. it is not possible that
-          $p$ and $\neg p$ are the case would be:
+          propositional logic with an operator $\lozenge$
+        \item
+          It is not possible that
+          $p$ and $\neg p$ are the case:
           $$\neg \lozenge (p \land \neg p)$$
         \item
-          (More) formal meaning of $\lozenge$:
+          Meaning of $\lozenge$:
           There is a {\it possible world} where $p$ is true,
-          and this possible world is {\it accesible} from the current one.  
+          and this possible world is {\it accessible} from the current one.  
         \item
-          The problem: the ``current world'' is an implicit notion dependent on context.  Is there something more expressive? 
+          The problem: the ``current world'' is implicit and dependent on context.
+        \item
+          How to make it explicit? 
         \end{itemize}
         \end{frame}
         
         \begin{frame}{Hybrid Logic}
           \begin{itemize}
           \item
-            Idea: take propositional modal logic,
-            and add an operator $@$, that lets us know which world we're referring to.
+            Extend propositional modal logic,
+            with the operator $@$, which specifies the world we're referring to.
           \item
-            $p$ or $r$ is possible at world $i$: $@_i \lozenge (p \lor r)$
+            $p$ or $r$ is possible at world $i$:
+            $$@_i \lozenge (p \lor r)$$
           \item
             In the above proposition $i$ is called a nominal since
             it {\it names} some/is true at exactly one world.
@@ -258,21 +257,19 @@
         \end{frame}
 
         \begin{frame}{Hybrid Logic Variants}
+          Hybrid tense logic:
           \begin{itemize}
-          \item Hybrid tense logic:
-            \begin{itemize}
-            \item Two tense modalities: $\langle F \rangle$ and $\langle P \rangle$
-            \item World $j$ is in the past of world $i$: $@_i P j$
-            \end{itemize}
-          \item Quantified hybrid logic:
-            \begin{itemize}
-            \item Hybrid logic with first-order quantifiers, relation, and function symbols.
-            \item At $n$ (now) there is a person for whom it is possible to own a car:
-              $$@_n (\exists x)(\textit{Person}(x) \land (\exists y) (\textit{Car}(y) \land \lozenge \textit{Afford}(x,y)))$$
-            \end{itemize}
+          \item Two tense modalities: $F$ and $P$
+          \item World $j$ is in the past of world $i$: $@_i P j$
+          \end{itemize}
+          Quantified hybrid logic:
+          \begin{itemize}
+          \item Hybrid logic with first-order quantifiers, relation, and function symbols.
+          \item At $n$ (now) there is a person for whom it is possible to own a car:
+            $$@_n (\exists x)(\textit{Person}(x) \land (\exists y) (\textit{Car}(y) \land \lozenge \textit{Afford}(x,y)))$$
           \end{itemize}
         \end{frame}
-
+        
         \begin{frame}{Hybrid Logic Variants}
           A problem
           $$@_n (\exists x)(\textit{Person}(x) \land (\exists y) (\textit{Car}(y) \land \lozenge \textit{Afford}(x,y)))$$
@@ -283,11 +280,18 @@
             {\it There is someone (out of all people all people at all worlds) who can afford some car (out of all cars at all worlds).}
           \item
             Option 2: Each world has a different domain:
-            {\it There is someone (out of everyone in this world) who can afford some car (out of all cars in this world).}
+            {\it There is someone (out of everyone in this world) who can afford some car (out of all cars in this world).}\end{itemize}
+        \end{frame}
+
+        \begin{frame}{Hybrid Logic Variants}
+          \begin{itemize}
+          \item
+            We tend to mean there is some person (and more loosely some car) here/now. 
+          \item
+            Option 2 is closer to how quantification works in natural language. 
+          \item
+            We use this approach (presentist quantification).
           \end{itemize}
-          The first option in quantified hybrid (or modal) logic is called possibilist quantification, the second is called actualist.
-          When worlds are interpreted as times, the former is called eternalist quantification, and the latter is callled presentist.
-          We will use presentist quantification.
         \end{frame}
         
         \begin{frame}{First-Order Hybrid Tense Logic}
@@ -309,25 +313,26 @@
           Where:
           \begin{itemize}
           \item $T$ is a set of times/worlds.
-          \item $\mathcal{R}$ is the binary accesibility relation over times.
+          \item $\mathcal{R}$ is the binary accessibility relation over times.
           \item $D_t$ is the domain of a time $t$
           \item $I_{nom}$ assigns nominals to worlds.
           \item $I_t$ interprets the value of terms at a time $t$.
           \end{itemize}
-          The satisfiability of a formula with free variables depends on a variable assignment function.
-          A formula that does not depend on variable assignment (every variable is bound by a quantifier)
-          is called a {\it sentence}. 
-         \end{frame}
-
+        \end{frame}
+        
         \begin{frame}{First-Order Hybrid Tense Logic}
           \begin{itemize}
-          \item Two main tasks for a sentence $@_s \phi$:
-            \begin{itemize}
-            \item Theorem proving -- is $@_s \phi$ true regardless of the model?
-            \item Model checking -- is $@_s \phi$ true in a given model $\mathfrak{M}$?
-            \end{itemize}
-          \item For both we use versions of the tableau method.
-          \end{itemize}              
+          \item
+            The satisfiability of a formula with free variables depends on a {\it variable assignment function}.
+          \item
+            A formula with no free variables is called a {\it sentence}.
+          \end{itemize}
+          Two main tasks for a sentence $@_s \phi$:
+          \begin{itemize}
+          \item Theorem proving -- is $@_s \phi$ true regardless of the model?
+          \item Model checking -- is $@_s \phi$ true in a given model $\mathfrak{M}$?
+          \end{itemize}
+          For both we use versions of the tableau method.
         \end{frame}
         
         \section{Tableaux}
@@ -666,10 +671,29 @@
         \end{frame}
 
         \begin{frame}{Interpretation Example}
-          We'll just do the first application.
-          \small$$\lambda \phi . (\lambda \phi' . (\exists c) (\textit{computer}(c) \land \phi'(c)))(\lambda \psi . (\lambda \psi' . \psi' (\lambda x . \lambda y . \textit{loc}(x,y)))(\lambda \gamma . \phi(\gamma(\psi))) \rhd_{\beta}$$
-          \small$$\lambda \phi . (\lambda \phi' . (\exists c) (\textit{computer}(c) \land ((\lambda \psi' . \psi' (\lambda x . \lambda y . \textit{loc}(x,y)))(\lambda \gamma . \phi(\gamma(c))))) \rhd_{\beta}$$
-          \small$$\lambda \phi . (\lambda \phi' . (\exists c) (\textit{computer}(c) \land (\phi ( \lambda y . \textit{loc}(c,y))))$$
+          First application:
+          $$\llbracket \textit{computer will be located at it} \rrbracket = $$
+          \scriptsize$$\lambda \phi . (\lambda \phi' . (\exists c) [\textit{Computer}(c) \land \phi'(c)])(\lambda \psi . (\lambda \psi' . \psi' (\lambda x . \lambda y . F (\textit{loc}(x,y))))(\lambda \gamma . \phi(\gamma(\psi)))) \rhd_{\beta}$$
+          \small$$\lambda \phi . (\exists c) [\textit{Computer}(c) \land ((\lambda \psi' . \psi' (\lambda x . \lambda y . F (\textit{loc}(x,y)))) (\lambda \gamma . \phi(\gamma(c))))] \rhd_{\beta}$$
+          \small$$\lambda \phi . (\exists c) [\textit{Computer}(c) \land \phi ( \lambda y . F (\textit{loc}(c,y)))]$$
+        \end{frame}
+
+        \begin{frame}{Interpretation Example}
+          Second application:
+          \small$$\lambda \phi . \llbracket \textit{every desk} \rrbracket (\lambda \psi \llbracket \textit{computer will be located at it} \rrbracket (\lambda \gamma . \phi (\psi (\psi)))) \rhd_{\beta}$$
+          \small$$\lambda \phi . (\lambda \phi' . \forall x [\textit{Desk}(x) \to \phi'(x)]) (\lambda \psi \llbracket \textit{computer located at it} \rrbracket (\lambda \gamma . \phi (\gamma (\psi))))$$
+          \small$$\lambda \phi . (\forall x) [\textit{Desk}(x) \to \llbracket \textit{computer located at it} (\rrbracket (\lambda \gamma . \phi (\gamma (x))))] = $$
+          \small$$\lambda \phi . (\forall x) [\textit{Desk}(x) \to ((\lambda \phi' . (\exists y) (\textit{computer}(c) \land (\phi ( \lambda x . F (\textit{loc}(y,x)))))  (\lambda \gamma . \phi (\gamma (x))))]$$
+          \small$$\lambda \phi . (\forall x) [\textit{Desk}(x) \to (\exists y) [\textit{Computer}(y) \land \phi(F (\textit{loc}(x,y)))]]$$
+        \end{frame}
+
+        \begin{frame}{Interpretation Example}
+          Use the trivial continuation $\lambda k . k$:
+          $$(\lambda \phi . (\forall x) [\textit{Desk}(x) \to (\exists y) [\textit{Computer}(y) \land \phi(F ( \textit{loc}(x,y)))]]) (\lambda k . k) \rhd_{\beta}$$
+          $$(\forall x) [\textit{Desk}(x) \to (\exists y) [\textit{Computer}(y) \land F ( \textit{loc}(x,y))]]$$
+          Finally attaching the nominal:
+          $$@_{\textit{now}}(\forall x) [\textit{Desk}(x) \to (\exists y) [\textit{Computer}(y) \land F ( \textit{loc}(x,y))]]$$
+     
         \end{frame}
         
         \section{Conclusion}
@@ -677,7 +701,7 @@
         \begin{frame}{Conclusion}
           \begin{itemize}
           \item
-            We explored why AMR can benefit from formal inference.
+           We explored how AMR can benefit from formal inference.
           \item
             Described a combination of AMR extensions.
           \item
@@ -691,12 +715,15 @@
 
         \begin{frame}[allowframebreaks]
           \frametitle{References}
-          \bibliographystyle{acl}
+          \bibliographystyle{acl)}
+          \nocite{quantified}
+          \nocite{hansen2007tableau} 
           \nocite{bolander2009terminating}
           \nocite{bolander2007termination}
           \nocite{hungar1995if}
           \nocite{bhat1998tableau}
-          \nocite{areces2009tableaux}
           \bibliography{references}
         \end{frame}
       \end{document}
+      
+      

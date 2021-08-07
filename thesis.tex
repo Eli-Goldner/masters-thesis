@@ -1224,33 +1224,32 @@ For {\it FHTL} sentences and finite models, we have an instance of a local model
 where given formula $\phi$, a finite {\it FHTL} model structure $\mathfrak{M}$, a time $t$
 in $\mathfrak{M}$, and a variable assignment $g$, we need to determine
 whether $\mathfrak{M}, t \vDash_g \phi$ \citep{muller1999model}.  
-\par
-
-Here we develop a restriction of our method for tableau construction, which
+Here we develop a restriction of our method for tableau construction.  Which
 ensures termination of tableau construction (i.e. all resulting tableaux are finite)
 at the cost of completeness.  This is actually an easy compromise for us to make.
 Model checking via tableau does not benefit from
 the completeness of a tableau method, since we are not trying to demonstrate a sentence's validity or
-unsatisfiability,  but are interested only whether it holds in the relevant model.
+unsatisfiability,  but only whether it holds in the relevant model.
 Tableau termination however is critical to decidability,
 and since we are assuming finite models, our approach had better be decidable!
 Our approach to using
 terminating tableaux as a means of model checking for {\it FHTL}
 based on the approach in \citet{bohn1998first},
-and makes use of the idea of quantifier depth from \citet{fitting-tab}. 
+and makes use of the idea of quantifier depth from \citet{fitting-tab}.
+The structure of the proof of terminating construction is taken from \citet*{bolander}.
 
 \subsection{Restricted rules}
 
 \begin{figure*}[!h]
   
-  \begin{adjustbox}{varwidth=\linewidth,scale=0.7}
+  \begin{adjustbox}{varwidth=\linewidth}
     %% \begin{framed}
     \centering
     
     \begin{mdframed}
     \centering
     
-    \underline{\bf Equality rules:}
+    \underline{\bf Restricted equality rules:}
 
 
     \begin{multicols}{2}
@@ -1270,7 +1269,7 @@ and makes use of the idea of quantifier depth from \citet{fitting-tab}.
     \end{multicols}
     
     
-    \underline{\bf {\it FHTL} term rules:}
+    \underline{\bf Restricted term rules:}
     
     \begin{multicols}{3}
       \begin{prooftree}
@@ -1326,58 +1325,50 @@ and makes use of the idea of quantifier depth from \citet{fitting-tab}.
       \RightLabel{\bf (:func)\footnote{$f$ is an $n$--ary function symbol and $t_1,...,t_n$ are closed terms with $i$ not among their prefixes.}}
       \UnaryInfC{$@_i f(t_1,..., t_n) = f(i:t_1,..., i:t_n)$}
     \end{prooftree}
+
+    \underline{\bf Restricted universal rule:}
+    
+    \begin{prooftree}
+      \AxiomC{$@_s \neg (\exists x) \phi$}
+      \RightLabel{\bf ($\neg \exists$)\footnote{$p$ is any parameter on the branch (or any parameter in general if there are none on the branch yet), and the premise can produce only $Q$ distinct conclusions.}}
+      \UnaryInfC{$@_s \neg \phi[s:p / x]$} 
+    \end{prooftree}
     
   \end{mdframed}
 \end{adjustbox}
+\caption{Restricted Rules.}
+\label{restricted}
 \end{figure*}
 
 \begin{definition}[{\bf Saturation}]
   A tableau branch is {\it saturated}
   if there are no rules that can be applied to the branch in a way that
-  satisfies their constraints or that avoid
-  adding duplicate formulae to the branch.
+  satisfies their constraints or that
+  would generate duplicate formulae on the branch.
   If every branch of the tableau
   is saturated we say the tableau is saturated.
 \end{definition}
 
 
 
-We will show later these new restrictions on these rules
+We will show later the new restrictions on the equality
+rules, term rules, and the universal quantifier rule given
+in figure \ref{restricted}
 ensures that eventually any branch will be saturated,
 since the amount of times any of the term rules can be applied
 depends on the number of nominals and terms on the branch.
-We add the further restriction for universal quantification rules
-(just {\bf ($\neg \exists$)} in our tableau method)
-where $Q$ is a positive natural number: 
-
-\begin{figure*}[!h]
-  \begin{adjustbox}{varwidth=\linewidth,scale=1.0}
-    %% \begin{framed}
-    \centering
-    
-    \begin{mdframed}
-      \centering
-      \begin{prooftree}
-        \AxiomC{$@_s \neg (\exists x) \phi$}
-        \RightLabel{\bf ($\neg \exists$)\footnote{$p$ is any parameter on the branch (or any parameter in general if there are none on the branch yet), and the premise can produce only $Q$ distinct conclusions.}}
-        \UnaryInfC{$@_s \neg \phi[s:p / x]$} 
-      \end{prooftree}
-    \end{mdframed}
-  \end{adjustbox}
-  \end{figure*}
-
-  In first-order tableau systems universal rules are the main culprit for
-  non-termination.  Since proofs are finite objects, any tableau proof
-  for a formula involving universal quantification will close
-  for some quantifier depth $Q$, the trouble being there is no general way
-  to anticipate the value of $Q$ as that would constitute a decision procedure
-  for first-order logic. The main function of a universal rule
-  in a tableau proof is to close the branch, so selecting a particular
-  quantifier depth is a way of giving a branch every reasonable chance
-  to close where it has a possible application of a universal rule.
-  While for model checking we actually will not need branches to close
-  so long as they terminate, closed branches are helpful since
-  we automatically do not have to check them for satisfiability.  
+In first-order tableau systems universal rules are the main culprit for
+non-terminating construction.  Since proofs are finite objects, any tableau proof
+for a formula involving universal quantification will close
+for some quantifier depth $Q$, the issue being there is no general way
+to anticipate the value of $Q$ as that would constitute a decision procedure
+for first-order logic. The main function of a universal rule
+in a tableau proof is to close the branch, so selecting a particular
+quantifier depth is a way of giving a branch every reasonable chance
+to close where it has a possible application of a universal rule.
+While for model checking we actually will not need branches to close
+so long as they terminate, closed branches are helpful since
+we do not have to check them for satisfiability.  
 
 
 \subsection{Systematic tableau construction}
@@ -1388,7 +1379,7 @@ where $Q$ is a positive natural number:
   Where $\Theta$ is a tableau branch in
   the {\it FHTL} calculus, if a nominal $a$
   is introduced to the branch by application of
-  of $F$ or $P$
+  of {\bf ($F$)} or {\bf ($P$)}
   to a premise $@_s \phi$, we
   say $a$ is {\it generated} by $s$
   on $\Theta$ and write $s \prec_{\Theta} a$.
@@ -1456,7 +1447,7 @@ where $Q$ is a positive natural number:
 
 \begin{remark}
   In the restricted rules, a term can have no nominal among its
-  prefixes more than once.  Consequently where $n$ is the number of
+  prefixes more than once.  In particular, where $n$ is the number of
   nominals on the branch and $k (\leq n)$ is the length of a term's prefix string,
   the number of possible prefixed versions of a term are
   $$\sum_{k = 1}^n \frac{n!}{(n - k)!}$$
@@ -1468,7 +1459,7 @@ where $Q$ is a positive natural number:
   Using the restricted rules, minus any rules
   which generate new nominals on a branch ($F$ and $P$),
   any {\it FHTL} tableau branch $\Theta$
-  saturates within a finite number of steps.
+  saturates within a finite number of rule applications.
 \end{lemma}
 
 \begin{proof}
@@ -1477,9 +1468,8 @@ where $Q$ is a positive natural number:
   before they can no longer be applied on $\Theta$.
   With the quantifier depth restriction {\bf ($\neg\exists$)}
   can only be applied a finite number of times,
-  and while {\bf (sub)} can generate multiple conclusions since
-  there are multiple partial substitutions for any formula,
-  there are only finitely many partial substitutions possible.
+  and {\bf (sub)} can generate only finitely many conclusions since
+  there are only finitely many partial substitutions possible for any formula.
   For {\bf (ref)} and the term rules, we have at worst cases like {\bf (:3)}
   and {\bf (ref)} which depend on both the number of nominals and the number of terms on the branch
   for the number of possible applications before saturation.
@@ -1515,7 +1505,7 @@ where $Q$ is a positive natural number:
 \fi
 
 \begin{definition}[{\it Tableau construction algorithm}]
-  Let $@a_a \phi$ be the formula whose local satisfiability (possibly validity)
+  Let $@_a \phi$ be the formula whose local satisfiability (possibly validity)
   we are deciding.
   We inductively define a sequence of finite tableaux
   $$\mathcal{T}_0, \mathcal{T}_1, \mathcal{T}_2, \ldots$$
@@ -1523,7 +1513,7 @@ where $Q$ is a positive natural number:
   of its successors.  We let $\mathcal{T}_0$ be the finite
   tableau consisting of the formula $@_a \neg \phi$.
   Assuming the finite tableau $\mathcal{T}_n$ is defined,
-  apply, where possible according to its restrictions,
+  apply where possible,
   an arbitrary model checking tableau rule with
   the following restrictions.
   \begin{itemize}
@@ -1545,7 +1535,8 @@ The saturation conditions prevent the algorithm
 from extending the tableau indefinitely with redundant
 formulae and forces the algorithm to use every applicable
 rule the maximum possible amount of times,
-i.e. this algorithm is ``fair'' \citep{fitting-modal}.
+i.e. this algorithm is ``fair'', every possible approach to a
+proof will be explored \citep{fitting-modal}.
 The loop check condition is designed in the same spirit,
 preventing the algorithm from introducing nominals
 to the branch which would be redundant in their sharing
@@ -1562,9 +1553,9 @@ Now we demonstrate the algorithm always terminates.
   Then the tableau is an infinite branch $\Theta$.
   By lemma \ref{wellfounded} the graph $(N_{\Theta}, \prec_{\Theta})$
   is a disjoint union of a finite set of finitely branching trees.
-  Thus it has some inifinite branch
+  Since $\Theta$ is infinite the graph has some inifinite branch
   $$a_1 \prec_{\Theta} a_2 \prec_{\Theta} \ldots \prec_{\Theta} a_i \prec_{\Theta} \ldots $$
-  otherwise by lemmas \ref{subformula} and \ref{saturation}
+  otherwise by lemmata \ref{subformula} and \ref{saturation}
   there would only be finitely many formulae on the branch,
   contradicting that it is infinite.
   For each $i$ in the indices of this infinite chain of nominals,
@@ -1599,12 +1590,14 @@ Now we demonstrate the algorithm always terminates.
 
 \subsection{Node Annotation}
 
-The approach involves annotating each node of an open
+The approach to model checking via tableau involves annotating each node of an open
 branch with the variable assignments in the model which satisfy the
 sentence at the node, building inductively from the terminal nodes.
 If the root formula of the tableau with at least one open branch
 can be annotated with non-empty set of
-variable assignments, then it is satisfiable in the model.
+variable assignments, then it is satisfiable in the model,
+if the root formula is a sentence however then to be satisfied we
+require it is annotated with every variable assignment.
 If a tableau is closed then the root sentence $@_s \phi$ is unsatisfiable.
 As a result if the root formula is of the form $@_s \neg \psi$
 then this constitutes a proof of the validity of $@_s \psi$ by contradiction.

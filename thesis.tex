@@ -173,7 +173,7 @@ and syntactic features makes AMR a highly competitive choice
 for the development of annotated corpora and as a target representation
 for semantic parsing.
 It is exactly the aspects of AMR that are so valued that cause it
-to fall very short in an area where historically semantic representations
+to fall short in an area where historically semantic representations
 have felt more obgligation to succeed, namely intepretation and inference.    
 That AMR has made this compromise is no oversight, but an informed design choice.
 Version 1.2 of the AMR specication states that by default an AMR does not indicate how
@@ -211,7 +211,7 @@ and hybrid logic equipped for reasoning about time and tense
 \citep{blackburn2012indexical}.  We present a sound and complete
 tableau-based proof procedure for {\it FTHL} sentences.
 The tableau method is a well known approach to theorem proving
-that has been adapted to many logics, it works by extracting a tree
+that has been adapted to many logics.  It works by extracting a tree
 from a sentence in a logic, where the nodes consist of root subformulae
 or supporting formulae to be proved or refuted.
 We also provide a modified version of this tableau method,
@@ -247,11 +247,12 @@ or related variants, and we will frequent use of it in section \ref{interp}.
 \citep{lai-etal-2020-continuation} provides a continuation-based semantics
 for translating AMR into first-order
 predicate logic in a way that preserves projective phenomena.
-While this influenced our interpretation approach and its translation
-method is much more elegant than ours, we elected not to use it since  
-it uses a Neo-Davidsonian representation for the target first-order predicate logic semantics,
-which as we will is more expensive to handle via tableau-based reasoning since
-it guarantees that there is at least one quantifier in the interpretation for every relation symbol.  
+While this influenced our interpretation approach, its translation
+method is much more elegant than ours, and is closer to the original logical semantics of
+AMR \citep{banarescu2012abstract}, we elected not to use it since  
+it uses a Neo-Davidsonian representation for the target first-order predicate logic semantics.  
+This representation is more expensive to handle via tableau-based reasoning, since
+it guarantees that there is at least one quantifier in the interpretation for every concept in the AMR.  
 \iffalse
 Separating argument structure in AMR from logical structure, enables
 translation from AMR to DRT \citep{bos-2020-separating}

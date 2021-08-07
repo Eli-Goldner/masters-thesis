@@ -267,8 +267,7 @@ require more a sophisticated semantics sensitive to context.
 
 \subsection{Hybrid Logic and Its Extensions}
 
-Hybrid logic is an extension of the propositional modal logic $K$
-($K$ has no conditions on the modal frame of its underlying models)
+Hybrid logic is an extension of the propositional modal logic
 allowing for explicit reference to modal states/worlds through a prefix notation.
 Where ordinary modal logic writes $\lozenge p$ to indicate that there is some
 world where $p$ holds at some world accessible from that world,
@@ -380,11 +379,11 @@ state $k$ associated with John sitting down.
 \section{First-order Hybrid Tense Logic}
 \label{fhtl}
 Here we give a modification of Hansen's First-order Hybrid Logic which
-describes tense instead of modality while retaining {\it FHL}'s varying domain
-semantics and actualist quantification.
+describes tense instead of possibility while retaining {\it FHL}'s varying domain
+semantics and presentist quantification.
 \subsection{Syntax of {\it FHTL}}
 The syntax of {\it FHTL} is identical to {\it FHL} as given in \citet*{hansen2007tableau},
-except $\Box$ and $\lozenge$ are replaced by their semantic equivalents
+except $\lozenge$ and $\Box$ are replaced by their operational equivalents
 $F$ and $G$, and their dual temporal modalities $P$ and $H$ are added.
 The {\it FHTL} language contains the following (countably infinite) sets:
 a set of first-order
@@ -418,12 +417,12 @@ quantification sensitive natural language sentences as follows:
   $$@_{\textit{now}} (\exists x) (\textit{Person}(x) \land F(\textit{President}(x)))$$ 
 \item {\it For every person, they have a parent who existed before them.}
 
-  $$(\forall x) (\textit{Person}(x) \to P((\exists x) \textit{Parent}(x,y)))$$
+  $$(\forall x) (\textit{Person}(x) \to P((\exists y) \textit{Parent}(x,y)))$$
 \end{itemize}
 
 \subsection{Semantics of {\it FHTL}}
-Since we want the domain of quantification to be indexed
-over the collection of nominals/times, we look to
+Since we want each time to have its own domain of entities which exist at that time,
+we look to
 \citeauthor{fitting-modal}'s \citeyearpar{fitting-modal}
 treatment of first-order modal logic with varying domain semantics
 and use it to alter the {\it FHL} model definition

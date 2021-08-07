@@ -41,6 +41,7 @@
 \usepackage{mdframed}
 \usepackage{stmaryrd}
 \usepackage{xcolor}
+\usepackage[perpage]{footmisc}
 \usepackage[ruled,vlined]{algorithm2e}
 
 \usepackage[margin=1.0in]{geometry}
@@ -1604,19 +1605,19 @@ then this constitutes a proof of the validity of $@_s \psi$ by contradiction.
 We now view each node in the tableau graph as a pair $( @_s \phi , \mathcal{V} )$, 
 of the formula at the node and the set $\mathcal{V}$ of variable assignments
 in our model $\mathfrak{M}$ which
-witness the formula.  We define an annotation function $\textit{ann}(@_s \phi) = \mathcal{V}$  
+satisfy the formula.  We define an annotation function $\textit{ann}(@_s \phi) = \mathcal{V}$  
 generally as:
 $$\textit{ann}(@_s \phi) = \{g \mid \mathfrak{M}, I_{\textit{nom}} (s) \vDash_g \phi\}$$
 If we have a branch that we know to be closed from the tableau construction
 (or discover it is closed during model checking as we will see) and $@_t \psi$
 is the root of that branch, we define:
 $$\textit{ann}(@_t \psi) = \emptyset$$
-For this reason during the annotation process we need not check
-formulae of the form $@_i j$ or $@_i (F / P) j$, or nodes not involving free variables
+During the annotation process we need not check
+formulae of the form $@_i j$ or $@_i (F / P) j$
 since their truth or falsehood is independent of variable assignments.  
 Terminal nodes will necessarily not contain quantifiers, double negation,
-nested prefix/satisfaction operators, or logical connectives,
-as a result they will consist only of equality or relation statements
+nested satisfaction operators, or logical connectives,
+as a result they will consist only of equality and/or relation statements
 over extended terms possibly involving free variables.
 Now we can begin describing the dependency relationships between tableau rule
 conclusions and their premises.  
@@ -1648,7 +1649,11 @@ conclusions and their premises.
   conclusion and the constraint
   given by the first premise,
   namely that
-  $\overline{j:t} = \overline{k:s}$.  
+  $\overline{j:t} = \overline{k:s}$,
+  which both involve free variables.
+  If both of $\overline{j:t}$ and $\overline{k:s}$
+  are closed terms then there is no constraint on the
+  variable assignments to consider.
 \item {\bf Quantifier rules:}
   For {\bf ($\exists$)}, we let $C$ be
   set of variable assignments which satisfy
@@ -1667,11 +1672,11 @@ conclusions and their premises.
   $$P = \{ g \mid g \in C \text{ such that for every }x\text{-variant } g' \text{ of }g  \text{ at } s \text{ we have } \mathfrak{M},s \vDash_{g'} \neg \phi \}$$
   
 \item {\bf Modal rules:}
-  For $F$ and $P$, that the the premise and the
+  For {\bf ($F$)} and {\bf ($P$)}, that the the premise and the
   second conclusion are satisfied by the same variable assignments
   follows from checking the definitions.
   Similarly for the first premise and the 
-  conclusion of $\neg P$ and $\neg F$.
+  conclusion of {\bf ($\neg P$)} and {\bf ($\neg F$)}.
 \item {\bf Propositional rules:}
   For {\bf ($\lor$)} given the semantics of the premise,
   the union of the sets of variable assignments satisfying each of the
@@ -1698,14 +1703,17 @@ conclusions and their premises.
 
 \begin{proof}
 
-  We give an inductive argument, where the base cases are closed terms of the extended language.
+  We give an inductive argument, where the base cases are equality or relation statements (or negations thereof)
+  over closed terms of the extended language.
   First we consider closed terms.  Since any model checking tableau
   is finite, it has only
   finitely many function symbols, constants, and parameters.
   Since parameters are not free variables but stand in for them,
   we will handle them as follows:  Recalling every parameter is
   of the form $j: \ldots :i:p$ with a string of at least one distinct prefixes
-  ($i$ is called the {\it immediate prefix} in the example):
+  ($i$ is called the {\it immediate prefix} in the example) without loss of
+  generality, where $i$ is the immediate prefix for the parameter in question
+  in the following:
   \begin{enumerate}
   \item
     Proceeding with annotation as normal,
@@ -1715,33 +1723,29 @@ conclusions and their premises.
     Clearly this process terminates since for any nominal $i$,
     $D_{I_{\textit{nom}}(i)}$ is finite.
   \item
-    From here on, we treat the sets of parameters which
-    satisfy a formula as we would the set of variable assignments which
-    would satisfy a formula with the exception of quantifier rules
+    From here on, we compute the sets of parameters which
+    satisfy a formula as we would its set of variable assignments with the exception of quantified formulae
     which we will cover later.  In particular, for a case of {\bf ($\lor$)}
     as in $@_s (\phi[i:p] \lor \psi[i:p])$ we take the union of the parameter
     sets for $@_s \phi[i:p]$ and $@_s \psi[i:p]$, similary taking the intersection
-    in the case of {\bf ($\neg \lor$)}
+    of the sets of the conclusions in the case of {\bf ($\neg \lor$)}
   \end{enumerate}
   The proof of termination for computing these parameter annotations for each node
   is essentially the same as the proof of termination for variable assignment annotations,
   so without loss of generality we omit the former and proceed with the latter. 
-  The model has only finitely many worlds/times and a
-  finite domain for each world/time, consequently computing the value of
-  a closed term is guaranteed to terminate and the annotation consists of
-  every possible variable assignment
-  (any implementation of this process would represent the totallity of variable
-  assignments via a flag which would consume only
-  constant space, similarly for parameter annotations until we solve for them).  
-  Similarly, computating annotations for relation and equality statements over
-  closed terms terminates.  Since the @ rules, modal rules, and
+  The model has only finitely many times and a
+  finite domain for each time, consequently computing the value of
+  a equality or relation statement (or negation thereof) over closed terms is guaranteed to terminate and the annotation consists of
+  every possible variable assignment\footnote{Any implementation of this process would represent the totallity of variable assignments via a flag which would consume only constant space, similarly for parameter annotations until we solve for them}.
+  Since the @ rules, modal rules, and
   {\bf ($\neg \neg$)}
   do not involve any operations on the set of variable assignments
   satisfying the conclusions, by induction these node annotations terminate.
   Assume by induction computing the annotations for the conclusions of {\bf ($\lor$)} and {\bf ($\neg \lor$)}
-  terminates.  Recalling \ref{finite-vars}, we
+  terminates.  Recalling remark \ref{finite-vars}, we
   see that {\bf ($\lor$)} and {\bf ($\neg \lor$)}
-  involve only union and intersection of finite sets respectively.
+  involve only union and intersection of finite sets respectively thus computing
+  them terminates.
   For {\bf (sub)} by we assume by induction that computing the annotations
   for the first premise and the conclusion terminates, since they are finite,
   computing their intersection terminates and we have the annotation for the second
@@ -1749,7 +1753,7 @@ conclusions and their premises.
   Finally assume by induction that computing the annotations for the conclusions of  
   {\bf ($\exists$)} and {\bf ($\neg \exists$)} terminates.
   For {\bf ($\exists$)}, assuming without loss of generality the
-  premise is of the form $@_s (\exists x) \phi$, recalling \ref{finite-vars} again, 
+  premise is of the form $@_s (\exists x) \phi$.  Recalling remark \ref{finite-vars} again, 
   we check each variable assignment from a finite set whether it has 
   an $x$-variant at $s$ that satisfies the premise stripped of its quantifier.
   But since we have parameter annotations,
@@ -1760,9 +1764,9 @@ conclusions and their premises.
   Similarly for {\bf ($\neg \exists$)}, in determining whether the variable assignments in
   the annotation for the conclusion satisfy the premise, it suffices the annotation for the
   relevant parameter, say $i:p$ is the same size as $D_{I_{\textit{nom}}(i)}$.
-  If they are the same size then the variable assignments
-  annotation for the premise is the same as for the conclusion,
-  and since $D_{I_{\textit{nom}}(i)}$ is finite clearly this terminates.
+  If they are the same size then the
+  annotation of variable assignments for the premise is the same as for the conclusion,
+  and since $D_{I_{\textit{nom}}(i)}$ is finite this terminates.
 \end{proof}
 
 \begin{theorem}
@@ -1783,7 +1787,7 @@ AMR interpretations given in \citet{lai-etal-2020-continuation} and \citet{bos-2
 translate AMR into first-order predicate logic via a direct and stateless transformation on the
 AMR, we elected to demonstrate a stateful approach using pseudocode,
 since it is clearer how to extract time and tense information this way,
-and how to implement this approach, which we hope to do soon.  
+and how to implement this approach.  
 The core of our interpretation process is taken from \citet{pustejovsky-etal-2019-modeling},
 since the \verb|scope| node dictates order and and application of the interpretation of
 the subgraphs in the AMR.  We assume the AMR's temporal information

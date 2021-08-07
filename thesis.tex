@@ -530,7 +530,8 @@ introduce a countably infinite list of parameters \textsf{PAR}, where parameters
 constants which are used exlusively to instantiate quantifiers and are never quantified over.
 We write $s:p$ to indicate
 a parameter is interpreted in the domain of a nominal $s$,
-just as we do with terms.  The {\it extended language} is the language obtained by
+just as we do with terms.  As prefixed constants, parameters refer rigidly
+in the domain they are quantified over.  The {\it extended language} is the language obtained by
 adding \textsf{PAR} to the standard {\it FHTL} language.  In the tableau rules,
 a term in the extended language is called a closed term if it contains no
 first-order variables or state variables.
@@ -798,27 +799,27 @@ and {\bf ($P / F$)--trans}, the soundness of which are straighfoward to demonstr
 given the soundness of the corresponding rules for $F$.
 The proof of completeness is essentially the same as the one given in
 \citet*{bolander} for Blackburn's tableau system for standard
-hybrid logic ($\mathcal{HL}(@)$) with accomodations made for
+hybrid logic ($\mathcal{HL}(@)$), with accomodations made for
 the first order aspects of {\it FHTL} adapted from \citet*{hansen2007tableau}.
 While \citet*{bolander} proves termination
 for Blackburn's tableau system, we cannot do that for
 {\it FHTL}, since a terminating tableau system would be
 equivalent to a general decision procedure for first-order predicate logic.
 We will however intoduce restrictions on the quantifier and term rules
-in the next section which will lead to terminating tableau constructions
-at the cost of general completeness,
-which will be no real loss since the purpose of our
-revised tableau system is for finite model checking.  
+in the next section, which will lead to terminating tableau constructions
+at the cost of general completeness.
+This is an appropriate compromise since the purpose of our
+revised tableau system is finite model checking.  
 
 \begin{remark}
   From here on we normalize formulae such that
   a negation symbol only occurs within the scope of the satisfaction operator,
   that is we will always write $@_s \neg \phi$ and never $\neg @_s \phi$
-  from now on, even though the two are semantically equivalent.
+  from now on, even though the two are operationally equivalent.
 \end{remark}
 
 \begin{definition}[{\bf Closed and open}]
-  If a tableau branch contains a formula
+  If a tableau branch $\Theta$ contains both a formula
   $@_s \phi$ and its negation $@_s \neg \phi$
   we say the branch is {\it closed}.
   If every branch of the tableau is closed we
@@ -827,7 +828,7 @@ revised tableau system is for finite model checking.
 \end{definition}
 
 A closed tableau is a proof of the unsatisfiability of the tableau's root formula, i.e.
-there is no model or assignment of variables in which it holds.
+there is no model and assignment of variables in which it holds.
 Thus a tableau proof of an {\it FHTL} sentence $\phi$ is a
 closed tableau with the root $@_s \neg \phi$ for some nominal
 $s$ not occuring in $\phi$.
@@ -836,7 +837,7 @@ $s$ not occuring in $\phi$.
   A formula occurence in a tableau is called an accessibility
   formula if it is of the form $@_a F b$ or $@_a P b$
   and is the (first) conclusion of an application of the
-  rule $F$ or $P$ respectively.
+  rule {\bf ($F$)} or {\bf ($P$)} respectively.
 \end{definition}
 
 \begin{definition}[{\bf Quasi-subformula}]
@@ -853,9 +854,9 @@ $s$ not occuring in $\phi$.
     variables in $\chi$ for parameters,  and full
     or partial substitution of a term with an equivalent term.
   \end{enumerate}
-  Altering the definition to allow parameters being substituted
+  Adapting this definition from \citet*{bolander} to allow parameters being substituted
   for free variables, and full or partial substitution of any term with an
-  equivalent term ensures compatibility of the following proofs
+  equivalent term, ensures compatibility of the definition
   with the quantifier rules, term rules, and equality rules.  We say a formula $@_s \phi$
   on a {\it FHTL} tableau branch $\Theta$ is a {\it root subformula}
   if $\phi$ is a quasi subformula of the root formula of the tableau.  
@@ -870,7 +871,7 @@ $s$ not occuring in $\phi$.
 \begin{lemma}[{\bf Root Subformula Property}]
   \label{subformula}
   If a formula $@_s \phi$ occurs in a {\it FHTL} tableau where
-  $\phi$ is not of the form $a$, $F a$, or $P a$ for $a$ a nominal,
+  $\phi$ is not of the form $b$, $F b$, or $P b$ for $b$ a nominal,
   or $u = t$ for optionally prefixed closed terms $t$ and $u$,
   then $\phi$ is a (positively occuring) root subformula. 
   If $@_s \neg \phi$ occurs in a {\it FHTL} tableau then $\phi$ is a
@@ -881,7 +882,8 @@ $s$ not occuring in $\phi$.
   This is verified by checking the tableau rules with
   attention to the fact that if the conclusion of a rule is
   of the form $@_s \neg \psi$ then its premise is of the
-  form $@_s \neg \phi$. 
+  form $@_s \neg \phi$, e.g. none of the tableau rules can introduce
+  a leading negation symbol. 
   \iffalse
   We observe the propositional, quantifier, and $@$ rules, along with
   {\bf (:fix 1)}, {\bf (:fix 2)}, and {\bf (:fix 4)} can only take
@@ -953,9 +955,9 @@ $@_a (c \lor (\exists x) \psi)$ but not in the formula $@_c (\exists x) \psi$.
   This is verified by checking each rule, in some cases making use of
   \ref{subformula}.  {\bf (nom ref)} might initially appear to be a problem,
   since we are permitted to apply it for any nominal on the branch,
-  but the nominals in its conclusions are not distinct.
-  For $F$ and $P$ we make use of the restriction that they cannot be
-  applied to premises of the form $@_a (F / P) \phi$ where $\phi$ is a
+  but the nominals in its conclusion are not distinct.
+  For {\bf ($F$)} and {\bf ($P$)} we make use of the restriction that they cannot be
+  applied to premises of the form $@_a F \phi$ or $@_a P \phi$ where $\phi$ is a
   nominal.  
 \end{proof}
   
@@ -972,7 +974,7 @@ $@_a (c \lor (\exists x) \psi)$ but not in the formula $@_c (\exists x) \psi$.
 
 \begin{proof}
   This is verified by checking each of the
-  tableau rules, in some cases making use of \ref{subformula}.
+  tableau rules, in some cases making use of lemma \ref{subformula}.
 \end{proof}
 
 
@@ -1002,7 +1004,7 @@ We can see that $W$ contains every nominal in the root formula,
 and since any branch $\Theta$ is closed under {\bf (nom ref)} and
 {\bf (nom)} we have that $\sim_{\Theta}$ and $\approx$ are equivalence relations.
 For a nominal $a$ in $W$ we write $[a]$ to denote the equivalence class of $a$
-and $W /_{\approx}$ to denote the set of equivalence classes.  
+under $\approx$ and $W /_{\approx}$ to denote the set of equivalence classes.  
 
 \begin{definition}
   \label{rel}
@@ -1035,15 +1037,14 @@ Note that the nominal $d$ in the second item is not an element of $W$
 and that the accessibility relation $R$ is compatible with $\approx$.
 We define $\overline{R}$ as the binary relation on $W /_{\approx}$
 defined by $\overline{R} [a] [c]$ if and only if $R a c$.
-\par
-$(W, \overline{R})$ are a modal frame, the first step
+$(W, \overline{R})$ is a modal frame, the first step
 towards constructing a model
 of an open tableau branch $\Theta$.
 
 \subsection{First-Order Components for Completeness}
 
 Completeness for a tableau system is demonstrated by
-giving a method for constructing a model for an open
+giving a method for constructing a model from an open
 branch such that it satisfies every formula on the branch.
 Taking our cue from \citet{hansen2007tableau} and making
 accomodations for the tableau rules and and structure we adapted

@@ -1136,7 +1136,7 @@ the tableau branch from which it was constructed we need the following lemma.
       Then we have $\overline{R} [a] [b]$ and are done.
     \item $a' = a$ and $b' \neq b$:
 
-      By \ref{nomeq} there is a nominal $c$
+      By theorem \ref{nomeq} there is a nominal $c$
       occuring in the root formula such that $b' \sim_{\Theta} c$.
       But then $@_a F c \in \Theta$ and $c \in W$ so
       $\overline{R} [a] [c]$, and by the definition of
@@ -1144,7 +1144,7 @@ the tableau branch from which it was constructed we need the following lemma.
       
     \item $a' \neq a$ and $b' = b$:
 
-      By \ref{nomeq} there is a nominal $c$
+      By theorem \ref{nomeq} there is a nominal $c$
       occuring in the root formula such that $a' \sim_{\Theta} c$.
       But then $@_c F b \in \Theta$ and $c \in W$ so
       $\overline{R} [c] [b]$, and by the definition of
@@ -1152,7 +1152,7 @@ the tableau branch from which it was constructed we need the following lemma.
       
     \item $a' \neq a$ and $b' \neq b$:
 
-      By \ref{nomeq} there are nominals $c$ and $d$ 
+      By theorem \ref{nomeq} there are nominals $c$ and $d$ 
       occuring in the root formula such that $a' \sim_{\Theta} c$
       and $b' \sim_{\Theta} d$.  But then also $@_c F d \in \Theta$,
       and $c,d \in W$ so $\overline{R} [c] [d]$ and by definition
@@ -1167,32 +1167,32 @@ the tableau branch from which it was constructed we need the following lemma.
     where the nominal $c$ is new to the branch.
     If $c \in W$ then $\overline{R} [a] [c]$
     and by induction $\mathfrak{M}, [c] \vDash_g \psi$
-    for some variable assignments $g$.
+    for every variable assignment $g$.
     If $c \not\in W$ then by the definition of $W$
     there is a nominal $d$ where $c \subseteq_{\Theta} d$.
     Without loss of generality assume there is no nominal $e$
     such that $d \subseteq_{\Theta} e$, this implies $d \in W$.
-    Additionally by \ref{subformula} $\psi$ is a root subformula
+    Additionally by lemma \ref{subformula} $\psi$ is a root subformula
     and we have $@_d \psi \in \Theta$.  By induction we have
     $\mathfrak{M}, [d] \vDash_g \phi$, and by the definition
     of $W$ and $\approx$ we have $\overline{R} [a] [d]$.   
   \end{itemize}
 
   Now assume $@_a \neg F \psi \in \Theta$, we need to show
-  $\mathfrak{M}, [a] \not \vDash_g F \psi$ does not hold
-  for any variable assignment $g$, i.e. for any $[c] \in W /_{\approx}$
+  $\mathfrak{M}, [a] \not \vDash_g F \psi$ 
+  for every variable assignment $g$, i.e. for any $[c] \in W /_{\approx}$
   where $\overline{R} [a] [c]$ that $\mathfrak{M}, [c] \not \vDash_g \psi$
   for any variable assignment $g$.  From $\overline{R} [a] [c]$
   we have that there are nominals $a' \approx a$ 
   and $c' \approx c$ satisfying one of the three conditions of $R$ in
-  definition \ref{rel}.  In the first and third conditions of the definition
+  definition \ref{rel}.  From the first and third conditions
   we have $@_{a'} F c' \in \Theta$ and as a result $@_a F c \in \Theta$
-  and in turn by {\bf ($\neg F$)} $@_c \neg \psi \in \Theta$.
+  and in turn by {\bf ($\neg F$)} we have $@_c \neg \psi \in \Theta$.
   By induction we have $\mathfrak{M}, [c] \not \vDash_g \psi$ for every variable assignment
   $g$.  In the second condition of $R$ in definition \ref{rel} there is a nominal
   $d \in N_{\Theta}$ such that $@_{a'} F d \in \Theta$ and
   $d \subseteq_{\Theta} c'$, consequently $@_a F d \in \Theta$ and
-  by {\bf ($\neg F$)} $@_d \neg \psi \in \Theta$.
+  by {\bf ($\neg F$)} we have $@_d \neg \psi \in \Theta$.
   But by lemma \ref{subformula} $\psi$ is a root subformula,
   and since $d \subseteq_{\Theta} c'$ we have $@_{c'} \neg \psi \in \Theta$.
   By induction we have $\mathfrak{M}, [c'] \not \vDash_g \psi$ for every variable assignment

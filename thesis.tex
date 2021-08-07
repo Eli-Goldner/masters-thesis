@@ -490,7 +490,7 @@ and $g$ agree on all variables except possiblly $x$.
 In particular, we say $g'$ is an $x$-variant of $g$ at a time $t$, if $g'$
 and $g$ on all variables except possiblly $x$ and $g'(x) \in D_t$.
 Finally, given a model $\mathfrak{M}$, a variable assignment $g$,
-and a state $s$, we have the inductive definition of
+and a time $s$, we have the inductive definition of
 $\mathfrak{M}, s \vDash_g \phi$ as:
 
 \begin{alignat*}{2}
@@ -508,9 +508,9 @@ $\mathfrak{M}, s \vDash_g \phi$ as:
   %%\caption{$AT_x$}
 \end{alignat*}
 
-As usual, a formula is satisfiable if there is some model/interpretation which makes the formula true,
-and a formula is valid if every model/interpretation which makes the formula true.
-We also note that if $\psi$ is a sentence (a formula with no free variables, also called a closed formula), then
+A formula is satisfiable if there is some model where the formula true,
+and a formula is valid if it is true in every model.
+We also note that if $\psi$ is a sentence (a formula with no free variables), then
 whether $\mathfrak{M}, s \vDash_g \phi$ does not depend on the variable assignment $g$.
 \subsection{The Tableau Calculus}
 
@@ -525,13 +525,11 @@ whether $\mathfrak{M}, s \vDash_g \phi$ does not depend on the variable assignme
 
 \fi
 
-When working with the tableau calculus, following \citet*{fitting-modal} we assume for each nominal
-or state variable $s$,
-there is a countably infinite list of parameters \textsf{PAR}, where parameters are free variables
-which are never quantified over, arranged in such a way that different
-nominals/state variables
-never share the same parameter.  We write $s:p$ to indicate
-a parameter is associated with a nominal/state variable $s$,
+When working with the tableau calculus, following \citet*{hansen2007tableau} we 
+introduce a countably infinite list of parameters \textsf{PAR}, where parameters are
+constants which are used exlusively to instantiate quantifiers and are never quantified over.
+We write $s:p$ to indicate
+a parameter is interpreted in the domain of a nominal $s$,
 just as we do with terms.  The {\it extended language} is the language obtained by
 adding \textsf{PAR} to the standard {\it FHTL} language.  In the tableau rules,
 a term in the extended language is called a closed term if it contains no
@@ -796,7 +794,8 @@ first-order variables or state variables.
 The proof of soundness for {\it FHTL} follows from the
 soundness of {\it FHL} established in \citet*{hansen2007tableau},
 with additions for the rules {\bf ($P$)}, {\bf ($\neg P$)}, {\bf ($P$)--bridge},
-and {\bf ($P / F$)--trans}, the soundness of which is easy to demonstrate.
+and {\bf ($P / F$)--trans}, the soundness of which are straighfoward to demonstrate
+given the soundness of the corresponding rules for $F$.
 The proof of completeness is essentially the same as the one given in
 \citet*{bolander} for Blackburn's tableau system for standard
 hybrid logic ($\mathcal{HL}(@)$) with accomodations made for

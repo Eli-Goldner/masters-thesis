@@ -526,7 +526,7 @@ whether $\mathfrak{M}, s \vDash_g \phi$ does not depend on the variable assignme
 
 \fi
 
-When working with the tableau calculus, following \citet*{hansen2007tableau} we 
+When working with the tableau calculus (figures \ref{fhtl1} and \ref{fhtl2}), following \citet*{hansen2007tableau} we 
 introduce a countably infinite list of parameters \textsf{PAR}, where parameters are
 constants which are used exlusively to instantiate quantifiers and are never quantified over.
 We write $s:p$ to indicate
@@ -699,6 +699,8 @@ first-order variables or state variables.
  
   \end{mdframed}
 \end{adjustbox}
+\caption{First table of {\it FHTL} rules.}
+\label{fhtl1}
 \end{figure*}
 
 \begin{figure*}[!h]
@@ -788,6 +790,8 @@ first-order variables or state variables.
     
   \end{mdframed}
 \end{adjustbox}
+\caption{Second table of {\it FHTL} rules.}
+\label{fhtl2}
 \end{figure*}
 
 
@@ -807,7 +811,7 @@ for Blackburn's tableau system, we cannot do that for
 {\it FHTL}, since a terminating tableau system would be
 equivalent to a general decision procedure for first-order predicate logic.
 We will however intoduce restrictions on the quantifier and term rules
-in the next section, which will lead to terminating tableau constructions
+in section \ref{mdlchk}, which will lead to terminating tableau constructions
 at the cost of general completeness.
 This is an appropriate compromise since the purpose of our
 revised tableau system is finite model checking.  
@@ -1202,6 +1206,7 @@ the tableau branch from which it was constructed we need the following lemma.
 
 
 \section{{\it FHTL} Model Checking with Finite Tableaux}
+\label{mdlchk}
 For our task of AMR inference, we are not always concered with the determining the general satisfiability or
 validity of an AMR formula translated into {\it FHTL}, but
 rather whether it holds in a model consistent with
@@ -1795,6 +1800,10 @@ is attached to the concept at the \verb|scope|'s \verb|pred| node, and integrate
 translation to achieve an interpretation in {\it FHTL} instead of first-order predicate logic.
 
 \subsection{Examples}
+
+Here we consider some AMR examples using both extensions and their corresponding acceptable {\it FHTL}
+translations:
+
 \enumsentence{
   \label{computer}
   a. Every desk will have a computer located there.
@@ -1802,7 +1811,10 @@ translation to achieve an interpretation in {\it FHTL} instead of first-order pr
   b.
   \\
   \small\texttt{(s / scope\\
-    \hspace*{1.0cm}:pred (b / be-located-at-91 :ongoing - :complete + :time (a / after :op1 (n / now))\\
+    \hspace*{1.0cm}:pred (b / be-located-at-91 :ongoing -\\
+    \hspace*{6.155cm}:complete +\\
+    \hspace*{6.155cm}:time (a / after\\
+    \hspace*{8.0cm}:op1 (n / now))\\
     \hspace*{1.5cm}:ARG0 (c / computer)\\
     \hspace*{1.5cm}:ARG1 (d / desk\\
     \hspace*{2.0cm}:quant (e / every)))\\
@@ -1811,7 +1823,7 @@ translation to achieve an interpretation in {\it FHTL} instead of first-order pr
   \\
   c. $@_{\textit{now}} (\forall y) [\text{desk}(y) \to (\exists x) [\text{computer}(x) \land F (\text{be-located-at-91}(x, y))]]$
   \\
-  d. Also acceptable but with a subtle difference {\it It will be the case that every desk will have a computer located there} (future computers and desks): \\
+  d. Also acceptable but with a subtle difference {\it Every desk (in the future) will have a computer located there} (future computers and desks): \\
   $@_{\textit{now}} F ((\forall y) [\text{desk}(y) \to (\exists x) [\text{computer}(x) \land  \text{be-located-at-91}(x, y)]])$
 }
 \enumsentence{
@@ -1819,7 +1831,7 @@ translation to achieve an interpretation in {\it FHTL} instead of first-order pr
   \\
   b.
   \\
-  \scriptsize\texttt{(a / and\\
+  \small\texttt{(a / and\\
     \hspace*{0.5cm}:op1 (s / scope\\
     \hspace*{1.0cm}:pred (f / fill-out-03 :ongoing - :complete + :time (b / before :op1 (n / now))\\
     \hspace*{1.5cm}:ARG0 (p / person\\
@@ -1862,26 +1874,24 @@ and join them together via the meaning of the connective, e.g. for:
   \\
 }
 The meaning in {\it FHTL} is $\llbracket \verb|:op1| \rrbracket \lor \llbracket \verb|:op2| \rrbracket \lor \llbracket \verb|:op3| \rrbracket$
-In the case where the root node of the AMR is \verb|scope|, the order of interpretation is specified.  For instance in \ref{computer},
+In the case where the root node of the AMR is \verb|scope|, the order of interpretation is specified.  For instance in example \ref{computer},
 the order of interpretation is $\llbracket \verb|ARG0| \rrbracket(\llbracket \texttt{ARG1} \rrbracket (\llbracket \texttt{pred} \rrbracket))$.
 Finally, we have that the meaning of every AMR with a \texttt{scope} root will be prefixed by a satisfaction operator with a nominal
 indicating the time of reference provided in the \texttt{:time} relation (if that time is ``\texttt{now}'' then we let the nominal indicate the document creation time
 where available).  
 \subsection{General Extraction Algorithm}
 
-\begin{adjustbox}{varwidth=1.1\linewidth,scale=0.8}
-    %% \begin{framed}
-    \centering
-\begin{algorithm}[H]
-  \SetAlgoLined
-  \SetKwInput{KwInput}{Input}                % Set the Input
-  \SetKwInput{KwOutput}{Output}              % set the Output
-  \DontPrintSemicolon
-
-  \KwInput{AMR sentence}
-  \KwOutput{{\it FHTL} formula}
-
-  % Set Function Names
+\begin{figure*}
+\begin{adjustbox}{}
+  %% \begin{framed}
+  \centering
+  \begin{algorithm}[H]
+    \SetAlgoLined
+    \SetKwInput{KwInput}{Input}                % Set the Input
+    \SetKwInput{KwOutput}{Output}              % set the Output
+    \DontPrintSemicolon
+    
+    % Set Function Names
   \SetKwFunction{FApply}{Apply}
   \SetKwFunction{FInterpretEntry}{InterpretEntry}
   \SetKwFunction{FInterpretClause}{InterpretClause}
@@ -1921,58 +1931,71 @@ where available).
   }
   \;
   
- \caption{Basic transformation into {\it FHTL} clauses and connectives.}
 \end{algorithm}
 \end{adjustbox}
+\caption{Basic transformation into {\it FHTL} clauses and connectives.}
+\label{alg1}
+\end{figure*}
 
    
-\texttt{InterpretEntry} and \texttt{InterpretClause} perform essentially
-what we discussed in \ref{extract}.
+In figure \ref{alg1}, \texttt{InterpretEntry} and \texttt{InterpretClause} perform essentially
+what we discussed in subsection \ref{extract}.
 We should note that in \texttt{InterpretClause}
 that the interpreted predicate takes the tense operator as an argument.
 We do not provide definitions for \texttt{Tense} and \texttt{Reference}
 since they are issues of checking nodes in the AMR graph.
 Similarly, \texttt{Pred} and \texttt{GetArgs},
 are issues of straightforward graph traversal and modifications
-to the standard interpretation processes which we will show later
-and we do not provide them.
+to the standard interpretation processes which we will show later.
+In our representation the central predicate is in the immediate scope of the
+tense operator.  From example \ref{extract} we can see that there is another
+choice, namely having the entire sentence
+(except for the satisfaction operator) within the scope of the tense operator.
+This subtle difference in meaning is lost in the AMR, so which interpretation
+is used in implementation is a design choice, perhaps based on further
+examination of the interaction of quantification in tense in natural language.
 
-
-\begin{adjustbox}{varwidth=1.1\linewidth,scale=0.8}
+\begin{figure*}
+  \begin{adjustbox}{}
     %% \begin{framed}
     \centering
-\begin{algorithm}[H]
-  \SetAlgoLined
-  \SetKwInput{KwInput}{Input}                % Set the Input
-  \SetKwInput{KwOutput}{Output}              % set the Output
-  \DontPrintSemicolon
-  \SetKwFunction{FApply}{Apply}
-  \SetKwFunction{FInterpretPred}{InterpretPred}
-  \SetKwFunction{FInterpPropMod}{InterpPropMod}
-  
-  \SetKwProg{Fn}{Def}{:}{}
-  
-  \Fn{\FApply{$\text{pred}_1$,$\text{pred}_2$}}{
-    \Return $\lambda \phi . \text{pred}_1 (\lambda \psi . \text{pred}_2 (\lambda \gamma . \phi (\gamma (\psi))))$
-  }
-  \;
-  
-  \Fn{\FInterpretPred{UnaryPred}}{
+    \begin{algorithm}[H]
+      \SetAlgoLined
+      \SetKwInput{KwInput}{Input}                % Set the Input
+      \SetKwInput{KwOutput}{Output}              % set the Output
+      \DontPrintSemicolon
+      \SetKwFunction{FApply}{Apply}
+      \SetKwFunction{FInterpretConcept}{InterpretConcept}
+      \SetKwFunction{FInterpretPred}{InterpretPred}
+      \SetKwFunction{FInterpPropMod}{InterpPropMod}
+      
+      \SetKwProg{Fn}{Def}{:}{}
+      
+      \Fn{\FApply{$\text{pred}_1$,$\text{pred}_2$}}{
+        \Return $\lambda \phi . \text{pred}_1 (\lambda \psi . \text{pred}_2 (\lambda \gamma . \phi (\gamma (\psi))))$
+      }
+      \;
+      
+  \Fn{\FInterpretConcept{Concept}}{
     
     \tcc{Propositional modifiers are handled differently than predicates.}
-    \If{isPropMod(name(UnaryPred))}{
-      \Return InterpPropMod(UnaryPred)
+    \If{isPropMod(name(Concept))}{
+      \Return \FInterpPropMod(Concept)
     }
-    \If{hasMods(UnaryPred)}{
-      mods = [name(UnaryPred)]\;
-      \For{mod $\in$ Children(UnaryPred)}{
+    \If{isVerb(name(Concept))}{
+      \Return \FInterpretPred(Concept)
+    }
+    \tcc{Noun possibly with adjectives.}
+    \If{hasMods(Concept)}{
+      mods = [name(Concept)]\;
+      \For{mod $\in$ Children(Concept)}{
         append(mods, name(mod)($x$))\;
       }
       FinalPred = $\lambda x .$ join(mods, $\land$)\;
     } \Else{
-      FinalPred = $\lambda  x . \text{name(UnaryPred)}(x)$\; 
+      FinalPred = $\lambda  x . \text{name(Concept)}(x)$\; 
     }
-    \If{Quant(UnaryPred) == :all}{
+    \If{Quant(Concept) == :all}{
       \Return $\lambda k . \forall x [ \text{FinalPred} (x) \to k (x) ]$\; 
     } \Else{
       \Return $\lambda k . (\exists x) [ \text{FinalPred} (x) \land k (x) ]$\;
@@ -1980,6 +2003,11 @@ and we do not provide them.
   }
   \;
 
+  \Fn{\FInterpretPred{Predicate}}{
+    \tcc{In any implementation PropBank would be referenced for the correct number of predicates.}
+    \Return $\lambda \phi . \phi(\lambda x_1 \ldots \lambda x_n . \text{Predicate}(x_1 \ldots x_n))$ 
+  }
+  
   \Fn{\FInterpPropMod{PropMod}}{
     \If{PropMod == \texttt{not}}{
       \Return $\lambda p . \lambda k . \neg p (k)$
@@ -1993,15 +2021,20 @@ and we do not provide them.
     }
     \fi
   }
-  \caption{Supporting definitions.}
 \end{algorithm}
 \end{adjustbox}
+\caption{Supporting methods.}
+\label{alg2}
+\end{figure*}
 
-\texttt{Apply} is standard continuation based application of predicates \citep{van2010computational}.
-\texttt{InterpretPred} handles AMR concepts possibly with nested relations to other concepts, letting
-us extract $@_t (\forall x)((dog(x) \land friendly(x)) \to P (bark(x)))$
+In figure \ref{alg2}, \texttt{Apply} is standard continuation based application of predicates \citep{van2010computational}.
+\texttt{InterpretConcept} handles AMR concepts possibly with nested \texttt{:mod} relations to other concepts, letting
+us extract
+$$@_t (\forall x)((dog(x) \land friendly(x)) \to P (bark(x)))$$
 from {\it Every friendly dog barked} rather than recursively obtaining a Neo-Davidsonian
-approach as in \citet{lai-etal-2020-continuation}.
+representation
+$$@_t (\forall d ) (  \text{dog}(d) \land (\exists f) (\text{friendly}(f) \land \text{mod}(d,f)) \land P(\text{bark}(d)))$$
+as in \citet{lai-etal-2020-continuation}.
 \texttt{InterpPropMod} handles AMR concepts which modify entire
 sentences/propositions such as negation and modality.    
 
@@ -2013,10 +2046,10 @@ sentences/propositions such as negation and modality.
 
 \citet{hansen2007tableau} includes treatment of two operators which we have
 omitted, namely $\downarrow$ and $E$.  $\downarrow$ binds
-a nominal to the point of evaluation, i.e.
-$@_a \downarrow w . \phi$, $\downarrow w . \phi$  is the case at $a$,
+a nominal to the point of evaluation.  For instance in
+$@_a \downarrow w . \phi$, we have that $\downarrow w . \phi$  is the case at $a$,
 if and only if $\phi$ is the case at $w$ ($@_w \phi$) when $a$ refers
-to $w$.  This feature allows to represent statements
+to $w$.  This feature affords representation of statements
 such as {\it Caroline is the current chief architect}
 via a formula of the form $\downarrow x . (c = @_x a)$
 where $c$ is a rigid designator (for us a constant) denoting
@@ -2053,17 +2086,17 @@ might be more productive to consider theorem provers
 for first-order modal logic utilizing tableau such as \textsf{leanTAP}  \citep{beckert1995leantap} and extending them to
 accomodate hybrid logic's satisfaction operator and the other aspects of {\it FHTL}.
 MDK-verifier \footnote{\url{http://www.cril.univ-artois.fr/~montmirail/mdk-verifier/}}
-is the only modal model checker we are aware of, and currently only
-works with propositional $K$.  
+is the only modal model checker we are aware of, and currently
+handles only the propositional modal logic $K$.  
 
 \subsection{The Future of AMR and Parsing for Semantic Features}
 
-AMR parsing is an area which receives a great deal of attention,
-we are not aware however of many efforts in AMR parsing towards accomodating
-extensions with these semantic features which enable any kind of descriptive
-direct inference.  Indeed, whether any research in automated reasoning
+AMR parsing is an area which receives a great deal of attention, however
+we are not aware of many efforts in AMR parsing towards accomodating
+extensions which enable direct inference.
+Indeed, whether any research in automated reasoning
 over AMR and its extensions is of practical relevance depends entirely on
-whether AMR parsers can accomplish this in a resource effective way.
+whether AMR parsers can accomplish this in a reasonably effective way.
 Determining where and to what extent AMR parsing for extensions
 is effective is a worthwhile pursuit for AMR researchers in general,
 whether or not they are concerned with the semantic descriptiveness
@@ -2089,12 +2122,12 @@ in first-order hybrid tense logic, and that {\it FHTL}
 affords reasoning for these translated AMR sentences,
 through its general tableau method which acts as a proof procedure for {\it FHTL} sentences
 and its terminating tableau method which acts as a model checker.
-We have discussed the possibility of handling aspect and what is required for it,
-and some possible strategies for developing an implementation of {\it FHTL}
-or another first-order hybrid logic variant.  There are further questions
-in these areas of exploration of both theoretical and pragmatic approaches
-to optimization of these techniques, as well as investigating how AMR
-parsing can become both robust and sensitive enough to realize the goals of this research.
+We have discussed the possibility of handling aspect,
+and some possible strategies for developing an implementation of tableau methods for {\it FHTL}
+or another first-order hybrid logic variant.
+There are questions of both theoretical and pragmatic approaches
+to optimization of these tableau methods and their implementation,
+as well as investigating how AMR parsing can become both robust and sensitive enough to realize the goals of this research.
 
 \bibliographystyle{acl_natbib}
 \nocite{bolander2009terminating}

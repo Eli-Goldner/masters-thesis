@@ -533,257 +533,256 @@ first-order variables or state variables.
 %%\begin{adjustbox}{max size={\textwidth}{\textheight}, nofloat = figure}
 \begin{figure*}[!h]
   \centering
-  \begin{adjustbox}{varwidth=1.1\linewidth,scale=1.0}
+  \begin{adjustbox}{varwidth=\linewidth,scale=0.9}
     %% \begin{framed}
     \centering
     \begin{mdframed}
-    \centering
-
-    \underline{\bf Propositional rules:}
-    
-    \begin{multicols}{3}
-      \begin{prooftree}
-        \AxiomC{$@_s (\phi \lor \psi)$}
-        \RightLabel{\bf ($\lor$)}
-        \UnaryInfC{$@_s \phi \mid @_s \psi$} 
-      \end{prooftree}
+      \centering
+      
+      \underline{\bf Propositional rules:}
+      
+      \begin{multicols}{3}
+        \begin{prooftree}
+          \AxiomC{$@_s (\phi \lor \psi)$}
+          \RightLabel{\bf ($\lor$)}
+          \UnaryInfC{$@_s \phi \mid @_s \psi$} 
+        \end{prooftree}
+        
+        
+        \begin{prooftree}
+          \AxiomC{$@_s \neg (\phi \lor \psi)$}
+          \RightLabel{\bf ($\neg \lor$)}
+          \UnaryInfC{$@_s \neg \phi$}
+          \noLine
+          \UnaryInfC{$@_s \neg \psi$}
+        \end{prooftree}
+        
+        
+        \begin{prooftree}
+          \AxiomC{$ @_s \neg \neg \phi$}
+          \RightLabel{\bf ($\neg \neg$)}
+          \UnaryInfC{$@_s \phi$}
+        \end{prooftree}
+        
+      \end{multicols}
+      
+      \underline{\bf Modal rules:}
+      
+      \begin{multicols}{2}
+        %% \begin{multicols}{4}
+        \begin{prooftree}
+          \AxiomC{$@_s F \phi$}
+          \RightLabel{\bf ($F$)\footnote{\label{intro}The nominal $a$ is new to the branch.}\footnote{\label{nom}The formula $\phi$ is not a nominal.}}
+          \UnaryInfC{$@_s F a$}
+          \noLine
+          \UnaryInfC{$@_a \phi$}
+        \end{prooftree}
+        
+        \begin{prooftree}
+          \AxiomC{$@_s P \phi$}
+          \RightLabel{\bf ($P$)\footnoteref{intro}\footnoteref{nom}}
+          \UnaryInfC{$@_s P a$}
+          \noLine
+          \UnaryInfC{$@_a \phi$}
+        \end{prooftree}
+      \end{multicols}
+        
+        
+      \begin{multicols}{2}
+        \begin{prooftree}
+          \AxiomC{$@_s \neg P \phi$}
+          \AxiomC{$@_s P t$}
+          \RightLabel{\bf ($\neg P$)}
+          \BinaryInfC{$@_t \neg \phi$} 
+        \end{prooftree}
+        
+        \begin{prooftree}
+          \AxiomC{$@_s \neg F \phi$}
+          \AxiomC{$@_s F t$}
+          \RightLabel{\bf ($\neg F$)}
+          \BinaryInfC{$@_t \neg \phi$}
+        \end{prooftree}
+      \end{multicols}
       
       
-      \begin{prooftree}
-        \AxiomC{$@_s \neg (\phi \lor \psi)$}
-        \RightLabel{\bf ($\neg \lor$)}
-        \UnaryInfC{$@_s \neg \phi$}
-        \noLine
-        \UnaryInfC{$@_s \neg \psi$}
-      \end{prooftree}
+      \underline{\bf Quantifier rules:}
+      
+      \begin{multicols}{2}
+        \begin{prooftree}
+          \AxiomC{$@_s (\exists x) \phi$}
+          \RightLabel{\bf ($\exists$)\footnote{$s : p$ is new to the branch.}}
+          \UnaryInfC{$@_s \phi[s:p / x]$} 
+        \end{prooftree}
+        
+        \begin{prooftree}
+          \AxiomC{$@_s \neg (\exists x) \phi$}
+          \RightLabel{\bf ($\neg \exists$)\footnote{$p$ is any parameter which exists at $s$.}}
+          \UnaryInfC{$@_s \neg \phi[s:p / x]$} 
+        \end{prooftree}
+      \end{multicols}
+      
+      \underline{\bf @ rules:}
+      
+      \begin{multicols}{2}
+        % \begin{multicols}{4}
+        \begin{prooftree}
+          \AxiomC{$@_s @_t \phi$}
+          \RightLabel{\bf ($@$)}
+          \UnaryInfC{$@_t \phi$} 
+        \end{prooftree}
+        
+        \begin{prooftree}
+          \AxiomC{$@_s \neg @_t \phi$}
+          \RightLabel{\bf ($\neg @$)}
+          \UnaryInfC{$@_t \neg \phi$} 
+        \end{prooftree}
+        
+      \end{multicols}
       
       
-      \begin{prooftree}
-        \AxiomC{$ @_s \neg \neg \phi$}
-        \RightLabel{\bf ($\neg \neg$)}
-        \UnaryInfC{$@_s \phi$}
-      \end{prooftree}
+      \begin{multicols}{2}
+        \begin{prooftree}
+          \AxiomC{$@_s t$}
+          \AxiomC{$@_s \phi$}
+          \RightLabel{\bf (nom)}
+          \BinaryInfC{$@_t \phi$} 
+        \end{prooftree}
+        
+        \begin{prooftree}
+          % \AxiomC{$[i\text{ on the branch}]$}
+          \AxiomC{[$i$ on the branch]}
+          \RightLabel{\bf (nom ref)}
+          \UnaryInfC{$@_i i$} 
+        \end{prooftree}
+        
+      \end{multicols}
       
-    \end{multicols}
-
-    \underline{\bf Modal rules:}
-
-    %% \begin{multicols}{2}
-    \begin{multicols}{4}
-      \begin{prooftree}
-        \AxiomC{$@_s F \phi$}
-        \RightLabel{\bf ($F$)\footnote{\label{intro}The nominal $a$ is new to the branch.}\footnote{\label{nom}The formula $\phi$ is not a nominal.}}
-        \UnaryInfC{$@_s F a$}
-        \noLine
-        \UnaryInfC{$@_a \phi$}
-      \end{prooftree}
+      \begin{multicols}{2}
+        % \begin{multicols}{4}
+        \begin{prooftree}
+          \AxiomC{$@_s P t$}
+          \RightLabel{\bf ($P\textbf{--trans}$)}
+          \UnaryInfC{$@_t F s$} 
+        \end{prooftree}
+        
+        \begin{prooftree}
+          \AxiomC{$@_s F t$}
+          \RightLabel{\bf ($F\textbf{--trans}$)}
+          \UnaryInfC{$@_t P s$}  
+        \end{prooftree}
+      \end{multicols}
       
-      \begin{prooftree}
-        \AxiomC{$@_s P \phi$}
-        \RightLabel{\bf ($P$)\footnoteref{intro}\footnoteref{nom}}
-        \UnaryInfC{$@_s P a$}
-        \noLine
-        \UnaryInfC{$@_a \phi$}
-      \end{prooftree}
+      \begin{multicols}{2}
+        \begin{prooftree}
+          \AxiomC{$@_s P t$}
+          \AxiomC{$@_t u$}
+          \RightLabel{\bf ($P\textbf{--bridge}$)}
+          \BinaryInfC{$@_s P u$} 
+        \end{prooftree}
+        
+        \begin{prooftree}
+          \AxiomC{$@_s F t$}
+          \AxiomC{$@_t u$}
+          \RightLabel{\bf ($F\textbf{--bridge}$)}
+          \BinaryInfC{$@_s F u$}  
+        \end{prooftree}
+      \end{multicols}
       
-    %%\end{multicols}
-  
-    
-    %%\begin{multicols}{2}
-      \begin{prooftree}
-        \AxiomC{$@_s \neg P \phi$}
-        \AxiomC{$@_s P t$}
-        \RightLabel{\bf ($\neg P$)}
-        \BinaryInfC{$@_t \neg \phi$} 
-      \end{prooftree}
-      
-      \begin{prooftree}
-        \AxiomC{$@_s \neg F \phi$}
-        \AxiomC{$@_s F t$}
-        \RightLabel{\bf ($\neg F$)}
-        \BinaryInfC{$@_t \neg \phi$}
-      \end{prooftree}
-    \end{multicols}
-
-    
-    \underline{\bf Quantifier rules:}
-    
-    \begin{multicols}{2}
-      \begin{prooftree}
-        \AxiomC{$@_s (\exists x) \phi$}
-        \RightLabel{\bf ($\exists$)\footnote{$s : p$ is new to the branch.}}
-        \UnaryInfC{$@_s \phi[s:p / x]$} 
-      \end{prooftree}
-      
-      \begin{prooftree}
-        \AxiomC{$@_s \neg (\exists x) \phi$}
-        \RightLabel{\bf ($\neg \exists$)\footnote{$p$ is any parameter which exists at $s$.}}
-        \UnaryInfC{$@_s \neg \phi[t / x]$} 
-      \end{prooftree}
-    \end{multicols}
-
-   \underline{\bf @ rules:}
-    
-    \begin{multicols}{2}
-    %\begin{multicols}{4}
-      \begin{prooftree}
-        \AxiomC{$@_s @_t \phi$}
-        \RightLabel{\bf ($@$)}
-        \UnaryInfC{$@_t \phi$} 
-      \end{prooftree}
-      
-      \begin{prooftree}
-        \AxiomC{$@_s \neg @_t \phi$}
-        \RightLabel{\bf ($\neg @$)}
-        \UnaryInfC{$@_t \neg \phi$} 
-      \end{prooftree}
-      
-    \end{multicols}
-    
-    
-    \begin{multicols}{2}
-      \begin{prooftree}
-        \AxiomC{$@_s t$}
-        \AxiomC{$@_s \phi$}
-        \RightLabel{\bf (nom)}
-        \BinaryInfC{$@_t \phi$} 
-      \end{prooftree}
-      
-      \begin{prooftree}
-        % \AxiomC{$[i\text{ on the branch}]$}
-        \AxiomC{[$i$ on the branch]}
-        \RightLabel{\bf (nom ref)}
-        \UnaryInfC{$@_i i$} 
-      \end{prooftree}
-      
-    \end{multicols}
-    
-    \begin{multicols}{2}
-    %\begin{multicols}{4}
-      \begin{prooftree}
-        \AxiomC{$@_s P t$}
-        \RightLabel{\bf ($P\textbf{--trans}$)}
-        \UnaryInfC{$@_t F s$} 
-      \end{prooftree}
-      
-      \begin{prooftree}
-        \AxiomC{$@_s F t$}
-        \RightLabel{\bf ($F\textbf{--trans}$)}
-        \UnaryInfC{$@_t P s$}  
-      \end{prooftree}
-    \end{multicols}
-    
-    \begin{multicols}{2}
-      \begin{prooftree}
-        \AxiomC{$@_s P t$}
-        \AxiomC{$@_t u$}
-        \RightLabel{\bf ($P\textbf{--bridge}$)}
-        \BinaryInfC{$@_s P u$} 
-      \end{prooftree}
-      
-      \begin{prooftree}
-        \AxiomC{$@_s F t$}
-        \AxiomC{$@_t u$}
-        \RightLabel{\bf ($F\textbf{--bridge}$)}
-        \BinaryInfC{$@_s F u$}  
-      \end{prooftree}
-    \end{multicols}
- 
-  \end{mdframed}
-\end{adjustbox}
-\caption{First table of {\it FHTL} rules.}
-\label{fhtl1}
+    \end{mdframed}
+  \end{adjustbox}
+  \caption{First table of {\it FHTL} rules.}
+  \label{fhtl1}
 \end{figure*}
 
 \begin{figure*}[!h]
-  \centering
-  \begin{adjustbox}{varwidth=1.1\linewidth,scale=1.0}
+  %% \centering
+  \begin{adjustbox}{varwidth=\linewidth,scale=1.0}
     %% \begin{framed}
     \centering
     \begin{mdframed}
-    \centering
-
-    \underline{\bf Equality rules:}
-
-
-    \begin{multicols}{2}
+      %% \centering
+      
+      \underline{\bf Equality rules:}
+      
+      
+      \begin{multicols}{2}
+        \begin{prooftree}
+          \AxiomC{}
+          \RightLabel{\bf (ref)\footnote{\label{1stclosed}Where $t$ is a closed term.}}
+          \UnaryInfC{$@_i j:t = j:t$} 
+        \end{prooftree}
+        
+        
+        \begin{prooftree}
+          \AxiomC{$@_i j:t = k:s$}
+          \AxiomC{$@_i \phi$}
+          \RightLabel{\bf (sub)\footnote{\label{subst}$\phi[j:t // k:s]$ is $\phi$ where some occurences of $j:t$ have been replaced by $k:s$.}}
+          \BinaryInfC{$@_i \phi[j:t // k:s]$} 
+        \end{prooftree}
+      \end{multicols}
+      
+      
+      \underline{\bf {\it FHTL} term rules:}
+      
+      \begin{multicols}{3}
+        \begin{prooftree}
+          \AxiomC{$@_i k_1 : t = k_2 : s$}
+          \RightLabel{\bf (:1)}
+          \UnaryInfC{$@_i k_1 : t = k_2 : s$}
+        \end{prooftree}
+        
+        \begin{prooftree}
+          \AxiomC{$@_i j$}
+          \RightLabel{\bf (:2)\footnoteref{1stclosed}}
+          \UnaryInfC{$@_k i: t = j : t$}
+        \end{prooftree}
+        
+        \begin{prooftree}
+          \AxiomC{}
+          \RightLabel{\bf (:3)\footnoteref{1stclosed}}
+          \UnaryInfC{$@_i k :j: t = j : t$}
+        \end{prooftree}
+      \end{multicols}
+      
+      \begin{multicols}{2}
+      %% \begin{multicols}{4}
+        \begin{prooftree}
+          \AxiomC{$@_i R(t_1,...,t_n)$}
+          \RightLabel{\bf (:fix 1)}
+          \UnaryInfC{$@_i R(i:t_1,...,i:t_n)$}
+        \end{prooftree}
+        
+        \begin{prooftree}
+          \AxiomC{$@_i \neg R(t_1,...,t_n)$}
+          \RightLabel{\bf (:fix 2)}
+          \UnaryInfC{$@_i \neg R(i:t_1,...,i:t_n)$}
+        \end{prooftree}
+      \end{multicols}
+        
+      \begin{multicols}{2}  
+        \begin{prooftree}
+          \AxiomC{$@_i t = s$}
+          \RightLabel{\bf (:fix 3)}
+          \UnaryInfC{$@_i i : t = i : s$}
+        \end{prooftree}
+        
+        \begin{prooftree}
+          \AxiomC{$@_i \neg t = s$}
+          \RightLabel{\bf (:fix 4)}
+          \UnaryInfC{$@_i \neg i : t = i : s$}
+        \end{prooftree}
+      \end{multicols}
+      
       \begin{prooftree}
         \AxiomC{}
-        \RightLabel{\bf (ref)\footnote{\label{1stclosed}Where $t$ is a closed term.}}
-        \UnaryInfC{$@_i j:t = j:t$} 
+        \RightLabel{\bf (:func)\footnote{$f$ is an $n$--ary function symbol and $t_1,...,t_n$ are closed terms.}}
+        \UnaryInfC{$@_i f(t_1,..., t_n) = f(i:t_1,..., i:t_n)$}
       \end{prooftree}
       
-      
-      \begin{prooftree}
-        \AxiomC{$@_i j:t = k:s$}
-        \AxiomC{$@_i \phi$}
-        \RightLabel{\bf (sub)\footnote{\label{subst}$\phi[j:t // k:s]$ is $\phi$ where some occurences of $j:t$ have been replaced by $k:s$.}}
-        \BinaryInfC{$@_i \phi[j:t // k:s]$} 
-      \end{prooftree}
-    \end{multicols}
-
-    
-    \underline{\bf {\it FHTL} term rules:}
-    
-    \begin{multicols}{3}
-      \begin{prooftree}
-        \AxiomC{$@_i k_1 : t = k_2 : s$}
-        \RightLabel{\bf (:1)}
-        \UnaryInfC{$@_i k_1 : t = k_2 : s$}
-      \end{prooftree}
-      
-      \begin{prooftree}
-        \AxiomC{$@_i j$}
-        \RightLabel{\bf (:2)\footnoteref{1stclosed}}
-        \UnaryInfC{$@_k i: t = j : t$}
-      \end{prooftree}
-      
-      \begin{prooftree}
-        \AxiomC{}
-        \RightLabel{\bf (:3)\footnoteref{1stclosed}}
-        \UnaryInfC{$@_i k :j: t = j : t$}
-      \end{prooftree}
-    \end{multicols}
-
-    %%\begin{multicols}{2}
-    \begin{multicols}{4}
-      \begin{prooftree}
-        \AxiomC{$@_i R(t_1,...,t_n)$}
-        \RightLabel{\bf (:fix 1)}
-        \UnaryInfC{$@_i R(i:t_1,...,i:t_n)$}
-      \end{prooftree}
-      
-      \begin{prooftree}
-        \AxiomC{$@_i \neg R(t_1,...,t_n)$}
-        \RightLabel{\bf (:fix 2)}
-        \UnaryInfC{$@_i \neg R(i:t_1,...,i:t_n)$}
-      \end{prooftree}
-    %%\end{multicols}
-    
-    %%\begin{multicols}{2}  
-      \begin{prooftree}
-        \AxiomC{$@_i t = s$}
-        \RightLabel{\bf (:fix 3)}
-        \UnaryInfC{$@_i i : t = i : s$}
-      \end{prooftree}
-      
-      \begin{prooftree}
-        \AxiomC{$@_i \neg t = s$}
-        \RightLabel{\bf (:fix 4)}
-        \UnaryInfC{$@_i \neg i : t = i : s$}
-      \end{prooftree}
-    \end{multicols}
-    
-    \begin{prooftree}
-      \AxiomC{}
-      \RightLabel{\bf (:func)\footnote{$f$ is an $n$--ary function symbol and $t_1,...,t_n$ are closed terms.}}
-      \UnaryInfC{$@_i f(t_1,..., t_n) = f(i:t_1,..., i:t_n)$}
-    \end{prooftree}
-    
-  \end{mdframed}
-\end{adjustbox}
-\caption{Second table of {\it FHTL} rules.}
-\label{fhtl2}
+    \end{mdframed}
+  \end{adjustbox}
+  \caption{Second table of {\it FHTL} rules.}
+  \label{fhtl2}
 \end{figure*}
 
 
@@ -1733,7 +1732,7 @@ conclusions and their premises.
   The model has only finitely many times and a
   finite domain for each time, consequently computing the value of
   a equality or relation statement (or negation thereof) over closed terms is guaranteed to terminate and the annotation consists of
-  every possible variable assignment\footnote{Any implementation of this process would represent the totallity of variable assignments via a flag which would consume only constant space, similarly for parameter annotations until we solve for them}.
+  every possible variable assignment\footnote{Any implementation of this process would represent the totallity of variable assignments via a flag which would consume only constant space, similarly for parameter annotations until we solve for them.}.
   Since the @ rules, modal rules, and
   {\bf ($\neg \neg$)}
   do not involve any operations on the set of variable assignments
@@ -1741,7 +1740,7 @@ conclusions and their premises.
   Assume by induction computing the annotations for the conclusions of {\bf ($\lor$)} and {\bf ($\neg \lor$)}
   terminates.  Recalling remark \ref{finite-vars}, we
   see that {\bf ($\lor$)} and {\bf ($\neg \lor$)}
-  involve only union and intersection of finite sets respectively thus computing
+  involve only union and intersection of finite sets respectively, thus computing
   them terminates.
   For {\bf (sub)} by we assume by induction that computing the annotations
   for the first premise and the conclusion terminates, since they are finite,
@@ -1804,8 +1803,8 @@ translations:
   \\
   \small\texttt{(s / scope\\
     \hspace*{1.0cm}:pred (b / be-located-at-91 :ongoing -\\
-    \hspace*{6.155cm}:complete +\\
-    \hspace*{6.155cm}:time (a / after\\
+    \hspace*{6.5cm}:complete +\\
+    \hspace*{6.5cm}:time (a / after\\
     \hspace*{8.0cm}:op1 (n / now))\\
     \hspace*{1.5cm}:ARG0 (c / computer)\\
     \hspace*{1.5cm}:ARG1 (d / desk\\
@@ -1825,7 +1824,10 @@ translations:
   \\
   \small\texttt{(a / and\\
     \hspace*{0.5cm}:op1 (s / scope\\
-    \hspace*{1.0cm}:pred (f / fill-out-03 :ongoing - :complete + :time (b / before :op1 (n / now))\\
+    \hspace*{1.0cm}:pred (f / fill-out-03 :ongoing -\\
+    \hspace*{6.5cm}:complete +\\
+    \hspace*{6.5cm}:time (b / before\\
+    \hspace*{8.0cm}:op1 (n / now))\\
     \hspace*{1.5cm}:ARG0 (p / person\\
     \hspace*{2.0cm}:name (n2 / name\\
     \hspace*{2.5cm}:op "Carl"))\\
@@ -1833,7 +1835,10 @@ translations:
     \hspace*{1.0cm}:ARG0 p\\
     \hspace*{1.0cm}:ARG1 f2)\\
     \hspace*{0.5cm}:op2 (s2 / scope\\
-    \hspace*{1.0cm}:pred (m / submit-01  :ongoing - :complete + :time (a2 / after :op1 n)\\
+    \hspace*{1.0cm}:pred (m / submit-01 :ongoing - \\
+    \hspace*{6.0cm}:complete +\\
+    \hspace*{6.0cm}:time (a2 / after\\
+    \hspace*{7.5cm}:op1 n / now))\\
     \hspace*{1.5cm}:ARG0 (p2 / person\\
     \hspace*{2.0cm}:mod (a3 / all))\\
     \hspace*{1.5cm}:ARG1 f2)\\

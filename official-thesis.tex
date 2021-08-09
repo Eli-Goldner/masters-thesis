@@ -1870,7 +1870,7 @@ and join them together via the meaning of the connective, e.g. for:
     \hspace*{0.5cm}:op3 (...))}
   \\
 }
-The meaning in {\it FHTL} is $\llbracket \verb|:op1| \rrbracket \lor \llbracket \verb|:op2| \rrbracket \lor \llbracket \verb|:op3| \rrbracket$
+The meaning in {\it FHTL} is $\llbracket \verb|:op1| \rrbracket \lor \llbracket \verb|:op2| \rrbracket \lor \llbracket \verb|:op3| \rrbracket$.  
 In the case where the root node of the AMR is \verb|scope|, the order of interpretation is specified.  For instance in example \ref{computer},
 the order of interpretation is $\llbracket \verb|ARG0| \rrbracket(\llbracket \texttt{ARG1} \rrbracket (\llbracket \texttt{pred} \rrbracket))$.
 Finally, we have that the meaning of every AMR with a \texttt{scope} root will be prefixed by a satisfaction operator with a nominal
@@ -2025,7 +2025,7 @@ examination of the interaction of quantification in tense in natural language.
 \end{figure*}
 
 In figure \ref{alg2}, \texttt{Apply} is standard continuation based application of predicates \citep{van2010computational}.
-\texttt{InterpretConcept} handles AMR concepts possibly with nested \texttt{:mod} relations to other concepts, letting
+\texttt{InterpretConcept} handles AMR concepts possibly with nested \texttt{:mod} relations, to other concepts, letting
 us extract
 $$@_t (\forall x)((dog(x) \land friendly(x)) \to P (bark(x)))$$
 from {\it Every friendly dog barked} rather than recursively obtaining a Neo-Davidsonian
@@ -2033,7 +2033,7 @@ representation
 $$@_t (\forall d ) (  \text{dog}(d) \land (\exists f) (\text{friendly}(f) \land \text{mod}(d,f)) \land P(\text{bark}(d)))$$
 as in \citet{lai-etal-2020-continuation}.
 \texttt{InterpPropMod} handles AMR concepts which modify entire
-sentences/propositions such as negation and modality.    
+sentences/propositions such as negation.    
 
 
 
@@ -2081,8 +2081,7 @@ or first-order quantification.  While it may
 be possible to extend HTab to accomodate these, it
 might be more productive to consider theorem provers
 for first-order modal logic utilizing tableau such as \textsf{leanTAP}  \citep{beckert1995leantap} and extending them to
-accomodate hybrid logic's satisfaction operator and the other aspects of {\it FHTL}.
-MDK-verifier \footnote{\url{http://www.cril.univ-artois.fr/~montmirail/mdk-verifier/}}
+accomodate hybrid logic's satisfaction operator and the other aspects of {\it FHTL}.  MDK-verifier \footnote{\url{http://www.cril.univ-artois.fr/~montmirail/mdk-verifier/}}
 is the only modal model checker we are aware of, and currently
 handles only the propositional modal logic $K$.  
 
@@ -2096,8 +2095,7 @@ over AMR and its extensions is of practical relevance depends entirely on
 whether AMR parsers can accomplish this in a reasonably effective way.
 Determining where and to what extent AMR parsing for extensions
 is effective is a worthwhile pursuit for AMR researchers in general,
-whether or not they are concerned with the semantic descriptiveness
-of these extensions or their suitability for inference.  
+whether or not they are concerned with these extensions' suitability for inference.  
 
 \iffalse
 \subsection{AMR Reentrancy and Non-Temoral Nominals}

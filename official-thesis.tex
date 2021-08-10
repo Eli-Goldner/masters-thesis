@@ -130,6 +130,19 @@
 \begin{document}
 \maketitlepage
 \makecopyright
+
+\section{Acknowledgements}
+
+I would like to thank James Pustejovsky for his guidance and patience 
+throughout the process of developing this thesis,
+and Lotus Goldberg for her encouragement and instruction that
+helped lead to the idea for this thesis and the desire to do it.
+I would also like to thank Nianwen (Bert) Xue for his perspective
+on problems in semantic representation which helped to shape
+the approach to the thesis.  Finally, I would like to thank
+my family for their advice, interest, and support,
+and my friends for their tolerance and occasional pressing me to finish. 
+
 \begin{thesis-abstract}
   AMR and its extensions have become popular in semantic representation due
   to their ease of annotation by non-experts, attention to the predicative core of sentences,
@@ -167,9 +180,9 @@ for the development of annotated corpora and as a target representation
 for semantic parsing.
 It is exactly the aspects of AMR that are so valued that cause it
 to fall short in an area where historically semantic representations
-have felt more obgligation to succeed, namely intepretation and inference.    
+have felt more obligation to succeed, namely interpretation and inference.    
 That AMR has made this compromise is no oversight, but an informed design choice.
-Version 1.2 of the AMR specication states that by default an AMR does not indicate how
+Version 1.2 of the AMR specification states that by default an AMR does not indicate how
 it should be processed \citep{banarescu2012abstract}. 
 Indeed, besides
 concepts that can be interpreted as propositional connectives like
@@ -181,7 +194,7 @@ at least extensive hand authoring of relationships between PropBank frames,
 and in general is beyond the scope of this paper.
 \par
 Finding ways to support inference for AMR is no trivial
-curiousity.  For machine-based natural language understanding,
+curiosity.  For machine-based natural language understanding,
 it is arguable that a semantic representation needs to deeply reflect natural language at the expressive level
 while supporting complex reasoning and capturing certain aspects of knowledge \citep{KK_Schubert2015}.
 Furthermore, inferential methods are critical to being able to guarantee, verify, and discover properties of software systems.
@@ -216,7 +229,7 @@ into a {\it FHTL} formula.
 \section{Related Work}
 
 
-\subsection{Semantic Features in AMR and Possbility of Inference}
+\subsection{Semantic Features in AMR and Possibility of Inference}
 
 %% Reference UMR?
 
@@ -231,12 +244,12 @@ under this translation is in the decidable two-variable fragment of first-order 
 treatment of tense and aspect, both of which affords inference,
 and in a very rich way in the case of aspect, as we will discuss at the end. 
 \citet{ogorman-etal-2018-amr} describes a multi-sentential treatment of AMR
-with a corpora of examples, for handing document level semantics in addition
+with a corpora of examples, for handling document level semantics in addition
 to AMR's current sentential semantics. This has possible implications for 
 document-level and discourse-level inference in AMR, {\`a} la discourse representation theory.
-\citet{pustejovsky-etal-2019-modeling} and its extension of AMR with quantification, scope, negation,
+\citeauthor{pustejovsky-etal-2019-modeling}'s \citeyearpar{pustejovsky-etal-2019-modeling} extension of AMR with quantification, scope, negation,
 and modality, is effectively a royal road to interpretation of AMR into first-order logic
-or related variants, and we will frequent use of it in section \ref{interp}. 
+or related variants, and we will make frequent use of it in section \ref{interp}. 
 \citep{lai-etal-2020-continuation} provides a continuation-based semantics
 for translating AMR into first-order
 predicate logic in a way that preserves projective phenomena.
@@ -251,12 +264,12 @@ Separating argument structure in AMR from logical structure, enables
 translation from AMR to DRT \citep{bos-2020-separating}
 \fi
 Finally, \citet{bonial-etal-2020-dialogue} provides an AMR extension
-designed for faciliatating natural language understanding in dialogue
+designed for facilitating natural language understanding in dialogue
 systems integrating both tense and aspect and a speech act inventory,
 which conveys the illocutionary force of a statement accompanying the content.
-This is another extension that affords the possbility of discourse level inference
+This is another extension that affords the possibility of discourse level inference
 in addition to sentential inference, which while offering rich conclusions will
-require more a sophisticated semantics sensitive to context. 
+require a more sophisticated semantics sensitive to context. 
 
 \subsection{Hybrid Logic and Its Extensions}
 
@@ -318,7 +331,7 @@ An introduction to both QML and propositional modal logic can be found in
 some first-order language (and a decision procedure for a propositional language), and it is the
 most widely used proof procedure for modal logics \citep{girle2014modal}.
 In a sense, hybrid logic simply makes explicit through the satisfaction operator what is implicit in modal logic, and indeed, in modal tableau prefixes play an explicit role.  As a result the tableau method generalizes
-to hybrid logics very well.  \citet*{quantified} provides the first tableau method for a first-order extension of hyrbid logic.  Quantified hybrid logic {\it QHL} as defined in \citet*{quantified} unfortunately
+to hybrid logics very well.  \citet*{quantified} provides the first tableau method for a first-order extension of hybrid logic.  Quantified hybrid logic {\it QHL} as defined in \citet*{quantified} unfortunately
 for us, uses constant-domain semantics and possibilist quantification
 (where quantifiers range over all the collective domain of all worlds/times),
 making it inconvenient for modeling quantification and reference in natural language.
@@ -333,7 +346,7 @@ As can be inferred from the name,
 
 \subsubsection{Basic Hybrid Tense Logic}
 
-The roots of hyrbid logic, and hybrid tense logic in particular,
+The roots of hybrid logic, and hybrid tense logic in particular,
 range back to the philosopher Arthur N. Prior's work in the 1960s \citep{prior2003papers}.
 We take our treatment of basic hybrid tense logic {\it BHTL} from \citet*{blackburn2012indexical},
 which roughly can be seen as renaming $\lozenge$ and $\Box$ to $F$ and $G$ in basic hybrid logic (the modality for the future),
@@ -345,7 +358,7 @@ then we have that $\phi$ holds at some time in the future from the perspective o
 If we have $@_i G \phi$, then $\phi$ holds at every world in the future from the perspective of
 $i$.  Similarly for $@_i P \phi$ and $@_i H \phi$, except both statements refer to the past from
 the perspective of $i$.  Now that the accessibility relation $R$ of an interpretation
-of {\it BHTL} notionally models time, there additional properties of $R$ to consider
+of {\it BHTL} notionally models time, there are additional properties of $R$ to consider
 (such as it being a strict partial order) when
 proving soundness and completeness for the language.
 This is accomplished in \citet*{blackburn2012indexical},
@@ -479,9 +492,9 @@ is defined by:
 \end{itemize}
 
 Finally we say an assignment $g'$ is an $x$-variant of $g$ if $g'$
-and $g$ agree on all variables except possiblly $x$.
+and $g$ agree on all variables except possibly $x$.
 In particular, we say $g'$ is an $x$-variant of $g$ at a time $t$, if $g'$
-and $g$ on all variables except possiblly $x$ and $g'(x) \in D_t$.
+and $g$ on all variables except possibly $x$ and $g'(x) \in D_t$.
 Finally, given a model $\mathfrak{M}$, a variable assignment $g$,
 and a time $s$, we have the inductive definition of
 $\mathfrak{M}, s \vDash_g \phi$ as:
@@ -501,7 +514,7 @@ $\mathfrak{M}, s \vDash_g \phi$ as:
   %%\caption{$AT_x$}
 \end{alignat*}
 
-A formula is satisfiable if there is some model where the formula true,
+A formula is satisfiable if there is some model where the formula is true,
 and a formula is valid if it is true in every model.
 We also note that if $\psi$ is a sentence (a formula with no free variables), then
 whether $\mathfrak{M}, s \vDash_g \phi$ does not depend on the variable assignment $g$.
@@ -520,7 +533,7 @@ whether $\mathfrak{M}, s \vDash_g \phi$ does not depend on the variable assignme
 
 When working with the tableau calculus (figures \ref{fhtl1} and \ref{fhtl2}), following \citet*{hansen2007tableau} we 
 introduce a countably infinite list of parameters \textsf{PAR}, where parameters are
-constants which are used exlusively to instantiate quantifiers and are never quantified over.
+constants which are used exclusively to instantiate quantifiers and are never quantified over.
 We write $s:p$ to indicate
 a parameter is interpreted in the domain of a nominal $s$,
 just as we do with terms.  As prefixed constants, parameters refer rigidly
@@ -716,7 +729,7 @@ first-order variables or state variables.
         \begin{prooftree}
           \AxiomC{$@_i j:t = k:s$}
           \AxiomC{$@_i \phi$}
-          \RightLabel{\bf (sub)\footnote{\label{subst}$\phi[j:t // k:s]$ is $\phi$ where some occurences of $j:t$ have been replaced by $k:s$.}}
+          \RightLabel{\bf (sub)\footnote{\label{subst}$\phi[j:t // k:s]$ is $\phi$ where some occurrences of $j:t$ have been replaced by $k:s$.}}
           \BinaryInfC{$@_i \phi[j:t // k:s]$} 
         \end{prooftree}
       \end{multicols}
@@ -791,7 +804,7 @@ first-order variables or state variables.
 The proof of soundness for {\it FHTL} follows from the
 soundness of {\it FHL} established in \citet*{hansen2007tableau},
 with additions for the rules {\bf ($P$)}, {\bf ($\neg P$)}, {\bf ($P$)--bridge},
-and {\bf ($P / F$)--trans}, the soundness of which are straighfoward to demonstrate
+and {\bf ($P / F$)--trans}, the soundness of which are straightforward to demonstrate
 given the soundness of the corresponding rules for $F$.
 The proof of completeness is essentially the same as the one given in
 \citet*{bolander} for Blackburn's tableau system for standard
@@ -801,7 +814,7 @@ While \citet*{bolander} proves termination
 for Blackburn's tableau system, we cannot do that for
 {\it FHTL}, since a terminating tableau system would be
 equivalent to a general decision procedure for first-order predicate logic.
-We will however intoduce restrictions on the quantifier and term rules
+We will however introduce restrictions on the quantifier and term rules
 in section \ref{mdlchk}, which will lead to terminating tableau constructions
 at the cost of general completeness.
 This is an appropriate compromise since the purpose of our
@@ -827,10 +840,10 @@ A closed tableau is a proof of the unsatisfiability of the tableau's root formul
 there is no model and assignment of variables in which it holds.
 Thus a tableau proof of an {\it FHTL} sentence $\phi$ is a
 closed tableau with the root $@_s \neg \phi$ for some nominal
-$s$ not occuring in $\phi$.
+$s$ not occurring in $\phi$.
 
 \begin{definition}[{\bf Accessibility Formula}]
-  A formula occurence in a tableau is called an accessibility
+  A formula occurrence in a tableau is called an accessibility
   formula if it is of the form $@_a F b$ or $@_a P b$
   and is the (first) conclusion of an application of the
   rule {\bf ($F$)} or {\bf ($P$)} respectively.
@@ -869,9 +882,9 @@ $s$ not occuring in $\phi$.
   If a formula $@_s \phi$ occurs in a {\it FHTL} tableau where
   $\phi$ is not of the form $b$, $F b$, or $P b$ for $b$ a nominal,
   or $u = t$ for optionally prefixed closed terms $t$ and $u$,
-  then $\phi$ is a (positively occuring) root subformula. 
+  then $\phi$ is a (positively occurring) root subformula. 
   If $@_s \neg \phi$ occurs in a {\it FHTL} tableau then $\phi$ is a
-  root subformula, but we say it is negatively occuring.
+  root subformula, but we say it is negatively occurring.
 \end{lemma}
 
 \begin{proof}
@@ -915,11 +928,11 @@ $s$ not occuring in $\phi$.
 \end{proof}
 
 \begin{definition}
-  An occurence of a nominal in a formula is {\it equational} if
-  the occurence is a formula (i.e. not part of a satisfaction operator).
+  An occurrence of a nominal in a formula is {\it equational} if
+  the occurrence is a formula (i.e. not part of a satisfaction operator).
 \end{definition}
 
-For instance, the occurence of a nominal $c$ is equational in the formula
+For instance, the occurrence of a nominal $c$ is equational in the formula
 $@_a (c \lor (\exists x) \psi)$ but not in the formula $@_c (\exists x) \psi$.
 
 \begin{definition}[$N_{\Theta}$]
@@ -943,7 +956,7 @@ $@_a (c \lor (\exists x) \psi)$ but not in the formula $@_c (\exists x) \psi$.
   Where $@_a b$ occurs on a branch $\Theta$, if the nominals
   $a$ and $b$ are distinct, then each has the property that
   it is identical to, or related by $\sim_{\Theta}$ to,
-  a nominal with a positive and equational occurence in
+  a nominal with a positive and equational occurrence in
   the root subformula.
 \end{theorem}
 
@@ -959,13 +972,13 @@ $@_a (c \lor (\exists x) \psi)$ but not in the formula $@_c (\exists x) \psi$.
   
 \begin{theorem}
   \label{sim}
-  Let $@_a F b$ be a formula occurence on a branch $\Theta$
-  of a tableau.  Either there is a positively occuring
+  Let $@_a F b$ be a formula occurrence on a branch $\Theta$
+  of a tableau.  Either there is a positively occurring
   subformula $F b'$ of the root formula
   such that $b \sim_{\Theta}^* b'$
-  or there is an accessibility formula occurence
+  or there is an accessibility formula occurrence
   $@_{a'} F b'$ such that $a \sim_{\Theta}^* a'$ and $b \sim_{\Theta}^* b'$.
-  Similarly for a formula occurence $@_a P b$. 
+  Similarly for a formula occurrence $@_a P b$. 
 \end{theorem}
 
 \begin{proof}
@@ -976,13 +989,13 @@ $@_a (c \lor (\exists x) \psi)$ but not in the formula $@_c (\exists x) \psi$.
 
 \begin{definition}[$\subseteq_{\Theta}$]
   \label{included}
-  Where $a$ and $b$ are nominals occuring on an {\it FHTL} tableau branch
+  Where $a$ and $b$ are nominals occurring on an {\it FHTL} tableau branch
   $\Theta$, $a$ is {\it included} in $b$ with respect to $\Theta$
   if for any root subformula $\phi$, if $@_a \phi$ occurs on $\Theta$
   then $@_b \phi$ also occurs on $\Theta$, similarly for their negations.
   If $a$  is included in $b$ with respect to $\Theta$,
-  and the first occurence of $b$ on $\Theta$ is
-  before the first occurence of $a$ on $\Theta$, then
+  and the first occurrence of $b$ on $\Theta$ is
+  before the first occurrence of $a$ on $\Theta$, then
   we write $a \subseteq_{\Theta} b$.
 \end{definition}
 
@@ -1043,7 +1056,7 @@ Completeness for a tableau system is demonstrated by
 giving a method for constructing a model from an open
 branch such that it satisfies every formula on the branch.
 Taking our cue from \citet{hansen2007tableau} and making
-accomodations for the tableau rules and and structure we adapted
+accomodations for the tableau rules and structure we adapted
 from \citet{bolander}, we construct the first-order components of
 our model.
 Here we define the analogues of
@@ -1115,7 +1128,7 @@ the tableau branch from which it was constructed we need the following lemma.
   or not $\psi$ is a nominal.  In the case where
   \begin{itemize}
   \item {\it $\psi$ a nominal}
-    Suppose $\psi$ is some nominal $b$, we only need prove
+    Suppose $\psi$ is some nominal $b$, we only need to prove
     $\overline{R} [a] [b]$. By theorem \ref{sim} there is either a root
     nominal $b'$ such that $b' \sim_{\Theta} b$  or there is
     an accessibility formula $@_{a'} F b' \in \Theta$
@@ -1133,7 +1146,7 @@ the tableau branch from which it was constructed we need the following lemma.
     \item $a' = a$ and $b' \neq b$:
 
       By theorem \ref{nomeq} there is a nominal $c$
-      occuring in the root formula such that $b' \sim_{\Theta} c$.
+      occurring in the root formula such that $b' \sim_{\Theta} c$.
       But then $@_a F c \in \Theta$ and $c \in W$ so
       $\overline{R} [a] [c]$, and by the definition of
       $\approx$ we have $[c] = [b]$ and are done.
@@ -1141,7 +1154,7 @@ the tableau branch from which it was constructed we need the following lemma.
     \item $a' \neq a$ and $b' = b$:
 
       By theorem \ref{nomeq} there is a nominal $c$
-      occuring in the root formula such that $a' \sim_{\Theta} c$.
+      occurring in the root formula such that $a' \sim_{\Theta} c$.
       But then $@_c F b \in \Theta$ and $c \in W$ so
       $\overline{R} [c] [b]$, and by the definition of
       $\approx$ we have $[c] = [a]$ and are done.
@@ -1149,7 +1162,7 @@ the tableau branch from which it was constructed we need the following lemma.
     \item $a' \neq a$ and $b' \neq b$:
 
       By theorem \ref{nomeq} there are nominals $c$ and $d$ 
-      occuring in the root formula such that $a' \sim_{\Theta} c$
+      occurring in the root formula such that $a' \sim_{\Theta} c$
       and $b' \sim_{\Theta} d$.  But then also $@_c F d \in \Theta$,
       and $c,d \in W$ so $\overline{R} [c] [d]$ and by definition
       of $\approx$ we have $[c] = [a]$ and $[d] = [b]$ and are done.
@@ -1198,7 +1211,7 @@ the tableau branch from which it was constructed we need the following lemma.
 
 \section{{\it FHTL} Model Checking with Finite Tableaux}
 \label{mdlchk}
-For our task of AMR inference, we are not always concered with the determining the general satisfiability or
+For our task of AMR inference, we are not always concerned with determining the general satisfiability or
 validity of an AMR formula translated into {\it FHTL}, but
 rather whether it holds in a model consistent with
 an established set of {\it FTHL} translations of AMR sentences.
@@ -1260,7 +1273,7 @@ The structure of the proof of terminating construction is taken from \citet*{bol
       \begin{prooftree}
         \AxiomC{$@_i j:t = k:s$}
         \AxiomC{$@_i \phi$}
-        \RightLabel{\bf (sub)\footnote{\label{subst}$\phi[j:t // k:s]$ is $\phi$ where some occurences of $j:t$ have been replaced by $k:s$.}}
+        \RightLabel{\bf (sub)\footnote{\label{subst}$\phi[j:t // k:s]$ is $\phi$ where some occurrences of $j:t$ have been replaced by $k:s$.}}
         \BinaryInfC{$@_i \phi[j:t // k:s]$} 
       \end{prooftree}
     \end{multicols}
@@ -1396,8 +1409,8 @@ we do not have to check them for satisfiability.
   \item {\it Wellfoundedness of trees in }$G$
     
     We have that if $a \prec_{\Theta} b$
-    then the first occurence of $a$
-    on $\Theta$ is before the first occurence
+    then the first occurrence of $a$
+    on $\Theta$ is before the first occurrence
     of $b$, thus by induction any subset of $N_{\Theta}$ under the relation
     $\prec_{\Theta}$ has a least element and each tree in $G$ is wellfounded.
   \item $G$ {\it is a disjoint union of a set of trees}
@@ -1433,7 +1446,7 @@ we do not have to check them for satisfiability.
     is not a nominal.
     Since there can only be finitely
     many root subformulae of the form
-    of one of the the possible premises,
+    of one of the possible premises,
     where $a$ is the prefix nominal in each case,
     only finitely many new nominals have been generated
     from $a$.  Thus $\mathcal{T}$ is finitely branching.
@@ -1491,9 +1504,9 @@ we do not have to check them for satisfiability.
   
   \iffalse
   The 'if' direction follows from the observation that the
-  talbeau rules can only generate a finite tableau while not
+  tableau rules can only generate a finite tableau while not
   generating additional nominals, since our conventions
-  ensure that all formulae occuring $\Theta$ are distinct.
+  ensure that all formulae occurring $\Theta$ are distinct.
   For the other direction, first we demonstrate
   $N_{\Theta}$ is infinite.  Suppose by contradiction
   $N_{\Theta}$ is finite
@@ -1520,10 +1533,10 @@ we do not have to check them for satisfiability.
     conclusions already occur on the branch.
   \item {\bf (Loop check)}
 
-    The rule {\bf ($F$)} is not applied to a formula occurence $@_a F \phi$
+    The rule {\bf ($F$)} is not applied to a formula occurrence $@_a F \phi$
     at a branch $\Theta$ if there is a nominal $b$ such that
     $a \subseteq_{\Theta} b$,
-    and simlarly for the rule {\bf ($P$)}.
+    and similarly for the rule {\bf ($P$)}.
   \end{itemize}
   Let $\mathcal{T}_{n + 1}$ be the resulting tableau.
 \end{definition}
@@ -1550,7 +1563,7 @@ Now we demonstrate the algorithm always terminates.
   Then the tableau is an infinite branch $\Theta$.
   By lemma \ref{wellfounded} the graph $(N_{\Theta}, \prec_{\Theta})$
   is a disjoint union of a finite set of finitely branching trees.
-  Since $\Theta$ is infinite the graph has some inifinite branch
+  Since $\Theta$ is infinite the graph has some infinite branch
   $$a_1 \prec_{\Theta} a_2 \prec_{\Theta} \ldots \prec_{\Theta} a_i \prec_{\Theta} \ldots $$
   otherwise by lemmata \ref{subformula} and \ref{saturation}
   there would only be finitely many formulae on the branch,
@@ -1566,17 +1579,17 @@ Now we demonstrate the algorithm always terminates.
   Since there can only be finitely many sets of root subformulae,
   there are nominals in the infinite chain $a_j, a_k$ where
   $j < k$ and $\Gamma_j = \Gamma_k$ and $\Delta_j = \Delta_k$.
-  Since $j < k$ the first occurence of $a_j$ on $\Theta_k$ must be before
-  the first occurence of $a_k$ on $\Theta_k$.  Additionally
+  Since $j < k$ the first occurrence of $a_j$ on $\Theta_k$ must be before
+  the first occurrence of $a_k$ on $\Theta_k$.  Additionally
   for any root subformula $\phi$, if $@_{a_k} \phi \in \Theta_k$
   then $\phi \in \Gamma_k$ and consequently $\phi \in \Gamma_j$,
   but then $@_{a_j} \phi \in \Theta_j$ which is an initial segment
   of $\Theta_k$.  Thus by definition \ref{included}
   $a_k$ is included in $a_j$ with respect to $\Theta_k$, and
-  since the first occurence of $a_j$ is before the first occurence
+  since the first occurrence of $a_j$ is before the first occurrence
   of $a_k$ we have $a_k \subseteq_{\Theta} a_j$.  But this contradicts that
   {\bf ($F$)} or {\bf ($P$)} was applied on $\Theta_k$
-  resulting in the first formula containing an occurence
+  resulting in the first formula containing an occurrence
   of the nominal $a_{k + 1}$ since $a_k \subseteq_{\Theta} a_j$ would
   result in the loop check condition blocking the application.
   Thus the algorithm terminates.
@@ -1591,10 +1604,10 @@ The approach to model checking via tableau involves annotating each node of an o
 branch with the variable assignments in the model which satisfy the
 sentence at the node, building inductively from the terminal nodes.
 If the root formula of the tableau with at least one open branch
-can be annotated with non-empty set of
+can be annotated with a non-empty set of
 variable assignments, then it is satisfiable in the model,
-if the root formula is a sentence however then to be satisfied we
-require it is annotated with every variable assignment.
+however if the root formula is a sentence, then for it to be satisfied we
+require that it can be annotated with the set of all variable assignments for the model.
 If a tableau is closed then the root sentence $@_s \phi$ is unsatisfiable.
 As a result if the root formula is of the form $@_s \neg \psi$
 then this constitutes a proof of the validity of $@_s \psi$ by contradiction.
@@ -1633,7 +1646,7 @@ conclusions and their premises.
   the variable assignments that satisfy the conclusion
   satisfy the second premise
   (the first premise being a nominal equivalence
-  is trivally satisfied by all variable assignments).
+  is trivially satisfied by all variable assignments).
   That the premise and conclusion of both {\bf ($@$)} and {\bf ($\neg @$)}
   are satisfied by the same variable assignments are verified
   by checking their satisfiability definitions.
@@ -1668,7 +1681,7 @@ conclusions and their premises.
   $$P = \{ g \mid g \in C \text{ such that for every }x\text{-variant } g' \text{ of }g  \text{ at } s \text{ we have } \mathfrak{M},s \vDash_{g'} \neg \phi \}$$
   
 \item {\bf Modal rules:}
-  For {\bf ($F$)} and {\bf ($P$)}, that the the premise and the
+  For {\bf ($F$)} and {\bf ($P$)}, that the premise and the
   second conclusion are satisfied by the same variable assignments
   follows from checking the definitions.
   Similarly for the first premise and the 
@@ -1723,7 +1736,7 @@ conclusions and their premises.
     satisfy a formula as we would its set of variable assignments with the exception of quantified formulae
     which we will cover later.  In particular, for a case of {\bf ($\lor$)}
     as in $@_s (\phi[i:p] \lor \psi[i:p])$ we take the union of the parameter
-    sets for $@_s \phi[i:p]$ and $@_s \psi[i:p]$, similary taking the intersection
+    sets for $@_s \phi[i:p]$ and $@_s \psi[i:p]$, similarly taking the intersection
     of the sets of the conclusions in the case of {\bf ($\neg \lor$)}
   \end{enumerate}
   The proof of termination for computing these parameter annotations for each node
@@ -1732,7 +1745,7 @@ conclusions and their premises.
   The model has only finitely many times and a
   finite domain for each time, consequently computing the value of
   a equality or relation statement (or negation thereof) over closed terms is guaranteed to terminate and the annotation consists of
-  every possible variable assignment\footnote{Any implementation of this process would represent the totallity of variable assignments via a flag which would consume only constant space, similarly for parameter annotations until we solve for them.}.
+  every possible variable assignment\footnote{Any implementation of this process would represent the totality of variable assignments via a flag which would consume only constant space, similarly for parameter annotations until we solve for them.}.
   Since the @ rules, modal rules, and
   {\bf ($\neg \neg$)}
   do not involve any operations on the set of variable assignments
@@ -1742,7 +1755,7 @@ conclusions and their premises.
   see that {\bf ($\lor$)} and {\bf ($\neg \lor$)}
   involve only union and intersection of finite sets respectively, thus computing
   them terminates.
-  For {\bf (sub)} by we assume by induction that computing the annotations
+  For {\bf (sub)} we assume by induction that computing the annotations
   for the first premise and the conclusion terminates, since they are finite,
   computing their intersection terminates and we have the annotation for the second
   premise. 
@@ -1782,10 +1795,9 @@ how to handle it later.  Where
 AMR interpretations given in \citet{lai-etal-2020-continuation} and \citet{bos-2016-squib}
 translate AMR into first-order predicate logic via a direct and stateless transformation on the
 AMR, we elected to demonstrate a stateful approach using pseudocode,
-since it is clearer how to extract time and tense information this way,
-and how to implement this approach.  
+since it is clearer how to extract and interpret tense information this way.  
 The core of our interpretation process is taken from \citet{pustejovsky-etal-2019-modeling},
-since the \verb|scope| node dictates order and and application of the interpretation of
+since the \verb|scope| node dictates order and application of the interpretation of
 the subgraphs in the AMR.  We assume the AMR's temporal information
 is attached to the concept at the \verb|scope|'s \verb|pred| node, and integrate that into the
 translation to achieve an interpretation in {\it FHTL} instead of first-order predicate logic.
@@ -2024,7 +2036,7 @@ examination of the interaction of quantification in tense in natural language.
 \label{alg2}
 \end{figure*}
 
-In figure \ref{alg2}, \texttt{Apply} is standard continuation based application of predicates \citep{van2010computational}.
+In figure \ref{alg2}, \texttt{Apply} is the standard continuation based application of predicates \citep{van2010computational}.
 \texttt{InterpretConcept} handles AMR concepts possibly with nested \texttt{:mod} relations, to other concepts, letting
 us extract
 $$@_t (\forall x)((dog(x) \land friendly(x)) \to P (bark(x)))$$
@@ -2078,17 +2090,17 @@ HTab \citep{htab} provides an implementation of $\mathcal{H}(@, \textsf{A})$,
 (propositional hybrid logic with quantification over nominals)
 which does not natively provide a way to reason with $P$
 or first-order quantification.  While it may
-be possible to extend HTab to accomodate these, it
+be possible to extend HTab to accommodate these, it
 might be more productive to consider theorem provers
 for first-order modal logic utilizing tableau such as \textsf{leanTAP}  \citep{beckert1995leantap} and extending them to
-accomodate hybrid logic's satisfaction operator and the other aspects of {\it FHTL}.  MDK-verifier \footnote{\url{http://www.cril.univ-artois.fr/~montmirail/mdk-verifier/}}
+accommodate hybrid logic's satisfaction operator and the other aspects of {\it FHTL}.  MDK-verifier \footnote{\url{http://www.cril.univ-artois.fr/~montmirail/mdk-verifier/}}
 is the only modal model checker we are aware of, and currently
 handles only the propositional modal logic $K$.  
 
 \subsection{The Future of AMR and Parsing for Semantic Features}
 
 AMR parsing is an area which receives a great deal of attention, however
-we are not aware of many efforts in AMR parsing towards accomodating
+we are not aware of many efforts in AMR parsing towards accommodating
 extensions which enable direct inference.
 Indeed, whether any research in automated reasoning
 over AMR and its extensions is of practical relevance depends entirely on
@@ -2098,7 +2110,7 @@ is effective is a worthwhile pursuit for AMR researchers in general,
 whether or not they are concerned with these extensions' suitability for inference.  
 
 \iffalse
-\subsection{AMR Reentrancy and Non-Temoral Nominals}
+\subsection{AMR Reentrancy and Non-Temporal Nominals}
 
 
 There are some difficulties with maintaining the usual notion of possible

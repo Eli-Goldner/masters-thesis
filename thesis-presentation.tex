@@ -187,8 +187,8 @@
 
         \begin{frame}{AMR with Scope and Quantification}
           \begin{itemize}
-          \item Disambiguates scope.
-          \item Annotates central predicate and its arguments.
+          \item Handles quantification and negation.
+          \item Anotates the scope of the arguments of the central predicate.
           \item Clearest path for AMR $\to$ standard first-order predicate logic. 
           \end{itemize}
         \end{frame}
@@ -407,7 +407,7 @@
                   [@_s P( (\exists y) {[ f( s_1,y) = f(y, s_1) ]} )
                     [@_s P t
                       [@_t (\exists y) {[ f( s_1,y) = f(y, s_1) ]}
-                        [\ldots]
+                        [@_t {[ f( s_1,s_2) = f(s_2, s_1) ]}]
                       ]
                     ]
                   ]
@@ -463,6 +463,8 @@
             So far the tableau method has been about general theorem proving.
           \item
             Problem: no tableau construction method guaranteed to terminate (if there was we'd have decidability of first-order logic).
+          \item
+            This is bad for reasoning in real time.
           \item
             Most of the time however we are reasoning about an AMR/{\it FHTL} sentence in some local context.
           \item
@@ -545,8 +547,8 @@
           $$I_{\textit{now}}(\texttt{be-located-at-91}) = \ldots$$
           $$I_{\textit{tomorrow}}(\texttt{be-located-at-91}) = \{ \langle \textit{computer}_1,  \textit{desk}_2 \rangle, \langle \textit{computer}_2,  \textit{desk}_1 \rangle \}$$
           $$D_{\textit{yesterday}} = \{\textit{computer}_1, \textit{desk}_1\}$$
-          $$D_{\textit{now}} = \{\textit{computer}_1, \textit{computer}_2, \textit{desk}_1, \textit{desk}_2, \textit{desk}_3 \}$$
-          $$D_{\textit{tomorrow}} = \{\textit{computer}_1, \textit{computer}_2, \textit{desk}_1, \textit{desk}_2\}$$
+          $$D_{\textit{now}} = \{\textit{computer}_1, \textit{computer}_2, \textit{desk}_1, \textit{desk}_2 \}$$
+          $$D_{\textit{tomorrow}} = \{\textit{computer}_1, \textit{computer}_2, \textit{computer}_3, \textit{desk}_1, \textit{desk}_2\}$$
         
         \end{frame}
 
@@ -587,7 +589,7 @@
           \item
             \texttt{<speech>} is some $t \in T$, so formula has the prefix $@_t \phi$
           \item
-            \texttt{<reference>} (if present) is the tense, e.g. $@_t P \psi$
+            \texttt{<reference>} (if present) gives us the tense, e.g. $@_t P \psi$
           \item
             We don't make use of aspect (right now).
           \end{itemize}

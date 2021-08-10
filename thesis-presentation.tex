@@ -342,7 +342,7 @@
           \item
             Tableau for a formula is a tree structure.
           \item
-            A tableau caclulus for a logic breaks down and transforms formulae
+            A tableau calculus for a logic breaks down and transforms formulae
           \item
             Rules of the calculus use semantics of connectives/quantifiers/modifiers.
           \item
@@ -401,7 +401,7 @@
         
         \begin{frame}{{\it FHTL} Tableau Example} 
           \begin{tableau}
-            [{[f(a,b) = f(b,a)]}
+            [%%{[f(a,b) = f(b,a)]}
               [@_s (\exists x) {[P((\exists y) {[f(x,y) = f(y,x)]})  \lor \neg (\exists z) {[x = z]}]}
                 [@_s P((\exists y) {[f( s_1,y) = f(y, s_1)]})  \lor \neg (\exists z) {[s_1 = z]}
                   [@_s P( (\exists y) {[ f( s_1,y) = f(y, s_1) ]} )
@@ -411,7 +411,7 @@
                       ]
                     ]
                   ]
-                  [@_s \neg (\exists z) {[s_1 = y]}
+                  [@_s \neg (\exists z) {[s_1 = z]}
                     [@_s \neg {[s_1 = s_1]} 
                       [@_s  {[s_1 = s_1]} , close]
                     ]
@@ -448,7 +448,7 @@
           \item
             Soundness is demonstrated by checking the rules.
           \item
-            Completeness is demonstated by contrapositive.
+            Completeness is demonstrated by contrapositive.
             
           \item
             Open tableau branch $\to$ there is a model which satisfies the root.
@@ -472,7 +472,7 @@
 
         \begin{frame}{Tableaux for Model Checking}
           NB:  Terms in {\it FHTL} have nominal prefixes
-          since their value can depent on the world they are evaluated in,
+          since their value can depend on the world they are evaluated in,
           i.e. $i:t$, $i:j:t$.
           There are three things that prevent tableau construction from terminating: 
           \begin{itemize}
@@ -493,7 +493,7 @@
             Fix some $q \in \NN^+$ and let universal rules generate at most $q$ conclusions.
             (\citet*{fitting-tab} says $q = 1$ works surprisingly often.)
           \item
-            Restrict term rules to depend on on nominals and terms already on the branch.
+            Restrict term rules to depend on nominals and terms already on the branch.
             Prevent redundant prefixes (no $i:j:i:t$ etc.).
           \end{itemize}
         \end{frame}
@@ -682,7 +682,7 @@
           Second application:
           \small$$\lambda \phi . \llbracket \textit{every desk} \rrbracket (\lambda \psi \llbracket \textit{computer will be located at it} \rrbracket (\lambda \gamma . \phi (\psi (\psi)))) \rhd_{\beta}$$
           \small$$\lambda \phi . (\lambda \phi' . \forall x [\textit{Desk}(x) \to \phi'(x)]) (\lambda \psi \llbracket \textit{computer located at it} \rrbracket (\lambda \gamma . \phi (\gamma (\psi))))$$
-          \small$$\lambda \phi . (\forall x) [\textit{Desk}(x) \to \llbracket \textit{computer located at it} (\rrbracket (\lambda \gamma . \phi (\gamma (x))))] = $$
+          \small$$\lambda \phi . (\forall x) [\textit{Desk}(x) \to (\llbracket \textit{computer located at it} \rrbracket (\lambda \gamma . \phi (\gamma (x))))] = $$
           \small$$\lambda \phi . (\forall x) [\textit{Desk}(x) \to ((\lambda \phi' . (\exists y) (\textit{computer}(c) \land (\phi ( \lambda x . F (\textit{loc}(y,x)))))  (\lambda \gamma . \phi (\gamma (x))))]$$
           \small$$\lambda \phi . (\forall x) [\textit{Desk}(x) \to (\exists y) [\textit{Computer}(y) \land \phi(F (\textit{loc}(x,y)))]]$$
         \end{frame}
@@ -707,7 +707,7 @@
           \item
             Sketched a first-order hybrid logic variant with general proof procedure and model checking methods.
           \item
-            Demonstrated how sentences are be handled by these methods.
+            Demonstrated how sentences are handled by these methods.
           \item
             Showed how AMR sentences can be translated into {\it FHTL} 
           \end{itemize}
@@ -715,7 +715,7 @@
 
         \begin{frame}[allowframebreaks]
           \frametitle{References}
-          \bibliographystyle{acl)}
+          \bibliographystyle{acl}
           \nocite{quantified}
           \nocite{hansen2007tableau} 
           \nocite{bolander2009terminating}

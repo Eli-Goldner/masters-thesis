@@ -248,7 +248,7 @@ under this translation is in the decidable two-variable fragment of first-order 
 treatment of tense and aspect, both of which affords inference,
 and in a very rich way in the case of aspect, as we will discuss at the end. 
 \citet{ogorman-etal-2018-amr} describes a multi-sentential treatment of AMR
-with a corpora of examples, for handling document level semantics in addition
+with a corpora of examples, for document level semantics in addition
 to AMR's current sentential semantics. This has possible implications for 
 document-level and discourse-level inference in AMR, {\`a} la discourse representation theory.
 \citeauthor{pustejovsky-etal-2019-modeling}'s \citeyearpar{pustejovsky-etal-2019-modeling} extension of AMR with quantification, scope, negation,
@@ -270,7 +270,7 @@ translation from AMR to DRT \citep{bos-2020-separating}
 Finally, \citet{bonial-etal-2020-dialogue} provides an AMR extension
 designed for facilitating natural language understanding in dialogue
 systems integrating both tense and aspect and a speech act inventory,
-which conveys the illocutionary force of a statement accompanying the content.
+which conveys the illocutionary force of an utterance accompanying the content.
 This is another extension that affords the possibility of discourse level inference
 in addition to sentential inference, which while offering rich conclusions will
 require a more sophisticated semantics sensitive to context. 
@@ -353,7 +353,7 @@ for us, uses constant-domain semantics and possibilist quantification
 (where quantifiers range over all the collective domain of all worlds/times),
 making it inconvenient for modeling quantification and reference in natural language.
 Furthermore it omits non-unary function symbols, which are a necessity for modeling
-AMR concepts as \texttt{have-rel-role} in first-order language.
+AMR concepts such as \texttt{have-rel-role} in first-order language.
 \citet*{hansen2007tableau} remedies this by developing a semantics and tableau method for first-order hybrid logic {\it FHL},
 a variant of {\it QHL} using varying-domain semantics and actualist quantification
 (quantifiers only range over entities at the time of reference).
@@ -497,11 +497,11 @@ do not exist at a current time, e.g. 19th century US presidents and unknown futu
 Free variables are handled similarly as in {\it FHL}.
 Where again $D = \cup_{t \in T} D_t $, a {\it FHTL} assignment is a function:
 $$g : \textsf{SVAR} \cup \textsf{FVAR} \to T \cup D $$
-Where state variables are sent to times/worlds and
+State variables are sent to times/worlds and
 first-order variables are sent to $D$, the domain
 of the frame.
 Thus given a model and a variable assignment $g$,
-the interpretation a term $t$ denoted by $\overline{t}$
+the interpretation of a term $t$ denoted by $\overline{t}$
 is defined by:
 \begin{itemize}
 \item
@@ -1118,8 +1118,7 @@ $D_{[w]}, I_{[w]}$ for $[w] \in W/_{\approx}$ and $I_{\textit{nom}}$.
 To start we let $\mathcal{D}$ be set defined by:
 $$\mathcal{D} = \{ i : t \mid \text{for } i \in W \text{ and } t \text{ a closed term of the extended language}\}$$
 Further we define a relation $\equiv$ on $D$ by:
-$i : t \equiv j : s \Longleftrightarrow @_k i : t = j : s \in \Theta \text{ for some } k \in W$
-From the tableau rules {\bf (ref)}, {\bf (sub)}, and {\bf (:1)}, we observe $\equiv$ is an equivalence
+$i : t \equiv j : s \Longleftrightarrow @_k i : t = j : s \in \Theta \text{ for some } k \in W$.  From the tableau rules {\bf (ref)}, {\bf (sub)}, and {\bf (:1)}, we observe $\equiv$ is an equivalence
 relation on $\mathcal{D}$.
 From here we define the domain $D$ of the new model's frame as $\mathcal{D} /_{\equiv}$,
 with the elements written as $\overline{i : t}$.  For every $[w] \in W /_{\approx}$
@@ -1298,7 +1297,7 @@ Tableau termination however is critical to decidability,
 and since we are assuming finite models, our approach had better be decidable!
 Our approach to using
 terminating tableaux as a means of model checking for {\it FHTL}
-based on the approach in \citet{bohn1998first},
+is based on the approach in \citet{bohn1998first},
 and makes use of the idea of quantifier depth from \citet{fitting-tab}.
 The structure of the proof of terminating construction is taken from \citet*{bolander}.
 
@@ -1415,10 +1414,10 @@ The structure of the proof of terminating construction is taken from \citet*{bol
 
 
 
-We will show later the new restrictions on the equality
+We will show later that the new restrictions on the equality
 rules, term rules, and the universal quantifier rule given
 in figure \ref{restricted}
-ensures that eventually any branch will be saturated,
+ensure that eventually any branch will be saturated,
 since the amount of times any of the term rules can be applied
 depends on the number of nominals and terms on the branch.
 In first-order tableau systems universal rules are the main culprit for
@@ -1442,7 +1441,7 @@ we do not have to check them for satisfiability.
   \label{prec}
   Where $\Theta$ is a tableau branch in
   the {\it FHTL} calculus, if a nominal $a$
-  is introduced to the branch by application of
+  is introduced to the branch by an application of
   of {\bf ($F$)} or {\bf ($P$)}
   to a premise $@_s \phi$, we
   say $a$ is {\it generated} by $s$
@@ -1688,7 +1687,7 @@ conclusions and their premises.
 \item {\bf Term rules:}
   In all cases we can see that for every rule with a
   premise the same variable assignments which satisfy the
-  conclusion satisfies the premise.
+  conclusion satisfy the premise.
   This is immediate for {\bf (:2)}, {\bf (:3)},
   and {\bf (:func)}, since they only involve closed terms,
   and are verified by checking definitions in all other cases.
@@ -1773,10 +1772,10 @@ conclusions and their premises.
   finitely many function symbols, constants, and parameters.
   Since parameters are not free variables but stand in for them,
   we will handle them as follows:  Recalling every parameter is
-  of the form $j: \ldots :i:p$ with a string of at least one distinct prefixes
-  ($i$ is called the {\it immediate prefix} in the example) without loss of
-  generality, where $i$ is the immediate prefix for the parameter in question
-  in the following:
+  of the form $j: \ldots :i:p$ with a string of at least one distinct prefix,
+  ($i$ is called the {\it immediate prefix} in the example) we have the following process.
+  Without loss of
+  generality, let $i$ be the immediate prefix for the parameter in question below:
   \begin{enumerate}
   \item
     Proceeding with annotation as normal,
@@ -1936,8 +1935,7 @@ and join them together via the meaning of the connective, e.g. for:
     \hspace*{0.5cm}:op3 (...))}
   \\
 }
-The meaning in {\it FHTL} is $\llbracket \verb|:op1| \rrbracket \lor \llbracket \verb|:op2| \rrbracket \lor \llbracket \verb|:op3| \rrbracket$.  
-In the case where the root node of the AMR is \verb|scope|, the order of interpretation is specified.  For instance in example \ref{computer},
+The meaning in {\it FHTL} is $\llbracket \verb|:op1| \rrbracket \lor \llbracket \verb|:op2| \rrbracket \lor \llbracket \verb|:op3| \rrbracket$.  In the case where the root node of the AMR is \verb|scope|, the order of interpretation is specified.  For instance in example \ref{computer},
 the order of interpretation is $\llbracket \verb|ARG0| \rrbracket(\llbracket \texttt{ARG1} \rrbracket (\llbracket \texttt{pred} \rrbracket))$.
 Finally, we have that the meaning of every AMR with a \texttt{scope} root will be prefixed by a satisfaction operator with a nominal
 indicating the time of reference provided in the \texttt{:time} relation (if that time is ``\texttt{now}'' then we let the nominal indicate the document creation time
@@ -2004,10 +2002,10 @@ where available).
 In figure \ref{alg1}, \texttt{InterpretEntry} and \texttt{InterpretClause} perform essentially
 what we discussed in subsection \ref{extract}.
 We should note that in \texttt{InterpretClause}
-that the interpreted predicate takes the tense operator as an argument.
+the interpreted predicate takes the tense operator as an argument.
 We do not provide definitions for \texttt{Tense} and \texttt{Reference}
 since they are issues of checking nodes in the AMR graph.
-Similarly, \texttt{Pred} and \texttt{GetArgs},
+Similarly, \texttt{Pred} and \texttt{GetArgs}
 are issues of straightforward graph traversal and modifications
 to the standard interpretation processes which we will show later.
 In our representation the central predicate is in the immediate scope of the

@@ -229,7 +229,7 @@ Finding ways to support inference for AMR is no trivial
 curiosity.  For robust and effective natural language understanding,
 it is arguable that a semantic representation needs to deeply reflect natural language at the expressive level
 while supporting complex reasoning and capturing both world and domain-specific knowledge \citep{KK_Schubert2015}.
-While statistically driven methods add a great deal of value to tasks in deep understanding such as dialogue, question answering,
+While statistically driven methods have made definitive contributions to tasks in deep understanding such as dialogue, question answering,
 natural language inference, and textual entailment, semantic tasks relevant to these such as
 disambiguation of discourse sentences \citep{Gardent2001} and pronoun binding \citep{monz1998labeled} are more readily modeled and resolved
 through automated reasoning and deduction than statistically driven techniques.
@@ -237,27 +237,26 @@ through automated reasoning and deduction than statistically driven techniques.
 Formal methods have historically been the standard means of approaching issues of
 natural language understanding, and were supplanted by statistically driven methods
 due in large part to issues of computational expense which have since been greatly mitigated \citep{KK_Schubert2015, Gardent2001}.
-Now that statistically driven methods which require significant computing resources and data collection and annotation
+Now that statistically driven methods which require significant computing resources and collection and annotation of data
 comprise many of the standard approaches to modern NLP problems,
 there are questions of how to approach these problems when such resources are not available.
-Formal methods generally consume less computing space and time than neural networks,
-and provide a approach to NLP problems for languages where
+Formal methods generally consume less computing space and time than it takes to train neural networks,
+and provide a approach to NLP and CL problems in languages where
 there is insufficient annotated data for other methods.
 Additionally formal methods are inherently explainable,
-providing justification for their results,
-and provide a more ready means of generalizing their approach
-since their approach depends on the developer,
-as opposed to statistically driven methods,
-which in a core sense are limited by the training data they are given
+providing justification for their results and a clearer means of generalization,
+since their approach depends on the developer \citep{Basu_2020}.  
+This is in contrast to statistically driven methods,
+which in a core sense are limited by the training data they are given,
 and require more advanced methods to track how they obtain their results \citep{Basu_2020}.  
 \par
 As a result, use of formal methods in software is critical if one needs to guarantee or discover properties of software systems.
 One relevant application is discovery and resolution of bias in NLP systems \citep{gordon-13},
-and in general, anywhere software systems have access to sensitive resources one will need to know
+and in general, whenever software systems have access to sensitive resources, one will need to know
 and ensure certain things about their behavior before deployment.
-As potentially sensitive software systems increasingly involve natural language interface
-and rely on natural language data (NLP and dialogue systems for health and mission critical tasks),
-finding ways to integrate explainability and certainty with 
+As potentially sensitive software systems increasingly involve natural language interfacing
+and rely on natural language data (for instance NLP and dialogue systems for health and mission critical tasks),
+finding ways to integrate explainability and certainty into approaches to 
 natural language tasks will become increasingly relevant.
 We hope this thesis will be a contribution to this direction of computational linguistics.   
 
@@ -310,17 +309,17 @@ require a more sophisticated semantics sensitive to context.
 
 Hybrid logic is an extension of the propositional modal logic
 allowing for explicit reference to modal states/worlds through a prefix notation.
-Where ordinary modal logic writes $\lozenge p$ to indicate that there is some
-world where $p$ holds at some world accessible from that world,
-hybrid logic by default writes one of
+In ordinary propositional modal logic writes $\lozenge p$ to indicate that there is a
+world/state and another world, where $p$ holds, accessible from that first world.
+By contrast, hybrid logic by default writes one of
 $a \lozenge p$, $a :\lozenge p$, or $@_a \lozenge p$
 (we use the latter notation from here on),
 to indicate $p$ holds at some world accessible
 from $a$ specifically.
-$a$ in this notation is a {\it nominal},
-which picks out exactly one world in the underlying model.
-We also say $a$ is true at exactly one world or is the
-{\it name} of the world (thus the term nominal).
+$a$ in this notation is called a {\it nominal},
+a symbol which picks out exactly one world/state in the underlying model.
+We also say a nominal $a$ is true at exactly one world or is the
+{\it name} of a world (thus the term nominal).
 Because of this we can also use the satisfaction operator
 to denote that two nominals $i$ and $j$
 name the same world and consequently share the same content via:
@@ -921,11 +920,12 @@ A closed tableau is a proof of the unsatisfiability of the tableau's root formul
 there is no model and assignment of variables in which it holds.
 Thus a tableau proof of an {\it FHTL} sentence $\phi$ is a
 closed tableau with the root $@_s \neg \phi$ for some nominal
-$s$ not occurring in $\phi$.  For instance in figure \ref{tabex}
+$s$ not occurring in $\phi$.  For instance in figure \ref{tabex},
 we have that the right branch is closed, and that the left branch is
-open, since there are no conditions about the function $f$ available.
-Since this tableau is not closed, the root formula is satisfiable
-but not valid.
+open, since there are no conditions on the function $f$ are provided.
+Since this tableau is not closed (it has an open branch), the root formula is satisfiable,
+i.e. true in some model, but not necessarily valid.  In the proof of completeness for our
+tableau method, we will show how to construct such a model for a tableau with an open branch.
 
 \begin{definition}[{\bf Accessibility Formula}]
   A formula occurrence in a tableau is called an accessibility

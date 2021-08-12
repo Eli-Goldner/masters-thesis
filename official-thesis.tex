@@ -116,6 +116,7 @@
 \newcommand\footnoteref[1]{\protected@xdef\@thefnmark{\ref{#1}}\@footnotemark}
 \makeatother
 
+\program{Graduate Program in Computational Linguistics\\Department of Computer Science}
 
 \title{Formalization of AMR Inference via Hybrid Logic Tableaux}
 \author{
@@ -124,31 +125,29 @@
 \graduationmonth{August}
 \graduationyear{2021}
 
-\program{Computational Linguistics}
 \advisor{James Pustejovsky}
 \degreetype{Science}
 \begin{document}
 \maketitlepage
 \makecopyright
-\doublespacing
+
 
 \section*{Acknowledgements}
-
-
-\bigskip
-
-
-\noindent I would like to thank James Pustejovsky for his guidance and patience 
+\begin{doublespacing}
+I would like to thank James Pustejovsky for his guidance and patience 
 throughout the process of developing this thesis,
 and Lotus Goldberg for her encouragement and instruction that
 helped lead to the idea for this thesis and the desire to do it.
 I would also like to thank Nianwen (Bert) Xue for his perspective
 on problems in semantic representation which helped to shape
-the approach to the thesis.  Finally, I would like to thank
+the approach to the thesis, and Sophia Malamud for her helpful comments and questions.
+Finally, I would like to thank
 my family for their advice, interest, and support,
 and my friends for their tolerance and occasional pressing me to finish. 
+\end{doublespacing}
 \newpage
 \begin{thesis-abstract}
+  \begin{doublespacing}
   AMR and its extensions have become popular in semantic representation due
   to their ease of annotation by non-experts, attention to the predicative core of sentences,
   and abstraction away from syntactic matter.
@@ -168,8 +167,10 @@ and my friends for their tolerance and occasional pressing me to finish.
   present their interpretation and inference in the combination of {\it FHL}
   and {\it BHTL}, which we will call first-order hybrid tense logic ({\it FHTL}),
   and demonstrate the soundness and completeness of {\it FHTL}'s general tableau method,
-  and its decidability for finite model checking.   
+  and its decidability for finite model checking.
+  \end{doublespacing}
 \end{thesis-abstract}
+\begin{doublespacing}
 \tableofcontents
 \listoffigures
 \startbody
@@ -197,13 +198,7 @@ Performing lexical inference directly would require
 at least extensive hand authoring of relationships between PropBank frames,
 and in general is beyond the scope of this paper.
 \par
-Finding ways to support inference for AMR is no trivial
-curiosity.  For machine-based natural language understanding,
-it is arguable that a semantic representation needs to deeply reflect natural language at the expressive level
-while supporting complex reasoning and capturing certain aspects of knowledge \citep{KK_Schubert2015}.
-Furthermore, inferential methods are critical to being able to guarantee, verify, and discover properties of software systems.
-One relevant application is discovering and resolving bias in NLP systems \citep{gordon-13}.
-AMR extensions ameliorate the issue of expressivity by integrating more semantic information
+AMR extensions ameliorate core AMR's lack of expressivity by integrating more semantic information
 into an AMR while still retaining its minimal and predicative structure.
 \citet{pustejovsky-etal-2019-modeling} makes direct inference on AMR
 significantly
@@ -229,6 +224,42 @@ which we use to check the satisfiability of translated extended AMR sentences
 in a finite model, and a method for translating an extended AMR
 into a {\it FHTL} formula. 
 
+\section{Motivation}
+Finding ways to support inference for AMR is no trivial
+curiosity.  For robust and effective natural language understanding,
+it is arguable that a semantic representation needs to deeply reflect natural language at the expressive level
+while supporting complex reasoning and capturing both world and domain-specific knowledge \citep{KK_Schubert2015}.
+While statistically driven methods add a great deal of value to tasks in deep understanding such as dialogue, question answering,
+natural language inference, and textual entailment, semantic tasks relevant to these such as
+disambiguation of discourse sentences \citep{Gardent2001} and pronoun binding \citep{monz1998labeled} are more readily modeled and resolved
+through automated reasoning and deduction than statistically driven techniques.
+\par
+Formal methods have historically been the standard means of approaching issues of
+natural language understanding, and were supplanted by statistically driven methods
+due in large part to issues of computational expense which have since been greatly mitigated \citep{KK_Schubert2015, Gardent2001}.
+Now that statistically driven methods which require significant computing resources and data collection and annotation
+comprise many of the standard approaches to modern NLP problems,
+there are questions of how to approach these problems when such resources are not available.
+Formal methods generally consume less computing space and time than neural networks,
+and provide a approach to NLP problems for languages where
+there is insufficient annotated data for other methods.
+Additionally formal methods are inherently explainable,
+providing justification for their results,
+and provide a more ready means of generalizing their approach
+since their approach depends on the developer,
+as opposed to statistically driven methods,
+which in a core sense are limited by the training data they are given
+and require more advanced methods to track how they obtain their results \citep{Basu_2020}.  
+\par
+As a result, use of formal methods in software is critical if one needs to guarantee or discover properties of software systems.
+One relevant application is discovery and resolution of bias in NLP systems \citep{gordon-13},
+and in general, anywhere software systems have access to sensitive resource one will need to know
+and ensure certain things about their behavior before deployment.
+As potentially sensitive software systems are increasingly support natural language input
+and rely on natural language data (NLP and dialogue systems for health and mission critical tasks),
+finding ways to integrate explainability and certainty for working with
+natural language will become increasingly relevant.
+We hope this thesis will be a contribution to this direction of computational linguistics.   
 
 \section{Related Work}
 
@@ -2188,7 +2219,9 @@ There are questions of both theoretical and pragmatic approaches
 to optimization of these tableau methods and their implementation,
 as well as investigating how AMR parsing can become both robust and sensitive enough to realize the goals of this research.
 
+\end{doublespacing}
 \bibliographystyle{acl_natbib}
+
 \nocite{bolander2009terminating}
 \nocite{bolander2007termination}
 \nocite{hungar1995if}
